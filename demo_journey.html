@@ -376,15 +376,365 @@
   </style>
 </head>
 
-<!-- Pequeña “llave” por URL para que solo se vea con ?k=CXDIP2025 -->
-<body style="opacity:0;">
-<script>
-  (function () {
-    const params = new URLSearchParams(window.location.search);
-    const key = params.get("k");
-    const REQUIRED_KEY = "CXDIP2025"; // cámbiala si quieres
+<body>
+  <!-- Todo el contenido real va dentro de demo-root y arranca oculto -->
+  <div id="demo-root" style="display:none;">
+    <div class="page">
+      <header>
+        <div class="logo">
+          <span class="logo-main">CXDIP</span>
+          <span class="logo-sub">Paneles · CX · Operación</span>
+        </div>
+        <span class="tag-demo">Demo interna · Journey map retail</span>
+      </header>
 
-    if (key !== REQUIRED_KEY) {
+      <main>
+        <section class="hero">
+          <div class="hero-left">
+            <div class="pill">
+              Customer Journey Map (presente)
+              <span>Retail omnicanal</span>
+            </div>
+            <h1>
+              <span class="brand">CXDIP</span> muestra el viaje completo de
+              una clienta retail, de la búsqueda a la post-venta.
+            </h1>
+            <p>
+              Ejemplo basado en una cadena ficticia de electrónica
+              <strong>(RetailPlus)</strong>. El formato replica un customer
+              journey “clásico”: fases, pensamientos, acciones, touchpoints,
+              breakdowns y oportunidades. Las cifras son simuladas para uso
+              demostrativo.
+            </p>
+            <div class="hero-meta">
+              <span>Cliente omnicanal (web + tienda + soporte)</span>
+              <span>Journey transaccional de compra de notebook</span>
+              <span>Perspectiva: CX + Operaciones + Venta</span>
+            </div>
+          </div>
+
+          <aside class="hero-right">
+            <h2>Persona · “Carolina”</h2>
+            <p>
+              34 años, ejecutiva comercial. Compra un notebook nuevo para
+              trabajo y uso personal.
+            </p>
+            <dl>
+              <dt>Objetivo principal</dt>
+              <dd>Comprar rápido y sin problemas de post-venta</dd>
+
+              <dt>Canales clave</dt>
+              <dd>Web, tienda física, despacho</dd>
+
+              <dt>Ticket promedio</dt>
+              <dd>US$ 900</dd>
+
+              <dt>Frecuencia</dt>
+              <dd>3–4 compras tech/año</dd>
+            </dl>
+          </aside>
+        </section>
+
+        <section class="journey-wrapper">
+          <div class="journey-header">
+            <div>
+              <div class="journey-header-title">
+                Customer Journey Map · Compra de notebook en RetailPlus
+              </div>
+              <div class="journey-header-sub">
+                Viaje actual (presente) · Vista simplificada para uso en demo CXDIP.
+              </div>
+            </div>
+            <div class="legend">
+              <div class="legend-item">
+                <span class="legend-dot-positive"></span>Momentos “wow”
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot"></span>Momentos de dolor
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot-neutral"></span>Puntos neutrales
+              </div>
+            </div>
+          </div>
+
+          <div class="journey-map">
+            <div class="journey-grid">
+              <!-- FILA: PHASES -->
+              <div class="cell label row-phases-label">Fases</div>
+              <div class="cell phase row-phases">
+                Descubrimiento
+                <small>Ve anuncio / búsqueda en Google</small>
+              </div>
+              <div class="cell phase">
+                Investigación
+                <small>Compara modelos y precios online</small>
+              </div>
+              <div class="cell phase">
+                Pre-visita
+                <small>Reserva stock en tienda / agenda visita</small>
+              </div>
+              <div class="cell phase">
+                Visita &amp; compra
+                <small>Prueba producto y paga</small>
+              </div>
+              <div class="cell phase">
+                Entrega
+                <small>Despacho e instalación</small>
+              </div>
+              <div class="cell phase">
+                Post-venta
+                <small>Soporte, garantía y NPS</small>
+              </div>
+
+              <!-- FILA: THOUGHTS & FEELINGS -->
+              <div class="cell label">Thoughts &amp; feelings</div>
+              <div class="cell feelings-line-cell">
+                <span class="feelings-label">Línea de emoción (baja &rarr; alta)</span>
+                <svg class="feelings-svg" viewBox="0 0 600 120" preserveAspectRatio="none">
+                  <!-- eje base -->
+                  <line x1="0" y1="80" x2="600" y2="80" stroke="#d1d5db" stroke-width="1" stroke-dasharray="4 4" />
+                  <!-- curva de emoción -->
+                  <polyline
+                    points="0,70 120,40 240,90 360,30 480,60 600,20"
+                    fill="none"
+                    stroke="#ef4444"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <!-- puntos -->
+                  <circle cx="0" cy="70" r="4" fill="#9ca3af" />
+                  <circle cx="120" cy="40" r="4" fill="#ef4444" />
+                  <circle cx="240" cy="90" r="4" fill="#ef4444" />
+                  <circle cx="360" cy="30" r="4" fill="#10b981" />
+                  <circle cx="480" cy="60" r="4" fill="#f97316" />
+                  <circle cx="600" cy="20" r="4" fill="#10b981" />
+                </svg>
+              </div>
+
+              <!-- FILA: CUSTOMER ACTIONS -->
+              <div class="cell label">Customer actions</div>
+              <div class="cell">
+                <ul>
+                  <li>Ve anuncio en Instagram y banner de oferta.</li>
+                  <li>Hace clic para ver detalle del notebook.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Compara 3 modelos en la web y app.</li>
+                  <li>Lee reviews y preguntas frecuentes.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Usa “ver stock en mi tienda”.</li>
+                  <li>Reserva unidad y recibe email de confirmación.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Visita tienda, prueba notebook con asesor.</li>
+                  <li>Decide compra y paga en caja.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Coordina despacho a domicilio.</li>
+                  <li>Recibe SMS con rango horario.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Recibe email con guía rápida y encuesta NPS.</li>
+                  <li>Contacta soporte por duda de configuración.</li>
+                </ul>
+              </div>
+
+              <!-- FILA: TOUCHPOINTS -->
+              <div class="cell label">Touch points &amp; devices</div>
+              <div class="cell">
+                <ul>
+                  <li>Instagram / Google Ads</li>
+                  <li>Móvil (navegador)</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Web y app RetailPlus</li>
+                  <li>Chatbot informativo</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Web (módulo “ver stock”)</li>
+                  <li>Email de confirmación</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Sala de ventas en tienda</li>
+                  <li>POS / caja</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Proveedor de despacho</li>
+                  <li>SMS tracking</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Centro de soporte (teléfono/chat)</li>
+                  <li>Email con encuesta NPS</li>
+                </ul>
+              </div>
+
+              <!-- FILA: PEOPLE & ENVIRONMENTS -->
+              <div class="cell label">People &amp; environments</div>
+              <div class="cell">
+                <ul>
+                  <li>Equipo de marketing digital.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Carolina sola, revisando desde el trabajo.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Web + sistema de inventario.</li>
+                  <li>Backoffice e-commerce.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Vendedores en tienda.</li>
+                  <li>Supervisor de sala.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Chofer y ayudante de despacho.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Agentes de soporte.</li>
+                  <li>Equipo CX (analiza NPS).</li>
+                </ul>
+              </div>
+
+              <!-- FILA: BREAKDOWNS -->
+              <div class="cell label">Breakdowns</div>
+              <div class="cell">
+                <ul>
+                  <li class="risk">Mensaje poco claro de condiciones de oferta.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li class="risk">Stock online no siempre coincide con sucursales.</li>
+                  <li>Filtros de productos confusos.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li class="risk">Confirmación de reserva llega con retraso.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li>Filas algo largas en horario punta.</li>
+                  <li class="risk">Asesores no ven el journey previo de la clienta.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li class="risk">Ventanas horarias de despacho demasiado amplias.</li>
+                  <li>Atrasos puntuales no se comunican proactivamente.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li class="risk">Soporte pide repetir datos que ya están en el sistema.</li>
+                </ul>
+              </div>
+
+              <!-- FILA: OPPORTUNITIES -->
+              <div class="cell label">Opportunities</div>
+              <div class="cell">
+                <ul>
+                  <li class="opportunity">A/B test de mensajes de oferta y claridad de beneficios.</li>
+                  <li>Segmentar campañas según intención (trabajo vs. hogar).</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li class="opportunity">Conectar inventario en tiempo real con la web.</li>
+                  <li>Widget de “consultar con experto” en línea.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li class="opportunity">Confirmación instantánea vía WhatsApp o SMS.</li>
+                  <li>Recordatorio de visita con mapa de la tienda.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li class="opportunity">Mostrar al vendedor el recorrido previo de Carolina
+                    <span class="badge-inline">vista unificada CXDIP</span>
+                  </li>
+                  <li>Fast-lane para clientes con reserva online.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li class="opportunity">Rangos horarios más acotados y notificaciones proactivas.</li>
+                  <li>Encuesta específica sobre experiencia de despacho.</li>
+                </ul>
+              </div>
+              <div class="cell">
+                <ul>
+                  <li class="opportunity">Vista 360 en CXDIP: NPS + motivos + ticket de soporte.</li>
+                  <li>Flujos de retención para promotores (programa de referidos).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        Demo interna CXDIP · Customer Journey Map Retail ·
+        <span id="year"></span>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </div>
+
+  <!-- Script de “llave”: sólo muestra demo-root si la URL tiene ?k=CXDIP2025 -->
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const key = params.get("k");
+      const REQUIRED_KEY = "CXDIP2025"; // cámbiala cuando quieras
+
+      if (key === REQUIRED_KEY) {
+        const root = document.getElementById("demo-root");
+        if (root) root.style.display = "block";
+        return;
+      }
+
+      // Si no tiene la clave correcta, mostramos solo un 404 simple
+      document.documentElement.style.background = "#020617";
+      document.body.style.margin = "0";
       document.body.innerHTML = `
         <div style="
           min-height:100vh;
@@ -402,348 +752,7 @@
           </div>
         </div>
       `;
-    }
-    document.body.style.opacity = 1;
-  })();
-</script>
-
-<div class="page">
-  <header>
-    <div class="logo">
-      <span class="logo-main">CXDIP</span>
-      <span class="logo-sub">Paneles · CX · Operación</span>
-    </div>
-    <span class="tag-demo">Demo interna · Journey map retail</span>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="hero-left">
-        <div class="pill">
-          Customer Journey Map (presente)
-          <span>Retail omnicanal</span>
-        </div>
-        <h1>
-          <span class="brand">CXDIP</span> muestra el viaje completo de
-          una clienta retail, de la búsqueda a la post-venta.
-        </h1>
-        <p>
-          Ejemplo basado en una cadena ficticia de electrónica
-          <strong>(RetailPlus)</strong>. El formato replica un customer
-          journey “clásico”: fases, pensamientos, acciones, touchpoints,
-          breakdowns y oportunidades. Las cifras son simuladas para uso
-          demostrativo.
-        </p>
-        <div class="hero-meta">
-          <span>Cliente omnicanal (web + tienda + soporte)</span>
-          <span>Journey transaccional de compra de notebook</span>
-          <span>Perspectiva: CX + Operaciones + Venta</span>
-        </div>
-      </div>
-
-      <aside class="hero-right">
-        <h2>Persona · “Carolina”</h2>
-        <p>
-          34 años, ejecutiva comercial. Compra un notebook nuevo para
-          trabajo y uso personal.
-        </p>
-        <dl>
-          <dt>Objetivo principal</dt>
-          <dd>Comprar rápido y sin problemas de post-venta</dd>
-
-          <dt>Canales clave</dt>
-          <dd>Web, tienda física, despacho</dd>
-
-          <dt>Ticket promedio</dt>
-          <dd>US$ 900</dd>
-
-          <dt>Frecuencia</dt>
-          <dd>3–4 compras tech/año</dd>
-        </dl>
-      </aside>
-    </section>
-
-    <section class="journey-wrapper">
-      <div class="journey-header">
-        <div>
-          <div class="journey-header-title">
-            Customer Journey Map · Compra de notebook en RetailPlus
-          </div>
-          <div class="journey-header-sub">
-            Viaje actual (presente) · Vista simplificada para uso en demo CXDIP.
-          </div>
-        </div>
-        <div class="legend">
-          <div class="legend-item">
-            <span class="legend-dot-positive"></span>Momentos “wow”
-          </div>
-          <div class="legend-item">
-            <span class="legend-dot"></span>Momentos de dolor
-          </div>
-          <div class="legend-item">
-            <span class="legend-dot-neutral"></span>Puntos neutrales
-          </div>
-        </div>
-      </div>
-
-      <div class="journey-map">
-        <div class="journey-grid">
-          <!-- FILA: PHASES -->
-          <div class="cell label row-phases-label">Fases</div>
-          <div class="cell phase row-phases">
-            Descubrimiento
-            <small>Ve anuncio / búsqueda en Google</small>
-          </div>
-          <div class="cell phase">
-            Investigación
-            <small>Compara modelos y precios online</small>
-          </div>
-          <div class="cell phase">
-            Pre-visita
-            <small>Reserva stock en tienda / agenda visita</small>
-          </div>
-          <div class="cell phase">
-            Visita &amp; compra
-            <small>Prueba producto y paga</small>
-          </div>
-          <div class="cell phase">
-            Entrega
-            <small>Despacho e instalación</small>
-          </div>
-          <div class="cell phase">
-            Post-venta
-            <small>Soporte, garantía y NPS</small>
-          </div>
-
-          <!-- FILA: THOUGHTS & FEELINGS -->
-          <div class="cell label">Thoughts &amp; feelings</div>
-          <div class="cell feelings-line-cell">
-            <span class="feelings-label">Línea de emoción (baja &rarr; alta)</span>
-            <svg class="feelings-svg" viewBox="0 0 600 120" preserveAspectRatio="none">
-              <!-- eje base -->
-              <line x1="0" y1="80" x2="600" y2="80" stroke="#d1d5db" stroke-width="1" stroke-dasharray="4 4" />
-              <!-- curva de emoción -->
-              <polyline
-                points="0,70 120,40 240,90 360,30 480,60 600,20"
-                fill="none"
-                stroke="#ef4444"
-                stroke-width="2.4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <!-- puntos -->
-              <circle cx="0" cy="70" r="4" fill="#9ca3af" />
-              <circle cx="120" cy="40" r="4" fill="#ef4444" />
-              <circle cx="240" cy="90" r="4" fill="#ef4444" />
-              <circle cx="360" cy="30" r="4" fill="#10b981" />
-              <circle cx="480" cy="60" r="4" fill="#f97316" />
-              <circle cx="600" cy="20" r="4" fill="#10b981" />
-            </svg>
-          </div>
-
-          <!-- FILA: CUSTOMER ACTIONS -->
-          <div class="cell label">Customer actions</div>
-          <div class="cell">
-            <ul>
-              <li>Ve anuncio en Instagram y banner de oferta.</li>
-              <li>Hace clic para ver detalle del notebook.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Compara 3 modelos en la web y app.</li>
-              <li>Lee reviews y preguntas frecuentes.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Usa “ver stock en mi tienda”.</li>
-              <li>Reserva unidad y recibe email de confirmación.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Visita tienda, prueba notebook con asesor.</li>
-              <li>Decide compra y paga en caja.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Coordina despacho a domicilio.</li>
-              <li>Recibe SMS con rango horario.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Recibe email con guía rápida y encuesta NPS.</li>
-              <li>Contacta soporte por duda de configuración.</li>
-            </ul>
-          </div>
-
-          <!-- FILA: TOUCHPOINTS -->
-          <div class="cell label">Touch points &amp; devices</div>
-          <div class="cell">
-            <ul>
-              <li>Instagram / Google Ads</li>
-              <li>Móvil (navegador)</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Web y app RetailPlus</li>
-              <li>Chatbot informativo</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Web (módulo “ver stock”)</li>
-              <li>Email de confirmación</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Sala de ventas en tienda</li>
-              <li>POS / caja</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Proveedor de despacho</li>
-              <li>SMS tracking</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Centro de soporte (teléfono/chat)</li>
-              <li>Email con encuesta NPS</li>
-            </ul>
-          </div>
-
-          <!-- FILA: PEOPLE & ENVIRONMENTS -->
-          <div class="cell label">People &amp; environments</div>
-          <div class="cell">
-            <ul>
-              <li>Equipo de marketing digital.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Carolina sola, revisando desde el trabajo.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Web + sistema de inventario.</li>
-              <li>Backoffice e-commerce.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Vendedores en tienda.</li>
-              <li>Supervisor de sala.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Chofer y ayudante de despacho.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Agentes de soporte.</li>
-              <li>Equipo CX (analiza NPS).</li>
-            </ul>
-          </div>
-
-          <!-- FILA: BREAKDOWNS -->
-          <div class="cell label">Breakdowns</div>
-          <div class="cell">
-            <ul>
-              <li class="risk">Mensaje poco claro de condiciones de oferta.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li class="risk">Stock online no siempre coincide con sucursales.</li>
-              <li>Filtros de productos confusos.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li class="risk">Confirmación de reserva llega con retraso.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li>Filas algo largas en horario punta.</li>
-              <li class="risk">Asesores no ven el journey previo de la clienta.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li class="risk">Ventanas horarias de despacho demasiado amplias.</li>
-              <li>Atrasos puntuales no se comunican proactivamente.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li class="risk">Soporte pide repetir datos que ya están en el sistema.</li>
-            </ul>
-          </div>
-
-          <!-- FILA: OPPORTUNITIES -->
-          <div class="cell label">Opportunities</div>
-          <div class="cell">
-            <ul>
-              <li class="opportunity">A/B test de mensajes de oferta y claridad de beneficios.</li>
-              <li>Segmentar campañas según intención (trabajo vs. hogar).</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li class="opportunity">Conectar inventario en tiempo real con la web.</li>
-              <li>Widget de “consultar con experto” en línea.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li class="opportunity">Confirmación instantánea vía WhatsApp o SMS.</li>
-              <li>Recordatorio de visita con mapa de la tienda.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li class="opportunity">Mostrar al vendedor el recorrido previo de Carolina
-                <span class="badge-inline">vista unificada CXDIP</span>
-              </li>
-              <li>Fast-lane para clientes con reserva online.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li class="opportunity">Rangos horarios más acotados y notificaciones proactivas.</li>
-              <li>Encuesta específica sobre experiencia de despacho.</li>
-            </ul>
-          </div>
-          <div class="cell">
-            <ul>
-              <li class="opportunity">Vista 360 en CXDIP: NPS + motivos + ticket de soporte.</li>
-              <li>Flujos de retención para promotores (programa de referidos).</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    Demo interna CXDIP · Customer Journey Map Retail ·
-    <span id="year"></span>
-  </footer>
-</div>
-
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+    })();
+  </script>
 </body>
 </html>
