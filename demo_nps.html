@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>CXDIP · Panel NPS 2025 (Demo)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Demo interna de panel NPS 2025 con NPS, Esfuerzo, Fuga e Intención de compra en una sola vista."
+  />
+
+  <!-- Chart.js para los gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg-page: #f5f7fb;
+      --bg-card: #ffffff;
+      --primary: #246bff;
+      --accent: #10b981;
+      --danger: #ef4444;
+      --warning: #f97316;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border-soft: #e5e7eb;
+      --radius-xl: 16px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top left, #eef2ff 0, #f5f7fb 45%, #ffffff 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 14px 6vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .logo-main {
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      font-size: 1rem;
+    }
+
+    .logo-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .tag-demo {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(248, 250, 252, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: var(--text-muted);
+    }
+
+    main {
+      padding: 10px 6vw 34px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Hero */
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .hero-left {
+      max-width: 640px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4b5563;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .pill span {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: #ffffff;
+      font-size: 0.7rem;
+    }
+
+    h1 {
+      margin-top: 10px;
+      font-size: clamp(1.9rem, 2.7vw, 2.3rem);
+      line-height: 1.1;
+    }
+
+    h1 .brand {
+      color: var(--primary);
+    }
+
+    .hero p {
+      margin-top: 8px;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    .hero-meta {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .hero-meta span::before {
+      content: "•";
+      margin-right: 4px;
+      color: #9ca3af;
+    }
+
+    .hero-right {
+      min-width: 240px;
+      max-width: 320px;
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+      padding: 14px 16px;
+      font-size: 0.8rem;
+    }
+
+    .hero-right h2 {
+      font-size: 0.92rem;
+      margin-bottom: 4px;
+    }
+
+    .hero-right p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .motto {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.4);
+      font-size: 0.78rem;
+      color: #4b5563;
+      font-style: italic;
+    }
+
+    /* KPI strip */
+
+    .kpi-strip {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      padding: 10px 12px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+      font-size: 0.8rem;
+    }
+
+    .kpi-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .kpi-trend {
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .kpi-trend.up {
+      background: #ecfdf3;
+      color: #15803d;
+    }
+
+    .kpi-trend.down {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .kpi-value {
+      margin-top: 4px;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .kpi-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .kpi-bar {
+      margin-top: 6px;
+      height: 5px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .kpi-bar-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #22c55e, #2563eb);
+      transition: width 0.8s ease;
+    }
+
+    /* Layout principal */
+
+    .layout-main {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 2.1fr 1.3fr;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 18px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      padding: 12px 14px 14px;
+      font-size: 0.8rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .card-sub {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .chip {
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    canvas {
+      width: 100%;
+      max-height: 230px;
+    }
+
+    .right-grid {
+      display: grid;
+      grid-template-rows: auto auto auto;
+      gap: 12px;
+    }
+
+    .insights-list {
+      margin-top: 6px;
+      padding-left: 16px;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    .insights-list li + li {
+      margin-top: 4px;
+    }
+
+    /* Tabla mensual */
+
+    .table-wrapper {
+      margin-top: 16px;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+      padding: 10px 12px 12px;
+      font-size: 0.78rem;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .table-header h2 {
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 4px;
+    }
+
+    th, td {
+      text-align: right;
+      padding: 4px 6px;
+      border-bottom: 1px solid #e5e7eb;
+      white-space: nowrap;
+    }
+
+    th:first-child, td:first-child {
+      text-align: left;
+    }
+
+    th {
+      font-weight: 600;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f9fafb;
+    }
+
+    footer {
+      padding: 14px 6vw 20px;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      text-align: right;
+    }
+
+    @media (max-width: 900px) {
+      .layout-main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      header {
+        padding-inline: 5vw;
+      }
+      main {
+        padding-inline: 5vw;
+      }
+      .kpi-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      .kpi-strip {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Contenido real oculto hasta validar la “llave” -->
+  <div id="nps-root" style="display:none;">
+    <div class="page">
+      <header>
+        <div class="logo">
+          <span class="logo-main">CXDIP</span>
+          <span class="logo-sub">Paneles · CX · Operación</span>
+        </div>
+        <span class="tag-demo">Demo interna · Panel NPS 2025</span>
+      </header>
+
+      <main>
+        <!-- HERO -->
+        <section class="hero">
+          <div class="hero-left">
+            <div class="pill">
+              Panel NPS 2025
+              <span>Encuesta relacional</span>
+            </div>
+            <h1>
+              <span class="brand">CXDIP</span> condensa NPS, esfuerzo, fuga e
+              intención de compra en una sola vista.
+            </h1>
+            <p>
+              Datos ficticios de una encuesta relacional realizada mensualmente entre
+              enero y diciembre 2025 a la cartera de clientes retail. Todo lo que
+              necesita la alta dirección en una sola página.
+            </p>
+            <div class="hero-meta">
+              <span>Universo: clientes activos retail</span>
+              <span>Periodicidad: mensual</span>
+              <span>Canales: email + SMS + app</span>
+            </div>
+          </div>
+
+          <aside class="hero-right">
+            <h2>Acerca de este panel</h2>
+            <p>
+              Vista ejecutiva para conversaciones de directorio y comités de CX.
+              Integra NPS, Esfuerzo, Riesgo de fuga e Intención de compra, con foco en
+              tendencias y trade–offs.
+            </p>
+            <p class="motto">
+              “Si no puedo ver todo en una sola vista, no sirve”.
+            </p>
+          </aside>
+        </section>
+
+        <!-- KPIs -->
+        <section class="kpi-strip">
+          <article class="kpi-card">
+            <div class="kpi-label">
+              <span>NPS global 2025</span>
+              <span class="kpi-trend up">+8 pts vs 2024</span>
+            </div>
+            <div class="kpi-value"><span id="kpi-nps">–</span></div>
+            <div class="kpi-sub">Promotores, pasivos y detractores consolidados.</div>
+            <div class="kpi-bar">
+              <div class="kpi-bar-fill" id="bar-nps"></div>
+            </div>
+          </article>
+
+          <article class="kpi-card">
+            <div class="kpi-label">
+              <span>Riesgo de fuga</span>
+              <span class="kpi-trend up">−2,3 pts vs 2024</span>
+            </div>
+            <div class="kpi-value"><span id="kpi-churn">–</span></div>
+            <div class="kpi-sub">% clientes con alta probabilidad de abandono.</div>
+            <div class="kpi-bar">
+              <div class="kpi-bar-fill" id="bar-churn"></div>
+            </div>
+          </article>
+
+          <article class="kpi-card">
+            <div class="kpi-label">
+              <span>Intención de compra</span>
+              <span class="kpi-trend up">+6 pts vs 2024</span>
+            </div>
+            <div class="kpi-value"><span id="kpi-intent">–</span></div>
+            <div class="kpi-sub">Top–2 box “volvería a comprar en la marca”.</div>
+            <div class="kpi-bar">
+              <div class="kpi-bar-fill" id="bar-intent"></div>
+            </div>
+          </article>
+
+          <article class="kpi-card">
+            <div class="kpi-label">
+              <span>Experiencia & esfuerzo</span>
+              <span class="kpi-trend up">CES mejora progresiva</span>
+            </div>
+            <div class="kpi-value">
+              <span id="kpi-esat">–</span>
+            </div>
+            <div class="kpi-sub">
+              ESAT global y promedio de esfuerzo (1 = mínimo esfuerzo).
+            </div>
+            <div class="kpi-bar">
+              <div class="kpi-bar-fill" id="bar-esat"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- LAYOUT PRINCIPAL -->
+        <section class="layout-main">
+          <!-- Izquierda: NPS por mes -->
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">NPS mensual 2025</div>
+                <div class="card-sub">
+                  Tendencia mensual Ene–Dic · escala −100 a 100.
+                </div>
+              </div>
+              <span class="chip">Vista ejecutiva</span>
+            </div>
+            <canvas id="chartNps"></canvas>
+          </article>
+
+          <!-- Derecha: fuga, índice CX + insights -->
+          <div class="right-grid">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Riesgo de fuga por mes</div>
+                  <div class="card-sub">% de clientes en segmento “alto riesgo”.</div>
+                </div>
+              </div>
+              <canvas id="chartChurn"></canvas>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Índice CX integrado</div>
+                  <div class="card-sub">
+                    NPS, Esfuerzo (invertido), Fuga (invertida) e Intención de compra.
+                  </div>
+                </div>
+              </div>
+              <canvas id="chartRadar"></canvas>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Insights 2025</div>
+                  <div class="card-sub">Lectura rápida para comité.</div>
+                </div>
+              </div>
+              <ul class="insights-list">
+                <li>
+                  El NPS crece de 52 a 72 pts, con mejora sostenida en el segundo
+                  semestre.
+                </li>
+                <li>
+                  El riesgo de fuga cae de ~9,5% a ~5,3%, alineado con mejoras en
+                  esfuerzo digital y tiempos de resolución.
+                </li>
+                <li>
+                  La intención de compra supera el 75% desde octubre, consolidando
+                  la relación valor percibido / precio.
+                </li>
+                <li>
+                  El índice integrado muestra que el siguiente salto está en seguir
+                  reduciendo esfuerzo en postventa más que en nuevas promociones.
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <!-- TABLA MENSUAL -->
+        <section class="table-wrapper">
+          <div class="table-header">
+            <h2>Detalle mensual · NPS, Fuga e Intención de compra</h2>
+            <div class="card-sub">
+              <span id="kpi-responses">–</span> respuestas totales · tasa de
+              respuesta estimada 34%.
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mes 2025</th>
+                  <th>NPS</th>
+                  <th>Riesgo de fuga</th>
+                  <th>Intención compra</th>
+                  <th>ESAT</th>
+                  <th>Respuestas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Enero</td><td>52</td><td>9,5%</td><td>63%</td><td>82%</td><td>820</td></tr>
+                <tr><td>Febrero</td><td>54</td><td>9,0%</td><td>64%</td><td>83%</td><td>840</td></tr>
+                <tr><td>Marzo</td><td>56</td><td>8,7%</td><td>65%</td><td>84%</td><td>860</td></tr>
+                <tr><td>Abril</td><td>58</td><td>8,0%</td><td>66%</td><td>84%</td><td>880</td></tr>
+                <tr><td>Mayo</td><td>60</td><td>7,8%</td><td>68%</td><td>85%</td><td>900</td></tr>
+                <tr><td>Junio</td><td>62</td><td>7,2%</td><td>70%</td><td>86%</td><td>920</td></tr>
+                <tr><td>Julio</td><td>64</td><td>7,0%</td><td>72%</td><td>87%</td><td>930</td></tr>
+                <tr><td>Agosto</td><td>66</td><td>6,5%</td><td>73%</td><td>88%</td><td>940</td></tr>
+                <tr><td>Septiembre</td><td>68</td><td>6,0%</td><td>74%</td><td>88%</td><td>950</td></tr>
+                <tr><td>Octubre</td><td>69</td><td>5,8%</td><td>75%</td><td>89%</td><td>960</td></tr>
+                <tr><td>Noviembre</td><td>70</td><td>5,5%</td><td>76%</td><td>89%</td><td>970</td></tr>
+                <tr><td>Diciembre</td><td>72</td><td>5,3%</td><td>78%</td><td>90%</td><td>980</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        Demo interna CXDIP · Panel NPS 2025 · <span id="year"></span>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Script: llave + inicialización de KPIs y gráficos -->
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const key = params.get("k");
+      const REQUIRED_KEY = "CXDIP2025"; // puedes cambiarla si quieres
+
+      if (key !== REQUIRED_KEY) {
+        document.documentElement.style.background = "#020617";
+        document.body.style.margin = "0";
+        document.body.innerHTML = `
+          <div style="
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+            background:#020617;
+            color:#e5e7eb;
+            text-align:center;
+            padding:24px;">
+            <div>
+              <h1 style="font-size:2rem;margin-bottom:4px;">404</h1>
+              <p style="font-size:0.9rem;color:#9ca3af;">Página no disponible.</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const root = document.getElementById("nps-root");
+      if (root) root.style.display = "block";
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // ===== Datos ficticios 2025 =====
+      const meses = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+
+      const npsData    = [52,54,56,58,60,62,64,66,68,69,70,72];
+      const churnData  = [9.5,9.0,8.7,8.0,7.8,7.2,7.0,6.5,6.0,5.8,5.5,5.3];       // %
+      const intentData = [63,64,65,66,68,70,72,73,74,75,76,78];                  // %
+      const esatData   = [82,83,84,84,85,86,87,88,88,89,89,90];                  // %
+      const effortData = [4.3,4.2,4.2,4.1,4.0,3.9,3.9,3.8,3.7,3.7,3.6,3.6];      // CES 1-7
+      const responses  = [820,840,860,880,900,920,930,940,950,960,970,980];
+
+      const avg = arr => arr.reduce((a,b) => a + b, 0) / arr.length;
+      const sum = arr => arr.reduce((a,b) => a + b, 0);
+
+      const avgNps     = avg(npsData);
+      const avgChurn   = avg(churnData);
+      const avgIntent  = avg(intentData);
+      const avgEsat    = avg(esatData);
+      const avgEffort  = avg(effortData);
+      const totalResp  = sum(responses);
+
+      // Índices invertidos para el radar (0–100, donde más es mejor)
+      const effortIndex = (7 - avgEffort) / 6 * 100;            // 1 = mejor esfuerzo
+      const churnIndex  = (30 - avgChurn) / 30 * 100;           // 30% fuga = 0; 0% = 100
+
+      // ===== KPIs =====
+      const fmtPct = v => v.toFixed(1).replace(".", ",") + "%";
+
+      document.getElementById("kpi-nps").textContent    = Math.round(avgNps);
+      document.getElementById("kpi-churn").textContent  = fmtPct(avgChurn);
+      document.getElementById("kpi-intent").textContent = Math.round(avgIntent) + "%";
+      document.getElementById("kpi-esat").textContent   =
+        Math.round(avgEsat) + "% · CES " + avgEffort.toFixed(1).replace(".", ",");
+
+      document.getElementById("kpi-responses").textContent =
+        totalResp.toLocaleString("es-CL") + " ";
+
+      // barras de llenado (referencias simples)
+      document.getElementById("bar-nps").style.width =
+        Math.max(0, Math.min(100, avgNps)) + "%";
+
+      document.getElementById("bar-churn").style.width =
+        Math.max(0, Math.min(100, 30 - avgChurn)) + "%"; // menos fuga = más llenado
+
+      document.getElementById("bar-intent").style.width =
+        Math.max(0, Math.min(100, avgIntent)) + "%";
+
+      document.getElementById("bar-esat").style.width =
+        Math.max(0, Math.min(100, avgEsat)) + "%";
+
+      // ===== Gráficos (Chart.js) =====
+      if (window.Chart) {
+        // NPS line
+        const ctxNps = document.getElementById("chartNps");
+        if (ctxNps) {
+          new Chart(ctxNps, {
+            type: "line",
+            data: {
+              labels: meses,
+              datasets: [{
+                label: "NPS",
+                data: npsData,
+                tension: 0.35,
+                borderColor: "rgba(37,99,235,1)",
+                backgroundColor: "rgba(191,219,254,0.45)",
+                borderWidth: 2,
+                fill: true,
+                pointRadius: 3,
+                pointBackgroundColor: "rgba(37,99,235,1)"
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: {
+                  suggestedMin: 0,
+                  suggestedMax: 100,
+                  grid: { color: "rgba(209,213,219,0.6)", borderDash: [4,4] },
+                  ticks: { callback: value => value + "" }
+                },
+                x: {
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        }
+
+        // Churn bar
+        const ctxChurn = document.getElementById("chartChurn");
+        if (ctxChurn) {
+          new Chart(ctxChurn, {
+            type: "bar",
+            data: {
+              labels: meses,
+              datasets: [{
+                label: "% alto riesgo de fuga",
+                data: churnData,
+                backgroundColor: "rgba(239,68,68,0.85)"
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: {
+                  suggestedMin: 0,
+                  suggestedMax: 12,
+                  grid: { color: "rgba(209,213,219,0.6)", borderDash: [4,4] },
+                  ticks: {
+                    callback: v => v + "%"
+                  }
+                },
+                x: {
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        }
+
+        // Radar integrado
+        const ctxRadar = document.getElementById("chartRadar");
+        if (ctxRadar) {
+          new Chart(ctxRadar, {
+            type: "radar",
+            data: {
+              labels: [
+                "NPS global",
+                "Esfuerzo (invertido)",
+                "Fuga (invertida)",
+                "Intención de compra"
+              ],
+              datasets: [{
+                label: "Índice CX 2025",
+                data: [
+                  avgNps,
+                  effortIndex,
+                  churnIndex,
+                  avgIntent
+                ],
+                borderColor: "rgba(37,99,235,1)",
+                backgroundColor: "rgba(129,140,248,0.25)",
+                borderWidth: 2,
+                pointBackgroundColor: "rgba(37,99,235,1)"
+              }]
+            },
+            options: {
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                r: {
+                  suggestedMin: 0,
+                  suggestedMax: 100,
+                  grid: { color: "rgba(209,213,219,0.7)" },
+                  angleLines: { color: "rgba(209,213,219,0.7)" },
+                  ticks: { display: false }
+                }
+              }
+            }
+          });
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
