@@ -27,11 +27,7 @@
       --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.12);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -41,10 +37,7 @@
       line-height: 1.6;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
     .page {
       min-height: 100vh;
@@ -59,11 +52,7 @@
       justify-content: space-between;
     }
 
-    .logo {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
+    .logo { display: flex; flex-direction: column; gap: 2px; }
 
     .logo-main {
       font-weight: 700;
@@ -103,9 +92,7 @@
       justify-content: space-between;
     }
 
-    .hero-left {
-      max-width: 640px;
-    }
+    .hero-left { max-width: 640px; }
 
     .pill {
       display: inline-flex;
@@ -133,9 +120,7 @@
       line-height: 1.1;
     }
 
-    h1 .brand {
-      color: var(--primary);
-    }
+    h1 .brand { color: var(--primary); }
 
     .hero p {
       margin-top: 8px;
@@ -169,10 +154,7 @@
       font-size: 0.8rem;
     }
 
-    .hero-right h2 {
-      font-size: 0.92rem;
-      margin-bottom: 4px;
-    }
+    .hero-right h2 { font-size: 0.92rem; margin-bottom: 4px; }
 
     .hero-right p {
       font-size: 0.78rem;
@@ -285,15 +267,9 @@
       gap: 8px;
     }
 
-    .card-title {
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
+    .card-title { font-weight: 600; font-size: 0.9rem; }
 
-    .card-sub {
-      font-size: 0.74rem;
-      color: var(--text-muted);
-    }
+    .card-sub { font-size: 0.74rem; color: var(--text-muted); }
 
     .chip {
       font-size: 0.72rem;
@@ -303,9 +279,16 @@
       color: #1d4ed8;
     }
 
-    canvas {
+    /* Contenedores de gráficos */
+    .chart-shell {
       width: 100%;
-      max-height: 230px;
+      height: 260px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
     }
 
     .right-grid {
@@ -321,9 +304,16 @@
       font-size: 0.78rem;
     }
 
-    .insights-list li + li {
-      margin-top: 4px;
+    .insights-list li + li { margin-top: 4px; }
+
+    .yoy-list {
+      margin-top: 8px;
+      padding-left: 16px;
+      color: var(--text-muted);
+      font-size: 0.76rem;
     }
+
+    .yoy-list li + li { margin-top: 3px; }
 
     /* Tabla mensual */
 
@@ -362,9 +352,7 @@
       white-space: nowrap;
     }
 
-    th:first-child, td:first-child {
-      text-align: left;
-    }
+    th:first-child, td:first-child { text-align: left; }
 
     th {
       font-weight: 600;
@@ -372,13 +360,9 @@
       color: var(--text-muted);
     }
 
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
+    tbody tr:last-child td { border-bottom: none; }
 
-    tbody tr:nth-child(even) {
-      background: #f9fafb;
-    }
+    tbody tr:nth-child(even) { background: #f9fafb; }
 
     footer {
       padding: 14px 6vw 20px;
@@ -388,30 +372,20 @@
     }
 
     @media (max-width: 900px) {
-      .layout-main {
-        grid-template-columns: 1fr;
-      }
+      .layout-main { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 720px) {
-      header {
-        padding-inline: 5vw;
-      }
-      main {
-        padding-inline: 5vw;
-      }
-      .kpi-strip {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+      header { padding-inline: 5vw; }
+      main { padding-inline: 5vw; }
+      .kpi-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .chart-shell { height: 220px; }
     }
 
     @media (max-width: 520px) {
-      .kpi-strip {
-        grid-template-columns: 1fr;
-      }
-      h1 {
-        font-size: 1.6rem;
-      }
+      .kpi-strip { grid-template-columns: 1fr; }
+      h1 { font-size: 1.6rem; }
+      .chart-shell { height: 220px; }
     }
   </style>
 </head>
@@ -533,7 +507,9 @@
               </div>
               <span class="chip">Vista ejecutiva</span>
             </div>
-            <canvas id="chartNps"></canvas>
+            <div class="chart-shell">
+              <canvas id="chartNps"></canvas>
+            </div>
           </article>
 
           <!-- Derecha: fuga, índice CX + insights -->
@@ -545,7 +521,9 @@
                   <div class="card-sub">% de clientes en segmento “alto riesgo”.</div>
                 </div>
               </div>
-              <canvas id="chartChurn"></canvas>
+              <div class="chart-shell">
+                <canvas id="chartChurn"></canvas>
+              </div>
             </article>
 
             <article class="card">
@@ -557,7 +535,12 @@
                   </div>
                 </div>
               </div>
-              <canvas id="chartRadar"></canvas>
+              <div class="chart-shell">
+                <canvas id="chartRadar"></canvas>
+              </div>
+              <ul class="yoy-list" id="yoy-list">
+                <!-- Se rellena por JS con las variaciones 2025 vs 2024 -->
+              </ul>
             </article>
 
             <article class="card">
@@ -569,20 +552,21 @@
               </div>
               <ul class="insights-list">
                 <li>
-                  El NPS crece de 52 a 72 pts, con mejora sostenida en el segundo
-                  semestre.
+                  El NPS sube en promedio 8 pts respecto de 2024, con
+                  aceleración en el segundo semestre.
                 </li>
                 <li>
-                  El riesgo de fuga cae de ~9,5% a ~5,3%, alineado con mejoras en
-                  esfuerzo digital y tiempos de resolución.
+                  El riesgo de fuga cae 2,3 puntos porcentuales, alineado con
+                  mejoras en esfuerzo digital y tiempos de resolución.
                 </li>
                 <li>
-                  La intención de compra supera el 75% desde octubre, consolidando
-                  la relación valor percibido / precio.
+                  La intención de compra aumenta 6 pts, reforzada por una mejor
+                  percepción de valor y experiencia omnicanal.
                 </li>
                 <li>
-                  El índice integrado muestra que el siguiente salto está en seguir
-                  reduciendo esfuerzo en postventa más que en nuevas promociones.
+                  El índice integrado sugiere que el próximo salto está más en
+                  seguir reduciendo esfuerzo en postventa que en nuevas
+                  promociones.
                 </li>
               </ul>
             </article>
@@ -640,7 +624,7 @@
     (function () {
       const params = new URLSearchParams(window.location.search);
       const key = params.get("k");
-      const REQUIRED_KEY = "CXDIP2025"; // puedes cambiarla si quieres
+      const REQUIRED_KEY = "CXDIP2025"; // cámbiala si quieres otra llave
 
       if (key !== REQUIRED_KEY) {
         document.documentElement.style.background = "#020617";
@@ -670,58 +654,95 @@
 
       document.getElementById("year").textContent = new Date().getFullYear();
 
+      // Helpers
+      const avg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+      const sum = arr => arr.reduce((a, b) => a + b, 0);
+      const fmtNum = (v, d = 1) => v.toFixed(d).replace(".", ",");
+      const fmtPct = v => fmtNum(v, 1) + "%";
+
       // ===== Datos ficticios 2025 =====
       const meses = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 
-      const npsData    = [52,54,56,58,60,62,64,66,68,69,70,72];
-      const churnData  = [9.5,9.0,8.7,8.0,7.8,7.2,7.0,6.5,6.0,5.8,5.5,5.3];       // %
-      const intentData = [63,64,65,66,68,70,72,73,74,75,76,78];                  // %
-      const esatData   = [82,83,84,84,85,86,87,88,88,89,89,90];                  // %
-      const effortData = [4.3,4.2,4.2,4.1,4.0,3.9,3.9,3.8,3.7,3.7,3.6,3.6];      // CES 1-7
-      const responses  = [820,840,860,880,900,920,930,940,950,960,970,980];
+      const nps2025   = [52,54,56,58,60,62,64,66,68,69,70,72];
+      const churn2025 = [9.5,9.0,8.7,8.0,7.8,7.2,7.0,6.5,6.0,5.8,5.5,5.3]; // %
+      const intent2025= [63,64,65,66,68,70,72,73,74,75,76,78];           // %
+      const esat2025  = [82,83,84,84,85,86,87,88,88,89,89,90];           // %
+      const effort2025= [4.3,4.2,4.2,4.1,4.0,3.9,3.9,3.8,3.7,3.7,3.6,3.6]; // CES 1–7
+      const responses2025 = [820,840,860,880,900,920,930,940,950,960,970,980];
 
-      const avg = arr => arr.reduce((a,b) => a + b, 0) / arr.length;
-      const sum = arr => arr.reduce((a,b) => a + b, 0);
+      // ===== Datos ficticios 2024 (para comparativo) =====
+      const nps2024   = nps2025.map(v => v - 8);
+      const churn2024 = churn2025.map(v => v + 2.3);
+      const intent2024= intent2025.map(v => v - 6);
+      const esat2024  = esat2025.map(v => v - 3);
+      const effort2024= effort2025.map(v => v + 0.3);
 
-      const avgNps     = avg(npsData);
-      const avgChurn   = avg(churnData);
-      const avgIntent  = avg(intentData);
-      const avgEsat    = avg(esatData);
-      const avgEffort  = avg(effortData);
-      const totalResp  = sum(responses);
+      // Promedios 2025
+      const avgNps25    = avg(nps2025);
+      const avgChurn25  = avg(churn2025);
+      const avgIntent25 = avg(intent2025);
+      const avgEsat25   = avg(esat2025);
+      const avgEffort25 = avg(effort2025);
+      const totalResp   = sum(responses2025);
 
-      // Índices invertidos para el radar (0–100, donde más es mejor)
-      const effortIndex = (7 - avgEffort) / 6 * 100;            // 1 = mejor esfuerzo
-      const churnIndex  = (30 - avgChurn) / 30 * 100;           // 30% fuga = 0; 0% = 100
+      // Promedios 2024
+      const avgNps24    = avg(nps2024);
+      const avgChurn24  = avg(churn2024);
+      const avgIntent24 = avg(intent2024);
+      const avgEsat24   = avg(esat2024);
+      const avgEffort24 = avg(effort2024);
 
-      // ===== KPIs =====
-      const fmtPct = v => v.toFixed(1).replace(".", ",") + "%";
+      // Índices invertidos para radar (0–100, donde más es mejor)
+      const effortIndex25 = (7 - avgEffort25) / 6 * 100;
+      const churnIndex25  = (30 - avgChurn25) / 30 * 100;
 
-      document.getElementById("kpi-nps").textContent    = Math.round(avgNps);
-      document.getElementById("kpi-churn").textContent  = fmtPct(avgChurn);
-      document.getElementById("kpi-intent").textContent = Math.round(avgIntent) + "%";
+      const effortIndex24 = (7 - avgEffort24) / 6 * 100;
+      const churnIndex24  = (30 - avgChurn24) / 30 * 100;
+
+      // Variaciones 2025 vs 2024 (promedios)
+      const deltaNps   = avgNps25   - avgNps24;
+      const deltaChurn = avgChurn25 - avgChurn24;
+      const deltaInt   = avgIntent25- avgIntent24;
+      const deltaEsat  = avgEsat25  - avgEsat24;
+      const deltaEff   = avgEffort25- avgEffort24;
+
+      // ===== KPIs (año 2025) =====
+      document.getElementById("kpi-nps").textContent    = Math.round(avgNps25);
+      document.getElementById("kpi-churn").textContent  = fmtPct(avgChurn25);
+      document.getElementById("kpi-intent").textContent = Math.round(avgIntent25) + "%";
       document.getElementById("kpi-esat").textContent   =
-        Math.round(avgEsat) + "% · CES " + avgEffort.toFixed(1).replace(".", ",");
+        Math.round(avgEsat25) + "% · CES " + fmtNum(avgEffort25, 1);
 
       document.getElementById("kpi-responses").textContent =
         totalResp.toLocaleString("es-CL") + " ";
 
-      // barras de llenado (referencias simples)
+      // Barras de llenado
       document.getElementById("bar-nps").style.width =
-        Math.max(0, Math.min(100, avgNps)) + "%";
+        Math.max(0, Math.min(100, avgNps25)) + "%";
 
       document.getElementById("bar-churn").style.width =
-        Math.max(0, Math.min(100, 30 - avgChurn)) + "%"; // menos fuga = más llenado
+        Math.max(0, Math.min(100, 30 - avgChurn25)) + "%";
 
       document.getElementById("bar-intent").style.width =
-        Math.max(0, Math.min(100, avgIntent)) + "%";
+        Math.max(0, Math.min(100, avgIntent25)) + "%";
 
       document.getElementById("bar-esat").style.width =
-        Math.max(0, Math.min(100, avgEsat)) + "%";
+        Math.max(0, Math.min(100, avgEsat25)) + "%";
+
+      // Comparativo numérico bajo el radar
+      const yoy = document.getElementById("yoy-list");
+      if (yoy) {
+        yoy.innerHTML = `
+          <li>NPS global (promedio): ${fmtNum(avgNps24,1)} → ${fmtNum(avgNps25,1)} (${deltaNps>0?"+":""}${fmtNum(deltaNps,1)} pts).</li>
+          <li>Riesgo de fuga: ${fmtPct(avgChurn24)} → ${fmtPct(avgChurn25)} (${deltaChurn>0?"+":""}${fmtNum(deltaChurn,1)} pts).</li>
+          <li>Intención de compra: ${fmtNum(avgIntent24,1)}% → ${fmtNum(avgIntent25,1)}% (${deltaInt>0?"+":""}${fmtNum(deltaInt,1)} pts).</li>
+          <li>ESAT: ${fmtNum(avgEsat24,1)}% → ${fmtNum(avgEsat25,1)}% (${deltaEsat>0?"+":""}${fmtNum(deltaEsat,1)} pts) · CES ${fmtNum(avgEffort24,1)} → ${fmtNum(avgEffort25,1)} (Δ ${deltaEff>0?"+":""}${fmtNum(deltaEff,1)}).</li>
+        `;
+      }
 
       // ===== Gráficos (Chart.js) =====
       if (window.Chart) {
-        // NPS line
+        // NPS line 2025
         const ctxNps = document.getElementById("chartNps");
         if (ctxNps) {
           new Chart(ctxNps, {
@@ -729,8 +750,8 @@
             data: {
               labels: meses,
               datasets: [{
-                label: "NPS",
-                data: npsData,
+                label: "NPS 2025",
+                data: nps2025,
                 tension: 0.35,
                 borderColor: "rgba(37,99,235,1)",
                 backgroundColor: "rgba(191,219,254,0.45)",
@@ -742,9 +763,8 @@
             },
             options: {
               responsive: true,
-              plugins: {
-                legend: { display: false }
-              },
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
               scales: {
                 y: {
                   suggestedMin: 0,
@@ -752,15 +772,13 @@
                   grid: { color: "rgba(209,213,219,0.6)", borderDash: [4,4] },
                   ticks: { callback: value => value + "" }
                 },
-                x: {
-                  grid: { display: false }
-                }
+                x: { grid: { display: false } }
               }
             }
           });
         }
 
-        // Churn bar
+        // Churn bar 2025
         const ctxChurn = document.getElementById("chartChurn");
         if (ctxChurn) {
           new Chart(ctxChurn, {
@@ -768,34 +786,29 @@
             data: {
               labels: meses,
               datasets: [{
-                label: "% alto riesgo de fuga",
-                data: churnData,
+                label: "% alto riesgo de fuga (2025)",
+                data: churn2025,
                 backgroundColor: "rgba(239,68,68,0.85)"
               }]
             },
             options: {
               responsive: true,
-              plugins: {
-                legend: { display: false }
-              },
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
               scales: {
                 y: {
                   suggestedMin: 0,
                   suggestedMax: 12,
                   grid: { color: "rgba(209,213,219,0.6)", borderDash: [4,4] },
-                  ticks: {
-                    callback: v => v + "%"
-                  }
+                  ticks: { callback: v => v + "%" }
                 },
-                x: {
-                  grid: { display: false }
-                }
+                x: { grid: { display: false } }
               }
             }
           });
         }
 
-        // Radar integrado
+        // Radar integrado 2025 vs 2024
         const ctxRadar = document.getElementById("chartRadar");
         if (ctxRadar) {
           new Chart(ctxRadar, {
@@ -807,23 +820,35 @@
                 "Fuga (invertida)",
                 "Intención de compra"
               ],
-              datasets: [{
-                label: "Índice CX 2025",
-                data: [
-                  avgNps,
-                  effortIndex,
-                  churnIndex,
-                  avgIntent
-                ],
-                borderColor: "rgba(37,99,235,1)",
-                backgroundColor: "rgba(129,140,248,0.25)",
-                borderWidth: 2,
-                pointBackgroundColor: "rgba(37,99,235,1)"
-              }]
+              datasets: [
+                {
+                  label: "2025",
+                  data: [avgNps25, effortIndex25, churnIndex25, avgIntent25],
+                  borderColor: "rgba(37,99,235,1)",
+                  backgroundColor: "rgba(129,140,248,0.25)",
+                  borderWidth: 2,
+                  pointBackgroundColor: "rgba(37,99,235,1)"
+                },
+                {
+                  label: "2024",
+                  data: [avgNps24, effortIndex24, churnIndex24, avgIntent24],
+                  borderColor: "rgba(148,163,184,1)",
+                  backgroundColor: "rgba(209,213,219,0.20)",
+                  borderWidth: 2,
+                  borderDash: [4,3],
+                  pointBackgroundColor: "rgba(148,163,184,1)"
+                }
+              ]
             },
             options: {
+              responsive: true,
+              maintainAspectRatio: false,
               plugins: {
-                legend: { display: false }
+                legend: {
+                  display: true,
+                  position: "top",
+                  labels: { boxWidth: 10, font: { size: 10 } }
+                }
               },
               scales: {
                 r: {
