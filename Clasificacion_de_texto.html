@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>CXDIP · Drivers de Comentarios</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #2563eb;
+      --accent-soft: #38bdf8;
+      --accent-good: #16a34a;
+      --accent-bad: #ef4444;
+      --radius-card: 16px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 24px 18px 40px;
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .title-main {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .title-main span {
+      color: var(--accent);
+    }
+
+    .title-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .badge-secondary {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .summary-card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .summary-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .summary-value {
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    .summary-foot {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      padding: 16px 18px 18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      margin-top: 18px;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    /* Contenedor scroll horizontal para tablas (mobile-friendly) */
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .table-wrapper table {
+      min-width: 720px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+
+    thead tr {
+      background: #f9fafb;
+    }
+
+    th, td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #eef0f4;
+    }
+
+    th {
+      text-align: left;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.78rem;
+    }
+
+    .tbl-name {
+      font-weight: 500;
+    }
+
+    .tbl-num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    tbody tr:hover {
+      background: #f4f5fb;
+    }
+
+    .row-total td {
+      font-weight: 600;
+      background: #eef2ff;
+    }
+
+    .row-prom td {
+      font-weight: 600;
+      background: #e0f2fe;
+    }
+
+    /* Colores para CSAT y Uplift */
+    .val-csat.pos, .val-uplift.pos {
+      color: var(--accent-good);
+    }
+
+    .val-csat.neg, .val-uplift.neg {
+      color: var(--accent-bad);
+    }
+
+    .val-csat.neutral, .val-uplift.neutral {
+      color: var(--accent);
+    }
+
+    .ranking-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .ranking-card {
+      background: #f9fafb;
+      border-radius: 14px;
+      padding: 12px 14px 14px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .ranking-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .ranking-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      margin-top: 24px;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .level-tag {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .plus-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: #e5f0ff;
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid #bfdbfe;
+      margin-left: 6px;
+      cursor: pointer;
+    }
+
+    .center-cell {
+      padding-left: 24px;
+    }
+
+    .note-inline {
+      margin-top: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ------- Ajustes para MOBILE ------- */
+    @media (max-width: 768px) {
+      .page {
+        padding: 16px 10px 28px;
+      }
+
+      .title-main {
+        font-size: 1.5rem;
+      }
+
+      .summary-card {
+        padding: 10px 12px;
+      }
+
+      .card {
+        padding: 12px 12px 14px;
+      }
+
+      .table-wrapper table {
+        min-width: 600px;
+      }
+
+      table {
+        font-size: 0.8rem;
+      }
+
+      th, td {
+        padding: 5px 6px;
+      }
+
+      .ranking-row {
+        grid-template-columns: 1fr; /* una debajo de otra en mobile */
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <!-- ENCABEZADO -->
+    <header>
+      <div class="title-row">
+        <div>
+          <div class="title-main"><span>CXDIP</span> Drivers de Comentarios</div>
+          <div class="title-sub">
+            Panel de lectura de texto abierto. Drivers macro, servicios y centros (maqueta UI).
+          </div>
+        </div>
+        <div class="badge-secondary">
+          Demo · Valores de ejemplo (reemplazar con ETL)
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-label">Total de respuestas</div>
+          <div class="summary-value">12.540</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">Respuestas con comentario</div>
+          <div class="summary-value">4.320</div>
+          <div class="summary-foot">34,4% aportan texto</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">CSAT global (texto)</div>
+          <div class="summary-value">4,10</div>
+          <div class="summary-foot">Escala 1–5 · sólo casos con comentario</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- DRIVERS MACRO (TABLA EXTENDIDA) -->
+    <section class="card">
+      <h2>Drivers Macro</h2>
+      <div class="card-subtitle">
+        Tabla consolidada por driver: volumen, participación y calidad (CSAT y Uplift).
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Driver macro</th>
+              <th style="text-align:right;">N° comentarios</th>
+              <th style="text-align:right;">% sobre texto</th>
+              <th style="text-align:right;">CSAT atributo</th>
+              <th style="text-align:right;">Uplift atributo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- FILAS EJEMPLO: reemplazar por las de tu ETL -->
+            <tr>
+              <td class="tbl-name">Tiempos de espera</td>
+              <td class="tbl-num">980</td>
+              <td class="tbl-num">22,7%</td>
+              <td class="tbl-num val-csat neg">3,60</td>
+              <td class="tbl-num val-uplift neg">-0,50</td>
+            </tr>
+            <tr>
+              <td class="tbl-name">Productos</td>
+              <td class="tbl-num">720</td>
+              <td class="tbl-num">16,7%</td>
+              <td class="tbl-num val-csat pos">4,30</td>
+              <td class="tbl-num val-uplift pos">+0,20</td>
+            </tr>
+            <tr>
+              <td class="tbl-name">Logística / entrega</td>
+              <td class="tbl-num">610</td>
+              <td class="tbl-num">14,1%</td>
+              <td class="tbl-num val-csat neutral">3,90</td>
+              <td class="tbl-num val-uplift neg">-0,30</td>
+            </tr>
+            <tr>
+              <td class="tbl-name">Atención vendedor</td>
+              <td class="tbl-num">540</td>
+              <td class="tbl-num">12,5%</td>
+              <td class="tbl-num val-csat pos">4,40</td>
+              <td class="tbl-num val-uplift pos">+0,30</td>
+            </tr>
+            <tr>
+              <td class="tbl-name">Atención repartidor</td>
+              <td class="tbl-num">380</td>
+              <td class="tbl-num">8,8%</td>
+              <td class="tbl-num val-csat neutral">4,00</td>
+              <td class="tbl-num val-uplift neutral">-0,10</td>
+            </tr>
+            <tr>
+              <td class="tbl-name">Problema sin solución</td>
+              <td class="tbl-num">430</td>
+              <td class="tbl-num">10,0%</td>
+              <td class="tbl-num val-csat neg">3,10</td>
+              <td class="tbl-num val-uplift neg">-1,00</td>
+            </tr>
+            <tr>
+              <td class="tbl-name">Otros</td>
+              <td class="tbl-num">420</td>
+              <td class="tbl-num">9,7%</td>
+              <td class="tbl-num val-csat neutral">4,00</td>
+              <td class="tbl-num val-uplift neutral">-0,10</td>
+            </tr>
+            <tr>
+              <td class="tbl-name">En blanco</td>
+              <td class="tbl-num">240</td>
+              <td class="tbl-num">5,6%</td>
+              <td class="tbl-num val-csat neutral">–</td>
+              <td class="tbl-num val-uplift neutral">–</td>
+            </tr>
+
+            <!-- TOTALES -->
+            <tr class="row-total">
+              <td class="tbl-name">Totales</td>
+              <td class="tbl-num">4.320</td>
+              <td class="tbl-num">100,0%</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+            </tr>
+
+            <!-- PROMEDIOS -->
+            <tr class="row-prom">
+              <td class="tbl-name">Promedios</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <!-- CSAT promedio ~ 4,10 (ejemplo) -->
+              <td class="tbl-num val-csat neutral">4,10</td>
+              <!-- Uplift promedio ~ 0,00 -->
+              <td class="tbl-num val-uplift neutral">0,00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- RANKINGS POR DEBAJO, 50% / 50% -->
+      <div class="ranking-row">
+        <!-- Ranking CSAT -->
+        <div class="ranking-card">
+          <div class="ranking-title">Ranking CSAT atributo</div>
+          <div class="ranking-sub">
+            Evolución del CSAT por driver entre periodos (ejemplo con 3 periodos + total).
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th style="text-align:right;">Periodo 1</th>
+                  <th style="text-align:right;">Periodo 2</th>
+                  <th style="text-align:right;">Periodo 3</th>
+                  <th style="text-align:right;">Periodo total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="tbl-name">Atención vendedor</td>
+                  <td class="tbl-num val-csat pos">4,30</td>
+                  <td class="tbl-num val-csat pos">4,40</td>
+                  <td class="tbl-num val-csat pos">4,50</td>
+                  <td class="tbl-num val-csat pos">4,40</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">Productos</td>
+                  <td class="tbl-num val-csat pos">4,20</td>
+                  <td class="tbl-num val-csat neutral">4,10</td>
+                  <td class="tbl-num val-csat pos">4,30</td>
+                  <td class="tbl-num val-csat pos">4,20</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">Tiempos de espera</td>
+                  <td class="tbl-num val-csat neg">3,50</td>
+                  <td class="tbl-num val-csat neg">3,60</td>
+                  <td class="tbl-num val-csat neg">3,70</td>
+                  <td class="tbl-num val-csat neg">3,60</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">Problema sin solución</td>
+                  <td class="tbl-num val-csat neg">3,00</td>
+                  <td class="tbl-num val-csat neg">3,10</td>
+                  <td class="tbl-num val-csat neg">3,20</td>
+                  <td class="tbl-num val-csat neg">3,10</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Ranking Uplift -->
+        <div class="ranking-card">
+          <div class="ranking-title">Ranking Uplift atributo</div>
+          <div class="ranking-sub">
+            Uplift del atributo vs CSAT global (4,10) por periodo y total.
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th style="text-align:right;">Periodo 1</th>
+                  <th style="text-align:right;">Periodo 2</th>
+                  <th style="text-align:right;">Periodo 3</th>
+                  <th style="text-align:right;">Periodo total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="tbl-name">Atención vendedor</td>
+                  <td class="tbl-num val-uplift pos">+0,20</td>
+                  <td class="tbl-num val-uplift pos">+0,30</td>
+                  <td class="tbl-num val-uplift pos">+0,40</td>
+                  <td class="tbl-num val-uplift pos">+0,30</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">Productos</td>
+                  <td class="tbl-num val-uplift pos">+0,10</td>
+                  <td class="tbl-num val-uplift neutral">0,00</td>
+                  <td class="tbl-num val-uplift pos">+0,20</td>
+                  <td class="tbl-num val-uplift pos">+0,10</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">Tiempos de espera</td>
+                  <td class="tbl-num val-uplift neg">-0,60</td>
+                  <td class="tbl-num val-uplift neg">-0,50</td>
+                  <td class="tbl-num val-uplift neg">-0,40</td>
+                  <td class="tbl-num val-uplift neg">-0,50</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">Problema sin solución</td>
+                  <td class="tbl-num val-uplift neg">-1,10</td>
+                  <td class="tbl-num val-uplift neg">-1,00</td>
+                  <td class="tbl-num val-uplift neg">-0,90</td>
+                  <td class="tbl-num val-uplift neg">-1,00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS AGREGADOS (NIVEL 1 + CENTROS EN LA MISMA TABLA) -->
+    <div class="section-title">Servicios agregados</div>
+
+    <section class="card">
+      <div class="level-tag">Vista por servicio_agrupado y centro (apertura con “+”)</div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Servicio / Centro</th>
+              <th style="text-align:right;">N° comentarios</th>
+              <th style="text-align:right;">% sobre texto</th>
+              <th style="text-align:right;">NPS</th>
+              <th style="text-align:right;">CSAT atributo</th>
+              <th style="text-align:right;">Uplift atributo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- SERVICIO 1 -->
+            <tr>
+              <td class="tbl-name">
+                Servicio 1
+                <button class="plus-btn service-toggle" data-service="serv1" data-expanded="false">+</button>
+              </td>
+              <td class="tbl-num">620</td>
+              <td class="tbl-num">14,4%</td>
+              <td class="tbl-num">60,0</td>
+              <td class="tbl-num val-csat pos">4,30</td>
+              <td class="tbl-num val-uplift pos">+0,20</td>
+            </tr>
+            <tr class="center-row" data-parent="serv1" style="display:none;">
+              <td class="tbl-name center-cell">↳ Centro 1</td>
+              <td class="tbl-num">140</td>
+              <td class="tbl-num">3,2%</td>
+              <td class="tbl-num">65,0</td>
+              <td class="tbl-num val-csat pos">4,60</td>
+              <td class="tbl-num val-uplift pos">+0,50</td>
+            </tr>
+            <tr class="center-row" data-parent="serv1" style="display:none;">
+              <td class="tbl-name center-cell">↳ Centro 2</td>
+              <td class="tbl-num">120</td>
+              <td class="tbl-num">2,8%</td>
+              <td class="tbl-num">62,0</td>
+              <td class="tbl-num val-csat pos">4,40</td>
+              <td class="tbl-num val-uplift pos">+0,30</td>
+            </tr>
+            <tr class="center-row" data-parent="serv1" style="display:none;">
+              <td class="tbl-name center-cell">↳ Centro 3</td>
+              <td class="tbl-num">95</td>
+              <td class="tbl-num">2,2%</td>
+              <td class="tbl-num">58,0</td>
+              <td class="tbl-num val-csat neutral">4,10</td>
+              <td class="tbl-num val-uplift neutral">0,00</td>
+            </tr>
+
+            <!-- SERVICIO 2 -->
+            <tr>
+              <td class="tbl-name">
+                Servicio 2
+                <button class="plus-btn service-toggle" data-service="serv2" data-expanded="false">+</button>
+              </td>
+              <td class="tbl-num">540</td>
+              <td class="tbl-num">12,5%</td>
+              <td class="tbl-num">55,0</td>
+              <td class="tbl-num val-csat neutral">4,10</td>
+              <td class="tbl-num val-uplift neutral">0,00</td>
+            </tr>
+            <tr class="center-row" data-parent="serv2" style="display:none;">
+              <td class="tbl-name center-cell">↳ Centro 1</td>
+              <td class="tbl-num">90</td>
+              <td class="tbl-num">2,1%</td>
+              <td class="tbl-num">57,0</td>
+              <td class="tbl-num val-csat pos">4,20</td>
+              <td class="tbl-num val-uplift pos">+0,10</td>
+            </tr>
+            <tr class="center-row" data-parent="serv2" style="display:none;">
+              <td class="tbl-name center-cell">↳ Centro 3</td>
+              <td class="tbl-num">70</td>
+              <td class="tbl-num">1,6%</td>
+              <td class="tbl-num">50,0</td>
+              <td class="tbl-num val-csat neg">3,80</td>
+              <td class="tbl-num val-uplift neg">-0,30</td>
+            </tr>
+
+            <!-- SERVICIO 3 -->
+            <tr>
+              <td class="tbl-name">
+                Servicio 3
+                <button class="plus-btn service-toggle" data-service="serv3" data-expanded="false">+</button>
+              </td>
+              <td class="tbl-num">470</td>
+              <td class="tbl-num">10,9%</td>
+              <td class="tbl-num">52,0</td>
+              <td class="tbl-num val-csat neg">3,90</td>
+              <td class="tbl-num val-uplift neg">-0,20</td>
+            </tr>
+            <tr class="center-row" data-parent="serv3" style="display:none;">
+              <td class="tbl-name center-cell">↳ Centro 2</td>
+              <td class="tbl-num">85</td>
+              <td class="tbl-num">2,0%</td>
+              <td class="tbl-num">48,0</td>
+              <td class="tbl-num val-csat neg">3,70</td>
+              <td class="tbl-num val-uplift neg">-0,40</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note-inline">
+        Al presionar <span class="plus-btn" style="pointer-events:none;">+</span> se despliegan los centros asociados
+        a cada servicio con sus métricas (NPS, comentarios, % sobre texto, CSAT, Uplift).
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Lógica simple para expandir/contraer centros por servicio
+    document.querySelectorAll('.service-toggle').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var sid = this.getAttribute('data-service');
+        var expanded = this.getAttribute('data-expanded') === 'true';
+        var rows = document.querySelectorAll("tr[data-parent='" + sid + "']");
+        rows.forEach(function(row) {
+          row.style.display = expanded ? 'none' : 'table-row';
+        });
+        this.textContent = expanded ? '+' : '–';
+        this.setAttribute('data-expanded', expanded ? 'false' : 'true');
+      });
+    });
+  </script>
+</body>
+</html>
