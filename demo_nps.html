@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>CXDIP · Panel NPS 2025 (Demo)</title>
+  <title>CXDIP · Panel Loyalty 2025 (Demo)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Demo interna de panel NPS 2025 con NPS, Esfuerzo, Fuga e Intención de compra en una sola vista."
+    content="Panel CXDIP Loyalty"
   />
 
   <!-- Chart.js + plugin de etiquetas -->
@@ -267,7 +267,7 @@
     }
 
     .card-wide {
-      grid-column: 1 / -1;   /* NPS ocupa toda la fila */
+      grid-column: 1 / -1;   /* Loyalty ocupa toda la fila */
     }
 
     .table-wrapper {
@@ -344,25 +344,25 @@
 </head>
 
 <body>
-  <div id="nps-root" style="display:none;">
+  <div id="Loyalty-root" style="display:none;">
     <div class="page">
       <header>
         <div class="logo">
           <span class="logo-main">CXDIP</span>
           <span class="logo-sub">Paneles · CX · Operación</span>
         </div>
-        <span class="tag-demo">Demo interna · Panel NPS 2025</span>
+        <span class="tag-demo">Demo interna · Panel Loyalty 2025</span>
       </header>
 
       <main>
         <section class="hero">
           <div class="hero-left">
             <div class="pill">
-              Panel NPS 2025
+              Panel Loyalty 2025
               <span>Encuesta relacional</span>
             </div>
             <h1>
-              <span class="brand">CXDIP</span> condensa NPS, esfuerzo, fuga e
+              <span class="brand">CXDIP</span> condensa Loyalty, esfuerzo, fuga e
               intención de compra en una sola vista.
             </h1>
             <p>
@@ -381,12 +381,12 @@
         <section class="kpi-strip">
           <article class="kpi-card">
             <div class="kpi-label">
-              <span>NPS global 2025</span>
+              <span>Loyalty global 2025</span>
               <span class="kpi-trend up">+8 pts vs 2024</span>
             </div>
-            <div class="kpi-value"><span id="kpi-nps">–</span></div>
+            <div class="kpi-value"><span id="kpi-Loyalty">–</span></div>
             <div class="kpi-sub">Promotores, pasivos y detractores consolidados.</div>
-            <div class="kpi-bar"><div class="kpi-bar-fill" id="bar-nps"></div></div>
+            <div class="kpi-bar"><div class="kpi-bar-fill" id="bar-Loyalty"></div></div>
           </article>
 
           <article class="kpi-card">
@@ -422,19 +422,19 @@
 
         <!-- LAYOUT PRINCIPAL (gráficos) -->
         <section class="layout-main">
-          <!-- Fila 1: NPS (ancho completo) -->
+          <!-- Fila 1: Loyalty (ancho completo) -->
           <article class="card card-wide">
             <div class="card-header">
               <div>
-                <div class="card-title">NPS mensual 2025</div>
+                <div class="card-title">Loyalty mensual 2025</div>
                 <div class="card-sub">
-                  Barras apiladas por promotores, pasivos y detractores · comparativo 2024–2025 con líneas NPS.
+                  Barras apiladas por promotores, pasivos y detractores · comparativo 2024–2025 con líneas Loyalty.
                 </div>
               </div>
               <span class="chip">Vista ejecutiva</span>
             </div>
             <div class="chart-shell">
-              <canvas id="chartNps"></canvas>
+              <canvas id="chartLoyalty"></canvas>
             </div>
           </article>
 
@@ -457,7 +457,7 @@
               <div>
                 <div class="card-title">Índice CX integrado</div>
                 <div class="card-sub">
-                  NPS, Esfuerzo (invertido), Fuga (invertida) e Intención de compra.
+                  Loyalty, Esfuerzo (invertido), Fuga (invertida) e Intención de compra.
                 </div>
               </div>
             </div>
@@ -470,7 +470,7 @@
         <!-- TABLA MENSUAL -->
         <section class="table-wrapper">
           <div class="table-header">
-            <h2>Detalle mensual · NPS, Fuga e Intención de compra</h2>
+            <h2>Detalle mensual · Loyalty, Fuga e Intención de compra</h2>
             <div class="card-sub">
               <span id="kpi-responses">–</span> respuestas totales · tasa de respuesta estimada 34%.
             </div>
@@ -480,7 +480,7 @@
               <thead>
                 <tr>
                   <th>Mes 2025</th>
-                  <th>NPS</th>
+                  <th>Loyalty</th>
                   <th>Riesgo de fuga</th>
                   <th>Intención compra</th>
                   <th>ESAT</th>
@@ -507,7 +507,7 @@
       </main>
 
       <footer>
-        Demo interna CXDIP · Panel NPS 2025 · <span id="year"></span>
+        Demo interna CXDIP · Panel Loyalty 2025 · <span id="year"></span>
       </footer>
     </div>
   </div>
@@ -541,7 +541,7 @@
         return;
       }
 
-      document.getElementById("nps-root").style.display = "block";
+      document.getElementById("Loyalty-root").style.display = "block";
       document.getElementById("year").textContent = new Date().getFullYear();
 
       const avg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
@@ -551,14 +551,14 @@
 
       const meses = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 
-      const nps2025   = [52,54,56,58,60,62,64,66,68,69,70,72];
+      const Loyalty2025   = [52,54,56,58,60,62,64,66,68,69,70,72];
       const churn2025 = [9.5,9.0,8.7,8.0,7.8,7.2,7.0,6.5,6.0,5.8,5.5,5.3];
       const intent2025= [63,64,65,66,68,70,72,73,74,75,76,78];
       const esat2025  = [82,83,84,84,85,86,87,88,88,89,89,90];
       const effort2025= [4.3,4.2,4.2,4.1,4.0,3.9,3.9,3.8,3.7,3.7,3.6,3.6];
       const responses2025 = [820,840,860,880,900,920,930,940,950,960,970,980];
 
-      const nps2024   = nps2025.map(v => v - 8);
+      const Loyalty2024   = Loyalty2025.map(v => v - 8);
       const churn2024 = churn2025.map(v => v + 2.3);
       const intent2024= intent2025.map(v => v - 6);
       const esat2024  = esat2025.map(v => v - 3);
@@ -566,21 +566,21 @@
 
       // Barras apiladas (demo)
       const detractores2025 = Array(12).fill(10);
-      const promotores2025 = nps2025.map(v => v + 10);
+      const promotores2025 = Loyalty2025.map(v => v + 10);
       const pasivos2025 = promotores2025.map((p, i) => 100 - p - detractores2025[i]);
 
       const detractores2024 = Array(12).fill(12);
-      const promotores2024 = nps2024.map(v => v + 12);
+      const promotores2024 = Loyalty2024.map(v => v + 12);
       const pasivos2024 = promotores2024.map((p, i) => 100 - p - detractores2024[i]);
 
-      const avgNps25    = avg(nps2025);
+      const avgLoyalty25    = avg(Loyalty2025);
       const avgChurn25  = avg(churn2025);
       const avgIntent25 = avg(intent2025);
       const avgEsat25   = avg(esat2025);
       const avgEffort25 = avg(effort2025);
       const totalResp   = sum(responses2025);
 
-      const avgNps24    = avg(nps2024);
+      const avgLoyalty24    = avg(Loyalty2024);
       const avgChurn24  = avg(churn2024);
       const avgIntent24 = avg(intent2024);
       const avgEsat24   = avg(esat2024);
@@ -591,7 +591,7 @@
       const effortIndex24 = (7 - avgEffort24) / 6 * 100;
       const churnIndex24  = (30 - avgChurn24) / 30 * 100;
 
-      document.getElementById("kpi-nps").textContent    = Math.round(avgNps25);
+      document.getElementById("kpi-Loyalty").textContent    = Math.round(avgLoyalty25);
       document.getElementById("kpi-churn").textContent  = fmtPct(avgChurn25);
       document.getElementById("kpi-intent").textContent = Math.round(avgIntent25) + "%";
       document.getElementById("kpi-esat").textContent   =
@@ -599,8 +599,8 @@
       document.getElementById("kpi-responses").textContent =
         totalResp.toLocaleString("es-CL") + " ";
 
-      document.getElementById("bar-nps").style.width =
-        Math.max(0, Math.min(100, avgNps25)) + "%";
+      document.getElementById("bar-Loyalty").style.width =
+        Math.max(0, Math.min(100, avgLoyalty25)) + "%";
       document.getElementById("bar-churn").style.width =
         Math.max(0, Math.min(100, 30 - avgChurn25)) + "%";
       document.getElementById("bar-intent").style.width =
@@ -612,10 +612,10 @@
         Chart.register(ChartDataLabels);
       }
 
-      // ===== Gráfico NPS mensual =====
-      const ctxNps = document.getElementById("chartNps");
-      if (ctxNps) {
-        new Chart(ctxNps, {
+      // ===== Gráfico Loyalty mensual =====
+      const ctxLoyalty = document.getElementById("chartLoyalty");
+      if (ctxLoyalty) {
+        new Chart(ctxLoyalty, {
           type: "bar",
           data: {
             labels: meses,
@@ -664,11 +664,11 @@
                 hoverBackgroundColor: "rgba(34,197,94,0.95)",
                 stack: "2025"
               },
-              // Línea NPS 2024
+              // Línea Loyalty 2024
               {
                 type: "line",
-                label: "NPS 2024",
-                data: nps2024,
+                label: "Loyalty 2024",
+                data: Loyalty2024,
                 borderColor: "rgba(55,65,81,1)",
                 backgroundColor: "rgba(55,65,81,1)",
                 tension: 0.2,
@@ -689,11 +689,11 @@
                   font: { size: 9 }
                 }
               },
-              // Línea NPS 2025 (labels arriba de la línea)
+              // Línea Loyalty 2025 (labels arriba de la línea)
               {
                 type: "line",
-                label: "NPS 2025",
-                data: nps2025,
+                label: "Loyalty 2025",
+                data: Loyalty2025,
                 borderColor: "rgba(37,99,235,1)",
                 backgroundColor: "rgba(37,99,235,1)",
                 tension: 0.25,
@@ -799,7 +799,7 @@
           type: "radar",
           data: {
             labels: [
-              "NPS global",
+              "Loyalty global",
               "Esfuerzo (invertido)",
               "Fuga (invertida)",
               "Intención de compra"
@@ -807,7 +807,7 @@
             datasets: [
               {
                 label: "2025",
-                data: [avgNps25, effortIndex25, churnIndex25, avgIntent25],
+                data: [avgLoyalty25, effortIndex25, churnIndex25, avgIntent25],
                 borderColor: "rgba(37,99,235,1)",
                 backgroundColor: "rgba(129,140,248,0.35)",
                 borderWidth: 2,
@@ -815,7 +815,7 @@
               },
               {
                 label: "2024",
-                data: [avgNps24, effortIndex24, churnIndex24, avgIntent24],
+                data: [avgLoyalty24, effortIndex24, churnIndex24, avgIntent24],
                 borderColor: "rgba(16,185,129,1)",
                 backgroundColor: "rgba(45,212,191,0.25)",
                 borderWidth: 2,
