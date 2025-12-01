@@ -9,8 +9,9 @@
     content="Demo interna de panel NPS 2025 con NPS, Esfuerzo, Fuga e Intención de compra en una sola vista."
   />
 
-  <!-- Chart.js para los gráficos -->
+  <!-- Chart.js + plugin de etiquetas -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
 
   <style>
     :root {
@@ -18,7 +19,7 @@
       --bg-card: #ffffff;
       --primary: #246bff;
       --accent: #10b981;
-      --danger: #ef4444;
+      --danger: #e29728;
       --warning: #f97316;
       --text-main: #111827;
       --text-muted: #6b7280;
@@ -92,7 +93,7 @@
       justify-content: space-between;
     }
 
-    .hero-left { max-width: 640px; }
+    .hero-left { max-width: 720px; }
 
     .pill {
       display: inline-flex;
@@ -126,6 +127,7 @@
       margin-top: 8px;
       font-size: 0.92rem;
       color: var(--text-muted);
+      max-width: 640px;
     }
 
     .hero-meta {
@@ -141,33 +143,6 @@
       content: "•";
       margin-right: 4px;
       color: #9ca3af;
-    }
-
-    .hero-right {
-      min-width: 240px;
-      max-width: 320px;
-      background: var(--bg-card);
-      border-radius: var(--radius-xl);
-      border: 1px solid var(--border-soft);
-      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
-      padding: 14px 16px;
-      font-size: 0.8rem;
-    }
-
-    .hero-right h2 { font-size: 0.92rem; margin-bottom: 4px; }
-
-    .hero-right p {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .motto {
-      margin-top: 8px;
-      padding-top: 6px;
-      border-top: 1px dashed rgba(148, 163, 184, 0.4);
-      font-size: 0.78rem;
-      color: #4b5563;
-      font-style: italic;
     }
 
     /* KPI strip */
@@ -245,7 +220,7 @@
     .layout-main {
       margin-top: 18px;
       display: grid;
-      grid-template-columns: 2.1fr 1.3fr;
+      grid-template-columns: 1fr 1fr;
       gap: 16px;
       align-items: flex-start;
     }
@@ -268,7 +243,6 @@
     }
 
     .card-title { font-weight: 600; font-size: 0.9rem; }
-
     .card-sub { font-size: 0.74rem; color: var(--text-muted); }
 
     .chip {
@@ -279,11 +253,12 @@
       color: #1d4ed8;
     }
 
-    /* Contenedores de gráficos */
     .chart-shell {
       width: 100%;
       height: 260px;
     }
+
+    .radar-shell { height: 260px; }
 
     canvas {
       width: 100% !important;
@@ -291,31 +266,9 @@
       display: block;
     }
 
-    .right-grid {
-      display: grid;
-      grid-template-rows: auto auto auto;
-      gap: 12px;
+    .card-wide {
+      grid-column: 1 / -1;   /* NPS ocupa toda la fila */
     }
-
-    .insights-list {
-      margin-top: 6px;
-      padding-left: 16px;
-      color: var(--text-muted);
-      font-size: 0.78rem;
-    }
-
-    .insights-list li + li { margin-top: 4px; }
-
-    .yoy-list {
-      margin-top: 8px;
-      padding-left: 16px;
-      color: var(--text-muted);
-      font-size: 0.76rem;
-    }
-
-    .yoy-list li + li { margin-top: 3px; }
-
-    /* Tabla mensual */
 
     .table-wrapper {
       margin-top: 16px;
@@ -361,7 +314,6 @@
     }
 
     tbody tr:last-child td { border-bottom: none; }
-
     tbody tr:nth-child(even) { background: #f9fafb; }
 
     footer {
@@ -373,25 +325,25 @@
 
     @media (max-width: 900px) {
       .layout-main { grid-template-columns: 1fr; }
+      .card-wide { grid-column: 1 / 2; }
     }
 
     @media (max-width: 720px) {
       header { padding-inline: 5vw; }
       main { padding-inline: 5vw; }
       .kpi-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .chart-shell { height: 220px; }
+      .chart-shell, .radar-shell { height: 230px; }
     }
 
     @media (max-width: 520px) {
       .kpi-strip { grid-template-columns: 1fr; }
       h1 { font-size: 1.6rem; }
-      .chart-shell { height: 220px; }
+      .chart-shell, .radar-shell { height: 220px; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Contenido real oculto hasta validar la “llave” -->
   <div id="nps-root" style="display:none;">
     <div class="page">
       <header>
@@ -403,7 +355,6 @@
       </header>
 
       <main>
-        <!-- HERO -->
         <section class="hero">
           <div class="hero-left">
             <div class="pill">
@@ -416,8 +367,7 @@
             </h1>
             <p>
               Datos ficticios de una encuesta relacional realizada mensualmente entre
-              enero y diciembre 2025 a la cartera de clientes retail. Todo lo que
-              necesita la alta dirección en una sola página.
+              enero y diciembre 2025 a la cartera de clientes retail.
             </p>
             <div class="hero-meta">
               <span>Universo: clientes activos retail</span>
@@ -425,18 +375,6 @@
               <span>Canales: email + SMS + app</span>
             </div>
           </div>
-
-          <aside class="hero-right">
-            <h2>Acerca de este panel</h2>
-            <p>
-              Vista ejecutiva para conversaciones de directorio y comités de CX.
-              Integra NPS, Esfuerzo, Riesgo de fuga e Intención de compra, con foco en
-              tendencias y trade–offs.
-            </p>
-            <p class="motto">
-              “Si no puedo ver todo en una sola vista, no sirve”.
-            </p>
-          </aside>
         </section>
 
         <!-- KPIs -->
@@ -448,9 +386,7 @@
             </div>
             <div class="kpi-value"><span id="kpi-nps">–</span></div>
             <div class="kpi-sub">Promotores, pasivos y detractores consolidados.</div>
-            <div class="kpi-bar">
-              <div class="kpi-bar-fill" id="bar-nps"></div>
-            </div>
+            <div class="kpi-bar"><div class="kpi-bar-fill" id="bar-nps"></div></div>
           </article>
 
           <article class="kpi-card">
@@ -460,9 +396,7 @@
             </div>
             <div class="kpi-value"><span id="kpi-churn">–</span></div>
             <div class="kpi-sub">% clientes con alta probabilidad de abandono.</div>
-            <div class="kpi-bar">
-              <div class="kpi-bar-fill" id="bar-churn"></div>
-            </div>
+            <div class="kpi-bar"><div class="kpi-bar-fill" id="bar-churn"></div></div>
           </article>
 
           <article class="kpi-card">
@@ -472,9 +406,7 @@
             </div>
             <div class="kpi-value"><span id="kpi-intent">–</span></div>
             <div class="kpi-sub">Top–2 box “volvería a comprar en la marca”.</div>
-            <div class="kpi-bar">
-              <div class="kpi-bar-fill" id="bar-intent"></div>
-            </div>
+            <div class="kpi-bar"><div class="kpi-bar-fill" id="bar-intent"></div></div>
           </article>
 
           <article class="kpi-card">
@@ -482,27 +414,21 @@
               <span>Experiencia & esfuerzo</span>
               <span class="kpi-trend up">CES mejora progresiva</span>
             </div>
-            <div class="kpi-value">
-              <span id="kpi-esat">–</span>
-            </div>
-            <div class="kpi-sub">
-              ESAT global y promedio de esfuerzo (1 = mínimo esfuerzo).
-            </div>
-            <div class="kpi-bar">
-              <div class="kpi-bar-fill" id="bar-esat"></div>
-            </div>
+            <div class="kpi-value"><span id="kpi-esat">–</span></div>
+            <div class="kpi-sub">ESAT global y promedio de esfuerzo (1 = mínimo esfuerzo).</div>
+            <div class="kpi-bar"><div class="kpi-bar-fill" id="bar-esat"></div></div>
           </article>
         </section>
 
-        <!-- LAYOUT PRINCIPAL -->
+        <!-- LAYOUT PRINCIPAL (gráficos) -->
         <section class="layout-main">
-          <!-- Izquierda: NPS por mes -->
-          <article class="card">
+          <!-- Fila 1: NPS (ancho completo) -->
+          <article class="card card-wide">
             <div class="card-header">
               <div>
                 <div class="card-title">NPS mensual 2025</div>
                 <div class="card-sub">
-                  Tendencia mensual Ene–Dic · escala −100 a 100.
+                  Barras apiladas por promotores, pasivos y detractores · comparativo 2024–2025 con líneas NPS.
                 </div>
               </div>
               <span class="chip">Vista ejecutiva</span>
@@ -512,65 +438,33 @@
             </div>
           </article>
 
-          <!-- Derecha: fuga, índice CX + insights -->
-          <div class="right-grid">
-            <article class="card">
-              <div class="card-header">
-                <div>
-                  <div class="card-title">Riesgo de fuga por mes</div>
-                  <div class="card-sub">% de clientes en segmento “alto riesgo”.</div>
-                </div>
+          <!-- Fila 2: lado izquierdo -->
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Riesgo de fuga por mes</div>
+                <div class="card-sub">% de clientes en segmento “alto riesgo”.</div>
               </div>
-              <div class="chart-shell">
-                <canvas id="chartChurn"></canvas>
-              </div>
-            </article>
+            </div>
+            <div class="chart-shell">
+              <canvas id="chartChurn"></canvas>
+            </div>
+          </article>
 
-            <article class="card">
-              <div class="card-header">
-                <div>
-                  <div class="card-title">Índice CX integrado</div>
-                  <div class="card-sub">
-                    NPS, Esfuerzo (invertido), Fuga (invertida) e Intención de compra.
-                  </div>
+          <!-- Fila 2: lado derecho -->
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Índice CX integrado</div>
+                <div class="card-sub">
+                  NPS, Esfuerzo (invertido), Fuga (invertida) e Intención de compra.
                 </div>
               </div>
-              <div class="chart-shell">
-                <canvas id="chartRadar"></canvas>
-              </div>
-              <ul class="yoy-list" id="yoy-list">
-                <!-- Se rellena por JS con las variaciones 2025 vs 2024 -->
-              </ul>
-            </article>
-
-            <article class="card">
-              <div class="card-header">
-                <div>
-                  <div class="card-title">Insights 2025</div>
-                  <div class="card-sub">Lectura rápida para comité.</div>
-                </div>
-              </div>
-              <ul class="insights-list">
-                <li>
-                  El NPS sube en promedio 8 pts respecto de 2024, con
-                  aceleración en el segundo semestre.
-                </li>
-                <li>
-                  El riesgo de fuga cae 2,3 puntos porcentuales, alineado con
-                  mejoras en esfuerzo digital y tiempos de resolución.
-                </li>
-                <li>
-                  La intención de compra aumenta 6 pts, reforzada por una mejor
-                  percepción de valor y experiencia omnicanal.
-                </li>
-                <li>
-                  El índice integrado sugiere que el próximo salto está más en
-                  seguir reduciendo esfuerzo en postventa que en nuevas
-                  promociones.
-                </li>
-              </ul>
-            </article>
-          </div>
+            </div>
+            <div class="chart-shell radar-shell">
+              <canvas id="chartRadar"></canvas>
+            </div>
+          </article>
         </section>
 
         <!-- TABLA MENSUAL -->
@@ -578,8 +472,7 @@
           <div class="table-header">
             <h2>Detalle mensual · NPS, Fuga e Intención de compra</h2>
             <div class="card-sub">
-              <span id="kpi-responses">–</span> respuestas totales · tasa de
-              respuesta estimada 34%.
+              <span id="kpi-responses">–</span> respuestas totales · tasa de respuesta estimada 34%.
             </div>
           </div>
           <div style="overflow-x:auto;">
@@ -619,12 +512,11 @@
     </div>
   </div>
 
-  <!-- Script: llave + inicialización de KPIs y gráficos -->
   <script>
     (function () {
       const params = new URLSearchParams(window.location.search);
       const key = params.get("k");
-      const REQUIRED_KEY = "CXDIP2025"; // cámbiala si quieres otra llave
+      const REQUIRED_KEY = "CXDIP2025";
 
       if (key !== REQUIRED_KEY) {
         document.documentElement.style.background = "#020617";
@@ -649,35 +541,38 @@
         return;
       }
 
-      const root = document.getElementById("nps-root");
-      if (root) root.style.display = "block";
-
+      document.getElementById("nps-root").style.display = "block";
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      // Helpers
       const avg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
       const sum = arr => arr.reduce((a, b) => a + b, 0);
       const fmtNum = (v, d = 1) => v.toFixed(d).replace(".", ",");
       const fmtPct = v => fmtNum(v, 1) + "%";
 
-      // ===== Datos ficticios 2025 =====
       const meses = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 
       const nps2025   = [52,54,56,58,60,62,64,66,68,69,70,72];
-      const churn2025 = [9.5,9.0,8.7,8.0,7.8,7.2,7.0,6.5,6.0,5.8,5.5,5.3]; // %
-      const intent2025= [63,64,65,66,68,70,72,73,74,75,76,78];           // %
-      const esat2025  = [82,83,84,84,85,86,87,88,88,89,89,90];           // %
-      const effort2025= [4.3,4.2,4.2,4.1,4.0,3.9,3.9,3.8,3.7,3.7,3.6,3.6]; // CES 1–7
+      const churn2025 = [9.5,9.0,8.7,8.0,7.8,7.2,7.0,6.5,6.0,5.8,5.5,5.3];
+      const intent2025= [63,64,65,66,68,70,72,73,74,75,76,78];
+      const esat2025  = [82,83,84,84,85,86,87,88,88,89,89,90];
+      const effort2025= [4.3,4.2,4.2,4.1,4.0,3.9,3.9,3.8,3.7,3.7,3.6,3.6];
       const responses2025 = [820,840,860,880,900,920,930,940,950,960,970,980];
 
-      // ===== Datos ficticios 2024 (para comparativo) =====
       const nps2024   = nps2025.map(v => v - 8);
       const churn2024 = churn2025.map(v => v + 2.3);
       const intent2024= intent2025.map(v => v - 6);
       const esat2024  = esat2025.map(v => v - 3);
       const effort2024= effort2025.map(v => v + 0.3);
 
-      // Promedios 2025
+      // Barras apiladas (demo)
+      const detractores2025 = Array(12).fill(10);
+      const promotores2025 = nps2025.map(v => v + 10);
+      const pasivos2025 = promotores2025.map((p, i) => 100 - p - detractores2025[i]);
+
+      const detractores2024 = Array(12).fill(12);
+      const promotores2024 = nps2024.map(v => v + 12);
+      const pasivos2024 = promotores2024.map((p, i) => 100 - p - detractores2024[i]);
+
       const avgNps25    = avg(nps2025);
       const avgChurn25  = avg(churn2025);
       const avgIntent25 = avg(intent2025);
@@ -685,183 +580,273 @@
       const avgEffort25 = avg(effort2025);
       const totalResp   = sum(responses2025);
 
-      // Promedios 2024
       const avgNps24    = avg(nps2024);
       const avgChurn24  = avg(churn2024);
       const avgIntent24 = avg(intent2024);
       const avgEsat24   = avg(esat2024);
       const avgEffort24 = avg(effort2024);
 
-      // Índices invertidos para radar (0–100, donde más es mejor)
       const effortIndex25 = (7 - avgEffort25) / 6 * 100;
       const churnIndex25  = (30 - avgChurn25) / 30 * 100;
-
       const effortIndex24 = (7 - avgEffort24) / 6 * 100;
       const churnIndex24  = (30 - avgChurn24) / 30 * 100;
 
-      // Variaciones 2025 vs 2024 (promedios)
-      const deltaNps   = avgNps25   - avgNps24;
-      const deltaChurn = avgChurn25 - avgChurn24;
-      const deltaInt   = avgIntent25- avgIntent24;
-      const deltaEsat  = avgEsat25  - avgEsat24;
-      const deltaEff   = avgEffort25- avgEffort24;
-
-      // ===== KPIs (año 2025) =====
       document.getElementById("kpi-nps").textContent    = Math.round(avgNps25);
       document.getElementById("kpi-churn").textContent  = fmtPct(avgChurn25);
       document.getElementById("kpi-intent").textContent = Math.round(avgIntent25) + "%";
       document.getElementById("kpi-esat").textContent   =
         Math.round(avgEsat25) + "% · CES " + fmtNum(avgEffort25, 1);
-
       document.getElementById("kpi-responses").textContent =
         totalResp.toLocaleString("es-CL") + " ";
 
-      // Barras de llenado
       document.getElementById("bar-nps").style.width =
         Math.max(0, Math.min(100, avgNps25)) + "%";
-
       document.getElementById("bar-churn").style.width =
         Math.max(0, Math.min(100, 30 - avgChurn25)) + "%";
-
       document.getElementById("bar-intent").style.width =
         Math.max(0, Math.min(100, avgIntent25)) + "%";
-
       document.getElementById("bar-esat").style.width =
         Math.max(0, Math.min(100, avgEsat25)) + "%";
 
-      // Comparativo numérico bajo el radar
-      const yoy = document.getElementById("yoy-list");
-      if (yoy) {
-        yoy.innerHTML = `
-          <li>NPS global (promedio): ${fmtNum(avgNps24,1)} → ${fmtNum(avgNps25,1)} (${deltaNps>0?"+":""}${fmtNum(deltaNps,1)} pts).</li>
-          <li>Riesgo de fuga: ${fmtPct(avgChurn24)} → ${fmtPct(avgChurn25)} (${deltaChurn>0?"+":""}${fmtNum(deltaChurn,1)} pts).</li>
-          <li>Intención de compra: ${fmtNum(avgIntent24,1)}% → ${fmtNum(avgIntent25,1)}% (${deltaInt>0?"+":""}${fmtNum(deltaInt,1)} pts).</li>
-          <li>ESAT: ${fmtNum(avgEsat24,1)}% → ${fmtNum(avgEsat25,1)}% (${deltaEsat>0?"+":""}${fmtNum(deltaEsat,1)} pts) · CES ${fmtNum(avgEffort24,1)} → ${fmtNum(avgEffort25,1)} (Δ ${deltaEff>0?"+":""}${fmtNum(deltaEff,1)}).</li>
-        `;
+      if (window.Chart && window.ChartDataLabels) {
+        Chart.register(ChartDataLabels);
       }
 
-      // ===== Gráficos (Chart.js) =====
-      if (window.Chart) {
-        // NPS line 2025
-        const ctxNps = document.getElementById("chartNps");
-        if (ctxNps) {
-          new Chart(ctxNps, {
-            type: "line",
-            data: {
-              labels: meses,
-              datasets: [{
-                label: "NPS 2025",
-                data: nps2025,
-                tension: 0.35,
-                borderColor: "rgba(37,99,235,1)",
-                backgroundColor: "rgba(191,219,254,0.45)",
+      // ===== Gráfico NPS mensual =====
+      const ctxNps = document.getElementById("chartNps");
+      if (ctxNps) {
+        new Chart(ctxNps, {
+          type: "bar",
+          data: {
+            labels: meses,
+            datasets: [
+              // 2024 en grises (orden invertido: detractores abajo, luego pasivos, luego promotores)
+              {
+                label: "Detractores 2024",
+                data: detractores2024,
+                backgroundColor: "rgba(156,163,175,0.28)",
+                hoverBackgroundColor: "rgba(156,163,175,0.95)",
+                stack: "2024"
+              },
+              {
+                label: "Pasivos 2024",
+                data: pasivos2024,
+                backgroundColor: "rgba(209,213,219,0.28)",
+                hoverBackgroundColor: "rgba(209,213,219,0.95)",
+                stack: "2024"
+              },
+              {
+                label: "Promotores 2024",
+                data: promotores2024,
+                backgroundColor: "rgba(229,231,235,0.28)",
+                hoverBackgroundColor: "rgba(229,231,235,0.95)",
+                stack: "2024"
+              },
+              // 2025 colores (orden invertido)
+              {
+                label: "Detractores 2025",
+                data: detractores2025,
+                backgroundColor: "rgba(248,113,113,0.32)",
+                hoverBackgroundColor: "rgba(248,113,113,0.95)",
+                stack: "2025"
+              },
+              {
+                label: "Pasivos 2025",
+                data: pasivos2025,
+                backgroundColor: "rgba(250,204,21,0.32)",
+                hoverBackgroundColor: "rgba(250,204,21,0.95)",
+                stack: "2025"
+              },
+              {
+                label: "Promotores 2025",
+                data: promotores2025,
+                backgroundColor: "rgba(34,197,94,0.30)",
+                hoverBackgroundColor: "rgba(34,197,94,0.95)",
+                stack: "2025"
+              },
+              // Línea NPS 2024
+              {
+                type: "line",
+                label: "NPS 2024",
+                data: nps2024,
+                borderColor: "rgba(55,65,81,1)",
+                backgroundColor: "rgba(55,65,81,1)",
+                tension: 0.2,
                 borderWidth: 2,
-                fill: true,
                 pointRadius: 3,
-                pointBackgroundColor: "rgba(37,99,235,1)"
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: { legend: { display: false } },
-              scales: {
-                y: {
-                  suggestedMin: 0,
-                  suggestedMax: 100,
-                  grid: { color: "rgba(209,213,219,0.6)", borderDash: [4,4] },
-                  ticks: { callback: value => value + "" }
-                },
-                x: { grid: { display: false } }
-              }
-            }
-          });
-        }
-
-        // Churn bar 2025
-        const ctxChurn = document.getElementById("chartChurn");
-        if (ctxChurn) {
-          new Chart(ctxChurn, {
-            type: "bar",
-            data: {
-              labels: meses,
-              datasets: [{
-                label: "% alto riesgo de fuga (2025)",
-                data: churn2025,
-                backgroundColor: "rgba(239,68,68,0.85)"
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: { legend: { display: false } },
-              scales: {
-                y: {
-                  suggestedMin: 0,
-                  suggestedMax: 12,
-                  grid: { color: "rgba(209,213,219,0.6)", borderDash: [4,4] },
-                  ticks: { callback: v => v + "%" }
-                },
-                x: { grid: { display: false } }
-              }
-            }
-          });
-        }
-
-        // Radar integrado 2025 vs 2024
-        const ctxRadar = document.getElementById("chartRadar");
-        if (ctxRadar) {
-          new Chart(ctxRadar, {
-            type: "radar",
-            data: {
-              labels: [
-                "NPS global",
-                "Esfuerzo (invertido)",
-                "Fuga (invertida)",
-                "Intención de compra"
-              ],
-              datasets: [
-                {
-                  label: "2025",
-                  data: [avgNps25, effortIndex25, churnIndex25, avgIntent25],
-                  borderColor: "rgba(37,99,235,1)",
-                  backgroundColor: "rgba(129,140,248,0.25)",
-                  borderWidth: 2,
-                  pointBackgroundColor: "rgba(37,99,235,1)"
-                },
-                {
-                  label: "2024",
-                  data: [avgNps24, effortIndex24, churnIndex24, avgIntent24],
-                  borderColor: "rgba(148,163,184,1)",
-                  backgroundColor: "rgba(209,213,219,0.20)",
-                  borderWidth: 2,
-                  borderDash: [4,3],
-                  pointBackgroundColor: "rgba(148,163,184,1)"
-                }
-              ]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                legend: {
+                pointBackgroundColor: "rgba(55,65,81,1)",
+                datalabels: {
                   display: true,
-                  position: "top",
-                  labels: { boxWidth: 10, font: { size: 10 } }
+                  anchor: "end",
+                  align: "bottom",
+                  offset: 4,
+                  clamp: true,
+                  backgroundColor: "rgba(55,65,81,1)",
+                  borderRadius: 4,
+                  color: "#ffffff",
+                  padding: {top: 2, bottom: 2, left: 4, right: 4},
+                  formatter: v => String(Math.round(v)),
+                  font: { size: 9 }
                 }
               },
-              scales: {
-                r: {
-                  suggestedMin: 0,
-                  suggestedMax: 100,
-                  grid: { color: "rgba(209,213,219,0.7)" },
-                  angleLines: { color: "rgba(209,213,219,0.7)" },
-                  ticks: { display: false }
+              // Línea NPS 2025 (labels arriba de la línea)
+              {
+                type: "line",
+                label: "NPS 2025",
+                data: nps2025,
+                borderColor: "rgba(37,99,235,1)",
+                backgroundColor: "rgba(37,99,235,1)",
+                tension: 0.25,
+                borderWidth: 2.5,
+                pointRadius: 3.5,
+                pointBackgroundColor: "rgba(37,99,235,1)",
+                datalabels: {
+                  display: true,
+                  anchor: "end",
+                  align: "top",
+                  offset: -4,
+                  clamp: false,
+                  backgroundColor: "rgba(37,99,235,1)",
+                  borderRadius: 4,
+                  color: "#ffffff",
+                  padding: {top: 2, bottom: 2, left: 4, right: 4},
+                  formatter: v => String(Math.round(v)),
+                  font: { size: 9 }
                 }
               }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+              padding: { top: 32, right: 12, bottom: 8, left: 8 }
+            },
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: { usePointStyle: true, boxWidth: 10, font: { size: 10 } }
+              },
+              tooltip: { mode: "index", intersect: false },
+              datalabels: { clip: false }
+            },
+            scales: {
+              x: {
+                stacked: true,
+                grid: { display: false },
+                ticks: { autoSkip: false }
+              },
+              y: {
+                stacked: true,
+                beginAtZero: true,
+                max: 140,
+                grid: { display: false },
+                ticks: { display: false }
+              }
             }
-          });
-        }
+          }
+        });
+      }
+
+      // ===== Gráfico Churn =====
+      const ctxChurn = document.getElementById("chartChurn");
+      if (ctxChurn) {
+        new Chart(ctxChurn, {
+          type: "bar",
+          data: {
+            labels: meses,
+            datasets: [{
+              label: "% alto riesgo de fuga (2025)",
+              data: churn2025,
+              backgroundColor: "rgba(239,68,68,0.90)"
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              datalabels: {
+                display: true,
+                anchor: "end",
+                align: "end",
+                clamp: true,
+                formatter: v => fmtPct(v),
+                color: "#d97706",              // amarillo mostaza
+                font: { size: 11, weight: "600" }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                suggestedMax: 12,
+                grid: { display: false },
+                ticks: { display: false }
+              },
+              x: {
+                grid: { display: false },
+                ticks: { autoSkip: false }
+              }
+            }
+          }
+        });
+      }
+
+      // ===== Radar CX integrado =====
+      const ctxRadar = document.getElementById("chartRadar");
+      if (ctxRadar) {
+        new Chart(ctxRadar, {
+          type: "radar",
+          data: {
+            labels: [
+              "NPS global",
+              "Esfuerzo (invertido)",
+              "Fuga (invertida)",
+              "Intención de compra"
+            ],
+            datasets: [
+              {
+                label: "2025",
+                data: [avgNps25, effortIndex25, churnIndex25, avgIntent25],
+                borderColor: "rgba(37,99,235,1)",
+                backgroundColor: "rgba(129,140,248,0.35)",
+                borderWidth: 2,
+                pointBackgroundColor: "rgba(37,99,235,1)"
+              },
+              {
+                label: "2024",
+                data: [avgNps24, effortIndex24, churnIndex24, avgIntent24],
+                borderColor: "rgba(16,185,129,1)",
+                backgroundColor: "rgba(45,212,191,0.25)",
+                borderWidth: 2,
+                pointBackgroundColor: "rgba(16,185,129,1)"
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: 8 },
+            plugins: {
+              legend: {
+                display: true,
+                position: "top",
+                labels: { boxWidth: 10, font: { size: 10 } }
+              },
+              datalabels: { display: false }
+            },
+            scales: {
+              r: {
+                suggestedMin: 0,
+                suggestedMax: 100,
+                grid: { color: "rgba(209,213,219,0.7)" },
+                angleLines: { color: "rgba(209,213,219,0.7)" },
+                ticks: { display: false },
+                pointLabels: { font: { size: 11 } }
+              }
+            }
+          }
+        });
       }
     })();
   </script>
