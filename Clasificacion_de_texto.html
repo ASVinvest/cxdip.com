@@ -130,7 +130,6 @@
       margin-bottom: 10px;
     }
 
-    /* Contenedor scroll horizontal para tablas (mobile-friendly) */
     .table-wrapper {
       width: 100%;
       overflow-x: auto;
@@ -186,7 +185,6 @@
       background: #e0f2fe;
     }
 
-    /* Colores para CSAT y Uplift */
     .val-csat.pos, .val-uplift.pos {
       color: var(--accent-good);
     }
@@ -268,7 +266,6 @@
       color: var(--text-muted);
     }
 
-    /* Cabeceras ordenables */
     th.sortable-col {
       cursor: pointer;
       user-select: none;
@@ -287,11 +284,16 @@
       opacity: 0.5;
     }
 
-    /* Scroll vertical interno para rankings */
+    /* Scroll vertical para evoluciones (no deforma el box) */
     .table-wrapper-ranking {
-      max-height: 170px;
+      max-height: 190px;
       overflow-y: auto;
+      overflow-x: auto;
       position: relative;
+    }
+
+    .table-wrapper-ranking table {
+      min-width: 520px;
     }
 
     .table-wrapper-ranking thead th {
@@ -301,7 +303,30 @@
       z-index: 1;
     }
 
-    /* ------- Ajustes para MOBILE ------- */
+    /* Primera columna fija (Driver) en evoluciones */
+    .ranking-table th:first-child,
+    .ranking-table td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: #f9fafb;
+    }
+
+    .ranking-table tbody td:first-child {
+      background: #ffffff;
+    }
+
+    .ranking-table thead th:first-child {
+      z-index: 3;
+    }
+
+    /* Columnas periodo más compactas (20% menos) */
+    .ranking-table th:nth-child(n+2),
+    .ranking-table td:nth-child(n+2) {
+      width: 70px;
+      white-space: nowrap;
+    }
+
     @media (max-width: 768px) {
       .page {
         padding: 16px 10px 28px;
@@ -332,7 +357,7 @@
       }
 
       .ranking-row {
-        grid-template-columns: 1fr; /* una debajo de otra en mobile */
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -372,7 +397,7 @@
       </div>
     </header>
 
-    <!-- DRIVERS MACRO (TABLA EXTENDIDA) -->
+    <!-- DRIVERS MACRO -->
     <section class="card">
       <h2>Drivers Macro</h2>
       <div class="card-subtitle">
@@ -411,7 +436,6 @@
             </tr>
           </thead>
           <tbody>
-            <!-- FILAS EJEMPLO: reemplazar por las de tu ETL -->
             <tr>
               <td class="tbl-name">Tiempos de espera</td>
               <td class="tbl-num">980</td>
@@ -469,7 +493,6 @@
               <td class="tbl-num val-uplift neutral">–</td>
             </tr>
 
-            <!-- TOTALES -->
             <tr class="row-total">
               <td class="tbl-name">Totales</td>
               <td class="tbl-num">4.320</td>
@@ -478,7 +501,6 @@
               <td class="tbl-num">–</td>
             </tr>
 
-            <!-- PROMEDIOS -->
             <tr class="row-prom">
               <td class="tbl-name">Promedios</td>
               <td class="tbl-num">–</td>
@@ -490,11 +512,11 @@
         </table>
       </div>
 
-      <!-- RANKINGS POR DEBAJO, 50% / 50% -->
+      <!-- EVOLUCIONES (antes “ranking”) -->
       <div class="ranking-row">
-        <!-- Ranking CSAT -->
+        <!-- Evolución CSAT -->
         <div class="ranking-card">
-          <div class="ranking-title">Ranking CSAT atributo</div>
+          <div class="ranking-title">Evolución CSAT atributo</div>
           <div class="ranking-sub">
             Evolución del CSAT por driver entre periodos (ejemplo con 3 periodos + total).
           </div>
@@ -531,20 +553,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="tbl-name">Atención vendedor</td>
-                  <td class="tbl-num val-csat pos">4,30</td>
-                  <td class="tbl-num val-csat pos">4,40</td>
-                  <td class="tbl-num val-csat pos">4,50</td>
-                  <td class="tbl-num val-csat pos">4,40</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Productos</td>
-                  <td class="tbl-num val-csat pos">4,20</td>
-                  <td class="tbl-num val-csat neutral">4,10</td>
-                  <td class="tbl-num val-csat pos">4,30</td>
-                  <td class="tbl-num val-csat pos">4,20</td>
-                </tr>
+                <!-- 8 DRIVERS -->
                 <tr>
                   <td class="tbl-name">Tiempos de espera</td>
                   <td class="tbl-num val-csat neg">3,50</td>
@@ -553,21 +562,62 @@
                   <td class="tbl-num val-csat neg">3,60</td>
                 </tr>
                 <tr>
+                  <td class="tbl-name">Productos</td>
+                  <td class="tbl-num val-csat pos">4,20</td>
+                  <td class="tbl-num val-csat neutral">4,10</td>
+                  <td class="tbl-num val-csat pos">4,30</td>
+                  <td class="tbl-num val-csat pos">4,30</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">Logística / entrega</td>
+                  <td class="tbl-num val-csat neutral">3,80</td>
+                  <td class="tbl-num val-csat neutral">3,90</td>
+                  <td class="tbl-num val-csat neutral">4,00</td>
+                  <td class="tbl-num val-csat neutral">3,90</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">Atención vendedor</td>
+                  <td class="tbl-num val-csat pos">4,30</td>
+                  <td class="tbl-num val-csat pos">4,40</td>
+                  <td class="tbl-num val-csat pos">4,50</td>
+                  <td class="tbl-num val-csat pos">4,40</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">Atención repartidor</td>
+                  <td class="tbl-num val-csat neutral">3,90</td>
+                  <td class="tbl-num val-csat neutral">4,00</td>
+                  <td class="tbl-num val-csat neutral">4,10</td>
+                  <td class="tbl-num val-csat neutral">4,00</td>
+                </tr>
+                <tr>
                   <td class="tbl-name">Problema sin solución</td>
                   <td class="tbl-num val-csat neg">3,00</td>
                   <td class="tbl-num val-csat neg">3,10</td>
                   <td class="tbl-num val-csat neg">3,20</td>
                   <td class="tbl-num val-csat neg">3,10</td>
                 </tr>
-                <!-- Puedes agregar más drivers y aparecerán con scroll -->
+                <tr>
+                  <td class="tbl-name">Otros</td>
+                  <td class="tbl-num val-csat neutral">3,90</td>
+                  <td class="tbl-num val-csat neutral">4,00</td>
+                  <td class="tbl-num val-csat neutral">4,10</td>
+                  <td class="tbl-num val-csat neutral">4,00</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">En blanco</td>
+                  <td class="tbl-num val-csat neutral">–</td>
+                  <td class="tbl-num val-csat neutral">–</td>
+                  <td class="tbl-num val-csat neutral">–</td>
+                  <td class="tbl-num val-csat neutral">–</td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- Ranking Uplift -->
+        <!-- Evolución Uplift -->
         <div class="ranking-card">
-          <div class="ranking-title">Ranking Uplift atributo</div>
+          <div class="ranking-title">Evolución Uplift atributo</div>
           <div class="ranking-sub">
             Uplift del atributo vs CSAT global (4,10) por periodo y total.
           </div>
@@ -605,6 +655,27 @@
               </thead>
               <tbody>
                 <tr>
+                  <td class="tbl-name">Tiempos de espera</td>
+                  <td class="tbl-num val-uplift neg">-0,60</td>
+                  <td class="tbl-num val-uplift neg">-0,50</td>
+                  <td class="tbl-num val-uplift neg">-0,40</td>
+                  <td class="tbl-num val-uplift neg">-0,50</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">Productos</td>
+                  <td class="tbl-num val-uplift pos">+0,10</td>
+                  <td class="tbl-num val-uplift neutral">0,00</td>
+                  <td class="tbl-num val-uplift pos">+0,20</td>
+                  <td class="tbl-num val-uplift pos">+0,20</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">Logística / entrega</td>
+                  <td class="tbl-num val-uplift neg">-0,40</td>
+                  <td class="tbl-num val-uplift neg">-0,30</td>
+                  <td class="tbl-num val-uplift neg">-0,20</td>
+                  <td class="tbl-num val-uplift neg">-0,30</td>
+                </tr>
+                <tr>
                   <td class="tbl-name">Atención vendedor</td>
                   <td class="tbl-num val-uplift pos">+0,20</td>
                   <td class="tbl-num val-uplift pos">+0,30</td>
@@ -612,18 +683,11 @@
                   <td class="tbl-num val-uplift pos">+0,30</td>
                 </tr>
                 <tr>
-                  <td class="tbl-name">Productos</td>
-                  <td class="tbl-num val-uplift pos">+0,10</td>
+                  <td class="tbl-name">Atención repartidor</td>
+                  <td class="tbl-num val-uplift neutral">-0,10</td>
+                  <td class="tbl-num val-uplift neutral">-0,10</td>
                   <td class="tbl-num val-uplift neutral">0,00</td>
-                  <td class="tbl-num val-uplift pos">+0,20</td>
-                  <td class="tbl-num val-uplift pos">+0,10</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Tiempos de espera</td>
-                  <td class="tbl-num val-uplift neg">-0,60</td>
-                  <td class="tbl-num val-uplift neg">-0,50</td>
-                  <td class="tbl-num val-uplift neg">-0,40</td>
-                  <td class="tbl-num val-uplift neg">-0,50</td>
+                  <td class="tbl-num val-uplift neutral">-0,10</td>
                 </tr>
                 <tr>
                   <td class="tbl-name">Problema sin solución</td>
@@ -632,7 +696,20 @@
                   <td class="tbl-num val-uplift neg">-0,90</td>
                   <td class="tbl-num val-uplift neg">-1,00</td>
                 </tr>
-                <!-- Más drivers aquí si quieres -->
+                <tr>
+                  <td class="tbl-name">Otros</td>
+                  <td class="tbl-num val-uplift neutral">-0,20</td>
+                  <td class="tbl-num val-uplift neutral">-0,10</td>
+                  <td class="tbl-num val-uplift neutral">0,00</td>
+                  <td class="tbl-num val-uplift neutral">-0,10</td>
+                </tr>
+                <tr>
+                  <td class="tbl-name">En blanco</td>
+                  <td class="tbl-num val-uplift neutral">0,00</td>
+                  <td class="tbl-num val-uplift neutral">0,00</td>
+                  <td class="tbl-num val-uplift neutral">0,00</td>
+                  <td class="tbl-num val-uplift neutral">0,00</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -640,7 +717,7 @@
       </div>
     </section>
 
-    <!-- SERVICIOS AGREGADOS (NIVEL 1 + CENTROS EN LA MISMA TABLA) -->
+    <!-- SERVICIOS AGREGADOS -->
     <div class="section-title">Servicios agregados</div>
 
     <section class="card">
@@ -659,7 +736,6 @@
             </tr>
           </thead>
           <tbody>
-            <!-- SERVICIO 1 -->
             <tr>
               <td class="tbl-name">
                 Servicio 1
@@ -696,7 +772,6 @@
               <td class="tbl-num val-uplift neutral">0,00</td>
             </tr>
 
-            <!-- SERVICIO 2 -->
             <tr>
               <td class="tbl-name">
                 Servicio 2
@@ -725,7 +800,6 @@
               <td class="tbl-num val-uplift neg">-0,30</td>
             </tr>
 
-            <!-- SERVICIO 3 -->
             <tr>
               <td class="tbl-name">
                 Servicio 3
@@ -757,7 +831,7 @@
   </div>
 
   <script>
-    // Lógica simple para expandir/contraer centros por servicio
+    // Toggle centros
     document.querySelectorAll('.service-toggle').forEach(function(btn) {
       btn.addEventListener('click', function() {
         var sid = this.getAttribute('data-service');
@@ -771,12 +845,10 @@
       });
     });
 
-    // Función auxiliar para parsear valores numéricos
     function parseCellValue(text, type) {
       if (!text) return null;
       text = text.trim();
-      if (text === '–' || text === '-') return null;
-
+      if (text === '–' || text === '-' || text === '') return null;
       text = text.replace(/\s/g, '');
 
       if (type === 'int') {
@@ -792,25 +864,21 @@
       }
 
       if (type === 'decimal') {
-        var cleanedDec = text
-          .replace('+', '')
-          .replace('–', '-')
-          .replace(',', '.');
+        var cleanedDec = text.replace('+', '').replace('–', '-').replace(',', '.');
         var decVal = parseFloat(cleanedDec);
         return isNaN(decVal) ? null : decVal;
       }
-
       return null;
     }
 
-    // Ordenar tabla Drivers Macro
+    // Orden Drivers Macro
     (function() {
       var table = document.getElementById('drivers-table');
       if (!table) return;
 
       var tbody = table.querySelector('tbody');
       var totalRow = tbody.querySelector('.row-total');
-      var promRow = tbody.querySelector('.row-prom');
+      var promRow  = tbody.querySelector('.row-prom');
 
       table.querySelectorAll('thead th.sortable-col').forEach(function(th) {
         th.dataset.sortDirection = 'none';
@@ -818,24 +886,22 @@
         th.addEventListener('click', function() {
           var sortType = th.dataset.sortType || 'decimal';
           var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
-          var current = th.dataset.sortDirection;
-          var next = current === 'asc' ? 'desc' : 'asc';
+          var current  = th.dataset.sortDirection;
+          var next     = current === 'asc' ? 'desc' : 'asc';
           th.dataset.sortDirection = next;
           var direction = next === 'asc' ? 1 : -1;
 
-          // reset en otros headers
           table.querySelectorAll('thead th.sortable-col').forEach(function(other) {
             if (other !== th) {
               other.dataset.sortDirection = 'none';
-              var iconOther = other.querySelector('.sort-indicator');
-              if (iconOther) iconOther.textContent = '↕';
+              var io = other.querySelector('.sort-indicator');
+              if (io) io.textContent = '↕';
             }
           });
 
           var icon = th.querySelector('.sort-indicator');
           if (icon) icon.textContent = next === 'asc' ? '▲' : '▼';
 
-          // filas sin Totales/Promedios
           var dataRows = Array.from(tbody.querySelectorAll('tr')).filter(function(row) {
             return !row.classList.contains('row-total') && !row.classList.contains('row-prom');
           });
@@ -843,25 +909,24 @@
           dataRows.sort(function(rowA, rowB) {
             var textA = rowA.children[colIndex].textContent;
             var textB = rowB.children[colIndex].textContent;
-            var valA = parseCellValue(textA, sortType);
-            var valB = parseCellValue(textB, sortType);
+            var valA  = parseCellValue(textA, sortType);
+            var valB  = parseCellValue(textB, sortType);
 
             if (valA === null && valB === null) return 0;
             if (valA === null) return 1;
             if (valB === null) return -1;
-
             return (valA - valB) * direction;
           });
 
           tbody.innerHTML = '';
           dataRows.forEach(function(r) { tbody.appendChild(r); });
           if (totalRow) tbody.appendChild(totalRow);
-          if (promRow) tbody.appendChild(promRow);
+          if (promRow)  tbody.appendChild(promRow);
         });
       });
     })();
 
-    // Ordenar tablas de Ranking (CSAT y Uplift)
+    // Orden Evolución CSAT / Uplift
     (function() {
       var rankingTables = document.querySelectorAll('.ranking-table');
       rankingTables.forEach(function(table) {
@@ -873,17 +938,16 @@
           th.addEventListener('click', function() {
             var sortType = th.dataset.sortType || 'decimal';
             var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
-            var current = th.dataset.sortDirection;
-            var next = current === 'asc' ? 'desc' : 'asc';
+            var current  = th.dataset.sortDirection;
+            var next     = current === 'asc' ? 'desc' : 'asc';
             th.dataset.sortDirection = next;
             var direction = next === 'asc' ? 1 : -1;
 
-            // reset en otros headers de ESTA tabla
             table.querySelectorAll('thead th.sortable-col').forEach(function(other) {
               if (other !== th) {
                 other.dataset.sortDirection = 'none';
-                var iconOther = other.querySelector('.sort-indicator');
-                if (iconOther) iconOther.textContent = '↕';
+                var io = other.querySelector('.sort-indicator');
+                if (io) io.textContent = '↕';
               }
             });
 
@@ -895,13 +959,12 @@
             dataRows.sort(function(rowA, rowB) {
               var textA = rowA.children[colIndex].textContent;
               var textB = rowB.children[colIndex].textContent;
-              var valA = parseCellValue(textA, sortType);
-              var valB = parseCellValue(textB, sortType);
+              var valA  = parseCellValue(textA, sortType);
+              var valB  = parseCellValue(textB, sortType);
 
               if (valA === null && valB === null) return 0;
               if (valA === null) return 1;
               if (valB === null) return -1;
-
               return (valA - valB) * direction;
             });
 
