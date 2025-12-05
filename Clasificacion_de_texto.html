@@ -260,6 +260,10 @@
       padding-left: 24px;
     }
 
+    .center-cell-empty {
+      padding-left: 24px;
+    }
+
     .note-inline {
       margin-top: 6px;
       font-size: 0.78rem;
@@ -284,7 +288,7 @@
       opacity: 0.5;
     }
 
-    /* Scroll vertical para evoluciones (no deforma el box) */
+    /* Scroll vertical evoluciones */
     .table-wrapper-ranking {
       max-height: 190px;
       overflow-y: auto;
@@ -303,7 +307,7 @@
       z-index: 1;
     }
 
-    /* Primera columna fija (Driver) en evoluciones */
+    /* Primera columna fija (Driver) */
     .ranking-table th:first-child,
     .ranking-table td:first-child {
       position: sticky;
@@ -320,11 +324,21 @@
       z-index: 3;
     }
 
-    /* Columnas periodo más compactas (20% menos) */
     .ranking-table th:nth-child(n+2),
     .ranking-table td:nth-child(n+2) {
       width: 70px;
       white-space: nowrap;
+    }
+
+    /* Drivers en Servicios agregados */
+    .drivers-cell {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      white-space: normal;
+    }
+
+    .driver-row .drivers-cell {
+      font-style: italic;
     }
 
     @media (max-width: 768px) {
@@ -512,7 +526,7 @@
         </table>
       </div>
 
-      <!-- EVOLUCIONES (antes “ranking”) -->
+      <!-- EVOLUCIONES CSAT / UPLIFT -->
       <div class="ranking-row">
         <!-- Evolución CSAT -->
         <div class="ranking-card">
@@ -553,7 +567,6 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- 8 DRIVERS -->
                 <tr>
                   <td class="tbl-name">Tiempos de espera</td>
                   <td class="tbl-num val-csat neg">3,50</td>
@@ -728,6 +741,7 @@
           <thead>
             <tr>
               <th>Servicio / Centro</th>
+              <th>Drivers mencionados</th>
               <th style="text-align:right;">N° comentarios</th>
               <th style="text-align:right;">% sobre texto</th>
               <th style="text-align:right;">NPS</th>
@@ -736,88 +750,160 @@
             </tr>
           </thead>
           <tbody>
+            <!-- SERVICIO 1 -->
             <tr>
               <td class="tbl-name">
                 Servicio 1
                 <button class="plus-btn service-toggle" data-service="serv1" data-expanded="false">+</button>
               </td>
+              <td class="drivers-cell">–</td>
               <td class="tbl-num">620</td>
               <td class="tbl-num">14,4%</td>
               <td class="tbl-num">60,0</td>
               <td class="tbl-num val-csat pos">4,30</td>
               <td class="tbl-num val-uplift pos">+0,20</td>
             </tr>
+            <!-- Centro 1 -->
             <tr class="center-row" data-parent="serv1" style="display:none;">
               <td class="tbl-name center-cell">↳ Centro 1</td>
+              <td class="drivers-cell">Tiempos de espera</td>
               <td class="tbl-num">140</td>
               <td class="tbl-num">3,2%</td>
               <td class="tbl-num">65,0</td>
               <td class="tbl-num val-csat pos">4,60</td>
               <td class="tbl-num val-uplift pos">+0,50</td>
             </tr>
+            <tr class="center-row driver-row" data-parent="serv1" style="display:none;">
+              <td class="tbl-name center-cell-empty"></td>
+              <td class="drivers-cell">Atención vendedor</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+            </tr>
+            <!-- Centro 2 -->
             <tr class="center-row" data-parent="serv1" style="display:none;">
               <td class="tbl-name center-cell">↳ Centro 2</td>
+              <td class="drivers-cell">Productos</td>
               <td class="tbl-num">120</td>
               <td class="tbl-num">2,8%</td>
               <td class="tbl-num">62,0</td>
               <td class="tbl-num val-csat pos">4,40</td>
               <td class="tbl-num val-uplift pos">+0,30</td>
             </tr>
+            <tr class="center-row driver-row" data-parent="serv1" style="display:none;">
+              <td class="tbl-name center-cell-empty"></td>
+              <td class="drivers-cell">Logística / entrega</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+            </tr>
+            <!-- Centro 3 -->
             <tr class="center-row" data-parent="serv1" style="display:none;">
               <td class="tbl-name center-cell">↳ Centro 3</td>
+              <td class="drivers-cell">Atención repartidor</td>
               <td class="tbl-num">95</td>
               <td class="tbl-num">2,2%</td>
               <td class="tbl-num">58,0</td>
               <td class="tbl-num val-csat neutral">4,10</td>
               <td class="tbl-num val-uplift neutral">0,00</td>
             </tr>
+            <tr class="center-row driver-row" data-parent="serv1" style="display:none;">
+              <td class="tbl-name center-cell-empty"></td>
+              <td class="drivers-cell">Otros</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+            </tr>
 
+            <!-- SERVICIO 2 -->
             <tr>
               <td class="tbl-name">
                 Servicio 2
                 <button class="plus-btn service-toggle" data-service="serv2" data-expanded="false">+</button>
               </td>
+              <td class="drivers-cell">–</td>
               <td class="tbl-num">540</td>
               <td class="tbl-num">12,5%</td>
               <td class="tbl-num">55,0</td>
               <td class="tbl-num val-csat neutral">4,10</td>
               <td class="tbl-num val-uplift neutral">0,00</td>
             </tr>
+            <!-- Centro 1 -->
             <tr class="center-row" data-parent="serv2" style="display:none;">
               <td class="tbl-name center-cell">↳ Centro 1</td>
+              <td class="drivers-cell">Productos</td>
               <td class="tbl-num">90</td>
               <td class="tbl-num">2,1%</td>
               <td class="tbl-num">57,0</td>
               <td class="tbl-num val-csat pos">4,20</td>
               <td class="tbl-num val-uplift pos">+0,10</td>
             </tr>
+            <tr class="center-row driver-row" data-parent="serv2" style="display:none;">
+              <td class="tbl-name center-cell-empty"></td>
+              <td class="drivers-cell">Atención vendedor</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+            </tr>
+            <!-- Centro 3 -->
             <tr class="center-row" data-parent="serv2" style="display:none;">
               <td class="tbl-name center-cell">↳ Centro 3</td>
+              <td class="drivers-cell">Tiempos de espera</td>
               <td class="tbl-num">70</td>
               <td class="tbl-num">1,6%</td>
               <td class="tbl-num">50,0</td>
               <td class="tbl-num val-csat neg">3,80</td>
               <td class="tbl-num val-uplift neg">-0,30</td>
             </tr>
+            <tr class="center-row driver-row" data-parent="serv2" style="display:none;">
+              <td class="tbl-name center-cell-empty"></td>
+              <td class="drivers-cell">Problema sin solución</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+            </tr>
 
+            <!-- SERVICIO 3 -->
             <tr>
               <td class="tbl-name">
                 Servicio 3
                 <button class="plus-btn service-toggle" data-service="serv3" data-expanded="false">+</button>
               </td>
+              <td class="drivers-cell">–</td>
               <td class="tbl-num">470</td>
               <td class="tbl-num">10,9%</td>
               <td class="tbl-num">52,0</td>
               <td class="tbl-num val-csat neg">3,90</td>
               <td class="tbl-num val-uplift neg">-0,20</td>
             </tr>
+            <!-- Centro 2 -->
             <tr class="center-row" data-parent="serv3" style="display:none;">
               <td class="tbl-name center-cell">↳ Centro 2</td>
+              <td class="drivers-cell">Logística / entrega</td>
               <td class="tbl-num">85</td>
               <td class="tbl-num">2,0%</td>
               <td class="tbl-num">48,0</td>
               <td class="tbl-num val-csat neg">3,70</td>
               <td class="tbl-num val-uplift neg">-0,40</td>
+            </tr>
+            <tr class="center-row driver-row" data-parent="serv3" style="display:none;">
+              <td class="tbl-name center-cell-empty"></td>
+              <td class="drivers-cell">Problema sin solución</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
+              <td class="tbl-num">–</td>
             </tr>
           </tbody>
         </table>
@@ -825,7 +911,7 @@
 
       <div class="note-inline">
         Al presionar <span class="plus-btn" style="pointer-events:none;">+</span> se despliegan los centros asociados
-        a cada servicio con sus métricas (NPS, comentarios, % sobre texto, CSAT, Uplift).
+        a cada servicio con sus métricas (NPS, comentarios, % sobre texto, CSAT, Uplift) y los drivers desagregados por fila.
       </div>
     </section>
   </div>
