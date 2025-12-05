@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>CXDIP · Drivers de Comentarios</title>
+  <title>CXDIP · Customers Say</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
@@ -452,9 +452,9 @@
     <header>
       <div class="title-row">
         <div>
-          <div class="title-main"><span>CXDIP</span> Drivers de Comentarios</div>
+          <div class="title-main"><span>CXDIP</span> Customers Say</div>
           <div class="title-sub">
-            Panel de lectura de texto abierto. Drivers macro, servicios y centros (maqueta UI).
+            Panel de lectura de texto abierto.
           </div>
         </div>
         <div class="badge-secondary">
@@ -484,7 +484,7 @@
     <section class="card">
       <h2>Drivers Macro</h2>
       <div class="card-subtitle">
-        Tabla consolidada por driver: volumen, participación y calidad (CSAT y Uplift).
+        Tabla consolidada por atributo
       </div>
 
       <!-- Selector de año -->
@@ -495,14 +495,14 @@
           <option value="2024" selected>2024</option>
           <option value="2025">2025</option>
         </select>
-        <span class="filter-hint">Drivers Macro + Evolución CSAT / Uplift y Servicios agregados responden a este filtro.</span>
+        <span class="filter-hint">""</span>
       </div>
 
       <div class="table-wrapper">
         <table id="drivers-table">
           <thead>
             <tr>
-              <th>Driver macro</th>
+              <th>Atributos macro</th>
               <th class="sortable-col" data-sort-type="int" style="text-align:right;">
                 <span class="sort-label">
                   N° comentarios
@@ -541,7 +541,7 @@
         <div class="ranking-card">
           <div class="ranking-title">Evolución CSAT atributo</div>
           <div class="ranking-sub">
-            Evolución del CSAT por driver entre trimestres (T1–T4) y total anual.
+            Evolución del CSAT por atributo.
           </div>
 
           <div class="table-wrapper table-wrapper-ranking">
@@ -576,9 +576,9 @@
         <!-- Evolución Uplift -->
         <div class="ranking-card">
           <div class="ranking-title">Evolución Uplift atributo</div>
-          <div class="ranking-sub">
+            <!--<div class="ranking-sub">
             Uplift del atributo vs CSAT global (4,10) por trimestre y total anual.
-          </div>
+          </div>-->
 
           <div class="table-wrapper table-wrapper-ranking">
             <table class="ranking-table ranking-uplift">
@@ -615,7 +615,7 @@
     <div class="section-title">SERVICIOS AGREGADOS</div>
 
     <section class="card">
-      <div class="level-tag">Vista por servicio_agrupado y centro (apertura con “+”).</div>
+      <div class="level-tag">Vista por servicio (apertura con “+”).</div>
 
       <!-- Filtro de trimestres -->
       <div class="filter-row">
@@ -634,7 +634,7 @@
           <thead>
             <tr>
               <th>Servicio / Centro</th>
-              <th>Drivers mencionados</th>
+              <th>Atributos mencionados</th>
               <th style="text-align:right;">N° comentarios</th>
               <th style="text-align:right;">% sobre texto</th>
               <th style="text-align:right;">NPS</th>
