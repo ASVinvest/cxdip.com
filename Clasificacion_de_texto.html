@@ -127,7 +127,46 @@
     .card-subtitle {
       font-size: 0.8rem;
       color: var(--text-muted);
-      margin-bottom: 10px;
+      margin-bottom: 4px;
+    }
+
+    /* Fila filtro año */
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 6px 0 10px;
+    }
+
+    .filter-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .year-select {
+      padding: 4px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      font-size: 0.8rem;
+      color: #ffffff;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    .year-select:hover {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+
+    .filter-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
     }
 
     .table-wrapper {
@@ -288,7 +327,7 @@
       opacity: 0.5;
     }
 
-    /* Scroll vertical evoluciones */
+    /* Scroll interno evoluciones */
     .table-wrapper-ranking {
       max-height: 190px;
       overflow-y: auto;
@@ -418,6 +457,17 @@
         Tabla consolidada por driver: volumen, participación y calidad (CSAT y Uplift).
       </div>
 
+      <!-- Selector de año -->
+      <div class="filter-row">
+        <span class="filter-label">Año de análisis (evolución trimestral):</span>
+        <select id="year-select" class="year-select">
+          <option value="2023">2023</option>
+          <option value="2024" selected>2024</option>
+          <option value="2025">2025</option>
+        </select>
+        <span class="filter-hint">Drivers Macro + Evolución CSAT / Uplift responden a este filtro.</span>
+      </div>
+
       <div class="table-wrapper">
         <table id="drivers-table">
           <thead>
@@ -450,89 +500,18 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="tbl-name">Tiempos de espera</td>
-              <td class="tbl-num">980</td>
-              <td class="tbl-num">22,7%</td>
-              <td class="tbl-num val-csat neg">3,60</td>
-              <td class="tbl-num val-uplift neg">-0,50</td>
-            </tr>
-            <tr>
-              <td class="tbl-name">Productos</td>
-              <td class="tbl-num">720</td>
-              <td class="tbl-num">16,7%</td>
-              <td class="tbl-num val-csat pos">4,30</td>
-              <td class="tbl-num val-uplift pos">+0,20</td>
-            </tr>
-            <tr>
-              <td class="tbl-name">Logística / entrega</td>
-              <td class="tbl-num">610</td>
-              <td class="tbl-num">14,1%</td>
-              <td class="tbl-num val-csat neutral">3,90</td>
-              <td class="tbl-num val-uplift neg">-0,30</td>
-            </tr>
-            <tr>
-              <td class="tbl-name">Atención vendedor</td>
-              <td class="tbl-num">540</td>
-              <td class="tbl-num">12,5%</td>
-              <td class="tbl-num val-csat pos">4,40</td>
-              <td class="tbl-num val-uplift pos">+0,30</td>
-            </tr>
-            <tr>
-              <td class="tbl-name">Atención repartidor</td>
-              <td class="tbl-num">380</td>
-              <td class="tbl-num">8,8%</td>
-              <td class="tbl-num val-csat neutral">4,00</td>
-              <td class="tbl-num val-uplift neutral">-0,10</td>
-            </tr>
-            <tr>
-              <td class="tbl-name">Problema sin solución</td>
-              <td class="tbl-num">430</td>
-              <td class="tbl-num">10,0%</td>
-              <td class="tbl-num val-csat neg">3,10</td>
-              <td class="tbl-num val-uplift neg">-1,00</td>
-            </tr>
-            <tr>
-              <td class="tbl-name">Otros</td>
-              <td class="tbl-num">420</td>
-              <td class="tbl-num">9,7%</td>
-              <td class="tbl-num val-csat neutral">4,00</td>
-              <td class="tbl-num val-uplift neutral">-0,10</td>
-            </tr>
-            <tr>
-              <td class="tbl-name">En blanco</td>
-              <td class="tbl-num">240</td>
-              <td class="tbl-num">5,6%</td>
-              <td class="tbl-num val-csat neutral">–</td>
-              <td class="tbl-num val-uplift neutral">–</td>
-            </tr>
-
-            <tr class="row-total">
-              <td class="tbl-name">Totales</td>
-              <td class="tbl-num">4.320</td>
-              <td class="tbl-num">100,0%</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-            </tr>
-
-            <tr class="row-prom">
-              <td class="tbl-name">Promedios</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num val-csat neutral">4,10</td>
-              <td class="tbl-num val-uplift neutral">0,00</td>
-            </tr>
+            <!-- Se rellena por JS según año -->
           </tbody>
         </table>
       </div>
 
-      <!-- EVOLUCIONES CSAT / UPLIFT -->
+      <!-- EVOLUCIÓN CSAT / UPLIFT -->
       <div class="ranking-row">
         <!-- Evolución CSAT -->
         <div class="ranking-card">
           <div class="ranking-title">Evolución CSAT atributo</div>
           <div class="ranking-sub">
-            Evolución del CSAT por driver entre periodos (ejemplo con 3 periodos + total).
+            Evolución del CSAT por driver entre trimestres (T1–T4) y total anual.
           </div>
 
           <div class="table-wrapper table-wrapper-ranking">
@@ -542,87 +521,33 @@
                   <th>Driver</th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
                     <span class="sort-label">
-                      Periodo 1
+                      T1
                       <span class="sort-indicator">↕</span>
                     </span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
                     <span class="sort-label">
-                      Periodo 2
+                      T2
                       <span class="sort-indicator">↕</span>
                     </span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
                     <span class="sort-label">
-                      Periodo 3
+                      T3
                       <span class="sort-indicator">↕</span>
                     </span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
                     <span class="sort-label">
-                      Periodo total
+                      T4
                       <span class="sort-indicator">↕</span>
                     </span>
                   </th>
+                  <th style="text-align:right;">Total anual</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="tbl-name">Tiempos de espera</td>
-                  <td class="tbl-num val-csat neg">3,50</td>
-                  <td class="tbl-num val-csat neg">3,60</td>
-                  <td class="tbl-num val-csat neg">3,70</td>
-                  <td class="tbl-num val-csat neg">3,60</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Productos</td>
-                  <td class="tbl-num val-csat pos">4,20</td>
-                  <td class="tbl-num val-csat neutral">4,10</td>
-                  <td class="tbl-num val-csat pos">4,30</td>
-                  <td class="tbl-num val-csat pos">4,30</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Logística / entrega</td>
-                  <td class="tbl-num val-csat neutral">3,80</td>
-                  <td class="tbl-num val-csat neutral">3,90</td>
-                  <td class="tbl-num val-csat neutral">4,00</td>
-                  <td class="tbl-num val-csat neutral">3,90</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Atención vendedor</td>
-                  <td class="tbl-num val-csat pos">4,30</td>
-                  <td class="tbl-num val-csat pos">4,40</td>
-                  <td class="tbl-num val-csat pos">4,50</td>
-                  <td class="tbl-num val-csat pos">4,40</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Atención repartidor</td>
-                  <td class="tbl-num val-csat neutral">3,90</td>
-                  <td class="tbl-num val-csat neutral">4,00</td>
-                  <td class="tbl-num val-csat neutral">4,10</td>
-                  <td class="tbl-num val-csat neutral">4,00</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Problema sin solución</td>
-                  <td class="tbl-num val-csat neg">3,00</td>
-                  <td class="tbl-num val-csat neg">3,10</td>
-                  <td class="tbl-num val-csat neg">3,20</td>
-                  <td class="tbl-num val-csat neg">3,10</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Otros</td>
-                  <td class="tbl-num val-csat neutral">3,90</td>
-                  <td class="tbl-num val-csat neutral">4,00</td>
-                  <td class="tbl-num val-csat neutral">4,10</td>
-                  <td class="tbl-num val-csat neutral">4,00</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">En blanco</td>
-                  <td class="tbl-num val-csat neutral">–</td>
-                  <td class="tbl-num val-csat neutral">–</td>
-                  <td class="tbl-num val-csat neutral">–</td>
-                  <td class="tbl-num val-csat neutral">–</td>
-                </tr>
+                <!-- JS -->
               </tbody>
             </table>
           </div>
@@ -632,7 +557,7 @@
         <div class="ranking-card">
           <div class="ranking-title">Evolución Uplift atributo</div>
           <div class="ranking-sub">
-            Uplift del atributo vs CSAT global (4,10) por periodo y total.
+            Uplift del atributo vs CSAT global (4,10) por trimestre y total anual.
           </div>
 
           <div class="table-wrapper table-wrapper-ranking">
@@ -642,87 +567,33 @@
                   <th>Driver</th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
                     <span class="sort-label">
-                      Periodo 1
+                      T1
                       <span class="sort-indicator">↕</span>
                     </span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
                     <span class="sort-label">
-                      Periodo 2
+                      T2
                       <span class="sort-indicator">↕</span>
                     </span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
                     <span class="sort-label">
-                      Periodo 3
+                      T3
                       <span class="sort-indicator">↕</span>
                     </span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
                     <span class="sort-label">
-                      Periodo total
+                      T4
                       <span class="sort-indicator">↕</span>
                     </span>
                   </th>
+                  <th style="text-align:right;">Total anual</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="tbl-name">Tiempos de espera</td>
-                  <td class="tbl-num val-uplift neg">-0,60</td>
-                  <td class="tbl-num val-uplift neg">-0,50</td>
-                  <td class="tbl-num val-uplift neg">-0,40</td>
-                  <td class="tbl-num val-uplift neg">-0,50</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Productos</td>
-                  <td class="tbl-num val-uplift pos">+0,10</td>
-                  <td class="tbl-num val-uplift neutral">0,00</td>
-                  <td class="tbl-num val-uplift pos">+0,20</td>
-                  <td class="tbl-num val-uplift pos">+0,20</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Logística / entrega</td>
-                  <td class="tbl-num val-uplift neg">-0,40</td>
-                  <td class="tbl-num val-uplift neg">-0,30</td>
-                  <td class="tbl-num val-uplift neg">-0,20</td>
-                  <td class="tbl-num val-uplift neg">-0,30</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Atención vendedor</td>
-                  <td class="tbl-num val-uplift pos">+0,20</td>
-                  <td class="tbl-num val-uplift pos">+0,30</td>
-                  <td class="tbl-num val-uplift pos">+0,40</td>
-                  <td class="tbl-num val-uplift pos">+0,30</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Atención repartidor</td>
-                  <td class="tbl-num val-uplift neutral">-0,10</td>
-                  <td class="tbl-num val-uplift neutral">-0,10</td>
-                  <td class="tbl-num val-uplift neutral">0,00</td>
-                  <td class="tbl-num val-uplift neutral">-0,10</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Problema sin solución</td>
-                  <td class="tbl-num val-uplift neg">-1,10</td>
-                  <td class="tbl-num val-uplift neg">-1,00</td>
-                  <td class="tbl-num val-uplift neg">-0,90</td>
-                  <td class="tbl-num val-uplift neg">-1,00</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">Otros</td>
-                  <td class="tbl-num val-uplift neutral">-0,20</td>
-                  <td class="tbl-num val-uplift neutral">-0,10</td>
-                  <td class="tbl-num val-uplift neutral">0,00</td>
-                  <td class="tbl-num val-uplift neutral">-0,10</td>
-                </tr>
-                <tr>
-                  <td class="tbl-name">En blanco</td>
-                  <td class="tbl-num val-uplift neutral">0,00</td>
-                  <td class="tbl-num val-uplift neutral">0,00</td>
-                  <td class="tbl-num val-uplift neutral">0,00</td>
-                  <td class="tbl-num val-uplift neutral">0,00</td>
-                </tr>
+                <!-- JS -->
               </tbody>
             </table>
           </div>
@@ -917,20 +788,7 @@
   </div>
 
   <script>
-    // Toggle centros
-    document.querySelectorAll('.service-toggle').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var sid = this.getAttribute('data-service');
-        var expanded = this.getAttribute('data-expanded') === 'true';
-        var rows = document.querySelectorAll("tr[data-parent='" + sid + "']");
-        rows.forEach(function(row) {
-          row.style.display = expanded ? 'none' : 'table-row';
-        });
-        this.textContent = expanded ? '+' : '–';
-        this.setAttribute('data-expanded', expanded ? 'false' : 'true');
-      });
-    });
-
+    // -------------------- UTILIDADES --------------------
     function parseCellValue(text, type) {
       if (!text) return null;
       text = text.trim();
@@ -957,14 +815,46 @@
       return null;
     }
 
-    // Orden Drivers Macro
+    function formatDecimal(value, decimals, withSign) {
+      if (value === null || typeof value === 'undefined' || isNaN(value)) return '–';
+      var fixed = value.toFixed(decimals);
+      var out = fixed.replace('.', ',');
+      if (withSign && value > 0) out = '+' + out;
+      return out;
+    }
+
+    function getCsatClass(v) {
+      if (v === null || isNaN(v)) return 'neutral';
+      if (v >= 4.2) return 'pos';
+      if (v <= 3.6) return 'neg';
+      return 'neutral';
+    }
+
+    function getUpliftClass(v) {
+      if (v === null || isNaN(v)) return 'neutral';
+      if (v > 0.001) return 'pos';
+      if (v < -0.001) return 'neg';
+      return 'neutral';
+    }
+
+    // -------------------- TOGGLE SERVICIOS --------------------
+    document.querySelectorAll('.service-toggle').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var sid = this.getAttribute('data-service');
+        var expanded = this.getAttribute('data-expanded') === 'true';
+        var rows = document.querySelectorAll("tr[data-parent='" + sid + "']");
+        rows.forEach(function(row) {
+          row.style.display = expanded ? 'none' : 'table-row';
+        });
+        this.textContent = expanded ? '+' : '–';
+        this.setAttribute('data-expanded', expanded ? 'false' : 'true');
+      });
+    });
+
+    // -------------------- ORDEN TABLA DRIVERS MACRO --------------------
     (function() {
       var table = document.getElementById('drivers-table');
       if (!table) return;
-
-      var tbody = table.querySelector('tbody');
-      var totalRow = tbody.querySelector('.row-total');
-      var promRow  = tbody.querySelector('.row-prom');
 
       table.querySelectorAll('thead th.sortable-col').forEach(function(th) {
         th.dataset.sortDirection = 'none';
@@ -987,6 +877,10 @@
 
           var icon = th.querySelector('.sort-indicator');
           if (icon) icon.textContent = next === 'asc' ? '▲' : '▼';
+
+          var tbody = table.querySelector('tbody');
+          var totalRow = tbody.querySelector('.row-total');
+          var promRow  = tbody.querySelector('.row-prom');
 
           var dataRows = Array.from(tbody.querySelectorAll('tr')).filter(function(row) {
             return !row.classList.contains('row-total') && !row.classList.contains('row-prom');
@@ -1012,7 +906,293 @@
       });
     })();
 
-    // Orden Evolución CSAT / Uplift
+    // -------------------- DATA DEMO DRIVERS MACRO POR AÑO --------------------
+    var macroBase2024 = [
+      { driver: 'Tiempos de espera',     comments: 980, csat: 3.60, uplift: -0.50 },
+      { driver: 'Productos',             comments: 720, csat: 4.30, uplift:  0.20 },
+      { driver: 'Logística / entrega',   comments: 610, csat: 3.90, uplift: -0.30 },
+      { driver: 'Atención vendedor',     comments: 540, csat: 4.40, uplift:  0.30 },
+      { driver: 'Atención repartidor',   comments: 380, csat: 4.00, uplift: -0.10 },
+      { driver: 'Problema sin solución', comments: 430, csat: 3.10, uplift: -1.00 },
+      { driver: 'Otros',                 comments: 420, csat: 4.00, uplift: -0.10 },
+      { driver: 'En blanco',             comments: 240, csat: null, uplift: null }
+    ];
+
+    function shiftMacroData(base, factorComments, csatDelta, upliftDelta) {
+      return base.map(function(row) {
+        return {
+          driver: row.driver,
+          comments: Math.round(row.comments * factorComments),
+          csat: (row.csat === null || typeof row.csat === 'undefined') ? null : row.csat + csatDelta,
+          uplift: (row.uplift === null || typeof row.uplift === 'undefined') ? null : row.uplift + upliftDelta
+        };
+      });
+    }
+
+    var macroDataByYear = {
+      2023: shiftMacroData(macroBase2024, 0.95, -0.05, -0.05),
+      2024: macroBase2024,
+      2025: shiftMacroData(macroBase2024, 1.05,  0.05,  0.05)
+    };
+
+    var globalCsatByYear = {
+      2023: 4.00,
+      2024: 4.10,
+      2025: 4.20
+    };
+
+    var globalUpliftByYear = {
+      2023: -0.05,
+      2024:  0.00,
+      2025:  0.05
+    };
+
+    function renderDriversMacro(year) {
+      var tbody = document.querySelector('#drivers-table tbody');
+      if (!tbody) return;
+
+      var rowsData = macroDataByYear[year] || macroBase2024;
+      var totalComments = rowsData.reduce(function(acc, row) {
+        return acc + (row.comments || 0);
+      }, 0);
+
+      tbody.innerHTML = '';
+
+      rowsData.forEach(function(row) {
+        var tr = document.createElement('tr');
+
+        var tdDriver = document.createElement('td');
+        tdDriver.className = 'tbl-name';
+        tdDriver.textContent = row.driver;
+        tr.appendChild(tdDriver);
+
+        var tdComments = document.createElement('td');
+        tdComments.className = 'tbl-num';
+        tdComments.textContent = totalComments
+          ? new Intl.NumberFormat('es-CL').format(row.comments || 0)
+          : '0';
+        tr.appendChild(tdComments);
+
+        var tdPct = document.createElement('td');
+        tdPct.className = 'tbl-num';
+        var pctVal = totalComments ? ((row.comments || 0) / totalComments * 100) : 0;
+        tdPct.textContent = totalComments ? formatDecimal(pctVal, 1, false) + '%' : '0,0%';
+        tr.appendChild(tdPct);
+
+        var tdCsat = document.createElement('td');
+        var csatVal = row.csat;
+        tdCsat.className = 'tbl-num val-csat ' + getCsatClass(csatVal);
+        tdCsat.textContent = (csatVal === null || typeof csatVal === 'undefined')
+          ? '–'
+          : formatDecimal(csatVal, 2, false);
+        tr.appendChild(tdCsat);
+
+        var tdU = document.createElement('td');
+        var uVal = row.uplift;
+        tdU.className = 'tbl-num val-uplift ' + getUpliftClass(uVal);
+        tdU.textContent = (uVal === null || typeof uVal === 'undefined')
+          ? '–'
+          : formatDecimal(uVal, 2, true);
+        tr.appendChild(tdU);
+
+        tbody.appendChild(tr);
+      });
+
+      // Fila Totales
+      var trTotal = document.createElement('tr');
+      trTotal.className = 'row-total';
+
+      var tdLabelTot = document.createElement('td');
+      tdLabelTot.className = 'tbl-name';
+      tdLabelTot.textContent = 'Totales';
+      trTotal.appendChild(tdLabelTot);
+
+      var tdCommTot = document.createElement('td');
+      tdCommTot.className = 'tbl-num';
+      tdCommTot.textContent = new Intl.NumberFormat('es-CL').format(totalComments);
+      trTotal.appendChild(tdCommTot);
+
+      var tdPctTot = document.createElement('td');
+      tdPctTot.className = 'tbl-num';
+      tdPctTot.textContent = totalComments ? '100,0%' : '0,0%';
+      trTotal.appendChild(tdPctTot);
+
+      var tdCsatTot = document.createElement('td');
+      tdCsatTot.className = 'tbl-num';
+      tdCsatTot.textContent = '–';
+      trTotal.appendChild(tdCsatTot);
+
+      var tdUpliftTot = document.createElement('td');
+      tdUpliftTot.className = 'tbl-num';
+      tdUpliftTot.textContent = '–';
+      trTotal.appendChild(tdUpliftTot);
+
+      tbody.appendChild(trTotal);
+
+      // Fila Promedios (usa CSAT/Uplift global por año)
+      var trProm = document.createElement('tr');
+      trProm.className = 'row-prom';
+
+      var tdLabelProm = document.createElement('td');
+      tdLabelProm.className = 'tbl-name';
+      tdLabelProm.textContent = 'Promedios';
+      trProm.appendChild(tdLabelProm);
+
+      var tdVoid1 = document.createElement('td');
+      tdVoid1.className = 'tbl-num';
+      tdVoid1.textContent = '–';
+      trProm.appendChild(tdVoid1);
+
+      var tdVoid2 = document.createElement('td');
+      tdVoid2.className = 'tbl-num';
+      tdVoid2.textContent = '–';
+      trProm.appendChild(tdVoid2);
+
+      var globalCsat = (globalCsatByYear[year] !== undefined) ? globalCsatByYear[year] : 4.10;
+      var tdCsatProm = document.createElement('td');
+      tdCsatProm.className = 'tbl-num val-csat ' + getCsatClass(globalCsat);
+      tdCsatProm.textContent = formatDecimal(globalCsat, 2, false);
+      trProm.appendChild(tdCsatProm);
+
+      var globalUplift = (globalUpliftByYear[year] !== undefined) ? globalUpliftByYear[year] : 0.00;
+      var tdUpliftProm = document.createElement('td');
+      tdUpliftProm.className = 'tbl-num val-uplift ' + getUpliftClass(globalUplift);
+      tdUpliftProm.textContent = formatDecimal(globalUplift, 2, false);
+      trProm.appendChild(tdUpliftProm);
+
+      tbody.appendChild(trProm);
+    }
+
+    // -------------------- DATA EVOLUCIÓN TRIMESTRAL --------------------
+    var baseCsat2024 = [
+      { driver: 'Tiempos de espera',     quarters: [3.5, 3.6, 3.7, 3.6] },
+      { driver: 'Productos',             quarters: [4.2, 4.3, 4.4, 4.3] },
+      { driver: 'Logística / entrega',   quarters: [3.8, 3.9, 4.0, 3.9] },
+      { driver: 'Atención vendedor',     quarters: [4.3, 4.4, 4.5, 4.4] },
+      { driver: 'Atención repartidor',   quarters: [3.9, 4.0, 4.1, 4.0] },
+      { driver: 'Problema sin solución', quarters: [3.0, 3.1, 3.2, 3.1] },
+      { driver: 'Otros',                 quarters: [3.9, 4.0, 4.1, 4.0] },
+      { driver: 'En blanco',             quarters: [null, null, null, null] }
+    ];
+
+    var baseUplift2024 = [
+      { driver: 'Tiempos de espera',     quarters: [-0.60, -0.50, -0.40, -0.50] },
+      { driver: 'Productos',             quarters: [ 0.10,  0.20,  0.30,  0.20] },
+      { driver: 'Logística / entrega',   quarters: [-0.40, -0.30, -0.20, -0.30] },
+      { driver: 'Atención vendedor',     quarters: [ 0.20,  0.30,  0.40,  0.30] },
+      { driver: 'Atención repartidor',   quarters: [-0.10, -0.10,  0.00, -0.10] },
+      { driver: 'Problema sin solución', quarters: [-1.10, -1.00, -0.90, -1.00] },
+      { driver: 'Otros',                 quarters: [-0.20, -0.10,  0.00, -0.10] },
+      { driver: 'En blanco',             quarters: [0.00, 0.00, 0.00, 0.00] }
+    ];
+
+    function shiftQuarters(data, delta) {
+      return data.map(function(row) {
+        return {
+          driver: row.driver,
+          quarters: row.quarters.map(function(q) {
+            if (q === null) return null;
+            return q + delta;
+          })
+        };
+      });
+    }
+
+    var csatDataByYear = {
+      2023: shiftQuarters(baseCsat2024, -0.10),
+      2024: baseCsat2024,
+      2025: shiftQuarters(baseCsat2024,  0.10)
+    };
+
+    var upliftDataByYear = {
+      2023: shiftQuarters(baseUplift2024, -0.05),
+      2024: baseUplift2024,
+      2025: shiftQuarters(baseUplift2024,  0.05)
+    };
+
+    function renderEvolutionTables(year) {
+      var csatBody   = document.querySelector('.ranking-csat tbody');
+      var upliftBody = document.querySelector('.ranking-uplift tbody');
+      if (!csatBody || !upliftBody) return;
+
+      var csatRows   = csatDataByYear[year]   || [];
+      var upliftRows = upliftDataByYear[year] || [];
+
+      csatBody.innerHTML = '';
+      upliftBody.innerHTML = '';
+
+      csatRows.forEach(function(row) {
+        var tr = document.createElement('tr');
+
+        var tdDriver = document.createElement('td');
+        tdDriver.className = 'tbl-name';
+        tdDriver.textContent = row.driver;
+        tr.appendChild(tdDriver);
+
+        var quarters = row.quarters;
+        var sum = 0;
+        var count = 0;
+
+        quarters.forEach(function(q) {
+          var td = document.createElement('td');
+          var cls = 'tbl-num val-csat ' + getCsatClass(q);
+          td.className = cls;
+          td.textContent = q === null ? '–' : formatDecimal(q, 2, false);
+          tr.appendChild(td);
+
+          if (q !== null && !isNaN(q)) {
+            sum += q;
+            count++;
+          }
+        });
+
+        var avg = count > 0 ? sum / count : null;
+        var tdTotal = document.createElement('td');
+        tdTotal.className = 'tbl-num val-csat ' + getCsatClass(avg);
+        tdTotal.textContent = formatDecimal(avg, 2, false);
+        tdTotal.setAttribute('data-total', 'true');
+        tr.appendChild(tdTotal);
+
+        csatBody.appendChild(tr);
+      });
+
+      upliftRows.forEach(function(row) {
+        var tr = document.createElement('tr');
+
+        var tdDriver = document.createElement('td');
+        tdDriver.className = 'tbl-name';
+        tdDriver.textContent = row.driver;
+        tr.appendChild(tdDriver);
+
+        var quarters = row.quarters;
+        var sum = 0;
+        var count = 0;
+
+        quarters.forEach(function(q) {
+          var td = document.createElement('td');
+          var cls = 'tbl-num val-uplift ' + getUpliftClass(q);
+          td.className = cls;
+          td.textContent = q === null ? '–' : formatDecimal(q, 2, true);
+          tr.appendChild(td);
+
+          if (q !== null && !isNaN(q)) {
+            sum += q;
+            count++;
+          }
+        });
+
+        var avg = count > 0 ? sum / count : null;
+        var tdTotal = document.createElement('td');
+        tdTotal.className = 'tbl-num val-uplift ' + getUpliftClass(avg);
+        tdTotal.textContent = formatDecimal(avg, 2, true);
+        tdTotal.setAttribute('data-total', 'true');
+        tr.appendChild(tdTotal);
+
+        upliftBody.appendChild(tr);
+      });
+    }
+
+    // -------------------- ORDEN EVOLUCIÓN (CSAT / UPLIFT) --------------------
     (function() {
       var rankingTables = document.querySelectorAll('.ranking-table');
       rankingTables.forEach(function(table) {
@@ -1060,6 +1240,18 @@
         });
       });
     })();
+
+    // -------------------- INICIALIZACIÓN --------------------
+    var yearSelect = document.getElementById('year-select');
+    if (yearSelect) {
+      renderDriversMacro(yearSelect.value);
+      renderEvolutionTables(yearSelect.value);
+
+      yearSelect.addEventListener('change', function() {
+        renderDriversMacro(this.value);
+        renderEvolutionTables(this.value);
+      });
+    }
   </script>
 </body>
 </html>
