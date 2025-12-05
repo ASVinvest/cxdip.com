@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>CXDIP · Customers Say</title>
+  <title>CXDIP · Drivers de Comentarios</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
@@ -130,7 +130,7 @@
       margin-bottom: 4px;
     }
 
-    /* Fila filtro año */
+    /* Fila de filtros (año, trimestres) */
     .filter-row {
       display: flex;
       align-items: center;
@@ -141,6 +141,11 @@
 
     .filter-label {
       font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .filter-hint {
+      font-size: 0.75rem;
       color: var(--text-muted);
     }
 
@@ -164,9 +169,28 @@
       border-color: #1d4ed8;
     }
 
-    .filter-hint {
-      font-size: 0.75rem;
+    /* Píldoras de trimestres */
+    .trim-pills {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .trim-pill {
+      border-radius: 999px;
+      border: 1px solid #c7d2fe;
+      background: #e5edff;
+      padding: 3px 10px;
+      font-size: 0.78rem;
       color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .trim-pill.selected {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
     }
 
     .table-wrapper {
@@ -369,7 +393,7 @@
       white-space: nowrap;
     }
 
-    /* Drivers en Servicios agregados */
+    /* Drivers en servicios agregados */
     .drivers-cell {
       font-size: 0.78rem;
       color: var(--text-muted);
@@ -424,7 +448,7 @@
         <div>
           <div class="title-main"><span>CXDIP</span> Drivers de Comentarios</div>
           <div class="title-sub">
-            Panel de lectura de texto abierto. Drivers macro, servicios y centros (maqueta UI).
+            Panel de lectura de texto abierto.
           </div>
         </div>
         <div class="badge-secondary">
@@ -465,7 +489,7 @@
           <option value="2024" selected>2024</option>
           <option value="2025">2025</option>
         </select>
-        <span class="filter-hint">Drivers Macro + Evolución CSAT / Uplift responden a este filtro.</span>
+        <span class="filter-hint"></span>
       </div>
 
       <div class="table-wrapper">
@@ -500,7 +524,7 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Se rellena por JS según año -->
+            <!-- Rellenado por JS -->
           </tbody>
         </table>
       </div>
@@ -510,9 +534,9 @@
         <!-- Evolución CSAT -->
         <div class="ranking-card">
           <div class="ranking-title">Evolución CSAT atributo</div>
-          <div class="ranking-sub">
+          <!-- <div class="ranking-sub">
             Evolución del CSAT por driver entre trimestres (T1–T4) y total anual.
-          </div>
+          </div>-->
 
           <div class="table-wrapper table-wrapper-ranking">
             <table class="ranking-table ranking-csat">
@@ -520,28 +544,16 @@
                 <tr>
                   <th>Driver</th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
-                    <span class="sort-label">
-                      T1
-                      <span class="sort-indicator">↕</span>
-                    </span>
+                    <span class="sort-label">T1<span class="sort-indicator">↕</span></span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
-                    <span class="sort-label">
-                      T2
-                      <span class="sort-indicator">↕</span>
-                    </span>
+                    <span class="sort-label">T2<span class="sort-indicator">↕</span></span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
-                    <span class="sort-label">
-                      T3
-                      <span class="sort-indicator">↕</span>
-                    </span>
+                    <span class="sort-label">T3<span class="sort-indicator">↕</span></span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
-                    <span class="sort-label">
-                      T4
-                      <span class="sort-indicator">↕</span>
-                    </span>
+                    <span class="sort-label">T4<span class="sort-indicator">↕</span></span>
                   </th>
                   <th style="text-align:right;">Total anual</th>
                 </tr>
@@ -556,9 +568,9 @@
         <!-- Evolución Uplift -->
         <div class="ranking-card">
           <div class="ranking-title">Evolución Uplift atributo</div>
-          <div class="ranking-sub">
+          <!--<div class="ranking-sub">
             Uplift del atributo vs CSAT global (4,10) por trimestre y total anual.
-          </div>
+          </div>-->
 
           <div class="table-wrapper table-wrapper-ranking">
             <table class="ranking-table ranking-uplift">
@@ -566,28 +578,16 @@
                 <tr>
                   <th>Driver</th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
-                    <span class="sort-label">
-                      T1
-                      <span class="sort-indicator">↕</span>
-                    </span>
+                    <span class="sort-label">T1<span class="sort-indicator">↕</span></span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
-                    <span class="sort-label">
-                      T2
-                      <span class="sort-indicator">↕</span>
-                    </span>
+                    <span class="sort-label">T2<span class="sort-indicator">↕</span></span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
-                    <span class="sort-label">
-                      T3
-                      <span class="sort-indicator">↕</span>
-                    </span>
+                    <span class="sort-label">T3<span class="sort-indicator">↕</span></span>
                   </th>
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
-                    <span class="sort-label">
-                      T4
-                      <span class="sort-indicator">↕</span>
-                    </span>
+                    <span class="sort-label">T4<span class="sort-indicator">↕</span></span>
                   </th>
                   <th style="text-align:right;">Total anual</th>
                 </tr>
@@ -602,10 +602,22 @@
     </section>
 
     <!-- SERVICIOS AGREGADOS -->
-    <div class="section-title">Servicios agregados</div>
+    <div class="section-title">SERVICIOS AGREGADOS</div>
 
     <section class="card">
-      <div class="level-tag">Vista por servicio_agrupado y centro (apertura con “+”)</div>
+      <div class="level-tag">Vista por servicio</div>
+
+      <!-- Filtro de trimestres -->
+      <div class="filter-row">
+        <span class="filter-label">Trimestres:</span>
+        <div class="trim-pills" id="trim-filter">
+          <div class="trim-pill selected" data-trim="1">T1</div>
+          <div class="trim-pill selected" data-trim="2">T2</div>
+          <div class="trim-pill selected" data-trim="3">T3</div>
+          <div class="trim-pill selected" data-trim="4">T4</div>
+        </div>
+        <span class="filter-hint">Selecciona uno o varios trimestres. Los datos respetan el año elegido arriba.</span>
+      </div>
 
       <div class="table-wrapper">
         <table>
@@ -620,162 +632,8 @@
               <th style="text-align:right;">Uplift atributo</th>
             </tr>
           </thead>
-          <tbody>
-            <!-- SERVICIO 1 -->
-            <tr>
-              <td class="tbl-name">
-                Servicio 1
-                <button class="plus-btn service-toggle" data-service="serv1" data-expanded="false">+</button>
-              </td>
-              <td class="drivers-cell">–</td>
-              <td class="tbl-num">620</td>
-              <td class="tbl-num">14,4%</td>
-              <td class="tbl-num">60,0</td>
-              <td class="tbl-num val-csat pos">4,30</td>
-              <td class="tbl-num val-uplift pos">+0,20</td>
-            </tr>
-            <!-- Centro 1 -->
-            <tr class="center-row" data-parent="serv1" style="display:none;">
-              <td class="tbl-name center-cell">↳ Centro 1</td>
-              <td class="drivers-cell">Tiempos de espera</td>
-              <td class="tbl-num">140</td>
-              <td class="tbl-num">3,2%</td>
-              <td class="tbl-num">65,0</td>
-              <td class="tbl-num val-csat pos">4,60</td>
-              <td class="tbl-num val-uplift pos">+0,50</td>
-            </tr>
-            <tr class="center-row driver-row" data-parent="serv1" style="display:none;">
-              <td class="tbl-name center-cell-empty"></td>
-              <td class="drivers-cell">Atención vendedor</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-            </tr>
-            <!-- Centro 2 -->
-            <tr class="center-row" data-parent="serv1" style="display:none;">
-              <td class="tbl-name center-cell">↳ Centro 2</td>
-              <td class="drivers-cell">Productos</td>
-              <td class="tbl-num">120</td>
-              <td class="tbl-num">2,8%</td>
-              <td class="tbl-num">62,0</td>
-              <td class="tbl-num val-csat pos">4,40</td>
-              <td class="tbl-num val-uplift pos">+0,30</td>
-            </tr>
-            <tr class="center-row driver-row" data-parent="serv1" style="display:none;">
-              <td class="tbl-name center-cell-empty"></td>
-              <td class="drivers-cell">Logística / entrega</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-            </tr>
-            <!-- Centro 3 -->
-            <tr class="center-row" data-parent="serv1" style="display:none;">
-              <td class="tbl-name center-cell">↳ Centro 3</td>
-              <td class="drivers-cell">Atención repartidor</td>
-              <td class="tbl-num">95</td>
-              <td class="tbl-num">2,2%</td>
-              <td class="tbl-num">58,0</td>
-              <td class="tbl-num val-csat neutral">4,10</td>
-              <td class="tbl-num val-uplift neutral">0,00</td>
-            </tr>
-            <tr class="center-row driver-row" data-parent="serv1" style="display:none;">
-              <td class="tbl-name center-cell-empty"></td>
-              <td class="drivers-cell">Otros</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-            </tr>
-
-            <!-- SERVICIO 2 -->
-            <tr>
-              <td class="tbl-name">
-                Servicio 2
-                <button class="plus-btn service-toggle" data-service="serv2" data-expanded="false">+</button>
-              </td>
-              <td class="drivers-cell">–</td>
-              <td class="tbl-num">540</td>
-              <td class="tbl-num">12,5%</td>
-              <td class="tbl-num">55,0</td>
-              <td class="tbl-num val-csat neutral">4,10</td>
-              <td class="tbl-num val-uplift neutral">0,00</td>
-            </tr>
-            <!-- Centro 1 -->
-            <tr class="center-row" data-parent="serv2" style="display:none;">
-              <td class="tbl-name center-cell">↳ Centro 1</td>
-              <td class="drivers-cell">Productos</td>
-              <td class="tbl-num">90</td>
-              <td class="tbl-num">2,1%</td>
-              <td class="tbl-num">57,0</td>
-              <td class="tbl-num val-csat pos">4,20</td>
-              <td class="tbl-num val-uplift pos">+0,10</td>
-            </tr>
-            <tr class="center-row driver-row" data-parent="serv2" style="display:none;">
-              <td class="tbl-name center-cell-empty"></td>
-              <td class="drivers-cell">Atención vendedor</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-            </tr>
-            <!-- Centro 3 -->
-            <tr class="center-row" data-parent="serv2" style="display:none;">
-              <td class="tbl-name center-cell">↳ Centro 3</td>
-              <td class="drivers-cell">Tiempos de espera</td>
-              <td class="tbl-num">70</td>
-              <td class="tbl-num">1,6%</td>
-              <td class="tbl-num">50,0</td>
-              <td class="tbl-num val-csat neg">3,80</td>
-              <td class="tbl-num val-uplift neg">-0,30</td>
-            </tr>
-            <tr class="center-row driver-row" data-parent="serv2" style="display:none;">
-              <td class="tbl-name center-cell-empty"></td>
-              <td class="drivers-cell">Problema sin solución</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-            </tr>
-
-            <!-- SERVICIO 3 -->
-            <tr>
-              <td class="tbl-name">
-                Servicio 3
-                <button class="plus-btn service-toggle" data-service="serv3" data-expanded="false">+</button>
-              </td>
-              <td class="drivers-cell">–</td>
-              <td class="tbl-num">470</td>
-              <td class="tbl-num">10,9%</td>
-              <td class="tbl-num">52,0</td>
-              <td class="tbl-num val-csat neg">3,90</td>
-              <td class="tbl-num val-uplift neg">-0,20</td>
-            </tr>
-            <!-- Centro 2 -->
-            <tr class="center-row" data-parent="serv3" style="display:none;">
-              <td class="tbl-name center-cell">↳ Centro 2</td>
-              <td class="drivers-cell">Logística / entrega</td>
-              <td class="tbl-num">85</td>
-              <td class="tbl-num">2,0%</td>
-              <td class="tbl-num">48,0</td>
-              <td class="tbl-num val-csat neg">3,70</td>
-              <td class="tbl-num val-uplift neg">-0,40</td>
-            </tr>
-            <tr class="center-row driver-row" data-parent="serv3" style="display:none;">
-              <td class="tbl-name center-cell-empty"></td>
-              <td class="drivers-cell">Problema sin solución</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-              <td class="tbl-num">–</td>
-            </tr>
+          <tbody id="services-tbody">
+            <!-- JS -->
           </tbody>
         </table>
       </div>
@@ -788,7 +646,7 @@
   </div>
 
   <script>
-    // -------------------- UTILIDADES --------------------
+    // -------------------- UTILIDADES GENERALES --------------------
     function parseCellValue(text, type) {
       if (!text) return null;
       text = text.trim();
@@ -836,20 +694,6 @@
       if (v < -0.001) return 'neg';
       return 'neutral';
     }
-
-    // -------------------- TOGGLE SERVICIOS --------------------
-    document.querySelectorAll('.service-toggle').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var sid = this.getAttribute('data-service');
-        var expanded = this.getAttribute('data-expanded') === 'true';
-        var rows = document.querySelectorAll("tr[data-parent='" + sid + "']");
-        rows.forEach(function(row) {
-          row.style.display = expanded ? 'none' : 'table-row';
-        });
-        this.textContent = expanded ? '+' : '–';
-        this.setAttribute('data-expanded', expanded ? 'false' : 'true');
-      });
-    });
 
     // -------------------- ORDEN TABLA DRIVERS MACRO --------------------
     (function() {
@@ -906,7 +750,7 @@
       });
     })();
 
-    // -------------------- DATA DEMO DRIVERS MACRO POR AÑO --------------------
+    // -------------------- DATA DRIVERS MACRO POR AÑO --------------------
     var macroBase2024 = [
       { driver: 'Tiempos de espera',     comments: 980, csat: 3.60, uplift: -0.50 },
       { driver: 'Productos',             comments: 720, csat: 4.30, uplift:  0.20 },
@@ -933,18 +777,6 @@
       2023: shiftMacroData(macroBase2024, 0.95, -0.05, -0.05),
       2024: macroBase2024,
       2025: shiftMacroData(macroBase2024, 1.05,  0.05,  0.05)
-    };
-
-    var globalCsatByYear = {
-      2023: 4.00,
-      2024: 4.10,
-      2025: 4.20
-    };
-
-    var globalUpliftByYear = {
-      2023: -0.05,
-      2024:  0.00,
-      2025:  0.05
     };
 
     function renderDriversMacro(year) {
@@ -1029,7 +861,7 @@
 
       tbody.appendChild(trTotal);
 
-      // Fila Promedios (usa CSAT/Uplift global por año)
+      // Fila Promedios (usa CSAT/Uplift global por año demo)
       var trProm = document.createElement('tr');
       trProm.className = 'row-prom';
 
@@ -1048,19 +880,24 @@
       tdVoid2.textContent = '–';
       trProm.appendChild(tdVoid2);
 
-      var globalCsat = (globalCsatByYear[year] !== undefined) ? globalCsatByYear[year] : 4.10;
+      var globalCsat = { '2023': 4.00, '2024': 4.10, '2025': 4.20 }[year] || 4.10;
       var tdCsatProm = document.createElement('td');
       tdCsatProm.className = 'tbl-num val-csat ' + getCsatClass(globalCsat);
       tdCsatProm.textContent = formatDecimal(globalCsat, 2, false);
       trProm.appendChild(tdCsatProm);
 
-      var globalUplift = (globalUpliftByYear[year] !== undefined) ? globalUpliftByYear[year] : 0.00;
+      var globalUplift = { '2023': -0.05, '2024': 0.00, '2025': 0.05 }[year] || 0.00;
       var tdUpliftProm = document.createElement('td');
       tdUpliftProm.className = 'tbl-num val-uplift ' + getUpliftClass(globalUplift);
       tdUpliftProm.textContent = formatDecimal(globalUplift, 2, false);
       trProm.appendChild(tdUpliftProm);
 
       tbody.appendChild(trProm);
+    }
+
+    function getYearTextTotal(year) {
+      var rows = macroDataByYear[year] || macroBase2024;
+      return rows.reduce(function(acc, r) { return acc + (r.comments || 0); }, 0);
     }
 
     // -------------------- DATA EVOLUCIÓN TRIMESTRAL --------------------
@@ -1192,7 +1029,7 @@
       });
     }
 
-    // -------------------- ORDEN EVOLUCIÓN (CSAT / UPLIFT) --------------------
+    // Orden evoluciones (CSAT / Uplift)
     (function() {
       var rankingTables = document.querySelectorAll('.ranking-table');
       rankingTables.forEach(function(table) {
@@ -1241,17 +1078,389 @@
       });
     })();
 
-    // -------------------- INICIALIZACIÓN --------------------
-    var yearSelect = document.getElementById('year-select');
-    if (yearSelect) {
-      renderDriversMacro(yearSelect.value);
-      renderEvolutionTables(yearSelect.value);
+    // -------------------- DATA SERVICIOS AGREGADOS POR AÑO/TRIM --------------------
+    var servicesBase2024 = [
+      {
+        id: 'serv1',
+        name: 'Servicio 1',
+        quarters: {
+          1: { comments: 150, nps: 60.0, csat: 4.30, uplift: 0.20 },
+          2: { comments: 155, nps: 60.0, csat: 4.30, uplift: 0.20 },
+          3: { comments: 155, nps: 60.0, csat: 4.30, uplift: 0.20 },
+          4: { comments: 160, nps: 60.0, csat: 4.30, uplift: 0.20 }
+        },
+        centers: [
+          {
+            id: 'serv1_c1',
+            name: 'Centro 1',
+            drivers: ['Tiempos de espera', 'Atención vendedor'],
+            quarters: {
+              1: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 },
+              2: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 },
+              3: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 },
+              4: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 }
+            }
+          },
+          {
+            id: 'serv1_c2',
+            name: 'Centro 2',
+            drivers: ['Productos', 'Logística / entrega'],
+            quarters: {
+              1: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 },
+              2: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 },
+              3: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 },
+              4: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 }
+            }
+          },
+          {
+            id: 'serv1_c3',
+            name: 'Centro 3',
+            drivers: ['Atención repartidor', 'Otros'],
+            quarters: {
+              1: { comments: 24, nps: 58.0, csat: 4.10, uplift: 0.00 },
+              2: { comments: 24, nps: 58.0, csat: 4.10, uplift: 0.00 },
+              3: { comments: 24, nps: 58.0, csat: 4.10, uplift: 0.00 },
+              4: { comments: 23, nps: 58.0, csat: 4.10, uplift: 0.00 }
+            }
+          }
+        ]
+      },
+      {
+        id: 'serv2',
+        name: 'Servicio 2',
+        quarters: {
+          1: { comments: 130, nps: 55.0, csat: 4.10, uplift: 0.00 },
+          2: { comments: 135, nps: 55.0, csat: 4.10, uplift: 0.00 },
+          3: { comments: 135, nps: 55.0, csat: 4.10, uplift: 0.00 },
+          4: { comments: 140, nps: 55.0, csat: 4.10, uplift: 0.00 }
+        },
+        centers: [
+          {
+            id: 'serv2_c1',
+            name: 'Centro 1',
+            drivers: ['Productos', 'Atención vendedor'],
+            quarters: {
+              1: { comments: 22, nps: 57.0, csat: 4.20, uplift: 0.10 },
+              2: { comments: 23, nps: 57.0, csat: 4.20, uplift: 0.10 },
+              3: { comments: 22, nps: 57.0, csat: 4.20, uplift: 0.10 },
+              4: { comments: 23, nps: 57.0, csat: 4.20, uplift: 0.10 }
+            }
+          },
+          {
+            id: 'serv2_c3',
+            name: 'Centro 3',
+            drivers: ['Tiempos de espera', 'Problema sin solución'],
+            quarters: {
+              1: { comments: 18, nps: 50.0, csat: 3.80, uplift: -0.30 },
+              2: { comments: 17, nps: 50.0, csat: 3.80, uplift: -0.30 },
+              3: { comments: 17, nps: 50.0, csat: 3.80, uplift: -0.30 },
+              4: { comments: 18, nps: 50.0, csat: 3.80, uplift: -0.30 }
+            }
+          }
+        ]
+      },
+      {
+        id: 'serv3',
+        name: 'Servicio 3',
+        quarters: {
+          1: { comments: 110, nps: 52.0, csat: 3.90, uplift: -0.20 },
+          2: { comments: 115, nps: 52.0, csat: 3.90, uplift: -0.20 },
+          3: { comments: 115, nps: 52.0, csat: 3.90, uplift: -0.20 },
+          4: { comments: 130, nps: 52.0, csat: 3.90, uplift: -0.20 }
+        },
+        centers: [
+          {
+            id: 'serv3_c2',
+            name: 'Centro 2',
+            drivers: ['Logística / entrega', 'Problema sin solución'],
+            quarters: {
+              1: { comments: 21, nps: 48.0, csat: 3.70, uplift: -0.40 },
+              2: { comments: 21, nps: 48.0, csat: 3.70, uplift: -0.40 },
+              3: { comments: 21, nps: 48.0, csat: 3.70, uplift: -0.40 },
+              4: { comments: 22, nps: 48.0, csat: 3.70, uplift: -0.40 }
+            }
+          }
+        ]
+      }
+    ];
 
-      yearSelect.addEventListener('change', function() {
-        renderDriversMacro(this.value);
-        renderEvolutionTables(this.value);
+    function cloneServicesWithShift(base, factorComments, csatDelta, upliftDelta, npsDelta) {
+      return base.map(function(serv) {
+        var newServ = {
+          id: serv.id,
+          name: serv.name,
+          quarters: {},
+          centers: []
+        };
+
+        [1,2,3,4].forEach(function(q) {
+          var src = serv.quarters[q];
+          newServ.quarters[q] = {
+            comments: Math.round(src.comments * factorComments),
+            nps: src.nps + npsDelta,
+            csat: src.csat + csatDelta,
+            uplift: src.uplift + upliftDelta
+          };
+        });
+
+        newServ.centers = serv.centers.map(function(c) {
+          var nc = {
+            id: c.id,
+            name: c.name,
+            drivers: c.drivers.slice(),
+            quarters: {}
+          };
+          [1,2,3,4].forEach(function(q) {
+            var src = c.quarters[q];
+            nc.quarters[q] = {
+              comments: Math.round(src.comments * factorComments),
+              nps: src.nps + npsDelta,
+              csat: src.csat + csatDelta,
+              uplift: src.uplift + upliftDelta
+            };
+          });
+          return nc;
+        });
+
+        return newServ;
       });
     }
+
+    var servicesDataByYear = {
+      2023: cloneServicesWithShift(servicesBase2024, 0.95, -0.05, -0.05, -0.5),
+      2024: servicesBase2024,
+      2025: cloneServicesWithShift(servicesBase2024, 1.05, 0.05, 0.05, 0.5)
+    };
+
+    function aggregateEntity(entity, trims) {
+      var totalComments = 0;
+      var sumNps = 0, countNps = 0;
+      var sumCsat = 0, countCsat = 0;
+      var sumUplift = 0, countUplift = 0;
+
+      trims.forEach(function(t) {
+        var q = entity.quarters[t];
+        if (!q) return;
+        totalComments += q.comments || 0;
+
+        if (q.nps !== null && typeof q.nps !== 'undefined') {
+          sumNps += q.nps; countNps++;
+        }
+        if (q.csat !== null && typeof q.csat !== 'undefined') {
+          sumCsat += q.csat; countCsat++;
+        }
+        if (q.uplift !== null && typeof q.uplift !== 'undefined') {
+          sumUplift += q.uplift; countUplift++;
+        }
+      });
+
+      return {
+        comments: totalComments,
+        nps: countNps ? (sumNps / countNps) : null,
+        csat: countCsat ? (sumCsat / countCsat) : null,
+        uplift: countUplift ? (sumUplift / countUplift) : null
+      };
+    }
+
+    function initServiceToggles() {
+      document.querySelectorAll('.service-toggle').forEach(function(btn) {
+        btn.onclick = function() {
+          var sid = this.getAttribute('data-service');
+          var expanded = this.getAttribute('data-expanded') === 'true';
+          var rows = document.querySelectorAll("tr[data-parent='" + sid + "']");
+          rows.forEach(function(row) {
+            row.style.display = expanded ? 'none' : 'table-row';
+          });
+          this.textContent = expanded ? '+' : '–';
+          this.setAttribute('data-expanded', expanded ? 'false' : 'true');
+        };
+      });
+    }
+
+    function renderServicesTable(year, trims) {
+      var tbody = document.getElementById('services-tbody');
+      if (!tbody) return;
+
+      var dataset = servicesDataByYear[year] || servicesBase2024;
+      var yearTextTotal = getYearTextTotal(year);
+      tbody.innerHTML = '';
+
+      var computed = dataset.map(function(serv) {
+        var aggService = aggregateEntity(serv, trims);
+        var centersAgg = serv.centers.map(function(c) {
+          return aggregateEntity(c, trims);
+        });
+        return { serv: serv, agg: aggService, centersAgg: centersAgg };
+      });
+
+      computed.forEach(function(item) {
+        var serv = item.serv;
+        var agg = item.agg;
+
+        // Servicio row
+        var trServ = document.createElement('tr');
+
+        var tdName = document.createElement('td');
+        tdName.className = 'tbl-name';
+        tdName.innerHTML = serv.name +
+          ' <button class="plus-btn service-toggle" data-service="' + serv.id + '" data-expanded="false">+</button>';
+        trServ.appendChild(tdName);
+
+        var tdDrivers = document.createElement('td');
+        tdDrivers.className = 'drivers-cell';
+        tdDrivers.textContent = '–';
+        trServ.appendChild(tdDrivers);
+
+        var tdComments = document.createElement('td');
+        tdComments.className = 'tbl-num';
+        tdComments.textContent = new Intl.NumberFormat('es-CL').format(agg.comments);
+        trServ.appendChild(tdComments);
+
+        var pctService = yearTextTotal > 0 ? (agg.comments / yearTextTotal * 100) : 0;
+        var tdPct = document.createElement('td');
+        tdPct.className = 'tbl-num';
+        tdPct.textContent = yearTextTotal ? formatDecimal(pctService, 1, false) + '%' : '0,0%';
+        trServ.appendChild(tdPct);
+
+        var tdNps = document.createElement('td');
+        tdNps.className = 'tbl-num';
+        tdNps.textContent = agg.nps !== null ? formatDecimal(agg.nps, 1, false) : '–';
+        trServ.appendChild(tdNps);
+
+        var tdCsat = document.createElement('td');
+        tdCsat.className = 'tbl-num val-csat ' + getCsatClass(agg.csat);
+        tdCsat.textContent = agg.csat !== null ? formatDecimal(agg.csat, 2, false) : '–';
+        trServ.appendChild(tdCsat);
+
+        var tdUplift = document.createElement('td');
+        tdUplift.className = 'tbl-num val-uplift ' + getUpliftClass(agg.uplift);
+        tdUplift.textContent = agg.uplift !== null ? formatDecimal(agg.uplift, 2, true) : '–';
+        trServ.appendChild(tdUplift);
+
+        tbody.appendChild(trServ);
+
+        // Centros + drivers
+        item.serv.centers.forEach(function(center, idx) {
+          var cAgg = item.centersAgg[idx];
+          var pctCenter = yearTextTotal > 0 ? (cAgg.comments / yearTextTotal * 100) : 0;
+
+          var trCenter = document.createElement('tr');
+          trCenter.className = 'center-row';
+          trCenter.setAttribute('data-parent', serv.id);
+          trCenter.style.display = 'none';
+
+          var tdSC = document.createElement('td');
+          tdSC.className = 'tbl-name center-cell';
+          tdSC.textContent = '↳ ' + center.name;
+          trCenter.appendChild(tdSC);
+
+          var tdDrv = document.createElement('td');
+          tdDrv.className = 'drivers-cell';
+          tdDrv.textContent = center.drivers.length ? center.drivers[0] : '–';
+          trCenter.appendChild(tdDrv);
+
+          var tdCommC = document.createElement('td');
+          tdCommC.className = 'tbl-num';
+          tdCommC.textContent = new Intl.NumberFormat('es-CL').format(cAgg.comments);
+          trCenter.appendChild(tdCommC);
+
+          var tdPctC = document.createElement('td');
+          tdPctC.className = 'tbl-num';
+          tdPctC.textContent = yearTextTotal ? formatDecimal(pctCenter, 1, false) + '%' : '0,0%';
+          trCenter.appendChild(tdPctC);
+
+          var tdNpsC = document.createElement('td');
+          tdNpsC.className = 'tbl-num';
+          tdNpsC.textContent = cAgg.nps !== null ? formatDecimal(cAgg.nps, 1, false) : '–';
+          trCenter.appendChild(tdNpsC);
+
+          var tdCsatC = document.createElement('td');
+          tdCsatC.className = 'tbl-num val-csat ' + getCsatClass(cAgg.csat);
+          tdCsatC.textContent = cAgg.csat !== null ? formatDecimal(cAgg.csat, 2, false) : '–';
+          trCenter.appendChild(tdCsatC);
+
+          var tdUpliftC = document.createElement('td');
+          tdUpliftC.className = 'tbl-num val-uplift ' + getUpliftClass(cAgg.uplift);
+          tdUpliftC.textContent = cAgg.uplift !== null ? formatDecimal(cAgg.uplift, 2, true) : '–';
+          trCenter.appendChild(tdUpliftC);
+
+          tbody.appendChild(trCenter);
+
+          // Drivers adicionales (solo texto)
+          for (var d = 1; d < center.drivers.length; d++) {
+            var trDrv = document.createElement('tr');
+            trDrv.className = 'center-row driver-row';
+            trDrv.setAttribute('data-parent', serv.id);
+            trDrv.style.display = 'none';
+
+            var tdEmpty = document.createElement('td');
+            tdEmpty.className = 'tbl-name center-cell-empty';
+            tdEmpty.textContent = '';
+            trDrv.appendChild(tdEmpty);
+
+            var tdDrvName = document.createElement('td');
+            tdDrvName.className = 'drivers-cell';
+            tdDrvName.textContent = center.drivers[d];
+            trDrv.appendChild(tdDrvName);
+
+            for (var k = 0; k < 5; k++) {
+              var tdm = document.createElement('td');
+              tdm.className = 'tbl-num';
+              tdm.textContent = '–';
+              trDrv.appendChild(tdm);
+            }
+            tbody.appendChild(trDrv);
+          }
+        });
+      });
+
+      initServiceToggles();
+    }
+
+    // -------------------- INICIALIZACIÓN --------------------
+    var selectedTrims = [1, 2, 3, 4];
+
+    function getCurrentYear() {
+      var sel = document.getElementById('year-select');
+      return sel ? sel.value : '2024';
+    }
+
+    function refreshAll() {
+      var year = getCurrentYear();
+      renderDriversMacro(year);
+      renderEvolutionTables(year);
+      renderServicesTable(year, selectedTrims);
+    }
+
+    // Eventos selector de año
+    var yearSelect = document.getElementById('year-select');
+    if (yearSelect) {
+      yearSelect.addEventListener('change', function() {
+        refreshAll();
+      });
+    }
+
+    // Eventos de trimestres (multi selección)
+    document.querySelectorAll('#trim-filter .trim-pill').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        var t = parseInt(this.getAttribute('data-trim'), 10);
+        var idx = selectedTrims.indexOf(t);
+
+        if (idx !== -1) {
+          if (selectedTrims.length === 1) return; // siempre al menos uno
+          selectedTrims.splice(idx, 1);
+          this.classList.remove('selected');
+        } else {
+          selectedTrims.push(t);
+          selectedTrims.sort();
+          this.classList.add('selected');
+        }
+        refreshAll();
+      });
+    });
+
+    // Primera carga
+    refreshAll();
   </script>
 </body>
 </html>
