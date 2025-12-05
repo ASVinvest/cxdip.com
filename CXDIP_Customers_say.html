@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>CXDIP · Customers Say</title>
+  <title>CXDIP · Drivers de Comentarios</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
@@ -357,6 +357,8 @@
       overflow-y: auto;
       overflow-x: auto;
       position: relative;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
     }
 
     .table-wrapper-ranking table {
@@ -425,6 +427,10 @@
         min-width: 600px;
       }
 
+      .table-wrapper-ranking table {
+        min-width: 520px;
+      }
+
       table {
         font-size: 0.8rem;
       }
@@ -448,7 +454,7 @@
         <div>
           <div class="title-main"><span>CXDIP</span> Drivers de Comentarios</div>
           <div class="title-sub">
-            Panel de lectura de texto abierto.
+            Panel de lectura de texto abierto. Drivers macro, servicios y centros (maqueta UI).
           </div>
         </div>
         <div class="badge-secondary">
@@ -489,7 +495,7 @@
           <option value="2024" selected>2024</option>
           <option value="2025">2025</option>
         </select>
-        <span class="filter-hint"></span>
+        <span class="filter-hint">Drivers Macro + Evolución CSAT / Uplift y Servicios agregados responden a este filtro.</span>
       </div>
 
       <div class="table-wrapper">
@@ -534,9 +540,9 @@
         <!-- Evolución CSAT -->
         <div class="ranking-card">
           <div class="ranking-title">Evolución CSAT atributo</div>
-          <!-- <div class="ranking-sub">
+          <div class="ranking-sub">
             Evolución del CSAT por driver entre trimestres (T1–T4) y total anual.
-          </div>-->
+          </div>
 
           <div class="table-wrapper table-wrapper-ranking">
             <table class="ranking-table ranking-csat">
@@ -555,7 +561,9 @@
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
                     <span class="sort-label">T4<span class="sort-indicator">↕</span></span>
                   </th>
-                  <th style="text-align:right;">Total anual</th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">Total anual<span class="sort-indicator">↕</span></span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -568,9 +576,9 @@
         <!-- Evolución Uplift -->
         <div class="ranking-card">
           <div class="ranking-title">Evolución Uplift atributo</div>
-          <!--<div class="ranking-sub">
+          <div class="ranking-sub">
             Uplift del atributo vs CSAT global (4,10) por trimestre y total anual.
-          </div>-->
+          </div>
 
           <div class="table-wrapper table-wrapper-ranking">
             <table class="ranking-table ranking-uplift">
@@ -589,7 +597,9 @@
                   <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
                     <span class="sort-label">T4<span class="sort-indicator">↕</span></span>
                   </th>
-                  <th style="text-align:right;">Total anual</th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">Total anual<span class="sort-indicator">↕</span></span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -605,7 +615,7 @@
     <div class="section-title">SERVICIOS AGREGADOS</div>
 
     <section class="card">
-      <div class="level-tag">Vista por servicio</div>
+      <div class="level-tag">Vista por servicio_agrupado y centro (apertura con “+”).</div>
 
       <!-- Filtro de trimestres -->
       <div class="filter-row">
@@ -1029,7 +1039,7 @@
       });
     }
 
-    // Orden evoluciones (CSAT / Uplift)
+    // Orden evoluciones (CSAT / Uplift) incluyendo Total anual
     (function() {
       var rankingTables = document.querySelectorAll('.ranking-table');
       rankingTables.forEach(function(table) {
