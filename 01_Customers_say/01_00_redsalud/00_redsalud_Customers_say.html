@@ -651,984 +651,697 @@
       </div>
     </section>
   </div>
-
   <script>
-    // Archivo JSON asociado a este cliente
-    const DATA_URL = '00_redsalud_Customers_say.json';
-
-    // Meta demo por defecto (se sobreescribe con JSON real)
-    var metaByYear = {
-      '2024': {
-        total_respuestas: 12540,
-        total_comentarios: 4320,
-        csat_global_texto: 4.10
-      }
-    };
-
-    // -------------------- UTILIDADES GENERALES --------------------
+    // --------- UTILIDADES ---------
     function parseCellValue(text, type) {
       if (!text) return null;
-      text = text.trim();
-      if (text === '–' || text === '-' || text === '') return null;
-      text = text.replace(/\s/g, '');
-
-      if (type === 'int') {
-        var cleanedInt = text.replace(/\./g, '');
+      text = String(text).trim();
+      if (text === "–" || text === "-" || text === "") return null;
+      text = text.replace(/\s/g, "");
+  
+      if (type === "int") {
+        var cleanedInt = text.replace(/\./g, "");
         var intVal = parseInt(cleanedInt, 10);
         return isNaN(intVal) ? null : intVal;
       }
-
-      if (type === 'percent') {
-        var cleanedPct = text.replace('%', '').replace(/\./g, '').replace(',', '.');
+  
+      if (type === "percent") {
+        var cleanedPct = text.replace("%", "").replace(/\./g, "").replace(",", ".");
         var pctVal = parseFloat(cleanedPct);
         return isNaN(pctVal) ? null : pctVal;
       }
-
-      if (type === 'decimal') {
-        var cleanedDec = text.replace('+', '').replace('–', '-').replace(',', '.');
+  
+      if (type === "decimal") {
+        var cleanedDec = text.replace("+", "").replace("–", "-").replace(",", ".");
         var decVal = parseFloat(cleanedDec);
         return isNaN(decVal) ? null : decVal;
       }
       return null;
     }
-
+  
     function formatDecimal(value, decimals, withSign) {
-      if (value === null || typeof value === 'undefined' || isNaN(value)) return '–';
+      if (value === null || typeof value === "undefined" || isNaN(value)) return "–";
       var fixed = value.toFixed(decimals);
-      var out = fixed.replace('.', ',');
-      if (withSign && value > 0) out = '+' + out;
+      var out = fixed.replace(".", ",");
+      if (withSign && value > 0) out = "+" + out;
       return out;
     }
-
-    function getCsatClass(v) {
-      if (v === null || isNaN(v)) return 'neutral';
-      if (v >= 4.2) return 'pos';
-      if (v <= 3.6) return 'neg';
-      return 'neutral';
+  
+    function formatInt(value) {
+      if (value === null || typeof value === "undefined" || isNaN(value)) return "–";
+      return new Intl.NumberFormat("es-CL").format(value);
     }
-
+  
+    // Para colorear IBB
+    function getIbbClass(v) {
+      if (v === null || isNaN(v)) return "neutral";
+      if (v >= 50) return "pos";      // muy bueno
+      if (v <= 0) return "neg";       // preocupante
+      return "neutral";               // zona media
+    }
+  
     function getUpliftClass(v) {
-      if (v === null || isNaN(v)) return 'neutral';
-      if (v > 0.001) return 'pos';
-      if (v < -0.001) return 'neg';
-      return 'neutral';
+      if (v === null || isNaN(v)) return "neutral";
+      if (v > 0.01) return "pos";
+      if (v < -0.01) return "neg";
+      return "neutral";
     }
-
-    // -------------------- RESUMEN SUPERIOR --------------------
-    function renderSummary(year) {
-      var meta = metaByYear[year];
-
-      var elTotResp = document.getElementById('sum-total-resp');
-      var elTotCom  = document.getElementById('sum-total-com');
-      var elPctText = document.getElementById('sum-pct-text');
-      var elCsat    = document.getElementById('sum-csat-global');
-
-      if (!elTotResp || !elTotCom || !elPctText || !elCsat) return;
-
-      if (!meta) {
-        elTotResp.textContent = '–';
-        elTotCom.textContent  = '–';
-        elPctText.textContent = '–';
-        elCsat.textContent    = '–';
-        return;
-      }
-
-      var totalResp = meta.total_respuestas || 0;
-      var totalCom  = meta.total_comentarios || 0;
-      var csat      = meta.csat_global_texto;
-
-      elTotResp.textContent = new Intl.NumberFormat('es-CL').format(totalResp);
-      elTotCom.textContent  = new Intl.NumberFormat('es-CL').format(totalCom);
-
-      var pct = totalResp > 0 ? (totalCom / totalResp * 100) : 0;
-      elPctText.textContent = formatDecimal(pct, 1, false) + '% aportan texto';
-
-      elCsat.textContent = (csat === null || typeof csat === 'undefined' || isNaN(csat))
-        ? '–'
-        : formatDecimal(csat, 2, false);
-    }
-
-    // -------------------- ORDEN TABLA DRIVERS MACRO --------------------
-    (function() {
-      var table = document.getElementById('drivers-table');
+  
+    // --------- ORDEN TABLA DRIVERS MACRO ---------
+    (function () {
+      var table = document.getElementById("drivers-table");
       if (!table) return;
-
-      table.querySelectorAll('thead th.sortable-col').forEach(function(th) {
-        th.dataset.sortDirection = 'none';
-
-        th.addEventListener('click', function() {
-          var sortType = th.dataset.sortType || 'decimal';
+  
+      table.querySelectorAll("thead th.sortable-col").forEach(function (th) {
+        th.dataset.sortDirection = "none";
+  
+        th.addEventListener("click", function () {
+          var sortType = th.dataset.sortType || "decimal";
           var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
-          var current  = th.dataset.sortDirection;
-          var next     = current === 'asc' ? 'desc' : 'asc';
+          var current = th.dataset.sortDirection;
+          var next = current === "asc" ? "desc" : "asc";
           th.dataset.sortDirection = next;
-          var direction = next === 'asc' ? 1 : -1;
-
-          table.querySelectorAll('thead th.sortable-col').forEach(function(other) {
+          var direction = next === "asc" ? 1 : -1;
+  
+          table.querySelectorAll("thead th.sortable-col").forEach(function (other) {
             if (other !== th) {
-              other.dataset.sortDirection = 'none';
-              var io = other.querySelector('.sort-indicator');
-              if (io) io.textContent = '↕';
+              other.dataset.sortDirection = "none";
+              var io = other.querySelector(".sort-indicator");
+              if (io) io.textContent = "↕";
             }
           });
-
-          var icon = th.querySelector('.sort-indicator');
-          if (icon) icon.textContent = next === 'asc' ? '▲' : '▼';
-
-          var tbody = table.querySelector('tbody');
-          var totalRow = tbody.querySelector('.row-total');
-          var promRow  = tbody.querySelector('.row-prom');
-
-          var dataRows = Array.from(tbody.querySelectorAll('tr')).filter(function(row) {
-            return !row.classList.contains('row-total') && !row.classList.contains('row-prom');
+  
+          var icon = th.querySelector(".sort-indicator");
+          if (icon) icon.textContent = next === "asc" ? "▲" : "▼";
+  
+          var tbody = table.querySelector("tbody");
+          var totalRow = tbody.querySelector(".row-total");
+          var promRow = tbody.querySelector(".row-prom");
+  
+          var dataRows = Array.from(tbody.querySelectorAll("tr")).filter(function (row) {
+            return !row.classList.contains("row-total") && !row.classList.contains("row-prom");
           });
-
-          dataRows.sort(function(rowA, rowB) {
+  
+          dataRows.sort(function (rowA, rowB) {
             var textA = rowA.children[colIndex].textContent;
             var textB = rowB.children[colIndex].textContent;
-            var valA  = parseCellValue(textA, sortType);
-            var valB  = parseCellValue(textB, sortType);
-
+            var valA = parseCellValue(textA, sortType);
+            var valB = parseCellValue(textB, sortType);
+  
             if (valA === null && valB === null) return 0;
             if (valA === null) return 1;
             if (valB === null) return -1;
             return (valA - valB) * direction;
           });
-
-          tbody.innerHTML = '';
-          dataRows.forEach(function(r) { tbody.appendChild(r); });
+  
+          tbody.innerHTML = "";
+          dataRows.forEach(function (r) { tbody.appendChild(r); });
           if (totalRow) tbody.appendChild(totalRow);
-          if (promRow)  tbody.appendChild(promRow);
+          if (promRow) tbody.appendChild(promRow);
         });
       });
     })();
-
-    // -------------------- DATA DRIVERS MACRO DEMO --------------------
-    var macroBase2024 = [
-      { driver: 'Tiempos de espera',     comments: 980, csat: 3.60, uplift: -0.50 },
-      { driver: 'Productos',             comments: 720, csat: 4.30, uplift:  0.20 },
-      { driver: 'Logística / entrega',   comments: 610, csat: 3.90, uplift: -0.30 },
-      { driver: 'Atención vendedor',     comments: 540, csat: 4.40, uplift:  0.30 },
-      { driver: 'Atención repartidor',   comments: 380, csat: 4.00, uplift: -0.10 },
-      { driver: 'Problema sin solución', comments: 430, csat: 3.10, uplift: -1.00 },
-      { driver: 'Otros',                 comments: 420, csat: 4.00, uplift: -0.10 },
-      { driver: 'En blanco',             comments: 240, csat: null, uplift: null }
-    ];
-
-    function shiftMacroData(base, factorComments, csatDelta, upliftDelta) {
-      return base.map(function(row) {
-        return {
-          driver: row.driver,
-          comments: Math.round(row.comments * factorComments),
-          csat: (row.csat === null || typeof row.csat === 'undefined') ? null : row.csat + csatDelta,
-          uplift: (row.uplift === null || typeof row.uplift === 'undefined') ? null : row.uplift + upliftDelta
-        };
-      });
-    }
-
-    var macroDataByYear = {
-      2023: shiftMacroData(macroBase2024, 0.95, -0.05, -0.05),
-      2024: macroBase2024,
-      2025: shiftMacroData(macroBase2024, 1.05,  0.05,  0.05)
-    };
-
-    function renderDriversMacro(year) {
-      var tbody = document.querySelector('#drivers-table tbody');
-      if (!tbody) return;
-
-      var rowsData = macroDataByYear[year] || macroBase2024;
-      var totalComments = rowsData.reduce(function(acc, row) {
-        return acc + (row.comments || 0);
-      }, 0);
-
-      tbody.innerHTML = '';
-
-      rowsData.forEach(function(row) {
-        var tr = document.createElement('tr');
-
-        var tdDriver = document.createElement('td');
-        tdDriver.className = 'tbl-name';
-        tdDriver.textContent = row.driver;
-        tr.appendChild(tdDriver);
-
-        var tdComments = document.createElement('td');
-        tdComments.className = 'tbl-num';
-        tdComments.textContent = totalComments
-          ? new Intl.NumberFormat('es-CL').format(row.comments || 0)
-          : '0';
-        tr.appendChild(tdComments);
-
-        var tdPct = document.createElement('td');
-        tdPct.className = 'tbl-num';
-        var pctVal = totalComments ? ((row.comments || 0) / totalComments * 100) : 0;
-        tdPct.textContent = totalComments ? formatDecimal(pctVal, 1, false) + '%' : '0,0%';
-        tr.appendChild(tdPct);
-
-        var tdCsat = document.createElement('td');
-        var csatVal = row.csat;
-        tdCsat.className = 'tbl-num val-csat ' + getCsatClass(csatVal);
-        tdCsat.textContent = (csatVal === null || typeof csatVal === 'undefined')
-          ? '–'
-          : formatDecimal(csatVal, 2, false);
-        tr.appendChild(tdCsat);
-
-        var tdU = document.createElement('td');
-        var uVal = row.uplift;
-        tdU.className = 'tbl-num val-uplift ' + getUpliftClass(uVal);
-        tdU.textContent = (uVal === null || typeof uVal === 'undefined')
-          ? '–'
-          : formatDecimal(uVal, 2, true);
-        tr.appendChild(tdU);
-
-        tbody.appendChild(tr);
-      });
-
-      // Fila Totales
-      var trTotal = document.createElement('tr');
-      trTotal.className = 'row-total';
-
-      var tdLabelTot = document.createElement('td');
-      tdLabelTot.className = 'tbl-name';
-      tdLabelTot.textContent = 'Totales';
-      trTotal.appendChild(tdLabelTot);
-
-      var tdCommTot = document.createElement('td');
-      tdCommTot.className = 'tbl-num';
-      tdCommTot.textContent = new Intl.NumberFormat('es-CL').format(totalComments);
-      trTotal.appendChild(tdCommTot);
-
-      var tdPctTot = document.createElement('td');
-      tdPctTot.className = 'tbl-num';
-      tdPctTot.textContent = totalComments ? '100,0%' : '0,0%';
-      trTotal.appendChild(tdPctTot);
-
-      var tdCsatTot = document.createElement('td');
-      tdCsatTot.className = 'tbl-num';
-      tdCsatTot.textContent = '–';
-      trTotal.appendChild(tdCsatTot);
-
-      var tdUpliftTot = document.createElement('td');
-      tdUpliftTot.className = 'tbl-num';
-      tdUpliftTot.textContent = '–';
-      trTotal.appendChild(tdUpliftTot);
-
-      tbody.appendChild(trTotal);
-
-      // Fila Promedios demo
-      var trProm = document.createElement('tr');
-      trProm.className = 'row-prom';
-
-      var tdLabelProm = document.createElement('td');
-      tdLabelProm.className = 'tbl-name';
-      tdLabelProm.textContent = 'Promedios';
-      trProm.appendChild(tdLabelProm);
-
-      var tdVoid1 = document.createElement('td');
-      tdVoid1.className = 'tbl-num';
-      tdVoid1.textContent = '–';
-      trProm.appendChild(tdVoid1);
-
-      var tdVoid2 = document.createElement('td');
-      tdVoid2.className = 'tbl-num';
-      tdVoid2.textContent = '–';
-      trProm.appendChild(tdVoid2);
-
-      var globalCsat = { '2023': 4.00, '2024': 4.10, '2025': 4.20 }[year] || 4.10;
-      var tdCsatProm = document.createElement('td');
-      tdCsatProm.className = 'tbl-num val-csat ' + getCsatClass(globalCsat);
-      tdCsatProm.textContent = formatDecimal(globalCsat, 2, false);
-      trProm.appendChild(tdCsatProm);
-
-      var globalUplift = { '2023': -0.05, '2024': 0.00, '2025': 0.05 }[year] || 0.00;
-      var tdUpliftProm = document.createElement('td');
-      tdUpliftProm.className = 'tbl-num val-uplift ' + getUpliftClass(globalUplift);
-      tdUpliftProm.textContent = formatDecimal(globalUplift, 2, false);
-      trProm.appendChild(tdUpliftProm);
-
-      tbody.appendChild(trProm);
-    }
-
-    function getYearTextTotal(year) {
-      var meta = metaByYear[year];
-      if (meta && typeof meta.total_comentarios === 'number') {
-        return meta.total_comentarios;
-      }
-      var rows = macroDataByYear[year] || macroBase2024;
-      return rows.reduce(function(acc, r) { return acc + (r.comments || 0); }, 0);
-    }
-
-    // -------------------- DATA EVOLUCIÓN TRIMESTRAL DEMO --------------------
-    var baseCsat2024 = [
-      { driver: 'Tiempos de espera',     quarters: [3.5, 3.6, 3.7, 3.6] },
-      { driver: 'Productos',             quarters: [4.2, 4.3, 4.4, 4.3] },
-      { driver: 'Logística / entrega',   quarters: [3.8, 3.9, 4.0, 3.9] },
-      { driver: 'Atención vendedor',     quarters: [4.3, 4.4, 4.5, 4.4] },
-      { driver: 'Atención repartidor',   quarters: [3.9, 4.0, 4.1, 4.0] },
-      { driver: 'Problema sin solución', quarters: [3.0, 3.1, 3.2, 3.1] },
-      { driver: 'Otros',                 quarters: [3.9, 4.0, 4.1, 4.0] },
-      { driver: 'En blanco',             quarters: [null, null, null, null] }
-    ];
-
-    var baseUplift2024 = [
-      { driver: 'Tiempos de espera',     quarters: [-0.60, -0.50, -0.40, -0.50] },
-      { driver: 'Productos',             quarters: [ 0.10,  0.20,  0.30,  0.20] },
-      { driver: 'Logística / entrega',   quarters: [-0.40, -0.30, -0.20, -0.30] },
-      { driver: 'Atención vendedor',     quarters: [ 0.20,  0.30,  0.40,  0.30] },
-      { driver: 'Atención repartidor',   quarters: [-0.10, -0.10,  0.00, -0.10] },
-      { driver: 'Problema sin solución', quarters: [-1.10, -1.00, -0.90, -1.00] },
-      { driver: 'Otros',                 quarters: [-0.20, -0.10,  0.00, -0.10] },
-      { driver: 'En blanco',             quarters: [0.00, 0.00, 0.00, 0.00] }
-    ];
-
-    function shiftQuarters(data, delta) {
-      return data.map(function(row) {
-        return {
-          driver: row.driver,
-          quarters: row.quarters.map(function(q) {
-            if (q === null) return null;
-            return q + delta;
-          })
-        };
-      });
-    }
-
-    var csatDataByYear = {
-      2023: shiftQuarters(baseCsat2024, -0.10),
-      2024: baseCsat2024,
-      2025: shiftQuarters(baseCsat2024,  0.10)
-    };
-
-    var upliftDataByYear = {
-      2023: shiftQuarters(baseUplift2024, -0.05),
-      2024: baseUplift2024,
-      2025: shiftQuarters(baseUplift2024,  0.05)
-    };
-
-    function renderEvolutionTables(year) {
-      var csatBody   = document.querySelector('.ranking-csat tbody');
-      var upliftBody = document.querySelector('.ranking-uplift tbody');
-      if (!csatBody || !upliftBody) return;
-
-      var csatRows   = csatDataByYear[year]   || [];
-      var upliftRows = upliftDataByYear[year] || [];
-
-      csatBody.innerHTML = '';
-      upliftBody.innerHTML = '';
-
-      csatRows.forEach(function(row) {
-        var tr = document.createElement('tr');
-
-        var tdDriver = document.createElement('td');
-        tdDriver.className = 'tbl-name';
-        tdDriver.textContent = row.driver;
-        tr.appendChild(tdDriver);
-
-        var quarters = row.quarters;
-        var sum = 0;
-        var count = 0;
-
-        quarters.forEach(function(q) {
-          var td = document.createElement('td');
-          var cls = 'tbl-num val-csat ' + getCsatClass(q);
-          td.className = cls;
-          td.textContent = q === null ? '–' : formatDecimal(q, 2, false);
-          tr.appendChild(td);
-
-          if (q !== null && !isNaN(q)) {
-            sum += q;
-            count++;
-          }
-        });
-
-        var avg = count > 0 ? sum / count : null;
-        var tdTotal = document.createElement('td');
-        tdTotal.className = 'tbl-num val-csat ' + getCsatClass(avg);
-        tdTotal.textContent = formatDecimal(avg, 2, false);
-        tdTotal.setAttribute('data-total', 'true');
-        tr.appendChild(tdTotal);
-
-        csatBody.appendChild(tr);
-      });
-
-      upliftRows.forEach(function(row) {
-        var tr = document.createElement('tr');
-
-        var tdDriver = document.createElement('td');
-        tdDriver.className = 'tbl-name';
-        tdDriver.textContent = row.driver;
-        tr.appendChild(tdDriver);
-
-        var quarters = row.quarters;
-        var sum = 0;
-        var count = 0;
-
-        quarters.forEach(function(q) {
-          var td = document.createElement('td');
-          var cls = 'tbl-num val-uplift ' + getUpliftClass(q);
-          td.className = cls;
-          td.textContent = q === null ? '–' : formatDecimal(q, 2, true);
-          tr.appendChild(td);
-
-          if (q !== null && !isNaN(q)) {
-            sum += q;
-            count++;
-          }
-        });
-
-        var avg = count > 0 ? sum / count : null;
-        var tdTotal = document.createElement('td');
-        tdTotal.className = 'tbl-num val-uplift ' + getUpliftClass(avg);
-        tdTotal.textContent = formatDecimal(avg, 2, true);
-        tdTotal.setAttribute('data-total', 'true');
-        tr.appendChild(tdTotal);
-
-        upliftBody.appendChild(tr);
-      });
-    }
-
-    // Orden evoluciones (CSAT / Uplift) incluyendo Total anual
-    (function() {
-      var rankingTables = document.querySelectorAll('.ranking-table');
-      rankingTables.forEach(function(table) {
-        var tbody = table.querySelector('tbody');
-
-        table.querySelectorAll('thead th.sortable-col').forEach(function(th) {
-          th.dataset.sortDirection = 'none';
-
-          th.addEventListener('click', function() {
-            var sortType = th.dataset.sortType || 'decimal';
+  
+    // --------- ORDEN TABLAS RANKING (CSAT / UPLIFT) ---------
+    (function () {
+      var rankingTables = document.querySelectorAll(".ranking-table");
+      rankingTables.forEach(function (table) {
+        var tbody = table.querySelector("tbody");
+  
+        table.querySelectorAll("thead th.sortable-col").forEach(function (th) {
+          th.dataset.sortDirection = "none";
+  
+          th.addEventListener("click", function () {
+            var sortType = th.dataset.sortType || "decimal";
             var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
-            var current  = th.dataset.sortDirection;
-            var next     = current === 'asc' ? 'desc' : 'asc';
+            var current = th.dataset.sortDirection;
+            var next = current === "asc" ? "desc" : "asc";
             th.dataset.sortDirection = next;
-            var direction = next === 'asc' ? 1 : -1;
-
-            table.querySelectorAll('thead th.sortable-col').forEach(function(other) {
+            var direction = next === "asc" ? 1 : -1;
+  
+            table.querySelectorAll("thead th.sortable-col").forEach(function (other) {
               if (other !== th) {
-                other.dataset.sortDirection = 'none';
-                var io = other.querySelector('.sort-indicator');
-                if (io) io.textContent = '↕';
+                other.dataset.sortDirection = "none";
+                var io = other.querySelector(".sort-indicator");
+                if (io) io.textContent = "↕";
               }
             });
-
-            var icon = th.querySelector('.sort-indicator');
-            if (icon) icon.textContent = next === 'asc' ? '▲' : '▼';
-
-            var dataRows = Array.from(tbody.querySelectorAll('tr'));
-
-            dataRows.sort(function(rowA, rowB) {
+  
+            var icon = th.querySelector(".sort-indicator");
+            if (icon) icon.textContent = next === "asc" ? "▲" : "▼";
+  
+            var dataRows = Array.from(tbody.querySelectorAll("tr"));
+  
+            dataRows.sort(function (rowA, rowB) {
               var textA = rowA.children[colIndex].textContent;
               var textB = rowB.children[colIndex].textContent;
-              var valA  = parseCellValue(textA, sortType);
-              var valB  = parseCellValue(textB, sortType);
-
+              var valA = parseCellValue(textA, sortType);
+              var valB = parseCellValue(textB, sortType);
+  
               if (valA === null && valB === null) return 0;
               if (valA === null) return 1;
               if (valB === null) return -1;
               return (valA - valB) * direction;
             });
-
-            tbody.innerHTML = '';
-            dataRows.forEach(function(r) { tbody.appendChild(r); });
+  
+            tbody.innerHTML = "";
+            dataRows.forEach(function (r) { tbody.appendChild(r); });
           });
         });
       });
     })();
-
-    // -------------------- DATA SERVICIOS AGREGADOS DEMO --------------------
-    var servicesBase2024 = [
-      {
-        id: 'serv1',
-        name: 'Servicio 1',
-        quarters: {
-          1: { comments: 150, nps: 60.0, csat: 4.30, uplift: 0.20 },
-          2: { comments: 155, nps: 60.0, csat: 4.30, uplift: 0.20 },
-          3: { comments: 155, nps: 60.0, csat: 4.30, uplift: 0.20 },
-          4: { comments: 160, nps: 60.0, csat: 4.30, uplift: 0.20 }
-        },
-        centers: [
-          {
-            id: 'serv1_c1',
-            name: 'Centro 1',
-            drivers: ['Tiempos de espera', 'Atención vendedor'],
-            quarters: {
-              1: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 },
-              2: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 },
-              3: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 },
-              4: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 }
-            }
-          },
-          {
-            id: 'serv1_c2',
-            name: 'Centro 2',
-            drivers: ['Productos', 'Logística / entrega'],
-            quarters: {
-              1: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 },
-              2: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 },
-              3: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 },
-              4: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 }
-            }
-          },
-          {
-            id: 'serv1_c3',
-            name: 'Centro 3',
-            drivers: ['Atención repartidor', 'Otros'],
-            quarters: {
-              1: { comments: 24, nps: 58.0, csat: 4.10, uplift: 0.00 },
-              2: { comments: 24, nps: 58.0, csat: 4.10, uplift: 0.00 },
-              3: { comments: 24, nps: 58.0, csat: 4.10, uplift: 0.00 },
-              4: { comments: 23, nps: 58.0, csat: 4.10, uplift: 0.00 }
-            }
-          }
-        ]
-      },
-      {
-        id: 'serv2',
-        name: 'Servicio 2',
-        quarters: {
-          1: { comments: 130, nps: 55.0, csat: 4.10, uplift: 0.00 },
-          2: { comments: 135, nps: 55.0, csat: 4.10, uplift: 0.00 },
-          3: { comments: 135, nps: 55.0, csat: 4.10, uplift: 0.00 },
-          4: { comments: 140, nps: 55.0, csat: 4.10, uplift: 0.00 }
-        },
-        centers: [
-          {
-            id: 'serv2_c1',
-            name: 'Centro 1',
-            drivers: ['Productos', 'Atención vendedor'],
-            quarters: {
-              1: { comments: 22, nps: 57.0, csat: 4.20, uplift: 0.10 },
-              2: { comments: 23, nps: 57.0, csat: 4.20, uplift: 0.10 },
-              3: { comments: 22, nps: 57.0, csat: 4.20, uplift: 0.10 },
-              4: { comments: 23, nps: 57.0, csat: 4.20, uplift: 0.10 }
-            }
-          },
-          {
-            id: 'serv2_c3',
-            name: 'Centro 3',
-            drivers: ['Tiempos de espera', 'Problema sin solución'],
-            quarters: {
-              1: { comments: 18, nps: 50.0, csat: 3.80, uplift: -0.30 },
-              2: { comments: 17, nps: 50.0, csat: 3.80, uplift: -0.30 },
-              3: { comments: 17, nps: 50.0, csat: 3.80, uplift: -0.30 },
-              4: { comments: 18, nps: 50.0, csat: 3.80, uplift: -0.30 }
-            }
-          }
-        ]
-      },
-      {
-        id: 'serv3',
-        name: 'Servicio 3',
-        quarters: {
-          1: { comments: 110, nps: 52.0, csat: 3.90, uplift: -0.20 },
-          2: { comments: 115, nps: 52.0, csat: 3.90, uplift: -0.20 },
-          3: { comments: 115, nps: 52.0, csat: 3.90, uplift: -0.20 },
-          4: { comments: 130, nps: 52.0, csat: 3.90, uplift: -0.20 }
-        },
-        centers: [
-          {
-            id: 'serv3_c2',
-            name: 'Centro 2',
-            drivers: ['Logística / entrega', 'Problema sin solución'],
-            quarters: {
-              1: { comments: 21, nps: 48.0, csat: 3.70, uplift: -0.40 },
-              2: { comments: 21, nps: 48.0, csat: 3.70, uplift: -0.40 },
-              3: { comments: 21, nps: 48.0, csat: 3.70, uplift: -0.40 },
-              4: { comments: 22, nps: 48.0, csat: 3.70, uplift: -0.40 }
-            }
-          }
-        ]
+  
+    // ==========================================================
+    // DATOS DEL JSON
+    // ==========================================================
+  
+    const PANEL_JSON_URL = "../01_00_redsalud/00_redsalud_Customers_say.json";
+  
+    let panelData = null;
+    let selectedYear = null;
+    let selectedTrims = [1, 2, 3, 4];
+  
+    // --------- RESUMEN CABECERA ---------
+    function updateSummaryCards() {
+      if (!panelData || !selectedYear) return;
+      const summaryYear = panelData.summary[selectedYear];
+      if (!summaryYear) return;
+  
+      const total = summaryYear.total_respuestas || 0;
+      const withText = summaryYear.total_comentario || 0;
+      const ibb = summaryYear.ibb;
+  
+      const totalEl = document.getElementById("summary-total");
+      const withTextEl = document.getElementById("summary-with-text");
+      const pctEl = document.getElementById("summary-text-pct");
+      const ibbEl = document.getElementById("summary-ibb");
+  
+      if (totalEl) totalEl.textContent = formatInt(total);
+      if (withTextEl) withTextEl.textContent = formatInt(withText);
+  
+      if (pctEl) {
+        const pct = total ? (withText / total) * 100 : 0;
+        pctEl.textContent = total ? formatDecimal(pct, 1, false) + "% aportan texto" : "";
       }
-    ];
-
-    function cloneServicesWithShift(base, factorComments, csatDelta, upliftDelta, npsDelta) {
-      return base.map(function(serv) {
-        var newServ = {
-          id: serv.id,
-          name: serv.name,
-          quarters: {},
-          centers: []
-        };
-
-        [1,2,3,4].forEach(function(q) {
-          var src = serv.quarters[q];
-          newServ.quarters[q] = {
-            comments: Math.round(src.comments * factorComments),
-            nps: src.nps + npsDelta,
-            csat: src.csat + csatDelta,
-            uplift: src.uplift + upliftDelta
-          };
-        });
-
-        newServ.centers = serv.centers.map(function(c) {
-          var nc = {
-            id: c.id,
-            name: c.name,
-            drivers: c.drivers.slice(),
-            quarters: {}
-          };
-          [1,2,3,4].forEach(function(q) {
-            var src = c.quarters[q];
-            nc.quarters[q] = {
-              comments: Math.round(src.comments * factorComments),
-              nps: src.nps + npsDelta,
-              csat: src.csat + csatDelta,
-              uplift: src.uplift + upliftDelta
-            };
-          });
-          return nc;
-        });
-
-        return newServ;
+  
+      if (ibbEl) {
+        ibbEl.textContent = ibb === null || typeof ibb === "undefined"
+          ? "–"
+          : formatDecimal(ibb, 1, false);
+      }
+    }
+  
+    // --------- DRIVERS MACRO ---------
+    function renderDriversMacro(year) {
+      const tbody = document.querySelector("#drivers-table tbody");
+      if (!tbody || !panelData) return;
+  
+      const yearStr = String(year);
+      const rowsData = panelData.drivers_macro[yearStr] || [];
+      const summaryYear = panelData.summary[yearStr];
+      if (!summaryYear) return;
+  
+      const totalText = summaryYear.total_comentario || 0;
+      const globalIbb = summaryYear.ibb;
+  
+      tbody.innerHTML = "";
+  
+      let totalComments = 0;
+  
+      rowsData.forEach(function (row) {
+        const tr = document.createElement("tr");
+        const total = row.total || {};
+        const comments = total.comments || 0;
+        totalComments += comments;
+  
+        const pctVal = totalText ? (comments / totalText) * 100 : 0;
+        const ibbVal = total.ibb;
+        const upliftVal = total.uplift;
+  
+        const tdDriver = document.createElement("td");
+        tdDriver.className = "tbl-name";
+        tdDriver.textContent = row.driver;
+        tr.appendChild(tdDriver);
+  
+        const tdComments = document.createElement("td");
+        tdComments.className = "tbl-num";
+        tdComments.textContent = formatInt(comments);
+        tr.appendChild(tdComments);
+  
+        const tdPct = document.createElement("td");
+        tdPct.className = "tbl-num";
+        tdPct.textContent = totalText
+          ? formatDecimal(pctVal, 1, false) + "%"
+          : "0,0%";
+        tr.appendChild(tdPct);
+  
+        const tdIbb = document.createElement("td");
+        tdIbb.className = "tbl-num val-csat " + getIbbClass(ibbVal);
+        tdIbb.textContent =
+          ibbVal === null || typeof ibbVal === "undefined"
+            ? "–"
+            : formatDecimal(ibbVal, 1, false);
+        tr.appendChild(tdIbb);
+  
+        const tdUplift = document.createElement("td");
+        tdUplift.className = "tbl-num val-uplift " + getUpliftClass(upliftVal);
+        tdUplift.textContent =
+          upliftVal === null || typeof upliftVal === "undefined"
+            ? "–"
+            : formatDecimal(upliftVal, 1, true);
+        tr.appendChild(tdUplift);
+  
+        tbody.appendChild(tr);
+      });
+  
+      // Fila Totales
+      const trTotal = document.createElement("tr");
+      trTotal.className = "row-total";
+  
+      const tdLabelTot = document.createElement("td");
+      tdLabelTot.className = "tbl-name";
+      tdLabelTot.textContent = "Totales";
+      trTotal.appendChild(tdLabelTot);
+  
+      const tdCommTot = document.createElement("td");
+      tdCommTot.className = "tbl-num";
+      tdCommTot.textContent = formatInt(totalComments);
+      trTotal.appendChild(tdCommTot);
+  
+      const tdPctTot = document.createElement("td");
+      tdPctTot.className = "tbl-num";
+      tdPctTot.textContent = totalText ? "100,0%" : "0,0%";
+      trTotal.appendChild(tdPctTot);
+  
+      const tdIbbTot = document.createElement("td");
+      tdIbbTot.className = "tbl-num";
+      tdIbbTot.textContent = "–";
+      trTotal.appendChild(tdIbbTot);
+  
+      const tdUpliftTot = document.createElement("td");
+      tdUpliftTot.className = "tbl-num";
+      tdUpliftTot.textContent = "–";
+      trTotal.appendChild(tdUpliftTot);
+  
+      tbody.appendChild(trTotal);
+  
+      // Fila Promedios (IBB global y uplift 0)
+      const trProm = document.createElement("tr");
+      trProm.className = "row-prom";
+  
+      const tdLabelProm = document.createElement("td");
+      tdLabelProm.className = "tbl-name";
+      tdLabelProm.textContent = "Promedios";
+      trProm.appendChild(tdLabelProm);
+  
+      const tdVoid1 = document.createElement("td");
+      tdVoid1.className = "tbl-num";
+      tdVoid1.textContent = "–";
+      trProm.appendChild(tdVoid1);
+  
+      const tdVoid2 = document.createElement("td");
+      tdVoid2.className = "tbl-num";
+      tdVoid2.textContent = "–";
+      trProm.appendChild(tdVoid2);
+  
+      const tdIbbProm = document.createElement("td");
+      tdIbbProm.className = "tbl-num val-csat " + getIbbClass(globalIbb);
+      tdIbbProm.textContent = formatDecimal(globalIbb, 1, false);
+      trProm.appendChild(tdIbbProm);
+  
+      const tdUpliftProm = document.createElement("td");
+      tdUpliftProm.className = "tbl-num val-uplift " + getUpliftClass(0);
+      tdUpliftProm.textContent = formatDecimal(0, 1, true);
+      trProm.appendChild(tdUpliftProm);
+  
+      tbody.appendChild(trProm);
+    }
+  
+    // --------- EVOLUCIÓN IBB / UPLIFT POR DRIVER ---------
+    function renderEvolutionTables(year) {
+      if (!panelData) return;
+      const yearStr = String(year);
+      const rowsData = panelData.drivers_macro[yearStr] || [];
+  
+      const csatBody = document.querySelector(".ranking-csat tbody");
+      const upliftBody = document.querySelector(".ranking-uplift tbody");
+      if (!csatBody || !upliftBody) return;
+  
+      csatBody.innerHTML = "";
+      upliftBody.innerHTML = "";
+  
+      rowsData.forEach(function (row) {
+        const trCsat = document.createElement("tr");
+        const trUplift = document.createElement("tr");
+  
+        const tdDriver1 = document.createElement("td");
+        tdDriver1.className = "tbl-name";
+        tdDriver1.textContent = row.driver;
+        trCsat.appendChild(tdDriver1);
+  
+        const tdDriver2 = document.createElement("td");
+        tdDriver2.className = "tbl-name";
+        tdDriver2.textContent = row.driver;
+        trUplift.appendChild(tdDriver2);
+  
+        let sumIbb = 0;
+        let countIbb = 0;
+        let sumUplift = 0;
+        let countUplift = 0;
+  
+        for (let t = 1; t <= 4; t++) {
+          const tData = row.trimesters[t] || row.trimesters[String(t)] || null;
+          const ibbVal = tData ? tData.ibb : null;
+          const uplVal = tData ? tData.uplift : null;
+  
+          // CSAT/IBB
+          const tdIbb = document.createElement("td");
+          tdIbb.className = "tbl-num val-csat " + getIbbClass(ibbVal);
+          tdIbb.textContent =
+            ibbVal === null || typeof ibbVal === "undefined"
+              ? "–"
+              : formatDecimal(ibbVal, 1, false);
+          trCsat.appendChild(tdIbb);
+  
+          // Uplift
+          const tdUp = document.createElement("td");
+          tdUp.className = "tbl-num val-uplift " + getUpliftClass(uplVal);
+          tdUp.textContent =
+            uplVal === null || typeof uplVal === "undefined"
+              ? "–"
+              : formatDecimal(uplVal, 1, true);
+          trUplift.appendChild(tdUp);
+  
+          if (ibbVal !== null && typeof ibbVal !== "undefined" && !isNaN(ibbVal)) {
+            sumIbb += ibbVal;
+            countIbb++;
+          }
+          if (uplVal !== null && typeof uplVal !== "undefined" && !isNaN(uplVal)) {
+            sumUplift += uplVal;
+            countUplift++;
+          }
+        }
+  
+        const avgIbb = countIbb ? sumIbb / countIbb : null;
+        const avgUplift = countUplift ? sumUplift / countUplift : null;
+  
+        const tdTotalIbb = document.createElement("td");
+        tdTotalIbb.className = "tbl-num val-csat " + getIbbClass(avgIbb);
+        tdTotalIbb.textContent =
+          avgIbb === null ? "–" : formatDecimal(avgIbb, 1, false);
+        trCsat.appendChild(tdTotalIbb);
+  
+        const tdTotalUp = document.createElement("td");
+        tdTotalUp.className = "tbl-num val-uplift " + getUpliftClass(avgUplift);
+        tdTotalUp.textContent =
+          avgUplift === null ? "–" : formatDecimal(avgUplift, 1, true);
+        trUplift.appendChild(tdTotalUp);
+  
+        csatBody.appendChild(trCsat);
+        upliftBody.appendChild(trUplift);
       });
     }
-
-    var servicesDataByYear = {
-      2023: cloneServicesWithShift(servicesBase2024, 0.95, -0.05, -0.05, -0.5),
-      2024: servicesBase2024,
-      2025: cloneServicesWithShift(servicesBase2024, 1.05, 0.05, 0.05, 0.5)
-    };
-
-    function aggregateEntity(entity, trims) {
-      var totalComments = 0;
-      var sumNps = 0, countNps = 0;
-      var sumCsat = 0, countCsat = 0;
-      var sumUplift = 0, countUplift = 0;
-
-      trims.forEach(function(t) {
-        var q = entity.quarters[t];
+  
+    // --------- SERVICIOS AGREGADOS ---------
+  
+    function aggregateServiceEntry(entry, trims) {
+      if (!entry) return null;
+      if (!trims || !trims.length) trims = [1, 2, 3, 4];
+  
+      const triData = entry.trimesters || {};
+      let comments = 0, prom = 0, det = 0, neu = 0;
+  
+      trims.forEach(function (t) {
+        const q = triData[t] || triData[String(t)];
         if (!q) return;
-        totalComments += q.comments || 0;
-
-        if (q.nps !== null && typeof q.nps !== 'undefined') {
-          sumNps += q.nps; countNps++;
-        }
-        if (q.csat !== null && typeof q.csat !== 'undefined') {
-          sumCsat += q.csat; countCsat++;
-        }
-        if (q.uplift !== null && typeof q.uplift !== 'undefined') {
-          sumUplift += q.uplift; countUplift++;
-        }
+        comments += q.comments || 0;
+        prom += q.promotores || 0;
+        det += q.detractores || 0;
+        neu += q.neutros || 0;
       });
-
+  
+      if (!comments) return null;
+  
+      const ibbVal = 100 * ((prom / comments) - (det / comments));
       return {
-        comments: totalComments,
-        nps: countNps ? (sumNps / countNps) : null,
-        csat: countCsat ? (sumCsat / countCsat) : null,
-        uplift: countUplift ? (sumUplift / countUplift) : null
+        comments: comments,
+        promotores: prom,
+        detractores: det,
+        neutros: neu,
+        ibb: ibbVal,
+        nps: ibbVal
       };
     }
-
+  
     function initServiceToggles() {
-      document.querySelectorAll('.service-toggle').forEach(function(btn) {
-        btn.onclick = function() {
-          var sid = this.getAttribute('data-service');
-          var expanded = this.getAttribute('data-expanded') === 'true';
-          var rows = document.querySelectorAll("tr[data-parent='" + sid + "']");
-          rows.forEach(function(row) {
-            row.style.display = expanded ? 'none' : 'table-row';
+      document.querySelectorAll(".service-toggle").forEach(function (btn) {
+        btn.onclick = function () {
+          const sid = this.getAttribute("data-service");
+          const expanded = this.getAttribute("data-expanded") === "true";
+          const rows = document.querySelectorAll("tr[data-parent='" + sid + "']");
+          rows.forEach(function (row) {
+            row.style.display = expanded ? "none" : "table-row";
           });
-          this.textContent = expanded ? '+' : '–';
-          this.setAttribute('data-expanded', expanded ? 'false' : 'true');
+          this.textContent = expanded ? "+" : "–";
+          this.setAttribute("data-expanded", expanded ? "false" : "true");
         };
       });
     }
-
+  
     function renderServicesTable(year, trims) {
-      var tbody = document.getElementById('services-tbody');
-      if (!tbody) return;
-
-      var dataset = servicesDataByYear[year] || servicesBase2024;
-      var yearTextTotal = getYearTextTotal(year);
-      tbody.innerHTML = '';
-
-      var computed = dataset.map(function(serv) {
-        var aggService = aggregateEntity(serv, trims);
-        var centersAgg = serv.centers.map(function(c) {
-          return aggregateEntity(c, trims);
-        });
-        return { serv: serv, agg: aggService, centersAgg: centersAgg };
+      const tbody = document.getElementById("services-tbody");
+      if (!tbody || !panelData) return;
+  
+      const yearStr = String(year);
+      const servicesYear = panelData.services[yearStr] || [];
+      const summaryYear = panelData.summary[yearStr];
+      if (!summaryYear) return;
+      const yearTextTotal = summaryYear.total_comentario || 0;
+      const globalIbb = summaryYear.ibb;
+  
+      // Reorganizar por servicio
+      const byService = {};
+      servicesYear.forEach(function (e) {
+        const key = e.servicio || "Sin servicio";
+        if (!byService[key]) byService[key] = { service: null, centers: [] };
+        if (e.centro === null) {
+          byService[key].service = e;
+        } else {
+          byService[key].centers.push(e);
+        }
       });
-
-      computed.forEach(function(item) {
-        var serv = item.serv;
-        var agg = item.agg;
-
-        // Servicio row
-        var trServ = document.createElement('tr');
-
-        var tdName = document.createElement('td');
-        tdName.className = 'tbl-name';
-        tdName.innerHTML = serv.name +
-          ' <button class="plus-btn service-toggle" data-service="' + serv.id + '" data-expanded="false">+</button>';
-        trServ.appendChild(tdName);
-
-        var tdDrivers = document.createElement('td');
-        tdDrivers.className = 'drivers-cell';
-        tdDrivers.textContent = '–';
-        trServ.appendChild(tdDrivers);
-
-        var tdComments = document.createElement('td');
-        tdComments.className = 'tbl-num';
-        tdComments.textContent = new Intl.NumberFormat('es-CL').format(agg.comments);
-        trServ.appendChild(tdComments);
-
-        var pctService = yearTextTotal > 0 ? (agg.comments / yearTextTotal * 100) : 0;
-        var tdPct = document.createElement('td');
-        tdPct.className = 'tbl-num';
-        tdPct.textContent = yearTextTotal ? formatDecimal(pctService, 1, false) + '%' : '0,0%';
-        trServ.appendChild(tdPct);
-
-        var tdNps = document.createElement('td');
-        tdNps.className = 'tbl-num';
-        tdNps.textContent = agg.nps !== null ? formatDecimal(agg.nps, 1, false) : '–';
-        trServ.appendChild(tdNps);
-
-        var tdCsat = document.createElement('td');
-        tdCsat.className = 'tbl-num val-csat ' + getCsatClass(agg.csat);
-        tdCsat.textContent = agg.csat !== null ? formatDecimal(agg.csat, 2, false) : '–';
-        trServ.appendChild(tdCsat);
-
-        var tdUplift = document.createElement('td');
-        tdUplift.className = 'tbl-num val-uplift ' + getUpliftClass(agg.uplift);
-        tdUplift.textContent = agg.uplift !== null ? formatDecimal(agg.uplift, 2, true) : '–';
-        trServ.appendChild(tdUplift);
-
-        tbody.appendChild(trServ);
-
-        // Centros + drivers
-        item.serv.centers.forEach(function(center, idx) {
-          var cAgg = item.centersAgg[idx];
-          var pctCenter = yearTextTotal > 0 ? (cAgg.comments / yearTextTotal * 100) : 0;
-
-          var trCenter = document.createElement('tr');
-          trCenter.className = 'center-row';
-          trCenter.setAttribute('data-parent', serv.id);
-          trCenter.style.display = 'none';
-
-          var tdSC = document.createElement('td');
-          tdSC.className = 'tbl-name center-cell';
-          tdSC.textContent = '↳ ' + center.name;
-          trCenter.appendChild(tdSC);
-
-          var tdDrv = document.createElement('td');
-          tdDrv.className = 'drivers-cell';
-          tdDrv.textContent = center.drivers.length ? center.drivers[0] : '–';
-          trCenter.appendChild(tdDrv);
-
-          var tdCommC = document.createElement('td');
-          tdCommC.className = 'tbl-num';
-          tdCommC.textContent = new Intl.NumberFormat('es-CL').format(cAgg.comments);
-          trCenter.appendChild(tdCommC);
-
-          var tdPctC = document.createElement('td');
-          tdPctC.className = 'tbl-num';
-          tdPctC.textContent = yearTextTotal ? formatDecimal(pctCenter, 1, false) + '%' : '0,0%';
-          trCenter.appendChild(tdPctC);
-
-          var tdNpsC = document.createElement('td');
-          tdNpsC.className = 'tbl-num';
-          tdNpsC.textContent = cAgg.nps !== null ? formatDecimal(cAgg.nps, 1, false) : '–';
-          trCenter.appendChild(tdNpsC);
-
-          var tdCsatC = document.createElement('td');
-          tdCsatC.className = 'tbl-num val-csat ' + getCsatClass(cAgg.csat);
-          tdCsatC.textContent = cAgg.csat !== null ? formatDecimal(cAgg.csat, 2, false) : '–';
-          trCenter.appendChild(tdCsatC);
-
-          var tdUpliftC = document.createElement('td');
-          tdUpliftC.className = 'tbl-num val-uplift ' + getUpliftClass(cAgg.uplift);
-          tdUpliftC.textContent = cAgg.uplift !== null ? formatDecimal(cAgg.uplift, 2, true) : '–';
-          trCenter.appendChild(tdUpliftC);
-
-          tbody.appendChild(trCenter);
-
-          // Drivers adicionales (solo texto)
-          for (var d = 1; d < center.drivers.length; d++) {
-            var trDrv = document.createElement('tr');
-            trDrv.className = 'center-row driver-row';
-            trDrv.setAttribute('data-parent', serv.id);
-            trDrv.style.display = 'none';
-
-            var tdEmpty = document.createElement('td');
-            tdEmpty.className = 'tbl-name center-cell-empty';
-            tdEmpty.textContent = '';
-            trDrv.appendChild(tdEmpty);
-
-            var tdDrvName = document.createElement('td');
-            tdDrvName.className = 'drivers-cell';
-            tdDrvName.textContent = center.drivers[d];
-            trDrv.appendChild(tdDrvName);
-
-            for (var k = 0; k < 5; k++) {
-              var tdm = document.createElement('td');
-              tdm.className = 'tbl-num';
-              tdm.textContent = '–';
-              trDrv.appendChild(tdm);
-            }
-            tbody.appendChild(trDrv);
+  
+      tbody.innerHTML = "";
+      let serviceIndex = 0;
+  
+      Object.keys(byService).sort().forEach(function (servName) {
+        const group = byService[servName];
+        const serviceEntry = group.service;
+        const centers = group.centers || [];
+        const serviceId = "serv" + (++serviceIndex);
+  
+        if (serviceEntry) {
+          const aggService = aggregateServiceEntry(serviceEntry, trims) || serviceEntry.total;
+          if (aggService && aggService.comments > 0) {
+            const trServ = document.createElement("tr");
+  
+            const tdName = document.createElement("td");
+            tdName.className = "tbl-name";
+            tdName.innerHTML =
+              (serviceEntry.servicio || "Servicio") +
+              ' <button class="plus-btn service-toggle" data-service="' + serviceId + '" data-expanded="false">+</button>';
+            trServ.appendChild(tdName);
+  
+            const tdDrivers = document.createElement("td");
+            tdDrivers.className = "drivers-cell";
+            tdDrivers.textContent = (serviceEntry.drivers || []).join(", ") || "–";
+            trServ.appendChild(tdDrivers);
+  
+            const tdComments = document.createElement("td");
+            tdComments.className = "tbl-num";
+            tdComments.textContent = formatInt(aggService.comments);
+            trServ.appendChild(tdComments);
+  
+            const tdPct = document.createElement("td");
+            tdPct.className = "tbl-num";
+            const pctService = yearTextTotal
+              ? (aggService.comments / yearTextTotal) * 100
+              : 0;
+            tdPct.textContent = yearTextTotal
+              ? formatDecimal(pctService, 1, false) + "%"
+              : "0,0%";
+            trServ.appendChild(tdPct);
+  
+            const tdNps = document.createElement("td");
+            tdNps.className = "tbl-num";
+            tdNps.textContent = formatDecimal(aggService.nps, 1, false);
+            trServ.appendChild(tdNps);
+  
+            const tdIbb = document.createElement("td");
+            tdIbb.className = "tbl-num val-csat " + getIbbClass(aggService.ibb);
+            tdIbb.textContent = formatDecimal(aggService.ibb, 1, false);
+            trServ.appendChild(tdIbb);
+  
+            const uplift = aggService.ibb - globalIbb;
+            const tdUplift = document.createElement("td");
+            tdUplift.className = "tbl-num val-uplift " + getUpliftClass(uplift);
+            tdUplift.textContent = formatDecimal(uplift, 1, true);
+            trServ.appendChild(tdUplift);
+  
+            tbody.appendChild(trServ);
+  
+            // Centros
+            centers.forEach(function (centerEntry) {
+              const aggCenter = aggregateServiceEntry(centerEntry, trims) || centerEntry.total;
+              if (!aggCenter || !aggCenter.comments) return;
+  
+              const trCenter = document.createElement("tr");
+              trCenter.className = "center-row";
+              trCenter.setAttribute("data-parent", serviceId);
+              trCenter.style.display = "none";
+  
+              const tdSC = document.createElement("td");
+              tdSC.className = "tbl-name center-cell";
+              tdSC.textContent = "↳ " + (centerEntry.centro || "Centro");
+              trCenter.appendChild(tdSC);
+  
+              const tdDrv = document.createElement("td");
+              tdDrv.className = "drivers-cell";
+              tdDrv.textContent = (centerEntry.drivers || [])[0] || "–";
+              trCenter.appendChild(tdDrv);
+  
+              const tdCommC = document.createElement("td");
+              tdCommC.className = "tbl-num";
+              tdCommC.textContent = formatInt(aggCenter.comments);
+              trCenter.appendChild(tdCommC);
+  
+              const tdPctC = document.createElement("td");
+              tdPctC.className = "tbl-num";
+              const pctC = yearTextTotal
+                ? (aggCenter.comments / yearTextTotal) * 100
+                : 0;
+              tdPctC.textContent = yearTextTotal
+                ? formatDecimal(pctC, 1, false) + "%"
+                : "0,0%";
+              trCenter.appendChild(tdPctC);
+  
+              const tdNpsC = document.createElement("td");
+              tdNpsC.className = "tbl-num";
+              tdNpsC.textContent = formatDecimal(aggCenter.nps, 1, false);
+              trCenter.appendChild(tdNpsC);
+  
+              const tdIbbC = document.createElement("td");
+              tdIbbC.className = "tbl-num val-csat " + getIbbClass(aggCenter.ibb);
+              tdIbbC.textContent = formatDecimal(aggCenter.ibb, 1, false);
+              trCenter.appendChild(tdIbbC);
+  
+              const upliftC = aggCenter.ibb - globalIbb;
+              const tdUpliftC = document.createElement("td");
+              tdUpliftC.className = "tbl-num val-uplift " + getUpliftClass(upliftC);
+              tdUpliftC.textContent = formatDecimal(upliftC, 1, true);
+              trCenter.appendChild(tdUpliftC);
+  
+              tbody.appendChild(trCenter);
+  
+              // Drivers adicionales (solo texto)
+              const driversExtra = (centerEntry.drivers || []).slice(1);
+              driversExtra.forEach(function (drvName) {
+                const trDrv = document.createElement("tr");
+                trDrv.className = "center-row driver-row";
+                trDrv.setAttribute("data-parent", serviceId);
+                trDrv.style.display = "none";
+  
+                const tdEmpty = document.createElement("td");
+                tdEmpty.className = "tbl-name center-cell-empty";
+                tdEmpty.textContent = "";
+                trDrv.appendChild(tdEmpty);
+  
+                const tdDrvName = document.createElement("td");
+                tdDrvName.className = "drivers-cell";
+                tdDrvName.textContent = drvName;
+                trDrv.appendChild(tdDrvName);
+  
+                for (var k = 0; k < 5; k++) {
+                  var tdm = document.createElement("td");
+                  tdm.className = "tbl-num";
+                  tdm.textContent = "–";
+                  trDrv.appendChild(tdm);
+                }
+  
+                tbody.appendChild(trDrv);
+              });
+            });
           }
-        });
+        }
       });
-
+  
       initServiceToggles();
     }
-
-    // -------------------- INICIALIZACIÓN / FILTROS --------------------
-    var selectedTrims = [1, 2, 3, 4];
-
-    function getCurrentYear() {
-      var sel = document.getElementById('year-select');
-      return sel ? sel.value : '2024';
-    }
-
+  
+    // --------- REFRESH + FILTROS ---------
     function refreshAll() {
-      var year = getCurrentYear();
-      renderSummary(year);
-      renderDriversMacro(year);
-      renderEvolutionTables(year);
-      renderServicesTable(year, selectedTrims);
+      if (!panelData || !selectedYear) return;
+      updateSummaryCards();
+      renderDriversMacro(selectedYear);
+      renderEvolutionTables(selectedYear);
+      renderServicesTable(selectedYear, selectedTrims);
     }
-
-    // Eventos selector de año
-    var yearSelect = document.getElementById('year-select');
-    if (yearSelect) {
-      yearSelect.addEventListener('change', function() {
-        refreshAll();
+  
+    function initFilters() {
+      const yearSelect = document.getElementById("year-select");
+      if (yearSelect && panelData) {
+        yearSelect.innerHTML = "";
+        (panelData.years || []).forEach(function (y) {
+          const opt = document.createElement("option");
+          opt.value = String(y);
+          opt.textContent = String(y);
+          if (String(y) === String(selectedYear)) opt.selected = true;
+          yearSelect.appendChild(opt);
+        });
+  
+        yearSelect.addEventListener("change", function () {
+          selectedYear = this.value;
+          refreshAll();
+        });
+      }
+  
+      document.querySelectorAll("#trim-filter .trim-pill").forEach(function (pill) {
+        pill.addEventListener("click", function () {
+          const t = parseInt(this.getAttribute("data-trim"), 10);
+          const idx = selectedTrims.indexOf(t);
+  
+          if (idx !== -1) {
+            if (selectedTrims.length === 1) return; // siempre al menos uno
+            selectedTrims.splice(idx, 1);
+            this.classList.remove("selected");
+          } else {
+            selectedTrims.push(t);
+            selectedTrims.sort();
+            this.classList.add("selected");
+          }
+          refreshAll();
+        });
       });
     }
-
-    // Eventos de trimestres (multi selección)
-    document.querySelectorAll('#trim-filter .trim-pill').forEach(function(pill) {
-      pill.addEventListener('click', function() {
-        var t = parseInt(this.getAttribute('data-trim'), 10);
-        var idx = selectedTrims.indexOf(t);
-
-        if (idx !== -1) {
-          if (selectedTrims.length === 1) return; // siempre al menos uno
-          selectedTrims.splice(idx, 1);
-          this.classList.remove('selected');
+  
+    // --------- CARGA DEL JSON ---------
+    fetch(PANEL_JSON_URL)
+      .then(function (resp) { return resp.json(); })
+      .then(function (data) {
+        panelData = data;
+        if (data.years && data.years.length) {
+          selectedYear = String(data.years[0]);
         } else {
-          selectedTrims.push(t);
-          selectedTrims.sort();
-          this.classList.add('selected');
+          selectedYear = Object.keys(data.summary || {})[0];
         }
+        initFilters();
         refreshAll();
+      })
+      .catch(function (err) {
+        console.error("Error cargando JSON Customers Say:", err);
       });
-    });
-
-    // -------------------- CARGA DESDE JSON --------------------
-    function applyJsonData(data) {
-      // 1) Meta
-      metaByYear = {};
-      if (data.meta) {
-        Object.keys(data.meta).forEach(function(y) {
-          metaByYear[String(y)] = data.meta[y];
-        });
-      }
-
-      // 2) Drivers macro
-      macroDataByYear = {};
-      if (Array.isArray(data.drivers_macro)) {
-        data.drivers_macro.forEach(function(row) {
-          var year = String(row.year);
-          if (!macroDataByYear[year]) macroDataByYear[year] = [];
-          macroDataByYear[year].push({
-            driver: row.driver,
-            comments: row.comments || 0,
-            csat: row.csat,
-            uplift: row.uplift
-          });
-        });
-      }
-
-      // 3) Evolución CSAT
-      csatDataByYear = {};
-      if (Array.isArray(data.evolucion_csat)) {
-        data.evolucion_csat.forEach(function(row) {
-          var year = String(row.year);
-          if (!csatDataByYear[year]) csatDataByYear[year] = [];
-          csatDataByYear[year].push({
-            driver: row.driver,
-            quarters: [row.t1, row.t2, row.t3, row.t4]
-          });
-        });
-      }
-
-      // 4) Evolución Uplift
-      upliftDataByYear = {};
-      if (Array.isArray(data.evolucion_uplift)) {
-        data.evolucion_uplift.forEach(function(row) {
-          var year = String(row.year);
-          if (!upliftDataByYear[year]) upliftDataByYear[year] = [];
-          upliftDataByYear[year].push({
-            driver: row.driver,
-            quarters: [row.t1, row.t2, row.t3, row.t4]
-          });
-        });
-      }
-
-      // 5) Servicios
-      servicesDataByYear = {};
-      if (Array.isArray(data.servicios)) {
-        data.servicios.forEach(function(s) {
-          var year = String(s.year);
-          if (!servicesDataByYear[year]) servicesDataByYear[year] = [];
-          servicesDataByYear[year].push({
-            id: s.id_servicio,
-            name: s.servicio,
-            quarters: s.trimestres || {},
-            centers: (s.centros || []).map(function(c) {
-              return {
-                id: c.id_centro,
-                name: c.centro,
-                drivers: c.drivers || [],
-                quarters: c.trimestres || {}
-              };
-            })
-          });
-        });
-      }
-
-      // 6) Actualizar selector de año
-      var yearsSet = new Set();
-      Object.keys(metaByYear).forEach(function(y) { yearsSet.add(String(y)); });
-      Object.keys(macroDataByYear).forEach(function(y) { yearsSet.add(String(y)); });
-      Object.keys(servicesDataByYear).forEach(function(y) { yearsSet.add(String(y)); });
-
-      var years = Array.from(yearsSet).sort();
-      var sel = document.getElementById('year-select');
-      if (sel && years.length) {
-        sel.innerHTML = '';
-        years.forEach(function(y) {
-          var opt = document.createElement('option');
-          opt.value = y;
-          opt.textContent = y;
-          sel.appendChild(opt);
-        });
-      }
-
-      if (years.length && sel) {
-        sel.value = years[years.length - 1];
-      }
-      refreshAll();
-    }
-
-    async function loadJsonData() {
-      try {
-        const res = await fetch(DATA_URL + '?v=' + Date.now());
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
-        console.log('JSON Customers Say cargado:', data);
-        applyJsonData(data);
-      } catch (err) {
-        console.error('No se pudo cargar el JSON Customers Say:', err);
-      }
-    }
-
-    // Primera carga: demo y luego intento de JSON real
-    refreshAll();
-    loadJsonData();
   </script>
+  
+
 </body>
 </html>
