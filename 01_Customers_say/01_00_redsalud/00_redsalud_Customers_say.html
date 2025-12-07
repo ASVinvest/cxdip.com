@@ -454,7 +454,7 @@
         <div>
           <div class="title-main"><span>CXDIP</span> Customers Say</div>
           <div class="title-sub">
-            Procesamiento  de texto abierto.
+            Procesamiento de texto abierto.
           </div>
         </div>
         <div class="badge-secondary">
@@ -465,16 +465,16 @@
       <div class="summary-grid">
         <div class="summary-card">
           <div class="summary-label">Total de respuestas</div>
-          <div class="summary-value">12.540</div>
+          <div class="summary-value" id="sum-total-resp">–</div>
         </div>
         <div class="summary-card">
           <div class="summary-label">Respuestas con comentario</div>
-          <div class="summary-value">4.320</div>
-          <div class="summary-foot">34,4% aportan texto</div>
+          <div class="summary-value" id="sum-total-com">–</div>
+          <div class="summary-foot" id="sum-pct-text">–</div>
         </div>
         <div class="summary-card">
           <div class="summary-label">CSAT global (texto)</div>
-          <div class="summary-value">4,10</div>
+          <div class="summary-value" id="sum-csat-global">–</div>
           <div class="summary-foot">Escala 1–5 · sólo casos con comentario</div>
         </div>
       </div>
@@ -576,9 +576,6 @@
         <!-- Evolución Uplift -->
         <div class="ranking-card">
           <div class="ranking-title">Evolución Uplift atributo</div>
-            <!--<div class="ranking-sub">
-            Uplift del atributo vs CSAT global (4,10) por trimestre y total anual.
-          </div>-->
 
           <div class="table-wrapper table-wrapper-ranking">
             <table class="ranking-table ranking-uplift">
@@ -656,6 +653,18 @@
   </div>
 
   <script>
+    // Archivo JSON asociado a este cliente
+    const DATA_URL = '00_redsalud_Customers_say.json';
+
+    // Meta demo por defecto (se sobreescribe con JSON real)
+    var metaByYear = {
+      '2024': {
+        total_respuestas: 12540,
+        total_comentarios: 4320,
+        csat_global_texto: 4.10
+      }
+    };
+
     // -------------------- UTILIDADES GENERALES --------------------
     function parseCellValue(text, type) {
       if (!text) return null;
@@ -703,6 +712,40 @@
       if (v > 0.001) return 'pos';
       if (v < -0.001) return 'neg';
       return 'neutral';
+    }
+
+    // -------------------- RESUMEN SUPERIOR --------------------
+    function renderSummary(year) {
+      var meta = metaByYear[year];
+
+      var elTotResp = document.getElementById('sum-total-resp');
+      var elTotCom  = document.getElementById('sum-total-com');
+      var elPctText = document.getElementById('sum-pct-text');
+      var elCsat    = document.getElementById('sum-csat-global');
+
+      if (!elTotResp || !elTotCom || !elPctText || !elCsat) return;
+
+      if (!meta) {
+        elTotResp.textContent = '–';
+        elTotCom.textContent  = '–';
+        elPctText.textContent = '–';
+        elCsat.textContent    = '–';
+        return;
+      }
+
+      var totalResp = meta.total_respuestas || 0;
+      var totalCom  = meta.total_comentarios || 0;
+      var csat      = meta.csat_global_texto;
+
+      elTotResp.textContent = new Intl.NumberFormat('es-CL').format(totalResp);
+      elTotCom.textContent  = new Intl.NumberFormat('es-CL').format(totalCom);
+
+      var pct = totalResp > 0 ? (totalCom / totalResp * 100) : 0;
+      elPctText.textContent = formatDecimal(pct, 1, false) + '% aportan texto';
+
+      elCsat.textContent = (csat === null || typeof csat === 'undefined' || isNaN(csat))
+        ? '–'
+        : formatDecimal(csat, 2, false);
     }
 
     // -------------------- ORDEN TABLA DRIVERS MACRO --------------------
@@ -760,7 +803,7 @@
       });
     })();
 
-    // -------------------- DATA DRIVERS MACRO POR AÑO --------------------
+    // -------------------- DATA DRIVERS MACRO DEMO --------------------
     var macroBase2024 = [
       { driver: 'Tiempos de espera',     comments: 980, csat: 3.60, uplift: -0.50 },
       { driver: 'Productos',             comments: 720, csat: 4.30, uplift:  0.20 },
@@ -871,7 +914,7 @@
 
       tbody.appendChild(trTotal);
 
-      // Fila Promedios (usa CSAT/Uplift global por año demo)
+      // Fila Promedios demo
       var trProm = document.createElement('tr');
       trProm.className = 'row-prom';
 
@@ -906,11 +949,15 @@
     }
 
     function getYearTextTotal(year) {
+      var meta = metaByYear[year];
+      if (meta && typeof meta.total_comentarios === 'number') {
+        return meta.total_comentarios;
+      }
       var rows = macroDataByYear[year] || macroBase2024;
       return rows.reduce(function(acc, r) { return acc + (r.comments || 0); }, 0);
     }
 
-    // -------------------- DATA EVOLUCIÓN TRIMESTRAL --------------------
+    // -------------------- DATA EVOLUCIÓN TRIMESTRAL DEMO --------------------
     var baseCsat2024 = [
       { driver: 'Tiempos de espera',     quarters: [3.5, 3.6, 3.7, 3.6] },
       { driver: 'Productos',             quarters: [4.2, 4.3, 4.4, 4.3] },
@@ -1088,7 +1135,7 @@
       });
     })();
 
-    // -------------------- DATA SERVICIOS AGREGADOS POR AÑO/TRIM --------------------
+    // -------------------- DATA SERVICIOS AGREGADOS DEMO --------------------
     var servicesBase2024 = [
       {
         id: 'serv1',
@@ -1427,7 +1474,7 @@
       initServiceToggles();
     }
 
-    // -------------------- INICIALIZACIÓN --------------------
+    // -------------------- INICIALIZACIÓN / FILTROS --------------------
     var selectedTrims = [1, 2, 3, 4];
 
     function getCurrentYear() {
@@ -1437,6 +1484,7 @@
 
     function refreshAll() {
       var year = getCurrentYear();
+      renderSummary(year);
       renderDriversMacro(year);
       renderEvolutionTables(year);
       renderServicesTable(year, selectedTrims);
@@ -1469,8 +1517,118 @@
       });
     });
 
-    // Primera carga
+    // -------------------- CARGA DESDE JSON --------------------
+    function applyJsonData(data) {
+      // 1) Meta
+      metaByYear = {};
+      if (data.meta) {
+        Object.keys(data.meta).forEach(function(y) {
+          metaByYear[String(y)] = data.meta[y];
+        });
+      }
+
+      // 2) Drivers macro
+      macroDataByYear = {};
+      if (Array.isArray(data.drivers_macro)) {
+        data.drivers_macro.forEach(function(row) {
+          var year = String(row.year);
+          if (!macroDataByYear[year]) macroDataByYear[year] = [];
+          macroDataByYear[year].push({
+            driver: row.driver,
+            comments: row.comments || 0,
+            csat: row.csat,
+            uplift: row.uplift
+          });
+        });
+      }
+
+      // 3) Evolución CSAT
+      csatDataByYear = {};
+      if (Array.isArray(data.evolucion_csat)) {
+        data.evolucion_csat.forEach(function(row) {
+          var year = String(row.year);
+          if (!csatDataByYear[year]) csatDataByYear[year] = [];
+          csatDataByYear[year].push({
+            driver: row.driver,
+            quarters: [row.t1, row.t2, row.t3, row.t4]
+          });
+        });
+      }
+
+      // 4) Evolución Uplift
+      upliftDataByYear = {};
+      if (Array.isArray(data.evolucion_uplift)) {
+        data.evolucion_uplift.forEach(function(row) {
+          var year = String(row.year);
+          if (!upliftDataByYear[year]) upliftDataByYear[year] = [];
+          upliftDataByYear[year].push({
+            driver: row.driver,
+            quarters: [row.t1, row.t2, row.t3, row.t4]
+          });
+        });
+      }
+
+      // 5) Servicios
+      servicesDataByYear = {};
+      if (Array.isArray(data.servicios)) {
+        data.servicios.forEach(function(s) {
+          var year = String(s.year);
+          if (!servicesDataByYear[year]) servicesDataByYear[year] = [];
+          servicesDataByYear[year].push({
+            id: s.id_servicio,
+            name: s.servicio,
+            quarters: s.trimestres || {},
+            centers: (s.centros || []).map(function(c) {
+              return {
+                id: c.id_centro,
+                name: c.centro,
+                drivers: c.drivers || [],
+                quarters: c.trimestres || {}
+              };
+            })
+          });
+        });
+      }
+
+      // 6) Actualizar selector de año
+      var yearsSet = new Set();
+      Object.keys(metaByYear).forEach(function(y) { yearsSet.add(String(y)); });
+      Object.keys(macroDataByYear).forEach(function(y) { yearsSet.add(String(y)); });
+      Object.keys(servicesDataByYear).forEach(function(y) { yearsSet.add(String(y)); });
+
+      var years = Array.from(yearsSet).sort();
+      var sel = document.getElementById('year-select');
+      if (sel && years.length) {
+        sel.innerHTML = '';
+        years.forEach(function(y) {
+          var opt = document.createElement('option');
+          opt.value = y;
+          opt.textContent = y;
+          sel.appendChild(opt);
+        });
+      }
+
+      if (years.length && sel) {
+        sel.value = years[years.length - 1];
+      }
+      refreshAll();
+    }
+
+    async function loadJsonData() {
+      try {
+        const res = await fetch(DATA_URL + '?v=' + Date.now());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        console.log('JSON Customers Say cargado:', data);
+        applyJsonData(data);
+      } catch (err) {
+        console.error('No se pudo cargar el JSON Customers Say:', err);
+      }
+    }
+
+    // Primera carga: demo y luego intento de JSON real
     refreshAll();
+    loadJsonData();
   </script>
 </body>
 </html>
