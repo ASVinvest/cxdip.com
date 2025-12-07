@@ -2,536 +2,831 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>CXDIP · Panel Customers say 2025 (Demo)</title>
+  <title>CXDIP · Customers Say · RedSalud</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Panel CXDIP Customers say RedSalud" />
-
+  <meta name="description" content="Panel CXDIP Customers Say RedSalud" />
   <style>
     :root {
       --bg-page: #f5f7fb;
       --bg-card: #ffffff;
-      --primary: #246bff;
+      --primary: #2563eb;
+      --primary-soft: #dbeafe;
       --accent: #10b981;
+      --danger: #ef4444;
+      --muted-text: #6b7280;
+      --border-soft: #e5e7eb;
       --text-main: #111827;
-      --text-muted: #6b7280;
-      --border-subtle: #e5e7eb;
+      --shadow-soft: 0 10px 25px rgba(15, 23, 42, 0.05);
+      --radius-lg: 18px;
     }
 
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     body {
+      margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
-      background: var(--bg-page);
+      background: radial-gradient(circle at top left, #e0ecff 0, #f5f7fb 45%, #f5f7fb 100%);
       color: var(--text-main);
     }
 
-    main {
-      max-width: 1200px;
+    /* HEADER CORPORATIVO */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(
+        to right,
+        rgba(15, 23, 42, 0.9),
+        rgba(15, 23, 42, 0.85)
+      );
+      color: #f9fafb;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .topbar-inner {
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 24px 16px 40px;
-    }
-
-    .page-header {
-      margin-bottom: 18px;
-    }
-
-    .page-header h1 {
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border-radius: 16px;
-      padding: 16px 20px;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
-    }
-
-    .card p.label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .card h2.kpi-value {
-      font-size: 1.9rem;
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .card small {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
-
-    .section-card {
-      background: var(--bg-card);
-      border-radius: 16px;
-      padding: 18px 20px 20px;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
-      margin-bottom: 20px;
-    }
-
-    .section-header {
+      padding: 12px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 10px;
+      gap: 16px;
     }
 
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 2px solid #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      background: radial-gradient(circle at 30% 0, #22c55e, #15803d);
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.9);
+    }
+
+    .brand-text-main {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .brand-text-sub {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .topbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    .topbar-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(156, 163, 175, 0.6);
+      background: rgba(15, 23, 42, 0.6);
+    }
+
+    .topbar-pill {
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.35);
+      border: 1px solid rgba(129, 140, 248, 0.8);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .topbar-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.3);
+    }
+
+    .topbar-cta {
+      border-radius: 999px;
+      padding: 4px 12px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.4);
+      color: #e5e7eb;
+      font-size: 11px;
+      cursor: default;
+    }
+
+    /* LAYOUT PRINCIPAL */
+
+    .page {
+      max-width: 1280px;
+      margin: 18px auto 32px;
+      padding: 0 24px 24px;
+    }
+
+    .page-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin-bottom: 4px;
+    }
+
+    .page-subtitle {
+      font-size: 13px;
+      color: var(--muted-text);
+      margin-bottom: 18px;
+    }
+
+    .grid-kpi {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 20px;
+      border: 1px solid var(--border-soft);
+    }
+
+    .card-kpi-label {
+      font-size: 12px;
+      color: var(--muted-text);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .card-kpi-value {
+      font-size: 26px;
+      font-weight: 700;
+      min-height: 32px;
+    }
+
+    .card-kpi-caption {
+      font-size: 11px;
+      color: var(--muted-text);
+      margin-top: 8px;
+    }
+
+    /* DRIVERS MACRO */
+
     .section-title {
-      font-size: 1.05rem;
+      font-size: 16px;
       font-weight: 600;
+      margin-bottom: 4px;
     }
 
     .section-subtitle {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 10px;
+      font-size: 12px;
+      color: var(--muted-text);
+      margin-bottom: 12px;
     }
 
-    .toggle-year {
-      display: inline-flex;
+    .section-drivers {
+      padding: 18px 20px 20px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-soft);
+      margin-bottom: 22px;
+    }
+
+    .drivers-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .toggle-year-wrapper {
+      display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      font-size: 12px;
+      color: var(--muted-text);
     }
 
-    .toggle-pill {
+    .toggle {
       width: 40px;
       height: 22px;
       border-radius: 999px;
-      background: #dbeafe;
-      padding: 2px;
-      display: flex;
-      justify-content: flex-end;
+      background: var(--primary-soft);
+      position: relative;
+      cursor: pointer;
+      border: 1px solid #bfdbfe;
     }
 
-    .toggle-knob {
-      width: 18px;
-      height: 18px;
+    .toggle-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 17px;
+      height: 17px;
       border-radius: 999px;
-      background: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.2);
+      transition: transform 0.15s ease-out;
+    }
+
+    .toggle.on {
+      background: #1d4ed8;
+    }
+    .toggle.on .toggle-thumb {
+      transform: translateX(17px);
+    }
+
+    .drivers-main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .table-wrapper {
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.82rem;
+      font-size: 12px;
     }
 
     thead {
-      background: #f9fafb;
+      background: #f3f4f6;
     }
 
     th,
     td {
-      padding: 8px 6px;
-      border-bottom: 1px solid var(--border-subtle);
+      padding: 8px 10px;
       text-align: left;
-      white-space: nowrap;
+      border-bottom: 1px solid #e5e7eb;
     }
 
     th {
-      font-size: 0.75rem;
+      font-weight: 600;
+      font-size: 11px;
+      color: #4b5563;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-muted);
+      letter-spacing: 0.06em;
     }
 
-    tbody tr:hover {
+    tbody tr:nth-child(even) {
       background: #f9fafb;
     }
 
-    .grid-evolucion {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
+    tbody tr:hover {
+      background: #eff6ff;
     }
 
-    .grid-evolucion .card {
-      box-shadow: none;
-      border-radius: 12px;
-      border: 1px solid #edf2ff;
-      padding: 14px 14px 10px;
+    .col-num {
+      text-align: right;
+      white-space: nowrap;
     }
 
-    .grid-evolucion h4 {
-      font-size: 0.9rem;
+    .chip-driver {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      font-size: 11px;
+    }
+
+    .drivers-subtitle {
+      font-size: 11px;
+      color: var(--muted-text);
+      padding: 8px 10px 4px;
+    }
+
+    .subcard-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .subcard-subtitle {
+      font-size: 11px;
+      color: var(--muted-text);
       margin-bottom: 8px;
+    }
+
+    /* SERVICIOS AGREGADOS */
+
+    .section-servicios {
+      padding: 18px 20px 20px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-soft);
     }
 
     .servicios-header {
-      font-size: 0.9rem;
-      margin-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 12px;
     }
 
-    .servicios-note {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-bottom: 4px;
+    .servicios-subtitle {
+      font-size: 12px;
+      color: var(--muted-text);
     }
 
-    #error-carga {
-      display: none;
-      color: #b91c1c;
-      font-size: 0.75rem;
+    .servicios-help {
+      font-size: 11px;
+      color: var(--muted-text);
+      margin-top: 4px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px dashed #9ca3af;
+      font-size: 11px;
+      margin-left: 4px;
+      color: #4b5563;
+      background: #f9fafb;
+    }
+
+    /* ERROR / CARGA */
+
+    .loading-text {
+      font-size: 12px;
+      color: var(--muted-text);
+      padding: 8px 10px;
+    }
+
+    .error-text {
       margin-top: 6px;
+      font-size: 12px;
+      color: var(--danger);
     }
 
-    @media (max-width: 768px) {
-      main {
-        padding-inline: 12px;
+    @media (max-width: 960px) {
+      .grid-kpi {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+      .drivers-main-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
 
-      th,
-      td {
-        padding-inline: 4px;
+    @media (max-width: 720px) {
+      .grid-kpi {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .topbar-inner {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
 </head>
 <body>
-  <main>
-    <header class="page-header">
-      <h1>Procesamiento de texto abierto.</h1>
-    </header>
-
-    <!-- KPIs superiores -->
-    <section class="kpi-grid">
-      <div class="card">
-        <p class="label">Total de respuestas</p>
-        <h2 class="kpi-value" id="kpi-total-respuestas">–</h2>
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-logo">CX</div>
+        <div>
+          <div class="brand-text-main">CXDIP</div>
+          <div class="brand-text-sub">Customers Say · RedSalud</div>
+        </div>
       </div>
-
-      <div class="card">
-        <p class="label">Respuestas con comentario</p>
-        <h2 class="kpi-value" id="kpi-respuestas-comentario">–</h2>
+      <div class="topbar-nav">
+        <div class="topbar-tag">Panel voz de cliente</div>
+        <div class="topbar-pill">
+          <span class="topbar-dot"></span>
+          <span>Texto abierto conectado</span>
+        </div>
+        <div class="topbar-cta">Metodología CXDIP · Loyalty 360°</div>
       </div>
+    </div>
+  </header>
 
-      <div class="card">
-        <p class="label">CSAT global (texto)</p>
-        <h2 class="kpi-value" id="kpi-csat-global">–</h2>
-        <small>Escala 1–5 · sólo casos con comentario</small>
-      </div>
+  <main class="page">
+    <h1 class="page-title">Procesamiento de texto abierto.</h1>
+    <p class="page-subtitle">
+      Vista consolidada de respuestas con comentario. Drivers, evolución de CSAT por atributo
+      y servicios agregados.
+    </p>
+
+    <!-- KPIs -->
+    <section class="grid-kpi">
+      <article class="card">
+        <div class="card-kpi-label">Total de respuestas</div>
+        <div id="kpi-total-respuestas" class="card-kpi-value">–</div>
+      </article>
+
+      <article class="card">
+        <div class="card-kpi-label">Respuestas con comentario</div>
+        <div id="kpi-respuestas-comentario" class="card-kpi-value">–</div>
+      </article>
+
+      <article class="card">
+        <div class="card-kpi-label">CSAT global (texto)</div>
+        <div id="kpi-csat-global" class="card-kpi-value">–</div>
+        <div class="card-kpi-caption">
+          Escala 1–5 · sólo casos con comentario
+        </div>
+      </article>
     </section>
 
     <!-- DRIVERS MACRO -->
-    <section class="section-card">
-      <div class="section-header">
+    <section class="section-drivers">
+      <div class="drivers-header">
         <div>
           <h2 class="section-title">Drivers Macro</h2>
           <p class="section-subtitle">Tabla consolidada por atributo</p>
         </div>
-        <div class="toggle-year">
+        <div class="toggle-year-wrapper">
           <span>Selecciona el año que quieres analizar:</span>
-          <div class="toggle-pill" title="Selector de año (demo)">
-            <div class="toggle-knob"></div>
+          <div id="toggleYear" class="toggle on">
+            <div class="toggle-thumb"></div>
           </div>
         </div>
       </div>
 
-      <!-- Tabla resumen de atributos -->
-      <table>
-        <thead>
-          <tr>
-            <th>Atributos macro</th>
-            <th>Nº comentarios</th>
-            <th>% sobre texto</th>
-            <th>CSAT atributo</th>
-            <th>Uplift atributo</th>
-          </tr>
-        </thead>
-        <tbody id="tbody-drivers-macro">
-          <tr>
-            <td colspan="5">Cargando…</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Evoluciones -->
-      <div class="grid-evolucion">
-        <div class="card">
-          <h4>Evolución CSAT atributo</h4>
-          <p class="section-subtitle">Evolución del CSAT por atributo.</p>
-          <table>
-            <thead>
-              <tr>
-                <th>Driver</th>
-                <th>T1</th>
-                <th>T2</th>
-                <th>T3</th>
-                <th>T4</th>
-                <th>Total anual</th>
-              </tr>
-            </thead>
-            <tbody id="tbody-evol-csat">
-              <tr>
-                <td colspan="6">Cargando…</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card">
-          <h4>Evolución Uplift atributo</h4>
-          <p class="section-subtitle">Evolución del Uplift por atributo.</p>
-          <table>
-            <thead>
-              <tr>
-                <th>Driver</th>
-                <th>T1</th>
-                <th>T2</th>
-                <th>T3</th>
-                <th>T4</th>
-                <th>Total anual</th>
-              </tr>
-            </thead>
-            <tbody id="tbody-evol-uplift">
-              <tr>
-                <td colspan="6">Cargando…</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Atributos macro</th>
+              <th class="col-num">Nº comentarios</th>
+              <th class="col-num">% sobre texto</th>
+              <th class="col-num">CSAT atributo</th>
+              <th class="col-num">Uplift atributo</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-drivers-macro">
+            <tr>
+              <td colspan="5" class="loading-text">Cargando…</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+
+      <div class="drivers-main-grid">
+        <article class="card">
+          <div class="subcard-title">Evolución CSAT atributo</div>
+          <div class="subcard-subtitle">Evolución del CSAT por atributo.</div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th class="col-num">T1</th>
+                  <th class="col-num">T2</th>
+                  <th class="col-num">T3</th>
+                  <th class="col-num">T4</th>
+                  <th class="col-num">Total anual</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-csat-evol">
+                <tr>
+                  <td colspan="6" class="loading-text">Cargando…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="subcard-title">Evolución Uplift atributo</div>
+          <div class="subcard-subtitle">Evolución del Uplift por atributo.</div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th class="col-num">T1</th>
+                  <th class="col-num">T2</th>
+                  <th class="col-num">T3</th>
+                  <th class="col-num">T4</th>
+                  <th class="col-num">Total anual</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-uplift-evol">
+                <tr>
+                  <td colspan="6" class="loading-text">Cargando…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+      <div id="texto-abierto-error" class="error-text"></div>
     </section>
 
     <!-- SERVICIOS AGREGADOS -->
-    <section class="section-card">
-      <h2 class="section-title">SERVICIOS AGREGADOS</h2>
-      <p class="servicios-header">Vista por servicio (apertura con “+”).</p>
-      <p class="servicios-note">
-        Al presionar “+” se despliegan los centros asociados a cada servicio con sus métricas (NPS, comentarios, % sobre texto, CSAT, Uplift) y los drivers desagregados por fila.
-      </p>
+    <section class="section-servicios">
+      <div class="servicios-header">
+        <h2 class="section-title">Servicios agregados</h2>
+        <p class="servicios-subtitle">
+          Vista por servicio (apertura con “+”).
+        </p>
+        <p class="servicios-subtitle">
+          Trimestres:
+          <span class="badge-pill">T1</span>
+          <span class="badge-pill">T2</span>
+          <span class="badge-pill">T3</span>
+          <span class="badge-pill">T4</span>
+          <span class="servicios-help">
+            Selecciona uno o varios trimestres. Los datos respetan el año elegido arriba.
+          </span>
+        </p>
+        <p class="servicios-help">
+          Al presionar “+” se despliegan los centros asociados a cada servicio con sus
+          métricas (NPS, comentarios, % sobre texto, CSAT, Uplift) y los drivers
+          desagregados por fila.
+        </p>
+      </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Servicio / Centro</th>
-            <th>Atributos mencionados</th>
-            <th>Nº comentarios</th>
-            <th>% sobre texto</th>
-            <th>NPS</th>
-            <th>CSAT atributo</th>
-            <th>Uplift atributo</th>
-          </tr>
-        </thead>
-        <tbody id="tbody-servicios-agregados">
-          <tr>
-            <td colspan="7">Cargando…</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <span id="error-carga"></span>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Servicio / Centro</th>
+              <th>Atributos mencionados</th>
+              <th class="col-num">Nº comentarios</th>
+              <th class="col-num">% sobre texto</th>
+              <th class="col-num">NPS</th>
+              <th class="col-num">CSAT atributo</th>
+              <th class="col-num">Uplift atributo</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-servicios">
+            <tr>
+              <td colspan="7" class="loading-text">Cargando…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
   </main>
 
   <script>
-    // 🔧 AJUSTA ESTA RUTA a tu JSON real de customers_say de RedSalud
-    // por ejemplo: './data/customers_say_redsalud.json'
-    const DATA_URL = './data/customers_say_redsalud.json';
+    // Ruta correcta al JSON de RedSalud
+    const DATA_URL = "./00_redsalud_Customers_say.json";
 
-    function formatNum(value) {
-      if (value == null) return '–';
-      return Number(value).toLocaleString('es-CL');
+    async function cargarDatos() {
+      const errorEl = document.getElementById("texto-abierto-error");
+      if (errorEl) errorEl.textContent = "";
+
+      try {
+        const resp = await fetch(DATA_URL);
+        if (!resp.ok) {
+          throw new Error(`HTTP ${resp.status} al leer ${DATA_URL}`);
+        }
+        const data = await resp.json();
+        poblarKpis(data);
+        poblarDriversMacro(data);
+        poblarEvolucionCSAT(data);
+        poblarEvolucionUplift(data);
+        poblarServicios(data);
+      } catch (err) {
+        console.error(err);
+        if (errorEl) {
+          errorEl.textContent =
+            "Error al cargar datos de texto abierto (" + err.message + ")";
+        }
+      }
     }
 
-    function formatPerc(value) {
-      if (value == null) return '–';
-      return Number(value).toFixed(1) + ' %';
+    function safeArray(value) {
+      return Array.isArray(value) ? value : [];
     }
 
-    function formatCsat(value) {
-      if (value == null) return '–';
-      return Number(value).toFixed(2);
+    function poblarKpis(data) {
+      const kpis = data.kpis || data.resumen || {};
+      const total = kpis.total_respuestas ?? "–";
+      const conComentario = kpis.respuestas_con_comentario ?? "–";
+      const csat = kpis.csat_global_texto ?? "–";
+
+      document.getElementById("kpi-total-respuestas").textContent = total;
+      document.getElementById("kpi-respuestas-comentario").textContent =
+        conComentario;
+      document.getElementById("kpi-csat-global").textContent =
+        typeof csat === "number" ? csat.toFixed(2) : csat;
     }
 
-    function setText(id, value) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = value;
-    }
+    function poblarDriversMacro(data) {
+      const tbody = document.getElementById("tbody-drivers-macro");
+      tbody.innerHTML = "";
+      const filas = safeArray(data.drivers_macro);
 
-    function buildTable(tbodyId, rows, columnFns) {
-      const tbody = document.getElementById(tbodyId);
-      if (!tbody) return;
-
-      tbody.innerHTML = '';
-
-      if (!rows || !rows.length) {
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = columnFns.length;
-        td.textContent = 'Sin datos';
-        tr.appendChild(td);
-        tbody.appendChild(tr);
+      if (!filas.length) {
+        tbody.innerHTML =
+          '<tr><td colspan="5" class="loading-text">Sin datos.</td></tr>';
         return;
       }
 
-      rows.forEach(row => {
-        const tr = document.createElement('tr');
-        columnFns.forEach(fn => {
-          const td = document.createElement('td');
-          td.textContent = fn(row);
-          tr.appendChild(td);
-        });
+      filas.forEach((row) => {
+        const tr = document.createElement("tr");
+
+        const tdAttr = document.createElement("td");
+        const chip = document.createElement("span");
+        chip.className = "chip-driver";
+        chip.textContent = row.atributo_macro || row.atributo || "—";
+        tdAttr.appendChild(chip);
+
+        const tdN = document.createElement("td");
+        tdN.className = "col-num";
+        tdN.textContent = row.n_comentarios ?? "0";
+
+        const tdPct = document.createElement("td");
+        tdPct.className = "col-num";
+        tdPct.textContent =
+          row.porcentaje_sobre_texto != null
+            ? row.porcentaje_sobre_texto.toFixed(1) + "%"
+            : "–";
+
+        const tdCsat = document.createElement("td");
+        tdCsat.className = "col-num";
+        tdCsat.textContent =
+          row.csat_atributo != null
+            ? row.csat_atributo.toFixed(2)
+            : "–";
+
+        const tdUplift = document.createElement("td");
+        tdUplift.className = "col-num";
+        tdUplift.textContent =
+          row.uplift_atributo != null
+            ? row.uplift_atributo.toFixed(2)
+            : "–";
+
+        tr.appendChild(tdAttr);
+        tr.appendChild(tdN);
+        tr.appendChild(tdPct);
+        tr.appendChild(tdCsat);
+        tr.appendChild(tdUplift);
         tbody.appendChild(tr);
       });
     }
 
-    fetch(DATA_URL)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('HTTP ' + response.status + ' al leer ' + DATA_URL);
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('JSON customers_say cargado:', data);
+    function poblarEvolucionCSAT(data) {
+      const tbody = document.getElementById("tbody-csat-evol");
+      tbody.innerHTML = "";
+      const filas = safeArray(data.evolucion_csat_atributo);
 
-        // ▸ KPIs superiores
-        const kpis = data.kpis || data.kpi_texto || data;
+      if (!filas.length) {
+        tbody.innerHTML =
+          '<tr><td colspan="6" class="loading-text">Sin datos.</td></tr>';
+        return;
+      }
 
-        const totalRespuestas =
-          kpis.total_respuestas_texto ??
-          kpis.total_respuestas ??
-          kpis.totalRespuestas ??
-          null;
+      filas.forEach((row) => {
+        const tr = document.createElement("tr");
 
-        const respuestasConComentario =
-          kpis.respuestas_con_comentario ??
-          kpis.resp_con_comentario ??
-          kpis.respuestasComentario ??
-          null;
+        const tdDriver = document.createElement("td");
+        tdDriver.textContent = row.driver || row.atributo || "—";
 
-        const csatGlobalTexto =
-          kpis.csat_global_texto ??
-          kpis.csat_global ??
-          kpis.csat ??
-          null;
+        const makeTd = (key) => {
+          const td = document.createElement("td");
+          td.className = "col-num";
+          const v = row[key];
+          td.textContent = v != null ? Number(v).toFixed(2) : "–";
+          return td;
+        };
 
-        setText(
-          'kpi-total-respuestas',
-          totalRespuestas != null ? formatNum(totalRespuestas) : '–'
-        );
-        setText(
-          'kpi-respuestas-comentario',
-          respuestasConComentario != null
-            ? formatNum(respuestasConComentario)
-            : '–'
-        );
-        setText(
-          'kpi-csat-global',
-          csatGlobalTexto != null ? formatCsat(csatGlobalTexto) : '–'
-        );
+        tr.appendChild(tdDriver);
+        tr.appendChild(makeTd("t1"));
+        tr.appendChild(makeTd("t2"));
+        tr.appendChild(makeTd("t3"));
+        tr.appendChild(makeTd("t4"));
+        tr.appendChild(makeTd("total_anual"));
 
-        // ▸ Drivers macro
-        const drivers =
-          data.drivers_macro ||
-          data.driversMacro ||
-          data.drivers ||
-          [];
-
-        buildTable('tbody-drivers-macro', drivers, [
-          r => r.atributo_macro || r.driver || r.nombre || '—',
-          r => r.num_comentarios ?? r.comentarios ?? '—',
-          r =>
-            r.porcentaje_sobre_texto != null
-              ? formatPerc(r.porcentaje_sobre_texto)
-              : r.porc_texto != null
-              ? formatPerc(r.porc_texto)
-              : '—',
-          r =>
-            r.csat_atributo != null
-              ? formatCsat(r.csat_atributo)
-              : r.csat != null
-              ? formatCsat(r.csat)
-              : '—',
-          r => r.uplift_atributo ?? r.uplift ?? '—'
-        ]);
-
-        // ▸ Evolución CSAT por atributo
-        const evolCsat =
-          data.evolucion_csat_atributo ||
-          data.evolucion_csat ||
-          [];
-
-        buildTable('tbody-evol-csat', evolCsat, [
-          r => r.driver || r.atributo || '—',
-          r => r.T1 ?? r.t1 ?? '—',
-          r => r.T2 ?? r.t2 ?? '—',
-          r => r.T3 ?? r.t3 ?? '—',
-          r => r.T4 ?? r.t4 ?? '—',
-          r => r.total_anual ?? r.total ?? '—'
-        ]);
-
-        // ▸ Evolución Uplift por atributo
-        const evolUplift =
-          data.evolucion_uplift_atributo ||
-          data.evolucion_uplift ||
-          [];
-
-        buildTable('tbody-evol-uplift', evolUplift, [
-          r => r.driver || r.atributo || '—',
-          r => r.T1 ?? r.t1 ?? '—',
-          r => r.T2 ?? r.t2 ?? '—',
-          r => r.T3 ?? r.t3 ?? '—',
-          r => r.T4 ?? r.t4 ?? '—',
-          r => r.total_anual ?? r.total ?? '—'
-        ]);
-
-        // ▸ Servicios agregados
-        const servicios =
-          data.servicios_agregados ||
-          data.servicios ||
-          [];
-
-        buildTable('tbody-servicios-agregados', servicios, [
-          r => r.servicio || r.centro || r.nombre || '—',
-          r => r.atributos_mencionados ?? r.atributos ?? '—',
-          r => r.num_comentarios ?? r.comentarios ?? '—',
-          r =>
-            r.porcentaje_sobre_texto != null
-              ? formatPerc(r.porcentaje_sobre_texto)
-              : r.porc_texto != null
-              ? formatPerc(r.porc_texto)
-              : '—',
-          r => r.nps ?? r.NPS ?? '—',
-          r =>
-            r.csat_atributo != null
-              ? formatCsat(r.csat_atributo)
-              : r.csat != null
-              ? formatCsat(r.csat)
-              : '—',
-          r => r.uplift_atributo ?? r.uplift ?? '—'
-        ]);
-      })
-      .catch(error => {
-        console.error('Error cargando JSON de customers_say:', error);
-        const errEl = document.getElementById('error-carga');
-        if (errEl) {
-          errEl.textContent =
-            'Error al cargar datos de texto abierto (' + error.message + ')';
-          errEl.style.display = 'inline';
-        }
+        tbody.appendChild(tr);
       });
+    }
+
+    function poblarEvolucionUplift(data) {
+      const tbody = document.getElementById("tbody-uplift-evol");
+      tbody.innerHTML = "";
+      const filas = safeArray(data.evolucion_uplift_atributo);
+
+      if (!filas.length) {
+        tbody.innerHTML =
+          '<tr><td colspan="6" class="loading-text">Sin datos.</td></tr>';
+        return;
+      }
+
+      filas.forEach((row) => {
+        const tr = document.createElement("tr");
+
+        const tdDriver = document.createElement("td");
+        tdDriver.textContent = row.driver || row.atributo || "—";
+
+        const makeTd = (key) => {
+          const td = document.createElement("td");
+          td.className = "col-num";
+          const v = row[key];
+          td.textContent = v != null ? Number(v).toFixed(2) : "–";
+          return td;
+        };
+
+        tr.appendChild(tdDriver);
+        tr.appendChild(makeTd("t1"));
+        tr.appendChild(makeTd("t2"));
+        tr.appendChild(makeTd("t3"));
+        tr.appendChild(makeTd("t4"));
+        tr.appendChild(makeTd("total_anual"));
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function poblarServicios(data) {
+      const tbody = document.getElementById("tbody-servicios");
+      tbody.innerHTML = "";
+      const filas = safeArray(data.servicios_agregados);
+
+      if (!filas.length) {
+        tbody.innerHTML =
+          '<tr><td colspan="7" class="loading-text">Sin datos.</td></tr>';
+        return;
+      }
+
+      filas.forEach((row) => {
+        const tr = document.createElement("tr");
+
+        const tdServ = document.createElement("td");
+        tdServ.textContent = row.servicio || row.centro || "—";
+
+        const tdAttrs = document.createElement("td");
+        tdAttrs.textContent = row.atributos_mencionados || "—";
+
+        const tdN = document.createElement("td");
+        tdN.className = "col-num";
+        tdN.textContent = row.n_comentarios ?? "0";
+
+        const tdPct = document.createElement("td");
+        tdPct.className = "col-num";
+        tdPct.textContent =
+          row.porcentaje_sobre_texto != null
+            ? row.porcentaje_sobre_texto.toFixed(1) + "%"
+            : "–";
+
+        const tdNps = document.createElement("td");
+        tdNps.className = "col-num";
+        tdNps.textContent =
+          row.nps != null ? Number(row.nps).toFixed(0) : "–";
+
+        const tdCsat = document.createElement("td");
+        tdCsat.className = "col-num";
+        tdCsat.textContent =
+          row.csat_atributo != null
+            ? row.csat_atributo.toFixed(2)
+            : "–";
+
+        const tdUplift = document.createElement("td");
+        tdUplift.className = "col-num";
+        tdUplift.textContent =
+          row.uplift_atributo != null
+            ? row.uplift_atributo.toFixed(2)
+            : "–";
+
+        tr.appendChild(tdServ);
+        tr.appendChild(tdAttrs);
+        tr.appendChild(tdN);
+        tr.appendChild(tdPct);
+        tr.appendChild(tdNps);
+        tr.appendChild(tdCsat);
+        tr.appendChild(tdUplift);
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarDatos);
   </script>
 </body>
 </html>
