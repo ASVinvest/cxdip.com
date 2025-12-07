@@ -476,11 +476,10 @@
           <div class="summary-label">IBB global (texto)</div>
           <div class="summary-value" id="summary-ibb">–</div>
           <div class="summary-foot">
-            (% promotores – % detractores) · sólo casos con comentario
+            IBB = % promotores − % detractores · sólo casos con comentario
           </div>
         </div>
       </div>
-      
     </header>
 
     <!-- DRIVERS MACRO -->
@@ -494,9 +493,7 @@
       <div class="filter-row">
         <span class="filter-label">Selecciona el Año que quieres analizar:</span>
         <select id="year-select" class="year-select">
-          <option value="2023">2023</option>
-          <option value="2024" selected>2024</option>
-          <option value="2025">2025</option>
+          <!-- Se rellena por JS -->
         </select>
         <span class="filter-hint"></span>
       </div>
@@ -520,7 +517,7 @@
               </th>
               <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
                 <span class="sort-label">
-                  CSAT atributo
+                  IBB atributo
                   <span class="sort-indicator">↕</span>
                 </span>
               </th>
@@ -540,11 +537,11 @@
 
       <!-- EVOLUCIÓN CSAT / UPLIFT -->
       <div class="ranking-row">
-        <!-- Evolución CSAT -->
+        <!-- Evolución IBB -->
         <div class="ranking-card">
-          <div class="ranking-title">Evolución CSAT atributo</div>
+          <div class="ranking-title">Evolución IBB atributo</div>
           <div class="ranking-sub">
-            Evolución del CSAT por atributo.
+            Evolución del IBB por atributo (trimestres y total anual).
           </div>
 
           <div class="table-wrapper table-wrapper-ranking">
@@ -637,8 +634,8 @@
               <th>Atributos mencionados</th>
               <th style="text-align:right;">N° comentarios</th>
               <th style="text-align:right;">% sobre texto</th>
-              <th style="text-align:right;">NPS</th>
-              <th style="text-align:right;">CSAT atributo</th>
+              <th style="text-align:right;">IBB (NPS)</th>
+              <th style="text-align:right;">IBB atributo</th>
               <th style="text-align:right;">Uplift atributo</th>
             </tr>
           </thead>
@@ -650,30 +647,33 @@
 
       <div class="note-inline">
         Al presionar <span class="plus-btn" style="pointer-events:none;">+</span> se despliegan los centros asociados
-        a cada servicio con sus métricas (NPS, comentarios, % sobre texto, CSAT, Uplift) y los drivers desagregados por fila.
+        a cada servicio con sus métricas (IBB, comentarios, % sobre texto, IBB atributo, Uplift) y los drivers desagregados por fila.
       </div>
     </section>
   </div>
+
   <script>
-    // --------- UTILIDADES ---------
+    // ==========================================================
+    // UTILIDADES
+    // ==========================================================
     function parseCellValue(text, type) {
-      if (!text) return null;
+      if (text === null || text === undefined) return null;
       text = String(text).trim();
       if (text === "–" || text === "-" || text === "") return null;
       text = text.replace(/\s/g, "");
-  
+
       if (type === "int") {
         var cleanedInt = text.replace(/\./g, "");
         var intVal = parseInt(cleanedInt, 10);
         return isNaN(intVal) ? null : intVal;
       }
-  
+
       if (type === "percent") {
         var cleanedPct = text.replace("%", "").replace(/\./g, "").replace(",", ".");
         var pctVal = parseFloat(cleanedPct);
         return isNaN(pctVal) ? null : pctVal;
       }
-  
+
       if (type === "decimal") {
         var cleanedDec = text.replace("+", "").replace("–", "-").replace(",", ".");
         var decVal = parseFloat(cleanedDec);
@@ -681,413 +681,535 @@
       }
       return null;
     }
-  
+
     function formatDecimal(value, decimals, withSign) {
-      if (value === null || typeof value === "undefined" || isNaN(value)) return "–";
-      var fixed = value.toFixed(decimals);
+      if (value === null || value === undefined || isNaN(value)) return "–";
+      var fixed = Number(value).toFixed(decimals);
       var out = fixed.replace(".", ",");
       if (withSign && value > 0) out = "+" + out;
       return out;
     }
-  
+
     function formatInt(value) {
-      if (value === null || typeof value === "undefined" || isNaN(value)) return "–";
+      if (value === null || value === undefined || isNaN(value)) return "–";
       return new Intl.NumberFormat("es-CL").format(value);
     }
-  
-    // Para colorear IBB
+
     function getIbbClass(v) {
-      if (v === null || isNaN(v)) return "neutral";
-      if (v >= 50) return "pos";      // muy bueno
-      if (v <= 0) return "neg";       // preocupante
-      return "neutral";               // zona media
+      if (v === null || v === undefined || isNaN(v)) return "neutral";
+      if (v >= 40) return "pos";       // umbral "bueno"
+      if (v <= 0) return "neg";        // umbral "malo"
+      return "neutral";                // zona media
     }
-  
+
     function getUpliftClass(v) {
-      if (v === null || isNaN(v)) return "neutral";
+      if (v === null || v === undefined || isNaN(v)) return "neutral";
       if (v > 0.01) return "pos";
       if (v < -0.01) return "neg";
       return "neutral";
     }
-  
-    // --------- ORDEN TABLA DRIVERS MACRO ---------
+
+    // Helper para obtener datos de trimestres con distintas claves
+    function getTrimData(triObj, t) {
+      if (!triObj) return null;
+      return triObj[t] ||
+             triObj[String(t)] ||
+             triObj["T" + t] ||
+             triObj["t" + t] ||
+             triObj["Q" + t] ||
+             null;
+    }
+
+    // ==========================================================
+    // VARIABLES GLOBALES
+    // ==========================================================
+    // Ajusta esta ruta a donde esté realmente tu JSON:
+    const PANEL_JSON_URL = "../01_00_redsalud/00_redsalud_Customers_say.json";
+
+    let panelData = null;
+    let selectedYear = null;
+    let selectedTrims = [1, 2, 3, 4];
+
+    // ----------------------------------------------------------
+    // Obtener stats globales de un año (total, con texto, IBB, etc.)
+    // ----------------------------------------------------------
+    function getYearStats(yearStr) {
+      if (!panelData || !panelData.summary) return null;
+      const s = panelData.summary[yearStr];
+      if (!s) return null;
+
+      const total = Number(s.total_respuestas || 0);
+      const withText = Number(s.total_comentario || 0);
+
+      // campos posibles de conteo de segmentos
+      const prom = Number(
+        s.promotores ||
+        s.total_promotores ||
+        0
+      );
+      const det = Number(
+        s.detractores ||
+        s.total_detractores ||
+        0
+      );
+      const neu = Number(
+        s.neutros ||
+        s.total_neutros ||
+        0
+      );
+
+      let ibb = (s.ibb !== undefined && s.ibb !== null)
+        ? Number(s.ibb)
+        : null;
+
+      const base = withText || total;
+
+      if ((ibb === null || isNaN(ibb)) && base > 0) {
+        ibb = 100 * ((prom / base) - (det / base));
+      }
+
+      return {
+        total,
+        withText,
+        prom,
+        det,
+        neu,
+        ibb,
+        base
+      };
+    }
+
+    // ==========================================================
+    // ORDENAMIENTO TABLAS (Drivers y Ranking)
+    // ==========================================================
     (function () {
-      var table = document.getElementById("drivers-table");
+      const table = document.getElementById("drivers-table");
       if (!table) return;
-  
+
       table.querySelectorAll("thead th.sortable-col").forEach(function (th) {
         th.dataset.sortDirection = "none";
-  
+
         th.addEventListener("click", function () {
-          var sortType = th.dataset.sortType || "decimal";
-          var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
-          var current = th.dataset.sortDirection;
-          var next = current === "asc" ? "desc" : "asc";
+          const sortType = th.dataset.sortType || "decimal";
+          const colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
+          const current = th.dataset.sortDirection;
+          const next = current === "asc" ? "desc" : "asc";
           th.dataset.sortDirection = next;
-          var direction = next === "asc" ? 1 : -1;
-  
+          const direction = next === "asc" ? 1 : -1;
+
           table.querySelectorAll("thead th.sortable-col").forEach(function (other) {
             if (other !== th) {
               other.dataset.sortDirection = "none";
-              var io = other.querySelector(".sort-indicator");
+              const io = other.querySelector(".sort-indicator");
               if (io) io.textContent = "↕";
             }
           });
-  
-          var icon = th.querySelector(".sort-indicator");
+
+          const icon = th.querySelector(".sort-indicator");
           if (icon) icon.textContent = next === "asc" ? "▲" : "▼";
-  
-          var tbody = table.querySelector("tbody");
-          var totalRow = tbody.querySelector(".row-total");
-          var promRow = tbody.querySelector(".row-prom");
-  
-          var dataRows = Array.from(tbody.querySelectorAll("tr")).filter(function (row) {
-            return !row.classList.contains("row-total") && !row.classList.contains("row-prom");
+
+          const tbody = table.querySelector("tbody");
+          const totalRow = tbody.querySelector(".row-total");
+          const promRow = tbody.querySelector(".row-prom");
+
+          const dataRows = Array.from(tbody.querySelectorAll("tr")).filter(function (row) {
+            return !row.classList.contains("row-total") &&
+                   !row.classList.contains("row-prom");
           });
-  
+
           dataRows.sort(function (rowA, rowB) {
-            var textA = rowA.children[colIndex].textContent;
-            var textB = rowB.children[colIndex].textContent;
-            var valA = parseCellValue(textA, sortType);
-            var valB = parseCellValue(textB, sortType);
-  
+            const textA = rowA.children[colIndex].textContent;
+            const textB = rowB.children[colIndex].textContent;
+            const valA = parseCellValue(textA, sortType);
+            const valB = parseCellValue(textB, sortType);
+
             if (valA === null && valB === null) return 0;
             if (valA === null) return 1;
             if (valB === null) return -1;
             return (valA - valB) * direction;
           });
-  
+
           tbody.innerHTML = "";
-          dataRows.forEach(function (r) { tbody.appendChild(r); });
+          dataRows.forEach(r => tbody.appendChild(r));
           if (totalRow) tbody.appendChild(totalRow);
           if (promRow) tbody.appendChild(promRow);
         });
       });
     })();
-  
-    // --------- ORDEN TABLAS RANKING (CSAT / UPLIFT) ---------
+
     (function () {
-      var rankingTables = document.querySelectorAll(".ranking-table");
+      const rankingTables = document.querySelectorAll(".ranking-table");
       rankingTables.forEach(function (table) {
-        var tbody = table.querySelector("tbody");
-  
+        const tbody = table.querySelector("tbody");
+        if (!tbody) return;
+
         table.querySelectorAll("thead th.sortable-col").forEach(function (th) {
           th.dataset.sortDirection = "none";
-  
+
           th.addEventListener("click", function () {
-            var sortType = th.dataset.sortType || "decimal";
-            var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
-            var current = th.dataset.sortDirection;
-            var next = current === "asc" ? "desc" : "asc";
+            const sortType = th.dataset.sortType || "decimal";
+            const colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
+            const current = th.dataset.sortDirection;
+            const next = current === "asc" ? "desc" : "asc";
             th.dataset.sortDirection = next;
-            var direction = next === "asc" ? 1 : -1;
-  
+            const direction = next === "asc" ? 1 : -1;
+
             table.querySelectorAll("thead th.sortable-col").forEach(function (other) {
               if (other !== th) {
                 other.dataset.sortDirection = "none";
-                var io = other.querySelector(".sort-indicator");
+                const io = other.querySelector(".sort-indicator");
                 if (io) io.textContent = "↕";
               }
             });
-  
-            var icon = th.querySelector(".sort-indicator");
+
+            const icon = th.querySelector(".sort-indicator");
             if (icon) icon.textContent = next === "asc" ? "▲" : "▼";
-  
-            var dataRows = Array.from(tbody.querySelectorAll("tr"));
-  
+
+            const dataRows = Array.from(tbody.querySelectorAll("tr"));
+
             dataRows.sort(function (rowA, rowB) {
-              var textA = rowA.children[colIndex].textContent;
-              var textB = rowB.children[colIndex].textContent;
-              var valA = parseCellValue(textA, sortType);
-              var valB = parseCellValue(textB, sortType);
-  
+              const textA = rowA.children[colIndex].textContent;
+              const textB = rowB.children[colIndex].textContent;
+              const valA = parseCellValue(textA, sortType);
+              const valB = parseCellValue(textB, sortType);
+
               if (valA === null && valB === null) return 0;
               if (valA === null) return 1;
               if (valB === null) return -1;
               return (valA - valB) * direction;
             });
-  
+
             tbody.innerHTML = "";
-            dataRows.forEach(function (r) { tbody.appendChild(r); });
+            dataRows.forEach(r => tbody.appendChild(r));
           });
         });
       });
     })();
-  
+
     // ==========================================================
-    // DATOS DEL JSON
+    // TARJETAS RESUMEN CABECERA
     // ==========================================================
-  
-    const PANEL_JSON_URL = "C:/Users/Ariel/OneDrive/Documentos/GitHub/cxdip.com/01_Customers_say/01_00_redsalud/00_redsalud_Customers_say.json";
-  
-    let panelData = null;
-    let selectedYear = null;
-    let selectedTrims = [1, 2, 3, 4];
-  
-    // --------- RESUMEN CABECERA ---------
     function updateSummaryCards() {
       if (!panelData || !selectedYear) return;
-      const summaryYear = panelData.summary[selectedYear];
-      if (!summaryYear) return;
-  
-      const total = summaryYear.total_respuestas || 0;
-      const withText = summaryYear.total_comentario || 0;
-      const ibb = summaryYear.ibb;
-  
+      const stats = getYearStats(String(selectedYear));
+      if (!stats) return;
+
       const totalEl = document.getElementById("summary-total");
       const withTextEl = document.getElementById("summary-with-text");
       const pctEl = document.getElementById("summary-text-pct");
       const ibbEl = document.getElementById("summary-ibb");
-  
-      if (totalEl) totalEl.textContent = formatInt(total);
-      if (withTextEl) withTextEl.textContent = formatInt(withText);
-  
+
+      if (totalEl) totalEl.textContent = formatInt(stats.total);
+      if (withTextEl) withTextEl.textContent = formatInt(stats.withText);
+
       if (pctEl) {
-        const pct = total ? (withText / total) * 100 : 0;
-        pctEl.textContent = total ? formatDecimal(pct, 1, false) + "% aportan texto" : "";
+        const pct = stats.total ? (stats.withText / stats.total) * 100 : 0;
+        pctEl.textContent = stats.total
+          ? formatDecimal(pct, 1, false) + "% aportan texto"
+          : "–";
       }
-  
+
       if (ibbEl) {
-        ibbEl.textContent = ibb === null || typeof ibb === "undefined"
-          ? "–"
-          : formatDecimal(ibb, 1, false);
+        if (stats.ibb === null || stats.ibb === undefined || isNaN(stats.ibb)) {
+          ibbEl.textContent = "–";
+        } else {
+          ibbEl.textContent = formatDecimal(stats.ibb, 1, false);
+        }
       }
     }
-  
-    // --------- DRIVERS MACRO ---------
+
+    // ==========================================================
+    // DRIVERS MACRO
+    // ==========================================================
     function renderDriversMacro(year) {
       const tbody = document.querySelector("#drivers-table tbody");
       if (!tbody || !panelData) return;
-  
+
       const yearStr = String(year);
-      const rowsData = panelData.drivers_macro[yearStr] || [];
-      const summaryYear = panelData.summary[yearStr];
-      if (!summaryYear) return;
-  
-      const totalText = summaryYear.total_comentario || 0;
-      const globalIbb = summaryYear.ibb;
-  
+      const rowsData = (panelData.drivers_macro && panelData.drivers_macro[yearStr]) || [];
+      const stats = getYearStats(yearStr);
+      if (!stats) return;
+
+      const totalText = stats.withText;   // base para %
+      const globalIbb = stats.ibb;
+
       tbody.innerHTML = "";
-  
       let totalComments = 0;
-  
+
       rowsData.forEach(function (row) {
-        const tr = document.createElement("tr");
         const total = row.total || {};
-        const comments = total.comments || 0;
+        let comments = Number(total.comments || 0);
+
+        // si no viene total.comments, podemos intentar sumar trimestres
+        if (!comments && row.trimesters) {
+          for (let t = 1; t <= 4; t++) {
+            const tri = getTrimData(row.trimesters, t);
+            if (tri && tri.comments) comments += Number(tri.comments || 0);
+          }
+        }
+
         totalComments += comments;
-  
+
+        // IBB del atributo
+        let ibbVal = (total.ibb !== undefined && total.ibb !== null)
+          ? Number(total.ibb)
+          : null;
+
+        if ((ibbVal === null || isNaN(ibbVal)) && total.comments && (total.promotores !== undefined || total.detractores !== undefined)) {
+          const base = Number(total.comments || 0);
+          const prom = Number(total.promotores || 0);
+          const det = Number(total.detractores || 0);
+          if (base > 0) {
+            ibbVal = 100 * ((prom / base) - (det / base));
+          }
+        }
+
+        // Uplift = IBB atributo − IBB global
+        let upliftVal = null;
+        if (ibbVal !== null && !isNaN(ibbVal) && globalIbb !== null && !isNaN(globalIbb)) {
+          upliftVal = ibbVal - globalIbb;
+        } else if (total.uplift !== undefined && total.uplift !== null) {
+          upliftVal = Number(total.uplift);
+        }
+
         const pctVal = totalText ? (comments / totalText) * 100 : 0;
-        const ibbVal = total.ibb;
-        const upliftVal = total.uplift;
-  
+
+        const tr = document.createElement("tr");
+
         const tdDriver = document.createElement("td");
         tdDriver.className = "tbl-name";
         tdDriver.textContent = row.driver;
         tr.appendChild(tdDriver);
-  
+
         const tdComments = document.createElement("td");
         tdComments.className = "tbl-num";
         tdComments.textContent = formatInt(comments);
         tr.appendChild(tdComments);
-  
+
         const tdPct = document.createElement("td");
         tdPct.className = "tbl-num";
         tdPct.textContent = totalText
           ? formatDecimal(pctVal, 1, false) + "%"
           : "0,0%";
         tr.appendChild(tdPct);
-  
+
         const tdIbb = document.createElement("td");
         tdIbb.className = "tbl-num val-csat " + getIbbClass(ibbVal);
         tdIbb.textContent =
-          ibbVal === null || typeof ibbVal === "undefined"
+          ibbVal === null || ibbVal === undefined || isNaN(ibbVal)
             ? "–"
             : formatDecimal(ibbVal, 1, false);
         tr.appendChild(tdIbb);
-  
+
         const tdUplift = document.createElement("td");
         tdUplift.className = "tbl-num val-uplift " + getUpliftClass(upliftVal);
         tdUplift.textContent =
-          upliftVal === null || typeof upliftVal === "undefined"
+          upliftVal === null || upliftVal === undefined || isNaN(upliftVal)
             ? "–"
             : formatDecimal(upliftVal, 1, true);
         tr.appendChild(tdUplift);
-  
+
         tbody.appendChild(tr);
       });
-  
+
       // Fila Totales
       const trTotal = document.createElement("tr");
       trTotal.className = "row-total";
-  
+
       const tdLabelTot = document.createElement("td");
       tdLabelTot.className = "tbl-name";
       tdLabelTot.textContent = "Totales";
       trTotal.appendChild(tdLabelTot);
-  
+
       const tdCommTot = document.createElement("td");
       tdCommTot.className = "tbl-num";
       tdCommTot.textContent = formatInt(totalComments);
       trTotal.appendChild(tdCommTot);
-  
+
       const tdPctTot = document.createElement("td");
       tdPctTot.className = "tbl-num";
       tdPctTot.textContent = totalText ? "100,0%" : "0,0%";
       trTotal.appendChild(tdPctTot);
-  
+
       const tdIbbTot = document.createElement("td");
       tdIbbTot.className = "tbl-num";
       tdIbbTot.textContent = "–";
       trTotal.appendChild(tdIbbTot);
-  
+
       const tdUpliftTot = document.createElement("td");
       tdUpliftTot.className = "tbl-num";
       tdUpliftTot.textContent = "–";
       trTotal.appendChild(tdUpliftTot);
-  
+
       tbody.appendChild(trTotal);
-  
-      // Fila Promedios (IBB global y uplift 0)
+
+      // Fila Promedios (IBB global, Uplift 0)
       const trProm = document.createElement("tr");
       trProm.className = "row-prom";
-  
+
       const tdLabelProm = document.createElement("td");
       tdLabelProm.className = "tbl-name";
       tdLabelProm.textContent = "Promedios";
       trProm.appendChild(tdLabelProm);
-  
+
       const tdVoid1 = document.createElement("td");
       tdVoid1.className = "tbl-num";
       tdVoid1.textContent = "–";
       trProm.appendChild(tdVoid1);
-  
+
       const tdVoid2 = document.createElement("td");
       tdVoid2.className = "tbl-num";
       tdVoid2.textContent = "–";
       trProm.appendChild(tdVoid2);
-  
+
       const tdIbbProm = document.createElement("td");
       tdIbbProm.className = "tbl-num val-csat " + getIbbClass(globalIbb);
       tdIbbProm.textContent = formatDecimal(globalIbb, 1, false);
       trProm.appendChild(tdIbbProm);
-  
+
       const tdUpliftProm = document.createElement("td");
       tdUpliftProm.className = "tbl-num val-uplift " + getUpliftClass(0);
       tdUpliftProm.textContent = formatDecimal(0, 1, true);
       trProm.appendChild(tdUpliftProm);
-  
+
       tbody.appendChild(trProm);
     }
-  
-    // --------- EVOLUCIÓN IBB / UPLIFT POR DRIVER ---------
+
+    // ==========================================================
+    // EVOLUCIÓN IBB / UPLIFT POR DRIVER
+    // ==========================================================
     function renderEvolutionTables(year) {
       if (!panelData) return;
       const yearStr = String(year);
-      const rowsData = panelData.drivers_macro[yearStr] || [];
-  
+      const rowsData = (panelData.drivers_macro && panelData.drivers_macro[yearStr]) || [];
+      const stats = getYearStats(yearStr);
+      if (!stats) return;
+
+      const globalIbb = stats.ibb;
+
       const csatBody = document.querySelector(".ranking-csat tbody");
       const upliftBody = document.querySelector(".ranking-uplift tbody");
       if (!csatBody || !upliftBody) return;
-  
+
       csatBody.innerHTML = "";
       upliftBody.innerHTML = "";
-  
+
       rowsData.forEach(function (row) {
         const trCsat = document.createElement("tr");
         const trUplift = document.createElement("tr");
-  
+
         const tdDriver1 = document.createElement("td");
         tdDriver1.className = "tbl-name";
         tdDriver1.textContent = row.driver;
         trCsat.appendChild(tdDriver1);
-  
+
         const tdDriver2 = document.createElement("td");
         tdDriver2.className = "tbl-name";
         tdDriver2.textContent = row.driver;
         trUplift.appendChild(tdDriver2);
-  
-        let sumIbb = 0;
-        let countIbb = 0;
-        let sumUplift = 0;
-        let countUplift = 0;
-  
+
+        let totalComments = 0;
+        let totalProm = 0;
+        let totalDet = 0;
+
         for (let t = 1; t <= 4; t++) {
-          const tData = row.trimesters[t] || row.trimesters[String(t)] || null;
-          const ibbVal = tData ? tData.ibb : null;
-          const uplVal = tData ? tData.uplift : null;
-  
-          // CSAT/IBB
+          const tData = getTrimData(row.trimesters || row.trimestres, t);
+          let ibbVal = null;
+          let upliftVal = null;
+
+          if (tData) {
+            let comments = Number(tData.comments || 0);
+            let prom = Number(tData.promotores || 0);
+            let det = Number(tData.detractores || 0);
+
+            if (comments > 0) {
+              ibbVal = 100 * ((prom / comments) - (det / comments));
+              totalComments += comments;
+              totalProm += prom;
+              totalDet += det;
+            } else if (tData.ibb !== undefined && tData.ibb !== null) {
+              ibbVal = Number(tData.ibb);
+            }
+
+            if (ibbVal !== null && !isNaN(ibbVal) && globalIbb !== null && !isNaN(globalIbb)) {
+              upliftVal = ibbVal - globalIbb;
+            } else if (tData.uplift !== undefined && tData.uplift !== null) {
+              upliftVal = Number(tData.uplift);
+            }
+          }
+
           const tdIbb = document.createElement("td");
           tdIbb.className = "tbl-num val-csat " + getIbbClass(ibbVal);
           tdIbb.textContent =
-            ibbVal === null || typeof ibbVal === "undefined"
+            ibbVal === null || ibbVal === undefined || isNaN(ibbVal)
               ? "–"
               : formatDecimal(ibbVal, 1, false);
           trCsat.appendChild(tdIbb);
-  
-          // Uplift
+
           const tdUp = document.createElement("td");
-          tdUp.className = "tbl-num val-uplift " + getUpliftClass(uplVal);
+          tdUp.className = "tbl-num val-uplift " + getUpliftClass(upliftVal);
           tdUp.textContent =
-            uplVal === null || typeof uplVal === "undefined"
+            upliftVal === null || upliftVal === undefined || isNaN(upliftVal)
               ? "–"
-              : formatDecimal(uplVal, 1, true);
+              : formatDecimal(upliftVal, 1, true);
           trUplift.appendChild(tdUp);
-  
-          if (ibbVal !== null && typeof ibbVal !== "undefined" && !isNaN(ibbVal)) {
-            sumIbb += ibbVal;
-            countIbb++;
-          }
-          if (uplVal !== null && typeof uplVal !== "undefined" && !isNaN(uplVal)) {
-            sumUplift += uplVal;
-            countUplift++;
-          }
         }
-  
-        const avgIbb = countIbb ? sumIbb / countIbb : null;
-        const avgUplift = countUplift ? sumUplift / countUplift : null;
-  
+
+        let avgIbb = null;
+        if (totalComments > 0) {
+          avgIbb = 100 * ((totalProm / totalComments) - (totalDet / totalComments));
+        }
+
+        let avgUplift = null;
+        if (avgIbb !== null && !isNaN(avgIbb) && globalIbb !== null && !isNaN(globalIbb)) {
+          avgUplift = avgIbb - globalIbb;
+        }
+
         const tdTotalIbb = document.createElement("td");
         tdTotalIbb.className = "tbl-num val-csat " + getIbbClass(avgIbb);
         tdTotalIbb.textContent =
-          avgIbb === null ? "–" : formatDecimal(avgIbb, 1, false);
+          avgIbb === null || avgIbb === undefined || isNaN(avgIbb)
+            ? "–"
+            : formatDecimal(avgIbb, 1, false);
         trCsat.appendChild(tdTotalIbb);
-  
+
         const tdTotalUp = document.createElement("td");
         tdTotalUp.className = "tbl-num val-uplift " + getUpliftClass(avgUplift);
         tdTotalUp.textContent =
-          avgUplift === null ? "–" : formatDecimal(avgUplift, 1, true);
+          avgUplift === null || avgUplift === undefined || isNaN(avgUplift)
+            ? "–"
+            : formatDecimal(avgUplift, 1, true);
         trUplift.appendChild(tdTotalUp);
-  
+
         csatBody.appendChild(trCsat);
         upliftBody.appendChild(trUplift);
       });
     }
-  
-    // --------- SERVICIOS AGREGADOS ---------
-  
+
+    // ==========================================================
+    // SERVICIOS AGREGADOS
+    // ==========================================================
     function aggregateServiceEntry(entry, trims) {
       if (!entry) return null;
       if (!trims || !trims.length) trims = [1, 2, 3, 4];
-  
-      const triData = entry.trimesters || {};
+
+      const triData = entry.trimesters || entry.trimestres || {};
       let comments = 0, prom = 0, det = 0, neu = 0;
-  
+
       trims.forEach(function (t) {
-        const q = triData[t] || triData[String(t)];
+        const q = getTrimData(triData, t);
         if (!q) return;
-        comments += q.comments || 0;
-        prom += q.promotores || 0;
-        det += q.detractores || 0;
-        neu += q.neutros || 0;
+        comments += Number(q.comments || 0);
+        prom += Number(q.promotores || 0);
+        det += Number(q.detractores || 0);
+        neu += Number(q.neutros || 0);
       });
-  
+
       if (!comments) return null;
-  
+
       const ibbVal = 100 * ((prom / comments) - (det / comments));
       return {
-        comments: comments,
+        comments,
         promotores: prom,
         detractores: det,
         neutros: neu,
@@ -1095,7 +1217,7 @@
         nps: ibbVal
       };
     }
-  
+
     function initServiceToggles() {
       document.querySelectorAll(".service-toggle").forEach(function (btn) {
         btn.onclick = function () {
@@ -1110,178 +1232,205 @@
         };
       });
     }
-  
+
     function renderServicesTable(year, trims) {
       const tbody = document.getElementById("services-tbody");
       if (!tbody || !panelData) return;
-  
+
       const yearStr = String(year);
-      const servicesYear = panelData.services[yearStr] || [];
-      const summaryYear = panelData.summary[yearStr];
-      if (!summaryYear) return;
-      const yearTextTotal = summaryYear.total_comentario || 0;
-      const globalIbb = summaryYear.ibb;
-  
-      // Reorganizar por servicio
+      const servicesYear = (panelData.services && panelData.services[yearStr]) || [];
+      const stats = getYearStats(yearStr);
+      if (!stats) return;
+
+      const yearTextTotal = stats.withText;
+      const globalIbb = stats.ibb;
+
+      // Agrupar por servicio_agrupado / servicio
       const byService = {};
       servicesYear.forEach(function (e) {
-        const key = e.servicio || "Sin servicio";
-        if (!byService[key]) byService[key] = { service: null, centers: [] };
-        if (e.centro === null) {
-          byService[key].service = e;
-        } else {
-          byService[key].centers.push(e);
+        const serviceName = e.servicio_agrupado || e.servicio || "Sin servicio";
+        const centerName = (e.centro_abreviado !== undefined && e.centro_abreviado !== null)
+          ? e.centro_abreviado
+          : (e.centro || null);
+
+        if (!byService[serviceName]) {
+          byService[serviceName] = { serviceName, centers: [] };
         }
+        byService[serviceName].centers.push({
+          centerName,
+          entry: e
+        });
       });
-  
+
       tbody.innerHTML = "";
       let serviceIndex = 0;
-  
-      Object.keys(byService).sort().forEach(function (servName) {
-        const group = byService[servName];
-        const serviceEntry = group.service;
+
+      Object.keys(byService).sort().forEach(function (serviceName) {
+        const group = byService[serviceName];
         const centers = group.centers || [];
+        if (!centers.length) return;
+
         const serviceId = "serv" + (++serviceIndex);
-  
-        if (serviceEntry) {
-          const aggService = aggregateServiceEntry(serviceEntry, trims) || serviceEntry.total;
-          if (aggService && aggService.comments > 0) {
-            const trServ = document.createElement("tr");
-  
-            const tdName = document.createElement("td");
-            tdName.className = "tbl-name";
-            tdName.innerHTML =
-              (serviceEntry.servicio || "Servicio") +
-              ' <button class="plus-btn service-toggle" data-service="' + serviceId + '" data-expanded="false">+</button>';
-            trServ.appendChild(tdName);
-  
-            const tdDrivers = document.createElement("td");
-            tdDrivers.className = "drivers-cell";
-            tdDrivers.textContent = (serviceEntry.drivers || []).join(", ") || "–";
-            trServ.appendChild(tdDrivers);
-  
-            const tdComments = document.createElement("td");
-            tdComments.className = "tbl-num";
-            tdComments.textContent = formatInt(aggService.comments);
-            trServ.appendChild(tdComments);
-  
-            const tdPct = document.createElement("td");
-            tdPct.className = "tbl-num";
-            const pctService = yearTextTotal
-              ? (aggService.comments / yearTextTotal) * 100
-              : 0;
-            tdPct.textContent = yearTextTotal
-              ? formatDecimal(pctService, 1, false) + "%"
-              : "0,0%";
-            trServ.appendChild(tdPct);
-  
-            const tdNps = document.createElement("td");
-            tdNps.className = "tbl-num";
-            tdNps.textContent = formatDecimal(aggService.nps, 1, false);
-            trServ.appendChild(tdNps);
-  
-            const tdIbb = document.createElement("td");
-            tdIbb.className = "tbl-num val-csat " + getIbbClass(aggService.ibb);
-            tdIbb.textContent = formatDecimal(aggService.ibb, 1, false);
-            trServ.appendChild(tdIbb);
-  
-            const uplift = aggService.ibb - globalIbb;
-            const tdUplift = document.createElement("td");
-            tdUplift.className = "tbl-num val-uplift " + getUpliftClass(uplift);
-            tdUplift.textContent = formatDecimal(uplift, 1, true);
-            trServ.appendChild(tdUplift);
-  
-            tbody.appendChild(trServ);
-  
-            // Centros
-            centers.forEach(function (centerEntry) {
-              const aggCenter = aggregateServiceEntry(centerEntry, trims) || centerEntry.total;
-              if (!aggCenter || !aggCenter.comments) return;
-  
-              const trCenter = document.createElement("tr");
-              trCenter.className = "center-row";
-              trCenter.setAttribute("data-parent", serviceId);
-              trCenter.style.display = "none";
-  
-              const tdSC = document.createElement("td");
-              tdSC.className = "tbl-name center-cell";
-              tdSC.textContent = "↳ " + (centerEntry.centro || "Centro");
-              trCenter.appendChild(tdSC);
-  
-              const tdDrv = document.createElement("td");
-              tdDrv.className = "drivers-cell";
-              tdDrv.textContent = (centerEntry.drivers || [])[0] || "–";
-              trCenter.appendChild(tdDrv);
-  
-              const tdCommC = document.createElement("td");
-              tdCommC.className = "tbl-num";
-              tdCommC.textContent = formatInt(aggCenter.comments);
-              trCenter.appendChild(tdCommC);
-  
-              const tdPctC = document.createElement("td");
-              tdPctC.className = "tbl-num";
-              const pctC = yearTextTotal
-                ? (aggCenter.comments / yearTextTotal) * 100
-                : 0;
-              tdPctC.textContent = yearTextTotal
-                ? formatDecimal(pctC, 1, false) + "%"
-                : "0,0%";
-              trCenter.appendChild(tdPctC);
-  
-              const tdNpsC = document.createElement("td");
-              tdNpsC.className = "tbl-num";
-              tdNpsC.textContent = formatDecimal(aggCenter.nps, 1, false);
-              trCenter.appendChild(tdNpsC);
-  
-              const tdIbbC = document.createElement("td");
-              tdIbbC.className = "tbl-num val-csat " + getIbbClass(aggCenter.ibb);
-              tdIbbC.textContent = formatDecimal(aggCenter.ibb, 1, false);
-              trCenter.appendChild(tdIbbC);
-  
-              const upliftC = aggCenter.ibb - globalIbb;
-              const tdUpliftC = document.createElement("td");
-              tdUpliftC.className = "tbl-num val-uplift " + getUpliftClass(upliftC);
-              tdUpliftC.textContent = formatDecimal(upliftC, 1, true);
-              trCenter.appendChild(tdUpliftC);
-  
-              tbody.appendChild(trCenter);
-  
-              // Drivers adicionales (solo texto)
-              const driversExtra = (centerEntry.drivers || []).slice(1);
-              driversExtra.forEach(function (drvName) {
-                const trDrv = document.createElement("tr");
-                trDrv.className = "center-row driver-row";
-                trDrv.setAttribute("data-parent", serviceId);
-                trDrv.style.display = "none";
-  
-                const tdEmpty = document.createElement("td");
-                tdEmpty.className = "tbl-name center-cell-empty";
-                tdEmpty.textContent = "";
-                trDrv.appendChild(tdEmpty);
-  
-                const tdDrvName = document.createElement("td");
-                tdDrvName.className = "drivers-cell";
-                tdDrvName.textContent = drvName;
-                trDrv.appendChild(tdDrvName);
-  
-                for (var k = 0; k < 5; k++) {
-                  var tdm = document.createElement("td");
-                  tdm.className = "tbl-num";
-                  tdm.textContent = "–";
-                  trDrv.appendChild(tdm);
-                }
-  
-                tbody.appendChild(trDrv);
-              });
-            });
-          }
-        }
+
+        // Agregamos el servicio como suma de todos sus centros
+        let aggService = { comments: 0, promotores: 0, detractores: 0, neutros: 0 };
+        centers.forEach(function (c) {
+          const a = aggregateServiceEntry(c.entry, trims);
+          if (!a) return;
+          aggService.comments += a.comments;
+          aggService.promotores += a.promotores;
+          aggService.detractores += a.detractores;
+          aggService.neutros += a.neutros;
+        });
+
+        if (!aggService.comments) return;
+
+        const ibbService = 100 * (
+          (aggService.promotores / aggService.comments) -
+          (aggService.detractores / aggService.comments)
+        );
+
+        const trServ = document.createElement("tr");
+
+        const tdName = document.createElement("td");
+        tdName.className = "tbl-name";
+        tdName.innerHTML =
+          serviceName +
+          ' <button class="plus-btn service-toggle" data-service="' +
+          serviceId +
+          '" data-expanded="false">+</button>';
+        trServ.appendChild(tdName);
+
+        const tdDrivers = document.createElement("td");
+        tdDrivers.className = "drivers-cell";
+        const allDrivers = Array.from(new Set(
+          centers.flatMap(c => c.entry.drivers || [])
+        ));
+        tdDrivers.textContent = allDrivers.length ? allDrivers.join(", ") : "–";
+        trServ.appendChild(tdDrivers);
+
+        const tdComments = document.createElement("td");
+        tdComments.className = "tbl-num";
+        tdComments.textContent = formatInt(aggService.comments);
+        trServ.appendChild(tdComments);
+
+        const tdPct = document.createElement("td");
+        tdPct.className = "tbl-num";
+        const pctService = yearTextTotal
+          ? (aggService.comments / yearTextTotal) * 100
+          : 0;
+        tdPct.textContent = yearTextTotal
+          ? formatDecimal(pctService, 1, false) + "%"
+          : "0,0%";
+        trServ.appendChild(tdPct);
+
+        const tdNps = document.createElement("td");
+        tdNps.className = "tbl-num";
+        tdNps.textContent = formatDecimal(ibbService, 1, false);
+        trServ.appendChild(tdNps);
+
+        const tdIbb = document.createElement("td");
+        tdIbb.className = "tbl-num val-csat " + getIbbClass(ibbService);
+        tdIbb.textContent = formatDecimal(ibbService, 1, false);
+        trServ.appendChild(tdIbb);
+
+        const upliftService = ibbService - globalIbb;
+        const tdUplift = document.createElement("td");
+        tdUplift.className = "tbl-num val-uplift " + getUpliftClass(upliftService);
+        tdUplift.textContent = formatDecimal(upliftService, 1, true);
+        trServ.appendChild(tdUplift);
+
+        tbody.appendChild(trServ);
+
+        // Centros
+        centers.forEach(function (c) {
+          const aggCenter = aggregateServiceEntry(c.entry, trims);
+          if (!aggCenter || !aggCenter.comments) return;
+
+          const trCenter = document.createElement("tr");
+          trCenter.className = "center-row";
+          trCenter.setAttribute("data-parent", serviceId);
+          trCenter.style.display = "none";
+
+          const tdSC = document.createElement("td");
+          tdSC.className = "tbl-name center-cell";
+          tdSC.textContent = "↳ " + (c.centerName || "Centro");
+          trCenter.appendChild(tdSC);
+
+          const tdDrv = document.createElement("td");
+          tdDrv.className = "drivers-cell";
+          tdDrv.textContent = (c.entry.drivers || [])[0] || "–";
+          trCenter.appendChild(tdDrv);
+
+          const tdCommC = document.createElement("td");
+          tdCommC.className = "tbl-num";
+          tdCommC.textContent = formatInt(aggCenter.comments);
+          trCenter.appendChild(tdCommC);
+
+          const tdPctC = document.createElement("td");
+          tdPctC.className = "tbl-num";
+          const pctC = yearTextTotal
+            ? (aggCenter.comments / yearTextTotal) * 100
+            : 0;
+          tdPctC.textContent = yearTextTotal
+            ? formatDecimal(pctC, 1, false) + "%"
+            : "0,0%";
+          trCenter.appendChild(tdPctC);
+
+          const tdNpsC = document.createElement("td");
+          tdNpsC.className = "tbl-num";
+          tdNpsC.textContent = formatDecimal(aggCenter.nps, 1, false);
+          trCenter.appendChild(tdNpsC);
+
+          const tdIbbC = document.createElement("td");
+          tdIbbC.className = "tbl-num val-csat " + getIbbClass(aggCenter.ibb);
+          tdIbbC.textContent = formatDecimal(aggCenter.ibb, 1, false);
+          trCenter.appendChild(tdIbbC);
+
+          const upliftC = aggCenter.ibb - globalIbb;
+          const tdUpliftC = document.createElement("td");
+          tdUpliftC.className = "tbl-num val-uplift " + getUpliftClass(upliftC);
+          tdUpliftC.textContent = formatDecimal(upliftC, 1, true);
+          trCenter.appendChild(tdUpliftC);
+
+          tbody.appendChild(trCenter);
+
+          // Drivers adicionales (solo texto)
+          const driversExtra = (c.entry.drivers || []).slice(1);
+          driversExtra.forEach(function (drvName) {
+            const trDrv = document.createElement("tr");
+            trDrv.className = "center-row driver-row";
+            trDrv.setAttribute("data-parent", serviceId);
+            trDrv.style.display = "none";
+
+            const tdEmpty = document.createElement("td");
+            tdEmpty.className = "tbl-name center-cell-empty";
+            tdEmpty.textContent = "";
+            trDrv.appendChild(tdEmpty);
+
+            const tdDrvName = document.createElement("td");
+            tdDrvName.className = "drivers-cell";
+            tdDrvName.textContent = drvName;
+            trDrv.appendChild(tdDrvName);
+
+            for (let k = 0; k < 5; k++) {
+              const tdm = document.createElement("td");
+              tdm.className = "tbl-num";
+              tdm.textContent = "–";
+              trDrv.appendChild(tdm);
+            }
+
+            tbody.appendChild(trDrv);
+          });
+        });
       });
-  
+
       initServiceToggles();
     }
-  
-    // --------- REFRESH + FILTROS ---------
+
+    // ==========================================================
+    // REFRESH + FILTROS
+    // ==========================================================
     function refreshAll() {
       if (!panelData || !selectedYear) return;
       updateSummaryCards();
@@ -1289,30 +1438,35 @@
       renderEvolutionTables(selectedYear);
       renderServicesTable(selectedYear, selectedTrims);
     }
-  
+
     function initFilters() {
       const yearSelect = document.getElementById("year-select");
+
       if (yearSelect && panelData) {
         yearSelect.innerHTML = "";
-        (panelData.years || []).forEach(function (y) {
+        const years = (panelData.years && panelData.years.length)
+          ? panelData.years.slice().sort()
+          : Object.keys(panelData.summary || {}).sort();
+
+        years.forEach(function (y) {
           const opt = document.createElement("option");
           opt.value = String(y);
           opt.textContent = String(y);
           if (String(y) === String(selectedYear)) opt.selected = true;
           yearSelect.appendChild(opt);
         });
-  
+
         yearSelect.addEventListener("change", function () {
           selectedYear = this.value;
           refreshAll();
         });
       }
-  
+
       document.querySelectorAll("#trim-filter .trim-pill").forEach(function (pill) {
         pill.addEventListener("click", function () {
           const t = parseInt(this.getAttribute("data-trim"), 10);
           const idx = selectedTrims.indexOf(t);
-  
+
           if (idx !== -1) {
             if (selectedTrims.length === 1) return; // siempre al menos uno
             selectedTrims.splice(idx, 1);
@@ -1322,21 +1476,28 @@
             selectedTrims.sort();
             this.classList.add("selected");
           }
-          refreshAll();
+          renderServicesTable(selectedYear, selectedTrims);
         });
       });
     }
-  
-    // --------- CARGA DEL JSON ---------
+
+    // ==========================================================
+    // CARGA DEL JSON
+    // ==========================================================
     fetch(PANEL_JSON_URL)
       .then(function (resp) { return resp.json(); })
       .then(function (data) {
         panelData = data;
+
         if (data.years && data.years.length) {
-          selectedYear = String(data.years[0]);
+          // Por defecto el último año (más reciente)
+          const sorted = data.years.slice().sort();
+          selectedYear = String(sorted[sorted.length - 1]);
         } else {
-          selectedYear = Object.keys(data.summary || {})[0];
+          const keys = Object.keys(data.summary || {}).sort();
+          selectedYear = keys.length ? keys[keys.length - 1] : null;
         }
+
         initFilters();
         refreshAll();
       })
@@ -1344,5 +1505,5 @@
         console.error("Error cargando JSON Customers Say:", err);
       });
   </script>
-  </body>
+</body>
 </html>
