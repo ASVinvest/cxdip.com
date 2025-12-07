@@ -7,49 +7,43 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* ESTILOS (Sin cambios mayores) */
+    /* --- ESTILOS CSS (Sin cambios estructurales) --- */
     :root {
-      --bg: #f5f7fb;
-      --card: #ffffff;
-      --border: #e2e8f0;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --accent: #2563eb;
-      --accent-soft: #38bdf8;
-      --accent-good: #16a34a;
-      --accent-bad: #ef4444;
-      --radius-card: 16px;
-      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.06);
+      --bg: #f5f7fb; --card: #ffffff; --border: #e2e8f0;
+      --text-main: #0f172a; --text-muted: #64748b;
+      --accent: #2563eb; --accent-soft: #38bdf8;
+      --accent-good: #16a34a; --accent-bad: #ef4444;
+      --radius-card: 16px; --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.06);
     }
-
     * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { margin: 0; padding: 0; background: var(--bg); color: var(--text-main); }
     .page { max-width: 1320px; margin: 0 auto; padding: 24px 18px 40px; }
-    header { margin-bottom: 20px; }
-
-    .title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    
+    /* Header & Summary */
+    .title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
     .title-main { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.02em; }
     .title-main span { color: var(--accent); }
     .title-sub { font-size: 0.9rem; color: var(--text-muted); margin-top: 4px; }
     .badge-secondary { padding: 6px 10px; border-radius: 999px; background: #e0f2fe; color: #0369a1; font-size: 0.75rem; font-weight: 500; }
-
+    
     .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 18px; }
     .summary-card { background: var(--card); border-radius: var(--radius-card); padding: 14px 16px; border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
     .summary-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
     .summary-value { font-size: 1.35rem; font-weight: 600; }
     .summary-foot { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
 
+    /* Cards & Tables */
     .card { background: var(--card); border-radius: var(--radius-card); padding: 16px 18px 18px; border: 1px solid var(--border); box-shadow: var(--shadow-soft); margin-top: 18px; }
     .card h2 { margin: 0 0 8px; font-size: 1.05rem; font-weight: 600; }
     .card-subtitle { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
 
     .filter-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 6px 0 10px; }
-    .filter-label { font-size: 0.78rem; color: var(--text-muted); }
-    .filter-hint { font-size: 0.75rem; color: var(--text-muted); }
-
+    .filter-label, .filter-hint { font-size: 0.78rem; color: var(--text-muted); }
+    
     .year-select { padding: 4px 16px; border-radius: 999px; border: 1px solid var(--accent); background: var(--accent); font-size: 0.8rem; color: #ffffff; font-weight: 600; cursor: pointer; }
     .trim-pills { display: inline-flex; flex-wrap: wrap; gap: 6px; }
-    .trim-pill { border-radius: 999px; border: 1px solid #c7d2fe; background: #e5edff; padding: 3px 10px; font-size: 0.78rem; color: var(--text-muted); cursor: pointer; user-select: none; }
+    .trim-pill { border-radius: 999px; border: 1px solid #c7d2fe; background: #e5edff; padding: 3px 10px; font-size: 0.78rem; color: var(--text-muted); cursor: pointer; user-select: none; transition: all 0.2s; }
+    .trim-pill:hover { background: #dbeafe; }
     .trim-pill.selected { background: var(--accent); color: #ffffff; border-color: var(--accent); }
 
     .table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -59,40 +53,41 @@
     th { text-align: left; color: var(--text-muted); font-weight: 500; font-size: 0.78rem; }
     .tbl-name { font-weight: 500; }
     .tbl-num { text-align: right; font-variant-numeric: tabular-nums; }
-    tbody tr:hover { background: #f4f5fb; }
-    .row-total td { font-weight: 600; background: #eef2ff; }
-    .row-prom td { font-weight: 600; background: #e0f2fe; }
-
+    tbody tr:hover { background: #f8fafc; }
+    
     .val-csat.pos, .val-uplift.pos { color: var(--accent-good); }
     .val-csat.neg, .val-uplift.neg { color: var(--accent-bad); }
     .val-csat.neutral, .val-uplift.neutral { color: var(--accent); }
 
+    .row-total td { font-weight: 600; background: #eef2ff; }
+    .row-prom td { font-weight: 600; background: #e0f2fe; }
+
+    /* Ranking Tables */
     .ranking-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
     .ranking-card { background: #f9fafb; border-radius: 14px; padding: 12px 14px 14px; border: 1px solid #e5e7eb; }
     .ranking-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
-    .ranking-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; }
+    .table-wrapper-ranking { max-height: 190px; overflow-y: auto; }
+    .table-wrapper-ranking thead th { position: sticky; top: 0; background: #f9fafb; z-index: 1; }
 
+    /* Servicios Agregados - Jerarquía */
     .section-title { margin-top: 24px; margin-bottom: 4px; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
     .level-tag { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+    
+    .plus-btn { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: #eff6ff; color: var(--accent); font-size: 0.75rem; font-weight: 700; border: 1px solid #bfdbfe; margin-left: 6px; cursor: pointer; }
+    .plus-btn:hover { background: #dbeafe; }
 
-    .plus-btn { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: #e5f0ff; color: var(--accent); font-size: 0.75rem; font-weight: 700; border: 1px solid #bfdbfe; margin-left: 6px; cursor: pointer; }
-
-    /* Indentación Jerárquica */
-    .service-row td { background: #f0f4ff; border-bottom: 2px solid #c7d2fe; font-weight: 600; }
-    .center-row .tbl-name { padding-left: 20px; font-weight: 500; color: #334155; }
-    .driver-row .tbl-name { padding-left: 40px; font-weight: 400; font-style: italic; color: var(--text-muted); font-size: 0.8rem; }
-
+    .service-row td { background: #f1f5f9; border-bottom: 2px solid #cbd5e1; font-weight: 600; }
+    .center-row .tbl-name { padding-left: 24px; font-weight: 500; color: #334155; }
+    .driver-row .tbl-name { padding-left: 48px; font-weight: 400; font-style: italic; color: #64748b; font-size: 0.8rem; }
+    
     .note-inline { margin-top: 6px; font-size: 0.78rem; color: var(--text-muted); }
 
-    th.sortable-col { cursor: pointer; user-select: none; }
+    /* Sorting */
+    th.sortable-col { cursor: pointer; user-select: none; transition: background 0.1s; }
+    th.sortable-col:hover { background: #f1f5f9; }
     .sort-label { display: inline-flex; align-items: center; gap: 4px; justify-content: flex-end; width: 100%; }
     .sort-indicator { font-size: 0.65rem; opacity: 0.5; }
 
-    .table-wrapper-ranking { max-height: 190px; overflow-y: auto; }
-    .table-wrapper-ranking table { min-width: 520px; }
-    .table-wrapper-ranking thead th { position: sticky; top: 0; background: #f9fafb; z-index: 1; }
-    
-    /* Responsive */
     @media (max-width: 768px) {
       .page { padding: 16px 10px 28px; }
       .ranking-row { grid-template-columns: 1fr; }
@@ -150,7 +145,7 @@
               <th class="sortable-col" data-sort-type="decimal"><span class="sort-label">Uplift atributo <span class="sort-indicator">↕</span></span></th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody id="drivers-tbody"></tbody>
         </table>
       </div>
 
@@ -188,7 +183,7 @@
 
     <div class="section-title">SERVICIOS AGREGADOS</div>
     <section class="card">
-      <div class="level-tag">Vista jerárquica: Servicio > Centro > Driver.</div>
+      <div class="level-tag">Vista jerárquica: Servicio > Centro > Driver. Ordenar y filtrar afecta las métricas.</div>
 
       <div class="filter-row">
         <span class="filter-label">Filtrar Trimestres:</span>
@@ -198,7 +193,7 @@
           <div class="trim-pill selected" data-trim="3">T3</div>
           <div class="trim-pill selected" data-trim="4">T4</div>
         </div>
-        <span class="filter-hint">Selecciona uno o más. Los datos se recalcularán según la selección.</span>
+        <span class="filter-hint">Presiona para activar/desactivar.</span>
       </div>
 
       <div class="table-wrapper">
@@ -216,14 +211,14 @@
           <tbody id="services-tbody"></tbody>
         </table>
       </div>
-      <div class="note-inline">Usa los botones <b>+</b> para desplegar detalles. Haz clic en los títulos de columna para ordenar los Servicios.</div>
+      <div class="note-inline">Usa los botones <b>+</b> para ver el desglose. Haz clic en los títulos para ordenar.</div>
     </section>
   </div>
 
   <script>
     // --- VARIABLES GLOBALES ---
     var REDSALUD_DATA = null;
-    var selectedTrims = [1, 2, 3, 4]; // Por defecto todos seleccionados
+    var selectedTrims = [1, 2, 3, 4]; // Por defecto todos
 
     // --- UTILIDADES ---
     function parseCellValue(text, type) {
@@ -231,7 +226,7 @@
       text = text.trim();
       if (text === '–' || text === '-' || text === 'Cargando...') return null;
       if (type === 'percent') text = text.replace('%', '');
-      text = text.replace(/\./g, '').replace(',', '.'); // CL format to JS float
+      text = text.replace(/\./g, '').replace(',', '.'); 
       var val = parseFloat(text);
       return isNaN(val) ? null : val;
     }
@@ -258,7 +253,7 @@
       return 'neutral';
     }
 
-    // --- AGREGACIÓN DINÁMICA POR TRIMESTRE ---
+    // --- AGREGACIÓN DINÁMICA POR TRIMESTRE (FILTRADO) ---
     function aggregateDataForTrims(dataCenters, trims) {
       var totalCommentsSelected = 0;
       var weightedIBBSumSelected = 0;
@@ -269,20 +264,22 @@
         
         centerData.services.forEach(serviceData => {
           serviceData.attributes.forEach(attr => {
-            // Detección de trimestre: Busca "YYYY-TX" o usa fallback
+            // DETECTAR TRIMESTRE
+            // Se asume formato "YYYY-TX". Si no existe, se considera data anual (sin trimestre).
             var quarter = 0;
             if (attr.trimestre) {
                 var parts = attr.trimestre.split('-');
                 if (parts.length > 1) quarter = parseInt(parts[1].replace('T', ''), 10);
             }
             
-            // FILTRO: Si el dato tiene trimestre, filtrar. Si no (data anual), incluir solo si están todos los trims seleccionados.
+            // LÓGICA DE FILTRADO PERMISIVA
+            // 1. Si la data tiene trimestre, filtrar según selección.
+            // 2. Si la data NO tiene trimestre (es anual), incluirla siempre para que la tabla no quede vacía.
             var include = false;
             if (quarter > 0) {
                 if (trims.includes(quarter)) include = true;
             } else {
-                // Fallback: Si no hay dato de trimestre en el JSON, se muestra si se seleccionan todos (vista anual)
-                if (trims.length === 4) include = true; 
+                include = true; // Fallback para data sin trimestre explícito
             }
 
             if (!include) return;
@@ -293,7 +290,7 @@
 
             var sName = serviceData.service;
             
-            // Init Estructuras
+            // Inicializar estructuras si no existen
             if (!aggregatedServices[sName]) aggregatedServices[sName] = { total_count: 0, weighted_ibb_sum: 0, centers: {} };
             if (!aggregatedServices[sName].centers[centerName]) aggregatedServices[sName].centers[centerName] = { count: 0, weighted_ibb_sum: 0, drivers: {} };
             if (!aggregatedServices[sName].centers[centerName].drivers[attr.attribute]) aggregatedServices[sName].centers[centerName].drivers[attr.attribute] = { count: 0, weighted_ibb_sum: 0 };
@@ -331,7 +328,7 @@
       var overallIBB = result.overallIBB;
       var totalGlobal = result.totalCommentsSelected || 1;
 
-      // Actualizar KPIs de Cabecera para reflejar la selección
+      // Actualizar KPIs de Cabecera
       document.getElementById('total-comments').textContent = new Intl.NumberFormat('es-CL').format(result.totalCommentsSelected);
       document.getElementById('overall-ibb').textContent = formatDecimal(overallIBB, 2, false);
       document.getElementById('overall-ibb').className = 'summary-value ' + getIBBClass(overallIBB);
@@ -346,7 +343,7 @@
 
       serviceKeys.forEach(function(sName) {
         var sData = aggServices[sName];
-        var sKey = sName.replace(/\s+/g, '_');
+        var sKey = sName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
         
         // Métricas Servicio
         var sIBB = sData.total_count > 0 ? sData.weighted_ibb_sum / sData.total_count : 0;
@@ -370,7 +367,7 @@
         var centerKeys = Object.keys(sData.centers).sort();
         centerKeys.forEach(function(cName) {
           var cData = sData.centers[cName];
-          var cKey = sKey + '-' + cName.replace(/\s+/g, '_');
+          var cKey = sKey + '-' + cName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
           
           var cIBB = cData.count > 0 ? cData.weighted_ibb_sum / cData.count : 0;
           var cUplift = cIBB - overallIBB;
@@ -391,7 +388,7 @@
           tbody.appendChild(trC);
 
           // FILAS DRIVERS (Nivel 3)
-          var drvKeys = Object.keys(cData.drivers).sort((a,b) => cData.drivers[b].count - cData.drivers[a].count); // Ordenar drivers por volumen
+          var drvKeys = Object.keys(cData.drivers).sort((a,b) => cData.drivers[b].count - cData.drivers[a].count);
           drvKeys.forEach(function(dName) {
             var dData = cData.drivers[dName];
             var dIBB = dData.count > 0 ? dData.weighted_ibb_sum / dData.count : 0;
@@ -402,7 +399,6 @@
             trD.className = 'driver-row';
             trD.style.display = 'none'; // Oculto inicial
             trD.setAttribute('data-parent-center', cKey);
-            trD.setAttribute('data-grandparent-service', sKey); // Para ocultar si se cierra el servicio
             trD.innerHTML = `
               <td class="tbl-name">${dName}</td>
               <td></td>
@@ -429,18 +425,15 @@
           this.textContent = expanded ? '+' : '–';
           this.dataset.expanded = !expanded;
 
-          // Mostrar/Ocultar Centros
           var centers = document.querySelectorAll(`.center-row[data-parent-service="${sKey}"]`);
           centers.forEach(row => {
             row.style.display = expanded ? 'none' : 'table-row';
-            // Si cerramos servicio, cerrar también los drivers de esos centros
-            if (expanded) {
+            if (expanded) { // Si cerramos servicio, cerrar también drivers
                var cKey = row.querySelector('.driver-toggle').dataset.key;
                var drivers = document.querySelectorAll(`.driver-row[data-parent-center="${cKey}"]`);
                drivers.forEach(d => d.style.display = 'none');
-               // Resetear boton centro
-               row.querySelector('.driver-toggle').textContent = '+';
-               row.querySelector('.driver-toggle').dataset.expanded = 'false';
+               var cBtn = row.querySelector('.driver-toggle');
+               cBtn.textContent = '+'; cBtn.dataset.expanded = 'false';
             }
           });
         });
@@ -462,7 +455,7 @@
       });
     }
 
-    // --- ORDENAMIENTO (SORTING) ROBUSTO CON JERARQUÍA ---
+    // --- ORDENAMIENTO (SORTING) ---
     function initSorting() {
         document.querySelectorAll('#services-table thead .sortable-col').forEach(th => {
             th.addEventListener('click', function() {
@@ -474,12 +467,12 @@
                 var nextDir = currentDir === 'asc' ? 'desc' : 'asc';
                 this.dataset.dir = nextDir;
 
-                // Actualizar indicadores visuales
-                document.querySelectorAll('.sort-indicator').forEach(i => i.textContent = '↕');
+                // Indicadores
+                document.querySelectorAll('#services-table .sort-indicator').forEach(i => i.textContent = '↕');
                 this.querySelector('.sort-indicator').textContent = nextDir === 'asc' ? '▲' : '▼';
 
-                // 1. CAPTURAR ESTRUCTURA
-                var groups = []; // Array de { row: trService, children: [trCenter, trDriver, trDriver...] }
+                // 1. CAPTURAR ESTRUCTURA COMPLETA
+                var groups = []; 
                 var currentGroup = null;
                 
                 Array.from(tbody.children).forEach(row => {
@@ -492,7 +485,7 @@
                 });
                 if (currentGroup) groups.push(currentGroup);
 
-                // 2. ORDENAR LOS GRUPOS (Basado solo en la fila de Servicio)
+                // 2. ORDENAR LOS GRUPOS (Por valor de Servicio)
                 groups.sort((a, b) => {
                     var valA = parseCellValue(a.row.children[colIndex].textContent, type);
                     var valB = parseCellValue(b.row.children[colIndex].textContent, type);
@@ -508,15 +501,34 @@
                     g.children.forEach(child => tbody.appendChild(child));
                 });
                 
-                // Reinicializar toggles (eventos)
+                // Reinicializar toggles (necesario tras mover elementos)
                 initToggles();
             });
         });
         
-        // Sorting básico para tabla Drivers Macro (flat)
+        // Sorting simple para Drivers Macro
         document.querySelectorAll('#drivers-table thead .sortable-col').forEach(th => {
-             // ... lógica simple ya existente para tablas planas ...
-             th.addEventListener('click', function() { /* Lógica estándar... */ }); 
+             th.addEventListener('click', function() {
+                var table = document.getElementById('drivers-table');
+                var tbody = table.querySelector('tbody');
+                var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
+                var type = this.dataset.sortType;
+                var nextDir = this.dataset.dir === 'asc' ? 'desc' : 'asc';
+                this.dataset.dir = nextDir;
+                
+                document.querySelectorAll('#drivers-table .sort-indicator').forEach(i => i.textContent = '↕');
+                this.querySelector('.sort-indicator').textContent = nextDir === 'asc' ? '▲' : '▼';
+
+                var rows = Array.from(tbody.querySelectorAll('tr'));
+                rows.sort((a, b) => {
+                    var valA = parseCellValue(a.children[colIndex].textContent, type);
+                    var valB = parseCellValue(b.children[colIndex].textContent, type);
+                    if (valA === null) return 1; if (valB === null) return -1;
+                    return nextDir === 'asc' ? valA - valB : valB - valA;
+                });
+                tbody.innerHTML = '';
+                rows.forEach(r => tbody.appendChild(r));
+             }); 
         });
     }
 
@@ -529,21 +541,21 @@
         REDSALUD_DATA = await response.json();
         console.log("Data cargada OK");
         
-        // Render inicial
         renderDriversMacro('2025');
         renderEvolutionTables('2025');
         renderServicesTable('2025', selectedTrims);
-        initSorting(); // Activar listeners de ordenamiento
+        initSorting();
 
       } catch (err) {
         console.error(err);
-        document.getElementById('overall-ibb').textContent = "Error de Carga";
+        document.getElementById('overall-ibb').textContent = "Error";
+        alert("No se pudo cargar el archivo data_redsalud.json. Verifique la ruta.");
       }
     }
 
-    // --- RENDER DRIVERS MACRO (Simplificado para brevedad, mantener lógica anterior) ---
+    // --- RENDER DRIVERS MACRO (Flat) ---
     function renderDriversMacro(year) {
-        var tbody = document.querySelector('#drivers-table tbody');
+        var tbody = document.getElementById('drivers-tbody');
         if(!REDSALUD_DATA) return;
         var data = REDSALUD_DATA.drivers_macro || [];
         var total = data.reduce((acc, r) => acc + r.count, 0);
@@ -563,13 +575,60 @@
     }
     
     function renderEvolutionTables(year) {
-        // ... (Mantener la lógica de tu código anterior para evolución) ...
-        // Para asegurar que no falle si la data no está lista:
-        if (!REDSALUD_DATA || !REDSALUD_DATA.evolution_ibb) return;
-        // (Aquí iría el código de renderEvolutionTables que ya tenías y funcionaba)
+        var csatBody = document.querySelector('.ranking-csat tbody');
+        var upliftBody = document.querySelector('.ranking-uplift tbody');
+        var csatHead = document.querySelector('.ranking-csat thead tr');
+        var upliftHead = document.querySelector('.ranking-uplift thead tr');
+        
+        if (!csatBody || !REDSALUD_DATA || !REDSALUD_DATA.evolution_ibb) return;
+
+        var ibbRows = REDSALUD_DATA.evolution_ibb;
+        var upliftRows = REDSALUD_DATA.evolution_uplift;
+        var availableQuarters = ibbRows.map(r => r.trimestre.split('-')[1]).filter((v,i,a)=>a.indexOf(v)===i).sort();
+        var allAttributes = REDSALUD_DATA.drivers_macro.map(d => d.attribute);
+
+        // Limpiar headers dinámicos previos
+        while(csatHead.children.length > 1) csatHead.removeChild(csatHead.lastChild);
+        while(upliftHead.children.length > 1) upliftHead.removeChild(upliftHead.lastChild);
+
+        // Crear headers
+        availableQuarters.forEach(q => {
+            var th1 = document.createElement('th'); th1.className='sortable-col'; th1.innerHTML=`<span class="sort-label">${q}</span>`; csatHead.appendChild(th1);
+            var th2 = document.createElement('th'); th2.className='sortable-col'; th2.innerHTML=`<span class="sort-label">${q}</span>`; upliftHead.appendChild(th2);
+        });
+        // Headers totales
+        var thT1 = document.createElement('th'); thT1.innerHTML=`<span class="sort-label">Total Anual</span>`; csatHead.appendChild(thT1);
+        var thT2 = document.createElement('th'); thT2.innerHTML=`<span class="sort-label">Total Anual</span>`; upliftHead.appendChild(thT2);
+
+        csatBody.innerHTML = ''; upliftBody.innerHTML = '';
+
+        allAttributes.forEach(attr => {
+            // IBB ROW
+            var trI = document.createElement('tr');
+            trI.innerHTML = `<td class="tbl-name">${attr}</td>`;
+            availableQuarters.forEach(q => {
+                var row = ibbRows.find(r => r.trimestre.endsWith(q));
+                var val = row ? row[attr] : null;
+                trI.innerHTML += `<td class="tbl-num val-csat ${getIBBClass(val)}">${formatDecimal(val, 2, false)}</td>`;
+            });
+            var annual = REDSALUD_DATA.drivers_macro.find(d => d.attribute === attr);
+            trI.innerHTML += `<td class="tbl-num val-csat ${getIBBClass(annual.ibb)}"><b>${formatDecimal(annual.ibb, 2, false)}</b></td>`;
+            csatBody.appendChild(trI);
+
+            // UPLIFT ROW
+            var trU = document.createElement('tr');
+            trU.innerHTML = `<td class="tbl-name">${attr}</td>`;
+            availableQuarters.forEach(q => {
+                var row = upliftRows.find(r => r.trimestre.endsWith(q));
+                var val = row ? row[attr] : null;
+                trU.innerHTML += `<td class="tbl-num val-uplift ${getUpliftClass(val)}">${formatDecimal(val, 2, true)}</td>`;
+            });
+            trU.innerHTML += `<td class="tbl-num val-uplift ${getUpliftClass(annual.uplift)}"><b>${formatDecimal(annual.uplift, 2, true)}</b></td>`;
+            upliftBody.appendChild(trU);
+        });
     }
 
-    // --- EVENTOS DE FILTRO ---
+    // --- EVENTOS FILTRO TRIMESTRAL ---
     document.querySelectorAll('#trim-filter .trim-pill').forEach(pill => {
       pill.addEventListener('click', function() {
         var t = parseInt(this.dataset.trim);
