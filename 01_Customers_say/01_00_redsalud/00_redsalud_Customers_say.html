@@ -681,12 +681,11 @@
       return out;
     }
 
-    // IBB es una métrica de balance: > 0 es bueno, < 0 es malo.
     function getIBBClass(v) {
       if (v === null || isNaN(v)) return 'neutral';
-      if (v >= 10.0) return 'pos'; // Umbral positivo
-      if (v <= -10.0) return 'neg'; // Umbral negativo
-      return 'neutral'; // Cerca de cero
+      if (v >= 10.0) return 'pos'; 
+      if (v <= -10.0) return 'neg'; 
+      return 'neutral'; 
     }
 
     function getUpliftClass(v) {
@@ -922,7 +921,6 @@
       var availableQuarters = ibbRows.map(r => r.trimestre.split('-')[1]);
       var uniqueQuarters = Array.from(new Set(availableQuarters)).sort();
 
-      // Limpiar headers existentes (excepto el primero 'Driver' y el último 'Total anual')
       var currentCSATHeaders = csatHead.querySelectorAll('th');
       for (let i = currentCSATHeaders.length - 2; i >= 1; i--) {
         csatHead.removeChild(currentCSATHeaders[i]);
@@ -1014,7 +1012,7 @@
 
     function initServiceToggles() {
       document.querySelectorAll('.service-toggle').forEach(function(btn) {
-        btn.onclick = null; // Limpiar listeners previos
+        btn.onclick = null; 
       });
 
       document.querySelectorAll('.service-toggle').forEach(function(btn) {
@@ -1133,47 +1131,42 @@
 
     // -------------------- Carga Asíncrona de Datos y Inicialización --------------------
 
-    /**
-     * Carga el JSON desde la ruta de GitHub/Web y guarda los datos globalmente.
-     */
     async function fetchData() {
-        const JSON_URL = 'https://cxdip.com/01_Customers_say/01_00_redsalud/data_redsalud.json';
+        // RUTA CORREGIDA: Usando una ruta relativa
+        const JSON_URL = './data_redsalud.json'; 
         
         try {
             const response = await fetch(JSON_URL);
             
             if (!response.ok) {
-                throw new Error(`Error al cargar los datos: ${response.statusText}`);
+                // Si la respuesta no es 200 OK, es un error de archivo no encontrado (404) o de permisos.
+                throw new Error(`Error ${response.status}: El archivo JSON no se encontró o no es accesible en la ruta: ${JSON_URL}`);
             }
 
             REDSALUD_DATA = await response.json();
-            console.log("Datos cargados correctamente desde la URL.");
+            console.log("Datos cargados correctamente desde la URL relativa.");
             refreshAll(); 
         } catch (error) {
             console.error("Error al cargar o parsear el JSON:", error);
-            // Mostrar mensaje de error en la interfaz
             document.getElementById('overall-ibb').textContent = 'ERROR';
             document.getElementById('total-comments').textContent = 'ERROR';
             document.getElementById('total-attributes').textContent = 'ERROR';
-            alert(`No se pudo cargar el JSON desde la web. Verifique la URL y el despliegue del archivo. Detalle: ${error.message}`);
+            alert(`No se pudo cargar el JSON. Asegúrese de que el archivo 'data_redsalud.json' está en la misma carpeta que el HTML y es accesible. Detalle: ${error.message}`);
         }
     }
 
     function getCurrentYear() {
-      // El año se puede determinar dinámicamente si el ETL lo incluye, pero por ahora se mantiene fijo
-      // ya que el ETL solo procesa el año más reciente.
       return '2025';
     }
 
     function refreshAll() {
       var year = getCurrentYear();
-      // Asegurarse de que los datos se han cargado antes de renderizar
       if (REDSALUD_DATA) {
         renderDriversMacro(year);
         renderEvolutionTables(year);
         renderServicesTable(year, selectedTrims);
       } else {
-        console.error("Error: REDSALUD_DATA no está definido. La carga asíncrona falló o no ha terminado.");
+        console.error("Error: REDSALUD_DATA no está definido.");
       }
     }
 
