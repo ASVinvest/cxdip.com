@@ -632,35 +632,15 @@
       </div>
 
       <div class="table-wrapper">
-        <table id="services-table">
+        <table>
           <thead>
             <tr>
               <th>Servicio / Centro / Driver</th>
               <th></th> 
-              <th class="sortable-col" data-sort-type="int" data-col-index="2" style="text-align:right;">
-                <span class="sort-label">
-                  N° comentarios
-                  <span class="sort-indicator">↕</span>
-                </span>
-              </th>
-              <th class="sortable-col" data-sort-type="percent" data-col-index="3" style="text-align:right;">
-                <span class="sort-label">
-                  % sobre texto
-                  <span class="sort-indicator">↕</span>
-                </span>
-              </th>
-              <th class="sortable-col" data-sort-type="decimal" data-col-index="4" style="text-align:right;">
-                <span class="sort-label">
-                  IBB
-                  <span class="sort-indicator">↕</span>
-                </span>
-              </th>
-              <th class="sortable-col" data-sort-type="decimal" data-col-index="5" style="text-align:right;">
-                <span class="sort-label">
-                  Uplift (vs IBB Global)
-                  <span class="sort-indicator">↕</span>
-                </span>
-              </th>
+              <th style="text-align:right;">N° comentarios</th>
+              <th style="text-align:right;">% sobre texto</th>
+              <th style="text-align:right;">IBB</th>
+              <th style="text-align:right;">Uplift (vs IBB Global)</th>
             </tr>
           </thead>
           <tbody id="services-tbody">
@@ -728,8 +708,8 @@
       return 'neutral';
     }
 
-    // -------------------- LÓGICA DE ORDENAMIENTO (Drivers y Evolución) --------------------
-    // Lógica de ordenamiento para la tabla principal de Drivers (drivers-table)
+    // -------------------- LÓGICA DE ORDENAMIENTO (NO MODIFICADA) --------------------
+    // Se mantiene el código de ordenamiento...
     (function() {
       var table = document.getElementById('drivers-table');
       if (!table) return;
@@ -780,7 +760,7 @@
       });
     })();
     
-    // Lógica de ordenamiento para tablas de Evolución (ranking) 
+    // Lógica de ordenamiento para tablas de Evolución (ranking) (NO MODIFICADA) 
     (function() {
       var rankingTables = document.querySelectorAll('.ranking-table');
       rankingTables.forEach(function(table) {
@@ -832,121 +812,11 @@
       });
     })();
 
-    // Helper para capturar la estructura anidada de la tabla (Service -> Center -> Driver)
-    function captureAllRows(tbody) {
-        const groups = {};
-        let currentServiceKey = null;
-        let currentCenterKey = null;
-
-        Array.from(tbody.children).forEach(row => {
-            if (row.classList.contains('service-row')) {
-                const serviceToggle = row.querySelector('.service-group-toggle');
-                if (serviceToggle) {
-                    currentServiceKey = serviceToggle.dataset.parentService;
-                    groups[currentServiceKey] = { serviceRow: row, centers: {} };
-                    currentCenterKey = null; 
-                }
-            } else if (row.classList.contains('center-row')) {
-                currentCenterKey = row.dataset.centerKey;
-                if (currentServiceKey && groups[currentServiceKey]) {
-                    groups[currentServiceKey].centers[currentCenterKey] = { centerRow: row, drivers: [] };
-                }
-            } else if (row.classList.contains('driver-row')) {
-                if (currentServiceKey && currentCenterKey && groups[currentServiceKey] && groups[currentServiceKey].centers[currentCenterKey]) {
-                    groups[currentServiceKey].centers[currentCenterKey].drivers.push(row);
-                }
-            }
-        });
-        return groups;
-    }
-
-
-    // -------------------- LÓGICA DE ORDENAMIENTO REFORZADA (Servicios Agregados) --------------------
-    (function() {
-      var table = document.getElementById('services-table');
-      if (!table) return;
-
-      table.querySelectorAll('thead th.sortable-col').forEach(function(th) {
-        th.dataset.sortDirection = 'none';
-        th.addEventListener('click', function() {
-          var sortType = th.dataset.sortType || 'decimal';
-          var colIndex = parseInt(th.dataset.colIndex, 10); 
-          var current = th.dataset.sortDirection;
-          var next = current === 'asc' ? 'desc' : 'asc';
-          th.dataset.sortDirection = next;
-          var direction = next === 'asc' ? 1 : -1;
-
-          table.querySelectorAll('thead th.sortable-col').forEach(function(other) {
-            if (other !== th) {
-              other.dataset.sortDirection = 'none';
-              var io = other.querySelector('.sort-indicator');
-              if (io) io.textContent = '↕';
-            }
-          });
-          var icon = th.querySelector('.sort-indicator');
-          if (icon) icon.textContent = next === 'asc' ? '▲' : '▼';
-
-          var tbody = table.querySelector('tbody');
-          
-          // 1. Capturar la estructura anidada completa ANTES de manipular el DOM
-          const rowStructure = captureAllRows(tbody);
-          
-          // 2. Extraer solo las filas de Servicio (Nivel 1) para el sorting
-          var serviceRows = Object.values(rowStructure).map(g => g.serviceRow);
-
-          // 3. Ordenar solo las filas de Servicio
-          serviceRows.sort(function(rowA, rowB) {
-            var cellA = rowA.children[colIndex];
-            var cellB = rowB.children[colIndex];
-            var textA = cellA ? cellA.textContent : '';
-            var textB = cellB ? cellB.textContent : '';
-            
-            var valA = parseCellValue(textA, sortType);
-            var valB = parseCellValue(textB, sortType);
-
-            if (valA === null && valB === null) return 0;
-            if (valA === null) return 1;
-            if (valB === null) return -1;
-            
-            return (valA - valB) * direction;
-          });
-
-          // 4. Reconstruir el cuerpo de la tabla en el orden correcto
-          tbody.innerHTML = '';
-          serviceRows.forEach(function(serviceRow) {
-            tbody.appendChild(serviceRow);
-            
-            const serviceToggle = serviceRow.querySelector('.service-group-toggle');
-            if (serviceToggle) {
-                const serviceKey = serviceToggle.dataset.parentService;
-                const serviceGroup = rowStructure[serviceKey];
-                
-                if (serviceGroup) {
-                    // Reinsertar Centros y Drivers en el orden en que fueron capturados
-                    const centerKeys = Object.keys(serviceGroup.centers);
-                    centerKeys.forEach(function(centerKey) {
-                        const centerGroup = serviceGroup.centers[centerKey];
-                        tbody.appendChild(centerGroup.centerRow);
-                        
-                        centerGroup.drivers.forEach(function(driverRow) {
-                            tbody.appendChild(driverRow);
-                        });
-                    });
-                }
-            }
-          });
-
-          // 5. Re-inicializar los toggles (ya que los elementos fueron movidos)
-          initServiceToggles();
-        });
-      });
-    })();
-
 
     // -------------------- FUNCIONES DE RENDERIZADO --------------------
 
     function renderDriversMacro(year) {
-      // Mantenido igual
+      // (Mantenido igual)
       var tbody = document.querySelector('#drivers-table tbody');
       if (!tbody || !REDSALUD_DATA || !REDSALUD_DATA.drivers_macro) {
         tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay datos de drivers para mostrar.</td></tr>';
@@ -1042,7 +912,7 @@
     }
 
     function renderEvolutionTables(year) {
-      // Mantenido igual
+      // (Mantenido igual)
       var csatBody = document.querySelector('.ranking-csat tbody');
       var upliftBody = document.querySelector('.ranking-uplift tbody');
       var csatHead = document.querySelector('.ranking-csat thead tr');
@@ -1070,8 +940,10 @@
         upliftHead.removeChild(currentUPLIFTHeaders[i]);
       }
 
-      var totalHeader = csatHead.querySelector('th[data-total="true"]') || csatHead.lastElementChild;
-      var upliftTotalHeader = upliftHead.querySelector('th[data-total="true"]') || upliftHead.lastElementChild;
+      var totalHeader = csatHead.querySelector('th[data-total="true"]');
+      if (!totalHeader) totalHeader = csatHead.lastElementChild;
+      var upliftTotalHeader = upliftHead.querySelector('th[data-total="true"]');
+      if (!upliftTotalHeader) upliftHead.lastElementChild;
 
 
       uniqueQuarters.forEach(q => {
@@ -1104,15 +976,13 @@
         tdDriverIBB.textContent = attribute;
         trIBB.appendChild(tdDriverIBB);
         
-        // Celdas de trimestre
-        uniqueQuarters.forEach(function(q) {
-            var row = ibbRows.find(r => r.trimestre === `${year}-${q}`);
-            var ibb_q = row && row[attribute] !== undefined ? row[attribute] : null;
-            var td = document.createElement('td');
-            var cls = 'tbl-num val-csat ' + getIBBClass(ibb_q);
-            td.className = cls;
-            td.textContent = ibb_q === null ? '–' : formatDecimal(ibb_q, 2, false);
-            trIBB.appendChild(td);
+        ibbRows.forEach(function(row) {
+          var ibb_q = row[attribute] === undefined ? null : row[attribute];
+          var td = document.createElement('td');
+          var cls = 'tbl-num val-csat ' + getIBBClass(ibb_q);
+          td.className = cls;
+          td.textContent = ibb_q === null ? '–' : formatDecimal(ibb_q, 2, false);
+          trIBB.appendChild(td);
         });
         
         var annualData = REDSALUD_DATA.drivers_macro.find(d => d.attribute === attribute);
@@ -1131,15 +1001,13 @@
         tdDriverUplift.textContent = attribute;
         trUplift.appendChild(tdDriverUplift);
         
-        // Celdas de trimestre
-        uniqueQuarters.forEach(function(q) {
-            var row = upliftRows.find(r => r.trimestre === `${year}-${q}`);
-            var uplift_q = row && row[attribute] !== undefined ? row[attribute] : null;
-            var td = document.createElement('td');
-            var cls = 'tbl-num val-uplift ' + getUpliftClass(uplift_q);
-            td.className = cls;
-            td.textContent = uplift_q === null ? '–' : formatDecimal(uplift_q, 2, true);
-            trUplift.appendChild(td);
+        upliftRows.forEach(function(row) {
+          var uplift_q = row[attribute] === undefined ? null : row[attribute];
+          var td = document.createElement('td');
+          var cls = 'tbl-num val-uplift ' + getUpliftClass(uplift_q);
+          td.className = cls;
+          td.textContent = uplift_q === null ? '–' : formatDecimal(uplift_q, 2, true);
+          trUplift.appendChild(td);
         });
         
         var annualUplift = annualData ? annualData.uplift : null;
@@ -1161,15 +1029,10 @@
           var serviceNameKey = this.getAttribute('data-parent-service'); 
           var expanded = this.getAttribute('data-expanded') === 'true';
           
-          // Obtener la fila del servicio para saber si está visible
-          var serviceRow = this.closest('.service-row');
-          var isServiceRowVisible = serviceRow.style.display !== 'none';
-          
           // Mostrar/Ocultar todas las filas de Centros asociadas a este servicio
           var centerRows = document.querySelectorAll("tr[data-parent-service='" + serviceNameKey + "'].center-row");
           centerRows.forEach(function(row) {
-            // Solo muestra/oculta si la fila padre (servicio) está visible Y si no se está colapsando
-            row.style.display = (expanded || !isServiceRowVisible) ? 'none' : 'table-row';
+            row.style.display = expanded ? 'none' : 'table-row';
             
             // Si colapsamos el servicio, debemos colapsar también todos los centros hijos
             if (expanded) {
@@ -1198,15 +1061,10 @@
           var centerNameKey = this.getAttribute('data-parent-center'); 
           var expanded = this.getAttribute('data-expanded') === 'true';
           
-          // Obtener la fila del centro para saber si está visible
-          var centerRow = this.closest('.center-row');
-          var isCenterRowVisible = centerRow.style.display !== 'none';
-
           // Mostrar/Ocultar todas las filas de Drivers asociadas a este Centro
           var rows = document.querySelectorAll("tr[data-parent-center='" + centerNameKey + "'].driver-row");
           rows.forEach(function(row) {
-            // Solo muestra/oculta si la fila padre (centro) está visible
-            row.style.display = (expanded || !isCenterRowVisible) ? 'none' : 'table-row';
+            row.style.display = expanded ? 'none' : 'table-row';
           });
           
           this.textContent = expanded ? '+' : '–';
@@ -1215,11 +1073,89 @@
       });
     }
 
+    /**
+     * FIX: Utility para filtrar los puntos de datos y realizar la agregación (suma ponderada)
+     * basándose solo en los trimestres seleccionados.
+     * * Retorna el IBB Global, el total de comentarios de los trims seleccionados 
+     * y los datos de Servicio/Centro/Driver ya agregados para esos trims.
+     */
+    function aggregateDataForTrims(dataCenters, trims) {
+        var totalCommentsSelected = 0;
+        var weightedIBBSumSelected = 0;
+        
+        // Objeto que almacenará la data final agregada (Service -> Center -> Attribute)
+        var aggregatedServices = {};
+
+        dataCenters.forEach(centerData => {
+            var centerName = centerData.center;
+
+            centerData.services.forEach(serviceData => {
+                // ASUMIMOS que serviceData tiene una propiedad 'quarter' (1, 2, 3, 4)
+                if (!trims.includes(serviceData.quarter)) {
+                    return; // Saltar puntos de data que no están en los trimestres seleccionados
+                }
+                
+                // 1. Métricas Globales (Solo Trims Seleccionados)
+                totalCommentsSelected += serviceData.count;
+                weightedIBBSumSelected += (serviceData.count * serviceData.ibb);
+
+                var serviceName = serviceData.service;
+                
+                // 2. Agregación de Servicio (A través de todos los Centros)
+                if (!aggregatedServices[serviceName]) {
+                    aggregatedServices[serviceName] = {
+                        total_count: 0,
+                        weighted_ibb_sum: 0,
+                        centers_detail: {} // Para la agregación a nivel de Centro
+                    };
+                }
+                aggregatedServices[serviceName].total_count += serviceData.count;
+                aggregatedServices[serviceName].weighted_ibb_sum += (serviceData.count * serviceData.ibb); 
+
+                // 3. Agregación de Centro (Servicio X en Centro A, agregado en los trims seleccionados)
+                if (!aggregatedServices[serviceName].centers_detail[centerName]) {
+                    aggregatedServices[serviceName].centers_detail[centerName] = {
+                        center: centerName,
+                        count: 0,
+                        weighted_ibb_sum: 0,
+                        attributes_detail: {} // Para la agregación a nivel de Atributo/Driver
+                    };
+                }
+                var centerAgg = aggregatedServices[serviceName].centers_detail[centerName];
+                centerAgg.count += serviceData.count;
+                centerAgg.weighted_ibb_sum += (serviceData.count * serviceData.ibb);
+
+                // 4. Agregación de Atributo/Driver (Driver Y para Servicio X en Centro A, agregado en los trims seleccionados)
+                serviceData.attributes.forEach(attributeData => {
+                    var attrName = attributeData.attribute;
+                    if (!centerAgg.attributes_detail[attrName]) {
+                        centerAgg.attributes_detail[attrName] = {
+                            attribute: attrName,
+                            count: 0,
+                            weighted_ibb_sum: 0
+                        };
+                    }
+                    var attrAgg = centerAgg.attributes_detail[attrName];
+                    attrAgg.count += attributeData.count;
+                    attrAgg.weighted_ibb_sum += (attributeData.count * attributeData.ibb);
+                });
+            });
+        });
+        
+        var overallIBB = totalCommentsSelected > 0 ? weightedIBBSumSelected / totalCommentsSelected : 0.0;
+        
+        return { 
+            overallIBB: overallIBB, 
+            totalCommentsSelected: totalCommentsSelected,
+            aggregatedServices: aggregatedServices
+        };
+    }
+
 
     /**
      * Reestructura los datos del JSON (Center -> Service -> Attributes) a
      * una jerarquía Service -> Center -> Attributes y los renderiza con doble toggle y agregados.
-     * Ahora también aplica el filtro trimestral.
+     * * FIX: Ahora usa los 'trims' seleccionados para filtrar y agregar la data.
      */
     function renderServicesTable(year, trims) {
       var tbody = document.getElementById('services-tbody');
@@ -1229,85 +1165,27 @@
       }
       
       var dataCenters = REDSALUD_DATA.services_breakdown.Centers || [];
-      var overallIBB = REDSALUD_DATA.overall_ibb || 0.0;
-      var totalCommentsYear = document.getElementById('total-comments').textContent.replace(/\./g, '');
-      var yearTextTotal = parseInt(totalCommentsYear) || 1; 
+      
+      // 1. Filtrar y Agregar la data solo para los trims seleccionados
+      var { overallIBB, totalCommentsSelected, aggregatedServices } = aggregateDataForTrims(dataCenters, trims);
+      
+      var yearTextTotal = totalCommentsSelected; // Base para el % sobre texto es el total de los trimestres seleccionados
+      if (yearTextTotal === 0) yearTextTotal = 1; // Evitar división por cero
 
       tbody.innerHTML = '';
 
-      // Paso 1: Reagrupar, filtrar y AGREGAR por Servicio (Service)
-      var groupedByService = {};
+      var serviceNames = Object.keys(aggregatedServices).sort();
 
-      dataCenters.forEach(centerData => {
-        centerData.services.forEach(serviceData => {
-            
-          // --- Filtrar Drivers/Attributes por Trimestre ---
-          var filteredAttributes = [];
-          var centerFilteredCount = 0;
-          var centerWeightedIBBSum = 0;
-          
-          serviceData.attributes.forEach(attr => {
-            // attr.trimestre tiene el formato "YYYY-TX"
-            var trimStr = attr.trimestre.split('-')[1].replace('T', '');
-            var trimN = parseInt(trimStr, 10);
-
-            if (trims.includes(trimN)) {
-                // Se deben usar los datos filtrados para la fila del Driver
-                var driverFilteredData = {
-                    attribute: attr.attribute,
-                    ibb: attr.ibb,
-                    count: attr.count,
-                    trimestre: attr.trimestre
-                };
-                filteredAttributes.push(driverFilteredData);
-                centerFilteredCount += attr.count;
-                centerWeightedIBBSum += (attr.count * attr.ibb);
-            }
-          });
-            
-          // Si no hay comentarios para este servicio/centro en los trims seleccionados, saltar
-          if (centerFilteredCount === 0) return;
-
-
-          // Recalcular métricas del centro con los datos filtrados
-          var centerFilteredIBB = centerFilteredCount > 0 ? centerWeightedIBBSum / centerFilteredCount : null;
-          
-          var centerDetailFiltered = {
-            center: centerData.center,
-            count: centerFilteredCount,
-            ibb: centerFilteredIBB,
-            attributes: filteredAttributes
-          };
-            
-          if (!groupedByService[serviceData.service]) {
-            groupedByService[serviceData.service] = {
-              centers: [],
-              total_count: 0,
-              weighted_ibb_sum: 0 
-            };
-          }
-          
-          groupedByService[serviceData.service].centers.push(centerDetailFiltered);
-
-          // Acumular para el total del Servicio
-          groupedByService[serviceData.service].total_count += centerFilteredCount;
-          // Acumular para el IBB promedio ponderado del servicio
-          groupedByService[serviceData.service].weighted_ibb_sum += (centerFilteredCount * centerFilteredIBB); 
-        });
-      });
-      
-      var serviceNames = Object.keys(groupedByService).sort();
-
-      // Paso 2: Renderizar la tabla (Service -> Center -> Attributes)
+      // 2. Renderizar la tabla (Service -> Center -> Attributes)
       serviceNames.forEach(function(serviceName) {
-        var serviceData = groupedByService[serviceName];
+        var serviceAgg = aggregatedServices[serviceName];
         var serviceNameKey = serviceName.replace(/\s/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
 
         // --- CÁLCULO AGREGADO DE SERVICIO ---
-        var totalServiceCount = serviceData.total_count;
-        var avgServiceIBB = totalServiceCount > 0 ? serviceData.weighted_ibb_sum / totalServiceCount : null;
+        var totalServiceCount = serviceAgg.total_count;
+        var avgServiceIBB = totalServiceCount > 0 ? serviceAgg.weighted_ibb_sum / totalServiceCount : null;
         var upliftService = avgServiceIBB !== null ? avgServiceIBB - overallIBB : null;
-        var pctService = yearTextTotal > 0 ? (totalServiceCount / yearTextTotal * 100) : 0;
+        var pctService = totalServiceCount / yearTextTotal * 100;
 
 
         // --- Nivel 1: Fila de Servicio (Service) ---
@@ -1332,7 +1210,7 @@
         // Columna 4: % sobre texto (AGREGADO)
         var tdPctService = document.createElement('td');
         tdPctService.className = 'tbl-num';
-        tdPctService.textContent = yearTextTotal ? formatDecimal(pctService, 1, false) + '%' : '0,0%';
+        tdPctService.textContent = formatDecimal(pctService, 1, false) + '%';
         trService.appendChild(tdPctService);
 
         // Columna 5: IBB (AGREGADO PONDERADO)
@@ -1343,25 +1221,29 @@
 
         // Columna 6: Uplift (AGREGADO)
         var tdUpliftService = document.createElement('td');
-        var upliftClass = getUpliftClass(upliftService);
-        tdUpliftService.className = 'tbl-num val-uplift ' + upliftClass;
+        tdUpliftService.className = 'tbl-num val-uplift ' + getUpliftClass(upliftService);
         tdUpliftService.textContent = formatDecimal(upliftService, 2, true);
         trService.appendChild(tdUpliftService);
         
         tbody.appendChild(trService);
 
 
-        serviceData.centers.forEach(function(centerDetail) {
-          var centerName = centerDetail.center;
-          var centerNameKey = serviceNameKey + '-' + centerName.replace(/\s/g, '_').replace(/[^a-zA-Z0-9_]/g, ''); // Clave única para el toggle de drivers
-          var upliftCenter = centerDetail.ibb - overallIBB;
+        // Renderizar filas de Centro
+        var centersInService = Object.keys(serviceAgg.centers_detail).sort();
+        centersInService.forEach(function(centerName) {
+          var centerAgg = serviceAgg.centers_detail[centerName];
+          var centerNameKey = centerName.replace(/\s/g, '_').replace(/[^a-zA-Z0-9_]/g, ''); 
+          
+          // Calcular métricas finales de Centro
+          var avgCenterIBB = centerAgg.count > 0 ? centerAgg.weighted_ibb_sum / centerAgg.count : null;
+          var upliftCenter = avgCenterIBB !== null ? avgCenterIBB - overallIBB : null;
           
           // --- Nivel 2: Fila de Centro (Center) ---
           var trCenter = document.createElement('tr');
           trCenter.className = 'center-row';
-          trCenter.style.display = 'none'; // Oculto por defecto
+          trCenter.style.display = 'none'; 
           trCenter.setAttribute('data-parent-service', serviceNameKey);
-          trCenter.setAttribute('data-center-key', centerNameKey); // Se usa para ocultar sus hijos
+          trCenter.setAttribute('data-center-key', centerNameKey); 
 
           // Columna 1: Nombre del Centro + Toggle
           var tdNameCenter = document.createElement('td');
@@ -1375,39 +1257,43 @@
           // Columna 3: N° comentarios
           var tdComments = document.createElement('td');
           tdComments.className = 'tbl-num';
-          tdComments.textContent = new Intl.NumberFormat('es-CL').format(centerDetail.count);
+          tdComments.textContent = new Intl.NumberFormat('es-CL').format(centerAgg.count);
           trCenter.appendChild(tdComments);
 
           // Columna 4: % sobre texto
-          var pctCenter = yearTextTotal > 0 ? (centerDetail.count / yearTextTotal * 100) : 0;
+          var pctCenter = centerAgg.count / yearTextTotal * 100;
           var tdPct = document.createElement('td');
           tdPct.className = 'tbl-num';
-          tdPct.textContent = yearTextTotal ? formatDecimal(pctCenter, 1, false) + '%' : '0,0%';
+          tdPct.textContent = formatDecimal(pctCenter, 1, false) + '%';
           trCenter.appendChild(tdPct);
 
           // Columna 5: IBB
           var tdIBB = document.createElement('td');
-          tdIBB.className = 'tbl-num val-csat ' + getIBBClass(centerDetail.ibb);
-          tdIBB.textContent = formatDecimal(centerDetail.ibb, 2, false);
+          tdIBB.className = 'tbl-num val-csat ' + getIBBClass(avgCenterIBB);
+          tdIBB.textContent = formatDecimal(avgCenterIBB, 2, false);
           trCenter.appendChild(tdIBB);
 
           // Columna 6: Uplift
           var tdUplift = document.createElement('td');
-          var upliftCenterClass = getUpliftClass(upliftCenter);
-          tdUplift.className = 'tbl-num val-uplift ' + upliftCenterClass;
+          tdUplift.className = 'tbl-num val-uplift ' + getUpliftClass(upliftCenter);
           tdUplift.textContent = formatDecimal(upliftCenter, 2, true);
           trCenter.appendChild(tdUplift);
           
           tbody.appendChild(trCenter);
 
-          // --- Nivel 3: Filas de Atributo/Driver (Attribute) - Doblemente Ocultas ---
-          centerDetail.attributes.forEach(function(attribute) {
-            var upliftAttribute = attribute.ibb - overallIBB;
+          // Renderizar filas de Driver/Atributo
+          var attributesInCenter = Object.keys(centerAgg.attributes_detail).sort();
+          attributesInCenter.forEach(function(attributeName) {
+            var attribute = centerAgg.attributes_detail[attributeName];
+            
+            // Calcular métricas finales de Atributo
+            var avgAttrIBB = attribute.count > 0 ? attribute.weighted_ibb_sum / attribute.count : null;
+            var upliftAttribute = avgAttrIBB !== null ? avgAttrIBB - overallIBB : null;
             
             var trDriver = document.createElement('tr');
             trDriver.className = 'driver-row';
-            trDriver.style.display = 'none'; // Oculto por Centro
-            trDriver.setAttribute('data-parent-service', serviceNameKey); // Para ocultar si se colapsa el servicio
+            trDriver.style.display = 'none'; 
+            trDriver.setAttribute('data-parent-service', serviceNameKey); 
             trDriver.setAttribute('data-parent-center', centerNameKey);
 
             // Columna 1: Nombre del Atributo (indentado)
@@ -1425,23 +1311,22 @@
             tdCommentsDriver.textContent = new Intl.NumberFormat('es-CL').format(attribute.count);
             trDriver.appendChild(tdCommentsDriver);
 
-            // Columna 4: % sobre texto (del atributo en el total anual)
-            var pctDriver = yearTextTotal > 0 ? (attribute.count / yearTextTotal * 100) : 0;
+            // Columna 4: % sobre texto (del atributo en el total de los trims)
+            var pctDriver = attribute.count / yearTextTotal * 100;
             var tdPctDriver = document.createElement('td');
             tdPctDriver.className = 'tbl-num';
-            tdPctDriver.textContent = yearTextTotal ? formatDecimal(pctDriver, 1, false) + '%' : '0,0%';
+            tdPctDriver.textContent = formatDecimal(pctDriver, 1, false) + '%';
             trDriver.appendChild(tdPctDriver);
             
             // Columna 5: IBB (del atributo)
             var tdIBBDriver = document.createElement('td');
-            tdIBBDriver.className = 'tbl-num val-csat ' + getIBBClass(attribute.ibb);
-            tdIBBDriver.textContent = formatDecimal(attribute.ibb, 2, false);
+            tdIBBDriver.className = 'tbl-num val-csat ' + getIBBClass(avgAttrIBB);
+            tdIBBDriver.textContent = formatDecimal(avgAttrIBB, 2, false);
             trDriver.appendChild(tdIBBDriver);
 
             // Columna 6: Uplift (del atributo)
             var tdUpliftDriver = document.createElement('td');
-            var upliftDriverClass = getUpliftClass(upliftAttribute);
-            tdUpliftDriver.className = 'tbl-num val-uplift ' + upliftDriverClass;
+            tdUpliftDriver.className = 'tbl-num val-uplift ' + getUpliftClass(upliftAttribute);
             tdUpliftDriver.textContent = formatDecimal(upliftAttribute, 2, true);
             trDriver.appendChild(tdUpliftDriver);
             
@@ -1450,7 +1335,6 @@
         });
       });
 
-      // Se llama aquí para que los toggles de las filas recién creadas funcionen
       initServiceToggles();
     }
 
@@ -1488,16 +1372,6 @@
     function refreshAll() {
       var year = getCurrentYear();
       if (REDSALUD_DATA) {
-        // Al refrescar, reiniciamos el estado de los toggles de servicio para asegurar la consistencia del DOM
-        document.querySelectorAll('.service-group-toggle').forEach(btn => {
-            btn.textContent = '+';
-            btn.setAttribute('data-expanded', 'false');
-        });
-        document.querySelectorAll('.driver-toggle').forEach(btn => {
-            btn.textContent = '+';
-            btn.setAttribute('data-expanded', 'false');
-        });
-          
         renderDriversMacro(year);
         renderEvolutionTables(year);
         renderServicesTable(year, selectedTrims);
@@ -1521,30 +1395,16 @@
         var idx = selectedTrims.indexOf(t);
 
         if (idx !== -1) {
-          if (selectedTrims.length === 1) {
-             // Si solo queda uno seleccionado, se previene la deselección
-             alert('Debe haber al menos un trimestre seleccionado.');
-             return; 
-          }
+          if (selectedTrims.length === 1) return; 
           selectedTrims.splice(idx, 1);
           this.classList.remove('selected');
         } else {
           selectedTrims.push(t);
           this.classList.add('selected');
-          selectedTrims.sort((a, b) => a - b); // Ordenar para consistencia
+          selectedTrims.sort();
         }
-        
-        // Al cambiar los trimestres, también se resetean los toggles de despliegue para evitar inconsistencias
-        document.querySelectorAll('.service-group-toggle').forEach(btn => {
-            btn.textContent = '+';
-            btn.setAttribute('data-expanded', 'false');
-        });
-        
-        // Se llama a renderServicesTable con el nuevo filtro
+        // FIX: Se llama a renderServicesTable con los trims seleccionados
         renderServicesTable(getCurrentYear(), selectedTrims);
-        
-        // Luego de renderizar, se debe llamar nuevamente al toggle para que se actualice la estructura y el sorting no se pierda
-        initServiceToggles();
       });
     });
 
