@@ -335,6 +335,11 @@
     .service-row .tbl-name {
         font-weight: 600;
     }
+    /* Añadido para diferenciar el Nivel 1 del resto visualmente, si se desea */
+    .service-row td {
+        background: #f0f4ff; /* Fondo ligeramente diferente para el nivel Servicio */
+        border-bottom: 2px solid #c7d2fe;
+    }
     /* Fin ajustes */
 
     .note-inline {
@@ -613,7 +618,7 @@
     <div class="section-title">SERVICIOS AGREGADOS</div>
 
     <section class="card">
-      <div class="level-tag">Vista por Servicio (apertura con “+”), Centro (apertura con “+”) y Drivers (desglose por fila).</div>
+      <div class="level-tag">Vista por Servicio (agregado y con apertura), Centro (agregado y con apertura) y Drivers (desglose por fila).</div>
 
       <div class="filter-row">
         <span class="filter-label">Trimestres:</span>
@@ -705,8 +710,6 @@
 
     // -------------------- LÓGICA DE ORDENAMIENTO (NO MODIFICADA) --------------------
     // Se mantiene el código de ordenamiento...
-
-    // -------------------- LÓGICA DE ORDENAMIENTO DE DRIVERS (NO MODIFICADA) --------------------
     (function() {
       var table = document.getElementById('drivers-table');
       if (!table) return;
@@ -808,6 +811,7 @@
         });
       });
     })();
+
 
     // -------------------- FUNCIONES DE RENDERIZADO --------------------
 
@@ -1072,7 +1076,7 @@
 
     /**
      * Reestructura los datos del JSON (Center -> Service -> Attributes) a
-     * una jerarquía Service -> Center -> Attributes y los renderiza con doble toggle.
+     * una jerarquía Service -> Center -> Attributes y los renderiza con doble toggle y agregados.
      */
     function renderServicesTable(year, trims) {
       var tbody = document.getElementById('services-tbody');
@@ -1088,20 +1092,30 @@
 
       tbody.innerHTML = '';
 
-      // Paso 1: Reagrupar por Servicio (Service)
+      // Paso 1: Reagrupar y AGREGAR por Servicio (Service)
       var groupedByService = {};
 
       dataCenters.forEach(centerData => {
         centerData.services.forEach(serviceData => {
           if (!groupedByService[serviceData.service]) {
-            groupedByService[serviceData.service] = [];
+            groupedByService[serviceData.service] = {
+              centers: [],
+              total_count: 0,
+              weighted_ibb_sum: 0 
+            };
           }
-          groupedByService[serviceData.service].push({
+          
+          groupedByService[serviceData.service].centers.push({
             center: centerData.center,
             count: serviceData.count,
             ibb: serviceData.ibb,
             attributes: serviceData.attributes 
           });
+
+          // Acumular para el total del Servicio
+          groupedByService[serviceData.service].total_count += serviceData.count;
+          // Para calcular el IBB promedio ponderado: sumatoria de (count * IBB)
+          groupedByService[serviceData.service].weighted_ibb_sum += (serviceData.count * serviceData.ibb); 
         });
       });
       
@@ -1109,23 +1123,57 @@
 
       // Paso 2: Renderizar la tabla (Service -> Center -> Attributes)
       serviceNames.forEach(function(serviceName) {
-        var centersInService = groupedByService[serviceName];
+        var serviceData = groupedByService[serviceName];
         var serviceNameKey = serviceName.replace(/\s/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+
+        // --- CÁLCULO AGREGADO DE SERVICIO ---
+        var totalServiceCount = serviceData.total_count;
+        var avgServiceIBB = totalServiceCount > 0 ? serviceData.weighted_ibb_sum / totalServiceCount : null;
+        var upliftService = avgServiceIBB !== null ? avgServiceIBB - overallIBB : null;
+        var pctService = yearTextTotal > 0 ? (totalServiceCount / yearTextTotal * 100) : 0;
+
 
         // --- Nivel 1: Fila de Servicio (Service) ---
         var trService = document.createElement('tr');
         trService.className = 'service-row';
+        
+        // Columna 1: Nombre del Servicio + Toggle
         var tdNameService = document.createElement('td');
         tdNameService.className = 'tbl-name';
         tdNameService.innerHTML = `<strong>${serviceName}</strong> <button class="plus-btn service-group-toggle" data-parent-service="${serviceNameKey}" data-expanded="false">+</button>`;
         trService.appendChild(tdNameService);
 
-        // Celdas vacías para el nivel Servicio (solo para mantener la estructura)
-        for (let i = 0; i < 5; i++) trService.appendChild(document.createElement('td')); 
+        // Columna 2: Vacía
+        trService.appendChild(document.createElement('td')); 
+
+        // Columna 3: N° comentarios (AGREGADO)
+        var tdCommentsService = document.createElement('td');
+        tdCommentsService.className = 'tbl-num';
+        tdCommentsService.textContent = new Intl.NumberFormat('es-CL').format(totalServiceCount);
+        trService.appendChild(tdCommentsService);
+
+        // Columna 4: % sobre texto (AGREGADO)
+        var tdPctService = document.createElement('td');
+        tdPctService.className = 'tbl-num';
+        tdPctService.textContent = yearTextTotal ? formatDecimal(pctService, 1, false) + '%' : '0,0%';
+        trService.appendChild(tdPctService);
+
+        // Columna 5: IBB (AGREGADO PONDERADO)
+        var tdIBBService = document.createElement('td');
+        tdIBBService.className = 'tbl-num val-csat ' + getIBBClass(avgServiceIBB);
+        tdIBBService.textContent = formatDecimal(avgServiceIBB, 2, false);
+        trService.appendChild(tdIBBService);
+
+        // Columna 6: Uplift (AGREGADO)
+        var tdUpliftService = document.createElement('td');
+        tdUpliftService.className = 'tbl-num val-uplift ' + getUpliftClass(upliftService);
+        tdUpliftService.textContent = formatDecimal(upliftService, 2, true);
+        trService.appendChild(tdUpliftService);
+        
         tbody.appendChild(trService);
 
 
-        centersInService.forEach(function(centerDetail) {
+        serviceData.centers.forEach(function(centerDetail) {
           var centerName = centerDetail.center;
           var centerNameKey = centerName.replace(/\s/g, '_').replace(/[^a-zA-Z0-9_]/g, ''); // Clave para el toggle de drivers
           var upliftCenter = centerDetail.ibb - overallIBB;
@@ -1133,7 +1181,7 @@
           // --- Nivel 2: Fila de Centro (Center) ---
           var trCenter = document.createElement('tr');
           trCenter.className = 'center-row';
-          trCenter.style.display = 'none'; // Oculto por defecto, se muestra al expandir el Servicio
+          trCenter.style.display = 'none'; // Oculto por defecto
           trCenter.setAttribute('data-parent-service', serviceNameKey);
           trCenter.setAttribute('data-center-key', centerNameKey); // Se usa para ocultar sus hijos
 
