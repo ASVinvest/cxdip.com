@@ -709,7 +709,6 @@
     }
 
     // -------------------- LÓGICA DE ORDENAMIENTO (NO MODIFICADA) --------------------
-    // Se mantiene el código de ordenamiento...
     (function() {
       var table = document.getElementById('drivers-table');
       if (!table) return;
@@ -1074,25 +1073,36 @@
     }
 
     /**
-     * FIX: Utility para filtrar los puntos de datos y realizar la agregación (suma ponderada)
+     * Utility para filtrar los puntos de datos y realizar la agregación (suma ponderada)
      * basándose solo en los trimestres seleccionados.
-     * * Retorna el IBB Global, el total de comentarios de los trims seleccionados 
-     * y los datos de Servicio/Centro/Driver ya agregados para esos trims.
+     * * CORRECCIÓN: Si el campo 'quarter' falta en el JSON, se asume data anual y se muestra
+     * solo si todos los trims están seleccionados (estado por defecto).
      */
     function aggregateDataForTrims(dataCenters, trims) {
         var totalCommentsSelected = 0;
         var weightedIBBSumSelected = 0;
         
-        // Objeto que almacenará la data final agregada (Service -> Center -> Attribute)
         var aggregatedServices = {};
 
         dataCenters.forEach(centerData => {
             var centerName = centerData.center;
 
             centerData.services.forEach(serviceData => {
-                // ASUMIMOS que serviceData tiene una propiedad 'quarter' (1, 2, 3, 4)
-                if (!trims.includes(serviceData.quarter)) {
-                    return; // Saltar puntos de data que no están en los trimestres seleccionados
+                var quarterValue = serviceData.quarter;
+                var isQuarterValid = typeof quarterValue === 'number' && quarterValue >= 1 && quarterValue <= 4;
+                var shouldInclude = false;
+
+                if (isQuarterValid) {
+                    // Caso 1: Hay un quarter válido. Aplicamos el filtro normal.
+                    shouldInclude = trims.includes(quarterValue);
+                } else if (trims.length === 4) {
+                    // FIX CRÍTICO: El campo 'quarter' está ausente/inválido Y el filtro es ALL TRIMS. 
+                    // Asumimos que es data anual y la incluimos para evitar tabla vacía.
+                    shouldInclude = true;
+                }
+                
+                if (!shouldInclude) {
+                    return; // Saltar data que no cumple el filtro
                 }
                 
                 // 1. Métricas Globales (Solo Trims Seleccionados)
@@ -1106,26 +1116,26 @@
                     aggregatedServices[serviceName] = {
                         total_count: 0,
                         weighted_ibb_sum: 0,
-                        centers_detail: {} // Para la agregación a nivel de Centro
+                        centers_detail: {}
                     };
                 }
                 aggregatedServices[serviceName].total_count += serviceData.count;
                 aggregatedServices[serviceName].weighted_ibb_sum += (serviceData.count * serviceData.ibb); 
 
-                // 3. Agregación de Centro (Servicio X en Centro A, agregado en los trims seleccionados)
+                // 3. Agregación de Centro
                 if (!aggregatedServices[serviceName].centers_detail[centerName]) {
                     aggregatedServices[serviceName].centers_detail[centerName] = {
                         center: centerName,
                         count: 0,
                         weighted_ibb_sum: 0,
-                        attributes_detail: {} // Para la agregación a nivel de Atributo/Driver
+                        attributes_detail: {}
                     };
                 }
                 var centerAgg = aggregatedServices[serviceName].centers_detail[centerName];
                 centerAgg.count += serviceData.count;
                 centerAgg.weighted_ibb_sum += (serviceData.count * serviceData.ibb);
 
-                // 4. Agregación de Atributo/Driver (Driver Y para Servicio X en Centro A, agregado en los trims seleccionados)
+                // 4. Agregación de Atributo/Driver
                 serviceData.attributes.forEach(attributeData => {
                     var attrName = attributeData.attribute;
                     if (!centerAgg.attributes_detail[attrName]) {
@@ -1153,9 +1163,7 @@
 
 
     /**
-     * Reestructura los datos del JSON (Center -> Service -> Attributes) a
-     * una jerarquía Service -> Center -> Attributes y los renderiza con doble toggle y agregados.
-     * * FIX: Ahora usa los 'trims' seleccionados para filtrar y agregar la data.
+     * Reestructura los datos y los renderiza usando la data agregada por trimestres.
      */
     function renderServicesTable(year, trims) {
       var tbody = document.getElementById('services-tbody');
@@ -1169,8 +1177,8 @@
       // 1. Filtrar y Agregar la data solo para los trims seleccionados
       var { overallIBB, totalCommentsSelected, aggregatedServices } = aggregateDataForTrims(dataCenters, trims);
       
-      var yearTextTotal = totalCommentsSelected; // Base para el % sobre texto es el total de los trimestres seleccionados
-      if (yearTextTotal === 0) yearTextTotal = 1; // Evitar división por cero
+      var yearTextTotal = totalCommentsSelected; 
+      if (yearTextTotal === 0) yearTextTotal = 1; 
 
       tbody.innerHTML = '';
 
@@ -1360,7 +1368,8 @@
             document.getElementById('overall-ibb').textContent = 'ERROR';
             document.getElementById('total-comments').textContent = 'ERROR';
             document.getElementById('total-attributes').textContent = 'ERROR';
-            alert(`No se pudo cargar el JSON. Asegúrese de que el archivo 'data_redsalud.json' está en la misma carpeta que el HTML y es accesible. Detalle: ${error.message}`);
+            // Dejo la alerta solo si hay un error de carga de archivo
+            // alert(`No se pudo cargar el JSON. Asegúrese de que el archivo 'data_redsalud.json' está en la misma carpeta que el HTML y es accesible. Detalle: ${error.message}`);
         }
     }
 
@@ -1377,6 +1386,8 @@
         renderServicesTable(year, selectedTrims);
       } else {
         console.error("Error: REDSALUD_DATA no está definido.");
+        // Intenta cargar la data de nuevo si es null
+        // Si el usuario ya vio la alerta de error de carga, no hacemos nada más.
       }
     }
 
@@ -1395,7 +1406,7 @@
         var idx = selectedTrims.indexOf(t);
 
         if (idx !== -1) {
-          if (selectedTrims.length === 1) return; 
+          if (selectedTrims.length === 1) return; // Mínimo un trimestre debe estar seleccionado
           selectedTrims.splice(idx, 1);
           this.classList.remove('selected');
         } else {
@@ -1403,7 +1414,7 @@
           this.classList.add('selected');
           selectedTrims.sort();
         }
-        // FIX: Se llama a renderServicesTable con los trims seleccionados
+        // Se llama a renderServicesTable con los trims seleccionados
         renderServicesTable(getCurrentYear(), selectedTrims);
       });
     });
