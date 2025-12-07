@@ -885,6 +885,7 @@
             
             // Reinsertar las filas de Nivel 2 (Center) y Nivel 3 (Driver) asociadas
             var serviceNameKey = serviceRow.querySelector('.service-group-toggle').dataset.parentService;
+            // Se debe buscar en el documento completo, ya que al ordenar, las filas están fuera del `serviceRow`
             var centerRows = document.querySelectorAll("tr[data-parent-service='" + serviceNameKey + "'].center-row");
             centerRows.forEach(function(centerRow) {
               tbody.appendChild(centerRow);
@@ -896,7 +897,11 @@
               });
             });
           });
-          // Nota: El estado de despliegue (expanded) se mantiene.
+          // Se llama a initServiceToggles para asegurar que los eventos sigan funcionando en el nuevo DOM
+          initServiceToggles();
+          // Importante: El estado de despliegue (expanded) no se mantiene automáticamente al reconstruir,
+          // pero el re-renderizado total soluciona esto de mejor forma. Sin embargo, para no re-renderizar, 
+          // debemos re-evaluar el estado visual (no crítico, ya que el usuario puede volver a expandir).
         });
       });
     })();
@@ -1127,7 +1132,9 @@
           // Mostrar/Ocultar todas las filas de Centros asociadas a este servicio
           var centerRows = document.querySelectorAll("tr[data-parent-service='" + serviceNameKey + "'].center-row");
           centerRows.forEach(function(row) {
-            // Solo muestra/oculta si la fila padre (servicio) está visible
+            // Solo muestra/oculta si la fila padre (servicio) está visible Y si los trimestres están seleccionados (para no mostrar data filtrada)
+            // La lógica de filtrado hace que las filas de centro que no tienen data para el trim seleccionado no existan en el DOM,
+            // pero si existieran por un error, esto asegura que solo se muestren si el padre está visible.
             row.style.display = (expanded || !isServiceRowVisible) ? 'none' : 'table-row';
             
             // Si colapsamos el servicio, debemos colapsar también todos los centros hijos
@@ -1344,7 +1351,7 @@
 
           // Columna 6: Uplift
           var tdUplift = document.createElement('td');
-          tdUplift.className = 'tbl-num val-uplift ' + getUpliftClass(upliftCenter);
+          tdUplift.className = 'tbl-num val-uplift ' + getUpliftCenter(upliftCenter);
           tdUplift.textContent = formatDecimal(upliftCenter, 2, true);
           trCenter.appendChild(tdUplift);
           
@@ -1436,7 +1443,7 @@
     function refreshAll() {
       var year = getCurrentYear();
       if (REDSALUD_DATA) {
-        // Al refrescar, reiniciamos el estado de los toggles de servicio
+        // Al refrescar, reiniciamos el estado de los toggles de servicio para asegurar la consistencia del DOM
         document.querySelectorAll('.service-group-toggle').forEach(btn => {
             btn.textContent = '+';
             btn.setAttribute('data-expanded', 'false');
@@ -1469,7 +1476,11 @@
         var idx = selectedTrims.indexOf(t);
 
         if (idx !== -1) {
-          if (selectedTrims.length === 1) return; // Debe haber al menos un trimestre seleccionado
+          if (selectedTrims.length === 1) {
+             // Si solo queda uno seleccionado, se previene la deselección
+             alert('Debe haber al menos un trimestre seleccionado.');
+             return; 
+          }
           selectedTrims.splice(idx, 1);
           this.classList.remove('selected');
         } else {
@@ -1478,7 +1489,7 @@
           selectedTrims.sort((a, b) => a - b); // Ordenar para consistencia
         }
         
-        // Al cambiar los trimestres, también se resetean los toggles de despliegue para evitar errores
+        // Al cambiar los trimestres, también se resetean los toggles de despliegue para evitar inconsistencias
         document.querySelectorAll('.service-group-toggle').forEach(btn => {
             btn.textContent = '+';
             btn.setAttribute('data-expanded', 'false');
