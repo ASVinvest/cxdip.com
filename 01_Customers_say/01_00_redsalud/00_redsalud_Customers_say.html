@@ -613,7 +613,7 @@
     <div class="section-title">SERVICIOS AGREGADOS</div>
 
     <section class="card">
-      <div class="level-tag">Vista por Servicio (agrupador), Centros (apertura con “+”) y Drivers (desglose por fila).</div>
+      <div class="level-tag">Vista por Servicio (apertura con “+”), Centro (apertura con “+”) y Drivers (desglose por fila).</div>
 
       <div class="filter-row">
         <span class="filter-label">Trimestres:</span>
@@ -631,7 +631,8 @@
           <thead>
             <tr>
               <th>Servicio / Centro / Driver</th>
-              <th></th> <th style="text-align:right;">N° comentarios</th>
+              <th></th> 
+              <th style="text-align:right;">N° comentarios</th>
               <th style="text-align:right;">% sobre texto</th>
               <th style="text-align:right;">IBB</th>
               <th style="text-align:right;">Uplift (vs IBB Global)</th>
@@ -643,7 +644,7 @@
       </div>
 
       <div class="note-inline">
-        Al presionar <span class="plus-btn" style="pointer-events:none;">+</span> se despliegan los drivers asociados a cada Centro/Servicio.
+        Al presionar <span class="plus-btn" style="pointer-events:none;">+</span> en Servicio se ven los Centros. Al presionar <span class="plus-btn" style="pointer-events:none; margin-left: 18px;">+</span> en Centro se ven los Drivers asociados.
       </div>
     </section>
   </div>
@@ -703,13 +704,15 @@
     }
 
     // -------------------- LÓGICA DE ORDENAMIENTO (NO MODIFICADA) --------------------
+    // Se mantiene el código de ordenamiento...
+
+    // -------------------- LÓGICA DE ORDENAMIENTO DE DRIVERS (NO MODIFICADA) --------------------
     (function() {
       var table = document.getElementById('drivers-table');
       if (!table) return;
 
       table.querySelectorAll('thead th.sortable-col').forEach(function(th) {
         th.dataset.sortDirection = 'none';
-
         th.addEventListener('click', function() {
           var sortType = th.dataset.sortType || 'decimal';
           var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
@@ -725,14 +728,11 @@
               if (io) io.textContent = '↕';
             }
           });
-
           var icon = th.querySelector('.sort-indicator');
           if (icon) icon.textContent = next === 'asc' ? '▲' : '▼';
-
           var tbody = table.querySelector('tbody');
           var totalRow = tbody.querySelector('.row-total');
           var promRow  = tbody.querySelector('.row-prom');
-
           var dataRows = Array.from(tbody.querySelectorAll('tr')).filter(function(row) {
             return !row.classList.contains('row-total') && !row.classList.contains('row-prom');
           });
@@ -749,7 +749,6 @@
 
             return (valA - valB) * direction;
           });
-
           tbody.innerHTML = '';
           dataRows.forEach(function(r) { tbody.appendChild(r); });
           if (totalRow) tbody.appendChild(totalRow);
@@ -758,7 +757,7 @@
       });
     })();
     
-    // Lógica de ordenamiento para tablas de Evolución (ranking)
+    // Lógica de ordenamiento para tablas de Evolución (ranking) (NO MODIFICADA) 
     (function() {
       var rankingTables = document.querySelectorAll('.ranking-table');
       rankingTables.forEach(function(table) {
@@ -767,7 +766,6 @@
         
         table.querySelectorAll('thead th.sortable-col').forEach(function(th) {
           th.dataset.sortDirection = 'none';
-
           th.addEventListener('click', function() {
             var sortType = th.dataset.sortType || 'decimal';
             var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
@@ -811,10 +809,10 @@
       });
     })();
 
-
     // -------------------- FUNCIONES DE RENDERIZADO --------------------
 
     function renderDriversMacro(year) {
+      // (Mantenido igual)
       var tbody = document.querySelector('#drivers-table tbody');
       if (!tbody || !REDSALUD_DATA || !REDSALUD_DATA.drivers_macro) {
         tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay datos de drivers para mostrar.</td></tr>';
@@ -910,6 +908,7 @@
     }
 
     function renderEvolutionTables(year) {
+      // (Mantenido igual)
       var csatBody = document.querySelector('.ranking-csat tbody');
       var upliftBody = document.querySelector('.ranking-uplift tbody');
       var csatHead = document.querySelector('.ranking-csat thead tr');
@@ -937,10 +936,10 @@
         upliftHead.removeChild(currentUPLIFTHeaders[i]);
       }
 
-      var totalHeader = csatHead.querySelector('th[data-sort-type*="IBB Anual"]');
+      var totalHeader = csatHead.querySelector('th[data-total="true"]');
       if (!totalHeader) totalHeader = csatHead.lastElementChild;
-      var upliftTotalHeader = upliftHead.querySelector('th[data-sort-type*="Uplift Anual"]');
-      if (!upliftTotalHeader) upliftTotalHeader = upliftHead.lastElementChild;
+      var upliftTotalHeader = upliftHead.querySelector('th[data-total="true"]');
+      if (!upliftTotalHeader) upliftHead.lastElementChild;
 
 
       uniqueQuarters.forEach(q => {
@@ -1017,33 +1016,63 @@
       });
     }
 
-    // Nueva función para inicializar los toggles
+    // Inicializa la lógica del toggle (expandir/colapsar)
     function initServiceToggles() {
-      // Limpiar listeners y estados previos
-      document.querySelectorAll('.service-toggle').forEach(function(btn) {
+      // 1. Toggles de Servicio (Servicio -> Centro)
+      document.querySelectorAll('.service-group-toggle').forEach(function(btn) {
         btn.onclick = null; 
-      });
-
-      // Añadir nuevo listener
-      document.querySelectorAll('.service-toggle').forEach(function(btn) {
-        btn.onclick = function() {
-          var parentKey = this.getAttribute('data-parent-key'); // service_center_key
+        btn.addEventListener('click', function() {
+          var serviceNameKey = this.getAttribute('data-parent-service'); 
           var expanded = this.getAttribute('data-expanded') === 'true';
           
-          var rows = document.querySelectorAll("tr[data-parent-key='" + parentKey + "'].driver-row");
+          // Mostrar/Ocultar todas las filas de Centros asociadas a este servicio
+          var centerRows = document.querySelectorAll("tr[data-parent-service='" + serviceNameKey + "'].center-row");
+          centerRows.forEach(function(row) {
+            row.style.display = expanded ? 'none' : 'table-row';
+            
+            // Si colapsamos el servicio, debemos colapsar también todos los centros hijos
+            if (expanded) {
+              var centerNameKey = row.getAttribute('data-center-key');
+              var driverRows = document.querySelectorAll("tr[data-parent-center='" + centerNameKey + "'].driver-row");
+              driverRows.forEach(r => r.style.display = 'none');
+              
+              // Y resetear el botón de toggle del Centro
+              var centerToggle = row.querySelector('.driver-toggle');
+              if (centerToggle) {
+                centerToggle.textContent = '+';
+                centerToggle.setAttribute('data-expanded', 'false');
+              }
+            }
+          });
+          
+          this.textContent = expanded ? '+' : '–';
+          this.setAttribute('data-expanded', expanded ? 'false' : 'true');
+        });
+      });
+
+      // 2. Toggles de Centro (Centro -> Driver)
+      document.querySelectorAll('.driver-toggle').forEach(function(btn) {
+        btn.onclick = null;
+        btn.addEventListener('click', function() {
+          var centerNameKey = this.getAttribute('data-parent-center'); 
+          var expanded = this.getAttribute('data-expanded') === 'true';
+          
+          // Mostrar/Ocultar todas las filas de Drivers asociadas a este Centro
+          var rows = document.querySelectorAll("tr[data-parent-center='" + centerNameKey + "'].driver-row");
           rows.forEach(function(row) {
             row.style.display = expanded ? 'none' : 'table-row';
           });
           
           this.textContent = expanded ? '+' : '–';
           this.setAttribute('data-expanded', expanded ? 'false' : 'true');
-        };
+        });
       });
     }
 
+
     /**
      * Reestructura los datos del JSON (Center -> Service -> Attributes) a
-     * una jerarquía Service -> Center -> Attributes y los renderiza.
+     * una jerarquía Service -> Center -> Attributes y los renderiza con doble toggle.
      */
     function renderServicesTable(year, trims) {
       var tbody = document.getElementById('services-tbody');
@@ -1081,13 +1110,14 @@
       // Paso 2: Renderizar la tabla (Service -> Center -> Attributes)
       serviceNames.forEach(function(serviceName) {
         var centersInService = groupedByService[serviceName];
+        var serviceNameKey = serviceName.replace(/\s/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
 
         // --- Nivel 1: Fila de Servicio (Service) ---
         var trService = document.createElement('tr');
         trService.className = 'service-row';
         var tdNameService = document.createElement('td');
         tdNameService.className = 'tbl-name';
-        tdNameService.textContent = serviceName;
+        tdNameService.innerHTML = `<strong>${serviceName}</strong> <button class="plus-btn service-group-toggle" data-parent-service="${serviceNameKey}" data-expanded="false">+</button>`;
         trService.appendChild(tdNameService);
 
         // Celdas vacías para el nivel Servicio (solo para mantener la estructura)
@@ -1097,21 +1127,23 @@
 
         centersInService.forEach(function(centerDetail) {
           var centerName = centerDetail.center;
-          var serviceCenterKey = serviceName + '_' + centerName.replace(/\s/g, '');
+          var centerNameKey = centerName.replace(/\s/g, '_').replace(/[^a-zA-Z0-9_]/g, ''); // Clave para el toggle de drivers
           var upliftCenter = centerDetail.ibb - overallIBB;
           
           // --- Nivel 2: Fila de Centro (Center) ---
           var trCenter = document.createElement('tr');
           trCenter.className = 'center-row';
-          trCenter.setAttribute('data-service-key', serviceName.replace(/\s/g, ''));
-          
+          trCenter.style.display = 'none'; // Oculto por defecto, se muestra al expandir el Servicio
+          trCenter.setAttribute('data-parent-service', serviceNameKey);
+          trCenter.setAttribute('data-center-key', centerNameKey); // Se usa para ocultar sus hijos
+
           // Columna 1: Nombre del Centro + Toggle
           var tdNameCenter = document.createElement('td');
           tdNameCenter.className = 'tbl-name';
-          tdNameCenter.innerHTML = `${centerName} <button class="plus-btn service-toggle" data-parent-key="${serviceCenterKey}" data-expanded="false">+</button>`;
+          tdNameCenter.innerHTML = `${centerName} <button class="plus-btn driver-toggle" data-parent-center="${centerNameKey}" data-expanded="false">+</button>`;
           trCenter.appendChild(tdNameCenter);
 
-          // Columna 2: Vacía (para el nivel Centro)
+          // Columna 2: Vacía
           trCenter.appendChild(document.createElement('td')); 
 
           // Columna 3: N° comentarios
@@ -1141,14 +1173,15 @@
           
           tbody.appendChild(trCenter);
 
-          // --- Nivel 3: Filas de Atributo/Driver (Attribute) - Ocultas inicialmente ---
+          // --- Nivel 3: Filas de Atributo/Driver (Attribute) - Doblemente Ocultas ---
           centerDetail.attributes.forEach(function(attribute) {
             var upliftAttribute = attribute.ibb - overallIBB;
             
             var trDriver = document.createElement('tr');
             trDriver.className = 'driver-row';
-            trDriver.style.display = 'none'; // Oculto por defecto
-            trDriver.setAttribute('data-parent-key', serviceCenterKey);
+            trDriver.style.display = 'none'; // Oculto por Centro
+            trDriver.setAttribute('data-parent-service', serviceNameKey); // Para ocultar si se colapsa el servicio
+            trDriver.setAttribute('data-parent-center', centerNameKey);
 
             // Columna 1: Nombre del Atributo (indentado)
             var tdNameDriver = document.createElement('td');
