@@ -2,273 +2,232 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>CXDIP · Customers Say · RedSalud</title>
+  <title>CXDIP Customers Say · RedSalud</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Panel CXDIP Customers Say RedSalud" />
+  <meta
+    name="description"
+    content="Procesamiento de texto abierto · CXDIP Customers Say - RedSalud"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
     :root {
       --bg-page: #f5f7fb;
       --bg-card: #ffffff;
+      --border-soft: #e3e7f0;
       --primary: #2563eb;
-      --primary-soft: #dbeafe;
+      --primary-soft: #e0edff;
       --accent: #10b981;
       --danger: #ef4444;
-      --muted-text: #6b7280;
-      --border-soft: #e5e7eb;
       --text-main: #111827;
-      --shadow-soft: 0 10px 25px rgba(15, 23, 42, 0.05);
-      --radius-lg: 18px;
+      --text-muted: #6b7280;
+      --table-header: #f3f4f6;
+      --table-row-alt: #f9fafb;
+      --chip-bg: #e5edff;
+      --chip-text: #1d4ed8;
+      --badge-demo: #e5f6ff;
+      --badge-demo-text: #0369a1;
+      --radius-lg: 14px;
+      --radius-sm: 10px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.06);
     }
 
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      background: radial-gradient(circle at top left, #e0ecff 0, #f5f7fb 45%, #f5f7fb 100%);
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: var(--bg-page);
       color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      padding: 24px;
     }
 
-    /* HEADER CORPORATIVO */
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(14px);
-      background: linear-gradient(
-        to right,
-        rgba(15, 23, 42, 0.9),
-        rgba(15, 23, 42, 0.85)
-      );
-      color: #f9fafb;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+    .page {
+      max-width: 1200px;
+      margin: 0 auto 56px auto;
     }
 
-    .topbar-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 12px 24px;
+    /* HEADER */
+
+    .top-header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 16px;
-    }
-
-    .brand {
-      display: flex;
       align-items: center;
-      gap: 10px;
+      margin-bottom: 24px;
     }
 
-    .brand-logo {
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      border: 2px solid #22c55e;
+    .brand-block {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 14px;
-      background: radial-gradient(circle at 30% 0, #22c55e, #15803d);
-      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.9);
-    }
-
-    .brand-text-main {
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      font-size: 13px;
-    }
-
-    .brand-text-sub {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    .topbar-nav {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 12px;
-      color: #e5e7eb;
-    }
-
-    .topbar-tag {
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(156, 163, 175, 0.6);
-      background: rgba(15, 23, 42, 0.6);
-    }
-
-    .topbar-pill {
-      padding: 4px 11px;
-      border-radius: 999px;
-      background: rgba(37, 99, 235, 0.35);
-      border: 1px solid rgba(129, 140, 248, 0.8);
-      font-weight: 500;
-      display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 6px;
     }
 
-    .topbar-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.3);
+    .brand-title-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
     }
 
-    .topbar-cta {
-      border-radius: 999px;
-      padding: 4px 12px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.4);
-      color: #e5e7eb;
-      font-size: 11px;
-      cursor: default;
-    }
-
-    /* LAYOUT PRINCIPAL */
-
-    .page {
-      max-width: 1280px;
-      margin: 18px auto 32px;
-      padding: 0 24px 24px;
-    }
-
-    .page-title {
-      font-size: 22px;
+    .brand-title {
+      font-size: 28px;
       font-weight: 700;
-      letter-spacing: 0.01em;
-      margin-bottom: 4px;
+      letter-spacing: -0.03em;
     }
 
-    .page-subtitle {
-      font-size: 13px;
-      color: var(--muted-text);
-      margin-bottom: 18px;
+    .brand-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
     }
 
-    .grid-kpi {
+    .chips-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip-pill {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+    }
+
+    .chip-pill.chip-on {
+      border-color: #22c55e;
+      background: #ecfdf3;
+      color: #15803d;
+    }
+
+    .chip-pill.chip-method {
+      border-color: var(--primary-soft);
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .badge-demo {
+      font-size: 10px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--badge-demo);
+      color: var(--badge-demo-text);
+      font-weight: 500;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+
+    /* CARDS RESUMEN */
+
+    .cards-row {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
 
     .card {
-      border-radius: var(--radius-lg);
       background: var(--bg-card);
+      border-radius: var(--radius-lg);
       box-shadow: var(--shadow-soft);
       padding: 18px 20px;
       border: 1px solid var(--border-soft);
     }
 
-    .card-kpi-label {
-      font-size: 12px;
-      color: var(--muted-text);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
-    .card-kpi-value {
+    .card-value {
       font-size: 26px;
       font-weight: 700;
-      min-height: 32px;
+      letter-spacing: -0.03em;
     }
 
-    .card-kpi-caption {
-      font-size: 11px;
-      color: var(--muted-text);
-      margin-top: 8px;
+    .card-subtext {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
     }
 
-    /* DRIVERS MACRO */
+    /* SECCIONES */
+
+    .section {
+      margin-top: 12px;
+      margin-bottom: 24px;
+    }
+
+    .section-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 20px 8px 20px;
+      border: 1px solid var(--border-soft);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
 
     .section-title {
       font-size: 16px;
       font-weight: 600;
-      margin-bottom: 4px;
     }
 
     .section-subtitle {
       font-size: 12px;
-      color: var(--muted-text);
-      margin-bottom: 12px;
+      color: var(--text-muted);
+      margin-top: 3px;
     }
 
-    .section-drivers {
-      padding: 18px 20px 20px;
-      border-radius: var(--radius-lg);
-      background: var(--bg-card);
-      box-shadow: var(--shadow-soft);
-      border: 1px solid var(--border-soft);
-      margin-bottom: 22px;
-    }
+    /* Selector de año (pill como plantilla) */
 
-    .drivers-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .toggle-year-wrapper {
+    .year-control {
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 12px;
-      color: var(--muted-text);
+      color: var(--text-muted);
     }
 
-    .toggle {
-      width: 40px;
-      height: 22px;
+    .year-pill {
+      min-width: 50px;
+      text-align: center;
+      padding: 5px 12px;
       border-radius: 999px;
-      background: var(--primary-soft);
-      position: relative;
-      cursor: pointer;
-      border: 1px solid #bfdbfe;
+      border: none;
+      background: var(--chip-bg);
+      color: var(--chip-text);
+      font-weight: 600;
+      font-size: 12px;
+      cursor: default;
     }
 
-    .toggle-thumb {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 17px;
-      height: 17px;
-      border-radius: 999px;
-      background: #ffffff;
-      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.2);
-      transition: transform 0.15s ease-out;
-    }
-
-    .toggle.on {
-      background: #1d4ed8;
-    }
-    .toggle.on .toggle-thumb {
-      transform: translateX(17px);
-    }
-
-    .drivers-main-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
-      gap: 16px;
-      margin-top: 10px;
-    }
+    /* Tablas */
 
     .table-wrapper {
-      border-radius: 14px;
-      border: 1px solid var(--border-soft);
-      overflow: hidden;
+      width: 100%;
+      overflow-x: auto;
+      margin-bottom: 10px;
     }
 
     table {
@@ -278,555 +237,959 @@
     }
 
     thead {
-      background: #f3f4f6;
+      background: var(--table-header);
+      border-bottom: 1px solid var(--border-soft);
     }
 
-    th,
-    td {
-      padding: 8px 10px;
+    thead th {
       text-align: left;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    th {
+      padding: 8px 10px;
+      color: var(--text-muted);
       font-weight: 600;
-      font-size: 11px;
-      color: #4b5563;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border-soft);
     }
 
-    tbody tr:nth-child(even) {
-      background: #f9fafb;
-    }
-
-    tbody tr:hover {
-      background: #eff6ff;
-    }
-
-    .col-num {
-      text-align: right;
+    tbody td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #edf0f5;
       white-space: nowrap;
     }
 
-    .chip-driver {
-      display: inline-flex;
-      align-items: center;
-      padding: 3px 8px;
-      border-radius: 999px;
+    tbody tr:nth-child(even) {
+      background: var(--table-row-alt);
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-muted {
+      color: var(--text-muted);
+    }
+
+    .text-danger {
+      color: var(--danger);
+    }
+
+    .text-positive {
+      color: var(--accent);
+    }
+
+    .row-total {
       background: #eef2ff;
-      border: 1px solid #c7d2fe;
-      font-size: 11px;
+      font-weight: 600;
     }
 
-    .drivers-subtitle {
-      font-size: 11px;
-      color: var(--muted-text);
-      padding: 8px 10px 4px;
+    .row-promedio {
+      background: #f9fafb;
+      font-style: italic;
     }
 
-    .subcard-title {
+    /* LAYOUT DRIVERS (CSAT / UPLIFT) */
+
+    .drivers-layout {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 16px;
+      margin-bottom: 6px;
+    }
+
+    .drivers-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-soft);
+      padding: 14px 16px 10px 16px;
+    }
+
+    .drivers-card-title {
       font-size: 13px;
       font-weight: 600;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
-    .subcard-subtitle {
+    .drivers-card-subtitle {
       font-size: 11px;
-      color: var(--muted-text);
+      color: var(--text-muted);
       margin-bottom: 8px;
     }
 
     /* SERVICIOS AGREGADOS */
 
-    .section-servicios {
-      padding: 18px 20px 20px;
-      border-radius: var(--radius-lg);
-      background: var(--bg-card);
-      box-shadow: var(--shadow-soft);
-      border: 1px solid var(--border-soft);
+    .section-title-main {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
     }
 
-    .servicios-header {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+    .section-desc {
+      font-size: 12px;
+      color: var(--text-muted);
       margin-bottom: 12px;
     }
 
-    .servicios-subtitle {
+    .trimestres-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-size: 12px;
-      color: var(--muted-text);
+      margin-bottom: 8px;
     }
 
-    .servicios-help {
+    .trimestres-row span {
+      color: var(--text-muted);
+    }
+
+    .trimestre-pill {
+      border-radius: 999px;
+      padding: 4px 8px;
+      border: 1px solid var(--border-soft);
       font-size: 11px;
-      color: var(--muted-text);
-      margin-top: 4px;
+      background: #f9fafb;
+      cursor: pointer;
+      min-width: 32px;
+      text-align: center;
     }
 
-    .badge-pill {
+    .trimestre-pill.active {
+      background: #dbeafe;
+      border-color: #93c5fd;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .servicios-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+
+    .btn-toggle {
+      border-radius: 999px;
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--border-soft);
       display: inline-flex;
       align-items: center;
-      padding: 3px 7px;
-      border-radius: 999px;
-      border: 1px dashed #9ca3af;
-      font-size: 11px;
-      margin-left: 4px;
-      color: #4b5563;
+      justify-content: center;
+      background: #f9fafb;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .btn-toggle:hover {
+      background: #e5edff;
+    }
+
+    .detail-row {
       background: #f9fafb;
     }
 
-    /* ERROR / CARGA */
+    .detail-cell {
+      padding: 10px 16px;
+    }
 
-    .loading-text {
-      font-size: 12px;
-      color: var(--muted-text);
-      padding: 8px 10px;
+    .detail-title {
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .detail-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .detail-table {
+      margin-top: 4px;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .small {
+      font-size: 11px;
     }
 
     .error-text {
-      margin-top: 6px;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--danger);
+      margin-top: 6px;
     }
 
-    @media (max-width: 960px) {
-      .grid-kpi {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .drivers-main-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
+    /* RESPONSIVE */
 
-    @media (max-width: 720px) {
-      .grid-kpi {
-        grid-template-columns: minmax(0, 1fr);
+    @media (max-width: 900px) {
+      .cards-row {
+        grid-template-columns: 1fr;
       }
-      .topbar-inner {
-        flex-direction: column;
-        align-items: flex-start;
+
+      .drivers-layout {
+        grid-template-columns: 1fr;
+      }
+
+      body {
+        padding: 16px;
+      }
+
+      .page {
+        margin-bottom: 32px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="brand-logo">CX</div>
-        <div>
-          <div class="brand-text-main">CXDIP</div>
-          <div class="brand-text-sub">Customers Say · RedSalud</div>
+  <div class="page">
+    <!-- HEADER PRINCIPAL -->
+    <header class="top-header">
+      <div class="brand-block">
+        <div class="brand-title-row">
+          <h1 class="brand-title">CXDIP Customers Say</h1>
+          <span class="badge-demo">Demo · Valores de ejemplo (reemplazar con ETL)</span>
         </div>
+        <p class="brand-subtitle">
+          Procesamiento de texto abierto. Vista consolidada de respuestas con comentario, drivers,
+          evolución de CSAT por atributo y servicios agregados.
+        </p>
       </div>
-      <div class="topbar-nav">
-        <div class="topbar-tag">Panel voz de cliente</div>
-        <div class="topbar-pill">
-          <span class="topbar-dot"></span>
-          <span>Texto abierto conectado</span>
-        </div>
-        <div class="topbar-cta">Metodología CXDIP · Loyalty 360°</div>
+      <div class="chips-row">
+        <span class="chip-pill">Panel voz de cliente</span>
+        <span class="chip-pill chip-on">Texto abierto conectado</span>
+        <span class="chip-pill chip-method">Metodología CXDIP · Loyalty 360°</span>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main class="page">
-    <h1 class="page-title">Procesamiento de texto abierto.</h1>
-    <p class="page-subtitle">
-      Vista consolidada de respuestas con comentario. Drivers, evolución de CSAT por atributo
-      y servicios agregados.
-    </p>
-
-    <!-- KPIs -->
-    <section class="grid-kpi">
+    <!-- CARDS RESUMEN -->
+    <section class="cards-row">
       <article class="card">
-        <div class="card-kpi-label">Total de respuestas</div>
-        <div id="kpi-total-respuestas" class="card-kpi-value">–</div>
+        <div class="card-header">
+          <span>Total de respuestas</span>
+        </div>
+        <div class="card-value" id="total-respuestas">–</div>
       </article>
 
       <article class="card">
-        <div class="card-kpi-label">Respuestas con comentario</div>
-        <div id="kpi-respuestas-comentario" class="card-kpi-value">–</div>
+        <div class="card-header">
+          <span>Respuestas con comentario</span>
+        </div>
+        <div class="card-value">
+          <span id="respuestas-comentario">–</span>
+        </div>
+        <p class="card-subtext" id="respuestas-comentario-pct"></p>
       </article>
 
       <article class="card">
-        <div class="card-kpi-label">CSAT global (texto)</div>
-        <div id="kpi-csat-global" class="card-kpi-value">–</div>
-        <div class="card-kpi-caption">
+        <div class="card-header">
+          <span>CSAT global (texto)</span>
+        </div>
+        <div class="card-value" id="csat-global-texto">–</div>
+        <p class="card-subtext">
           Escala 1–5 · sólo casos con comentario
-        </div>
+        </p>
       </article>
     </section>
 
     <!-- DRIVERS MACRO -->
-    <section class="section-drivers">
-      <div class="drivers-header">
-        <div>
-          <h2 class="section-title">Drivers Macro</h2>
-          <p class="section-subtitle">Tabla consolidada por atributo</p>
-        </div>
-        <div class="toggle-year-wrapper">
-          <span>Selecciona el año que quieres analizar:</span>
-          <div id="toggleYear" class="toggle on">
-            <div class="toggle-thumb"></div>
+    <section class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Drivers Macro</h2>
+            <p class="section-subtitle">
+              Tabla consolidada por atributo.
+            </p>
+          </div>
+          <div class="year-control">
+            <span>Selecciona el Año que quieres analizar:</span>
+            <button id="year-pill" class="year-pill">–</button>
           </div>
         </div>
-      </div>
 
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Atributos macro</th>
-              <th class="col-num">Nº comentarios</th>
-              <th class="col-num">% sobre texto</th>
-              <th class="col-num">CSAT atributo</th>
-              <th class="col-num">Uplift atributo</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-drivers-macro">
-            <tr>
-              <td colspan="5" class="loading-text">Cargando…</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Atributos macro</th>
+                <th class="text-right">Nº comentarios</th>
+                <th class="text-right">% sobre texto</th>
+                <th class="text-right">CSAT atributo</th>
+                <th class="text-right">Uplift atributo</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-drivers-macro">
+              <tr>
+                <td colspan="5" class="text-muted">Sin datos.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <div class="drivers-main-grid">
-        <article class="card">
-          <div class="subcard-title">Evolución CSAT atributo</div>
-          <div class="subcard-subtitle">Evolución del CSAT por atributo.</div>
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>Driver</th>
-                  <th class="col-num">T1</th>
-                  <th class="col-num">T2</th>
-                  <th class="col-num">T3</th>
-                  <th class="col-num">T4</th>
-                  <th class="col-num">Total anual</th>
-                </tr>
-              </thead>
-              <tbody id="tbody-csat-evol">
-                <tr>
-                  <td colspan="6" class="loading-text">Cargando…</td>
-                </tr>
-              </tbody>
-            </table>
+        <!-- EVOLUCIÓN CSAT / UPLIFT -->
+        <div class="drivers-layout">
+          <div class="drivers-card">
+            <div class="drivers-card-title">Evolución CSAT atributo</div>
+            <div class="drivers-card-subtitle">
+              Evolución del CSAT por atributo.
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Driver</th>
+                    <th class="text-right">T1</th>
+                    <th class="text-right">T2</th>
+                    <th class="text-right">T3</th>
+                    <th class="text-right">T4</th>
+                    <th class="text-right">Total anual</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-evol-csat">
+                  <tr>
+                    <td colspan="6" class="text-muted">Sin datos.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="subcard-title">Evolución Uplift atributo</div>
-          <div class="subcard-subtitle">Evolución del Uplift por atributo.</div>
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>Driver</th>
-                  <th class="col-num">T1</th>
-                  <th class="col-num">T2</th>
-                  <th class="col-num">T3</th>
-                  <th class="col-num">T4</th>
-                  <th class="col-num">Total anual</th>
-                </tr>
-              </thead>
-              <tbody id="tbody-uplift-evol">
-                <tr>
-                  <td colspan="6" class="loading-text">Cargando…</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="drivers-card">
+            <div class="drivers-card-title">Evolución Uplift atributo</div>
+            <div class="drivers-card-subtitle">
+              Evolución del Uplift por atributo.
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Driver</th>
+                    <th class="text-right">T1</th>
+                    <th class="text-right">T2</th>
+                    <th class="text-right">T3</th>
+                    <th class="text-right">T4</th>
+                    <th class="text-right">Total anual</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-evol-uplift">
+                  <tr>
+                    <td colspan="6" class="text-muted">Sin datos.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </article>
+        </div>
+
+        <p id="error-drivers" class="error-text" style="display:none;"></p>
       </div>
-      <div id="texto-abierto-error" class="error-text"></div>
     </section>
 
     <!-- SERVICIOS AGREGADOS -->
-    <section class="section-servicios">
-      <div class="servicios-header">
-        <h2 class="section-title">Servicios agregados</h2>
-        <p class="servicios-subtitle">
+    <section class="section">
+      <div class="section-card">
+        <h2 class="section-title-main">Servicios agregados</h2>
+        <p class="section-desc">
           Vista por servicio (apertura con “+”).
         </p>
-        <p class="servicios-subtitle">
-          Trimestres:
-          <span class="badge-pill">T1</span>
-          <span class="badge-pill">T2</span>
-          <span class="badge-pill">T3</span>
-          <span class="badge-pill">T4</span>
-          <span class="servicios-help">
+
+        <div class="trimestres-row">
+          <span>Trimestres:</span>
+          <button class="trimestre-pill active" data-tri="T1">T1</button>
+          <button class="trimestre-pill active" data-tri="T2">T2</button>
+          <button class="trimestre-pill active" data-tri="T3">T3</button>
+          <button class="trimestre-pill active" data-tri="T4">T4</button>
+          <span class="text-muted">
             Selecciona uno o varios trimestres. Los datos respetan el año elegido arriba.
           </span>
-        </p>
-        <p class="servicios-help">
-          Al presionar “+” se despliegan los centros asociados a cada servicio con sus
-          métricas (NPS, comentarios, % sobre texto, CSAT, Uplift) y los drivers
-          desagregados por fila.
-        </p>
-      </div>
+        </div>
 
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Servicio / Centro</th>
-              <th>Atributos mencionados</th>
-              <th class="col-num">Nº comentarios</th>
-              <th class="col-num">% sobre texto</th>
-              <th class="col-num">NPS</th>
-              <th class="col-num">CSAT atributo</th>
-              <th class="col-num">Uplift atributo</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-servicios">
-            <tr>
-              <td colspan="7" class="loading-text">Cargando…</td>
-            </tr>
-          </tbody>
-        </table>
+        <p class="servicios-note">
+          Al presionar “+” se despliegan los centros asociados a cada servicio con sus métricas
+          (NPS, comentarios, % sobre texto, CSAT, Uplift) y los drivers desagregados por fila.
+        </p>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th class="text-center" style="width:40px;"></th>
+                <th>Servicio / Centro</th>
+                <th>Atributos mencionados</th>
+                <th class="text-right">Nº comentarios</th>
+                <th class="text-right">% sobre texto</th>
+                <th class="text-right">NPS</th>
+                <th class="text-right">CSAT atributo</th>
+                <th class="text-right">Uplift atributo</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-servicios">
+              <tr>
+                <td colspan="8" class="text-muted">Sin datos.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p id="error-servicios" class="error-text" style="display:none;"></p>
       </div>
     </section>
-  </main>
+  </div>
 
   <script>
-    // Ruta correcta al JSON de RedSalud
-    const DATA_URL = "./00_redsalud_Customers_say.json";
+    const JSON_URL = "00_redsalud_Customers_say.json"; // MISMA CARPETA QUE ESTE HTML
 
-    async function cargarDatos() {
-      const errorEl = document.getElementById("texto-abierto-error");
-      if (errorEl) errorEl.textContent = "";
+    function fmtNumber(value) {
+      if (value === null || value === undefined || isNaN(value)) return "–";
+      return new Intl.NumberFormat("es-CL").format(value);
+    }
 
-      try {
-        const resp = await fetch(DATA_URL);
-        if (!resp.ok) {
-          throw new Error(`HTTP ${resp.status} al leer ${DATA_URL}`);
-        }
-        const data = await resp.json();
-        poblarKpis(data);
-        poblarDriversMacro(data);
-        poblarEvolucionCSAT(data);
-        poblarEvolucionUplift(data);
-        poblarServicios(data);
-      } catch (err) {
-        console.error(err);
-        if (errorEl) {
-          errorEl.textContent =
-            "Error al cargar datos de texto abierto (" + err.message + ")";
-        }
+    function fmtPercent(value) {
+      if (value === null || value === undefined || isNaN(value)) return "–";
+      return value.toFixed(1).replace(".", ",") + "%";
+    }
+
+    function fmtCsat(value) {
+      if (value === null || value === undefined || isNaN(value)) return "–";
+      return value.toFixed(2).replace(".", ",");
+    }
+
+    function fmtDelta(value) {
+      if (value === null || value === undefined || isNaN(value)) return "–";
+      const txt = value.toFixed(2).replace(".", ",");
+      if (value > 0) return "+" + txt;
+      return txt;
+    }
+
+    function setText(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    function clearTbody(tbodyId) {
+      const tbody = document.getElementById(tbodyId);
+      if (!tbody) return null;
+      while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+      return tbody;
+    }
+
+    function renderResumen(meta) {
+      if (!meta) return;
+
+      setText("total-respuestas", fmtNumber(meta.total_respuestas));
+      setText("respuestas-comentario", fmtNumber(meta.respuestas_comentario));
+
+      if (
+        meta.porcentaje_comentario !== undefined &&
+        meta.porcentaje_comentario !== null
+      ) {
+        setText(
+          "respuestas-comentario-pct",
+          meta.porcentaje_comentario.toFixed(1).replace(".", ",") +
+            "% aportan texto"
+        );
       }
+
+      setText("csat-global-texto", fmtCsat(meta.csat_global_texto));
     }
 
-    function safeArray(value) {
-      return Array.isArray(value) ? value : [];
-    }
+    function renderDriversMacro(driversMacro) {
+      const tbody = clearTbody("tbody-drivers-macro");
+      const errorEl = document.getElementById("error-drivers");
+      if (errorEl) {
+        errorEl.style.display = "none";
+        errorEl.textContent = "";
+      }
 
-    function poblarKpis(data) {
-      const kpis = data.kpis || data.resumen || {};
-      const total = kpis.total_respuestas ?? "–";
-      const conComentario = kpis.respuestas_con_comentario ?? "–";
-      const csat = kpis.csat_global_texto ?? "–";
-
-      document.getElementById("kpi-total-respuestas").textContent = total;
-      document.getElementById("kpi-respuestas-comentario").textContent =
-        conComentario;
-      document.getElementById("kpi-csat-global").textContent =
-        typeof csat === "number" ? csat.toFixed(2) : csat;
-    }
-
-    function poblarDriversMacro(data) {
-      const tbody = document.getElementById("tbody-drivers-macro");
-      tbody.innerHTML = "";
-      const filas = safeArray(data.drivers_macro);
-
-      if (!filas.length) {
-        tbody.innerHTML =
-          '<tr><td colspan="5" class="loading-text">Sin datos.</td></tr>';
+      if (!tbody) return;
+      if (!driversMacro || !Array.isArray(driversMacro.atributos)) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 5;
+        td.className = "text-muted";
+        td.textContent = "Sin datos.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
         return;
       }
 
-      filas.forEach((row) => {
+      // Año pill
+      if (driversMacro.anio) {
+        setText("year-pill", driversMacro.anio.toString());
+      }
+
+      driversMacro.atributos.forEach((row) => {
         const tr = document.createElement("tr");
 
-        const tdAttr = document.createElement("td");
-        const chip = document.createElement("span");
-        chip.className = "chip-driver";
-        chip.textContent = row.atributo_macro || row.atributo || "—";
-        tdAttr.appendChild(chip);
+        if (row.tipo === "total") {
+          tr.classList.add("row-total");
+        } else if (row.tipo === "promedio") {
+          tr.classList.add("row-promedio");
+        }
+
+        const tdDriver = document.createElement("td");
+        tdDriver.textContent = row.atributo || row.driver || "";
+        tr.appendChild(tdDriver);
 
         const tdN = document.createElement("td");
-        tdN.className = "col-num";
-        tdN.textContent = row.n_comentarios ?? "0";
+        tdN.className = "text-right";
+        tdN.textContent =
+          row.comentarios !== undefined && row.comentarios !== null
+            ? fmtNumber(row.comentarios)
+            : "–";
+        tr.appendChild(tdN);
 
         const tdPct = document.createElement("td");
-        tdPct.className = "col-num";
+        tdPct.className = "text-right";
         tdPct.textContent =
-          row.porcentaje_sobre_texto != null
-            ? row.porcentaje_sobre_texto.toFixed(1) + "%"
+          row.porcentaje_texto !== undefined && row.porcentaje_texto !== null
+            ? fmtPercent(row.porcentaje_texto)
             : "–";
+        tr.appendChild(tdPct);
 
         const tdCsat = document.createElement("td");
-        tdCsat.className = "col-num";
+        tdCsat.className = "text-right";
         tdCsat.textContent =
-          row.csat_atributo != null
-            ? row.csat_atributo.toFixed(2)
+          row.csat !== undefined && row.csat !== null
+            ? fmtCsat(row.csat)
             : "–";
-
-        const tdUplift = document.createElement("td");
-        tdUplift.className = "col-num";
-        tdUplift.textContent =
-          row.uplift_atributo != null
-            ? row.uplift_atributo.toFixed(2)
-            : "–";
-
-        tr.appendChild(tdAttr);
-        tr.appendChild(tdN);
-        tr.appendChild(tdPct);
         tr.appendChild(tdCsat);
-        tr.appendChild(tdUplift);
+
+        const tdU = document.createElement("td");
+        tdU.className =
+          "text-right " + (row.uplift > 0 ? "text-positive" : row.uplift < 0 ? "text-danger" : "");
+        tdU.textContent =
+          row.uplift !== undefined && row.uplift !== null
+            ? fmtDelta(row.uplift)
+            : "–";
+        tr.appendChild(tdU);
+
         tbody.appendChild(tr);
       });
     }
 
-    function poblarEvolucionCSAT(data) {
-      const tbody = document.getElementById("tbody-csat-evol");
-      tbody.innerHTML = "";
-      const filas = safeArray(data.evolucion_csat_atributo);
+    function renderEvolucion(tbodyId, rows) {
+      const tbody = clearTbody(tbodyId);
+      if (!tbody) return;
 
-      if (!filas.length) {
-        tbody.innerHTML =
-          '<tr><td colspan="6" class="loading-text">Sin datos.</td></tr>';
+      if (!rows || !Array.isArray(rows) || rows.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 6;
+        td.className = "text-muted";
+        td.textContent = "Sin datos.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
         return;
       }
 
-      filas.forEach((row) => {
+      rows.forEach((row) => {
         const tr = document.createElement("tr");
 
         const tdDriver = document.createElement("td");
-        tdDriver.textContent = row.driver || row.atributo || "—";
-
-        const makeTd = (key) => {
-          const td = document.createElement("td");
-          td.className = "col-num";
-          const v = row[key];
-          td.textContent = v != null ? Number(v).toFixed(2) : "–";
-          return td;
-        };
-
+        tdDriver.textContent = row.driver || row.atributo || "";
         tr.appendChild(tdDriver);
-        tr.appendChild(makeTd("t1"));
-        tr.appendChild(makeTd("t2"));
-        tr.appendChild(makeTd("t3"));
-        tr.appendChild(makeTd("t4"));
-        tr.appendChild(makeTd("total_anual"));
+
+        ["T1", "T2", "T3", "T4", "total_anual"].forEach((key) => {
+          const td = document.createElement("td");
+          td.className = "text-right";
+          td.textContent =
+            row[key] !== undefined && row[key] !== null
+              ? fmtCsat(row[key])
+              : "–";
+          tr.appendChild(td);
+        });
 
         tbody.appendChild(tr);
       });
     }
 
-    function poblarEvolucionUplift(data) {
-      const tbody = document.getElementById("tbody-uplift-evol");
-      tbody.innerHTML = "";
-      const filas = safeArray(data.evolucion_uplift_atributo);
-
-      if (!filas.length) {
-        tbody.innerHTML =
-          '<tr><td colspan="6" class="loading-text">Sin datos.</td></tr>';
-        return;
-      }
-
-      filas.forEach((row) => {
-        const tr = document.createElement("tr");
-
-        const tdDriver = document.createElement("td");
-        tdDriver.textContent = row.driver || row.atributo || "—";
-
-        const makeTd = (key) => {
-          const td = document.createElement("td");
-          td.className = "col-num";
-          const v = row[key];
-          td.textContent = v != null ? Number(v).toFixed(2) : "–";
-          return td;
-        };
-
-        tr.appendChild(tdDriver);
-        tr.appendChild(makeTd("t1"));
-        tr.appendChild(makeTd("t2"));
-        tr.appendChild(makeTd("t3"));
-        tr.appendChild(makeTd("t4"));
-        tr.appendChild(makeTd("total_anual"));
-
-        tbody.appendChild(tr);
-      });
+    function getSelectedTrimestres() {
+      const pills = document.querySelectorAll(".trimestre-pill.active");
+      return Array.from(pills).map((p) => p.dataset.tri);
     }
 
-    function poblarServicios(data) {
-      const tbody = document.getElementById("tbody-servicios");
-      tbody.innerHTML = "";
-      const filas = safeArray(data.servicios_agregados);
+    function renderServicios(serviciosData) {
+      const tbody = clearTbody("tbody-servicios");
+      const errorEl = document.getElementById("error-servicios");
+      if (errorEl) {
+        errorEl.style.display = "none";
+        errorEl.textContent = "";
+      }
+      if (!tbody) return;
 
-      if (!filas.length) {
-        tbody.innerHTML =
-          '<tr><td colspan="7" class="loading-text">Sin datos.</td></tr>';
+      if (!Array.isArray(serviciosData) || serviciosData.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 8;
+        td.className = "text-muted";
+        td.textContent = "Sin datos.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
         return;
       }
 
-      filas.forEach((row) => {
+      const activos = getSelectedTrimestres();
+      const fil = serviciosData.filter((s) => {
+        if (!Array.isArray(s.trimestres) || s.trimestres.length === 0) return true;
+        return s.trimestres.some((t) => activos.includes(t));
+      });
+
+      if (fil.length === 0) {
         const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 8;
+        td.className = "text-muted";
+        td.textContent =
+          "No hay servicios para los trimestres seleccionados.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+
+      fil.forEach((servicio, idx) => {
+        const baseId = "srv-" + idx;
+
+        const tr = document.createElement("tr");
+
+        const tdBtn = document.createElement("td");
+        tdBtn.className = "text-center";
+        const btn = document.createElement("button");
+        btn.className = "btn-toggle";
+        btn.type = "button";
+        btn.textContent = "+";
+        btn.dataset.target = baseId;
+        tdBtn.appendChild(btn);
+        tr.appendChild(tdBtn);
 
         const tdServ = document.createElement("td");
-        tdServ.textContent = row.servicio || row.centro || "—";
+        tdServ.textContent = servicio.servicio || "";
+        tr.appendChild(tdServ);
 
-        const tdAttrs = document.createElement("td");
-        tdAttrs.textContent = row.atributos_mencionados || "—";
+        const tdAttr = document.createElement("td");
+        tdAttr.textContent = servicio.atributos_mencionados || "–";
+        tr.appendChild(tdAttr);
 
-        const tdN = document.createElement("td");
-        tdN.className = "col-num";
-        tdN.textContent = row.n_comentarios ?? "0";
+        const tdCom = document.createElement("td");
+        tdCom.className = "text-right";
+        tdCom.textContent =
+          servicio.comentarios !== undefined && servicio.comentarios !== null
+            ? fmtNumber(servicio.comentarios)
+            : "–";
+        tr.appendChild(tdCom);
 
         const tdPct = document.createElement("td");
-        tdPct.className = "col-num";
+        tdPct.className = "text-right";
         tdPct.textContent =
-          row.porcentaje_sobre_texto != null
-            ? row.porcentaje_sobre_texto.toFixed(1) + "%"
+          servicio.porcentaje_texto !== undefined &&
+          servicio.porcentaje_texto !== null
+            ? fmtPercent(servicio.porcentaje_texto)
             : "–";
+        tr.appendChild(tdPct);
 
         const tdNps = document.createElement("td");
-        tdNps.className = "col-num";
+        tdNps.className = "text-right";
         tdNps.textContent =
-          row.nps != null ? Number(row.nps).toFixed(0) : "–";
+          servicio.nps !== undefined && servicio.nps !== null
+            ? servicio.nps.toFixed(0)
+            : "–";
+        tr.appendChild(tdNps);
 
         const tdCsat = document.createElement("td");
-        tdCsat.className = "col-num";
+        tdCsat.className = "text-right";
         tdCsat.textContent =
-          row.csat_atributo != null
-            ? row.csat_atributo.toFixed(2)
+          servicio.csat !== undefined && servicio.csat !== null
+            ? fmtCsat(servicio.csat)
             : "–";
-
-        const tdUplift = document.createElement("td");
-        tdUplift.className = "col-num";
-        tdUplift.textContent =
-          row.uplift_atributo != null
-            ? row.uplift_atributo.toFixed(2)
-            : "–";
-
-        tr.appendChild(tdServ);
-        tr.appendChild(tdAttrs);
-        tr.appendChild(tdN);
-        tr.appendChild(tdPct);
-        tr.appendChild(tdNps);
         tr.appendChild(tdCsat);
-        tr.appendChild(tdUplift);
+
+        const tdUp = document.createElement("td");
+        tdUp.className =
+          "text-right " +
+          (servicio.uplift > 0
+            ? "text-positive"
+            : servicio.uplift < 0
+            ? "text-danger"
+            : "");
+        tdUp.textContent =
+          servicio.uplift !== undefined && servicio.uplift !== null
+            ? fmtDelta(servicio.uplift)
+            : "–";
+        tr.appendChild(tdUp);
+
         tbody.appendChild(tr);
+
+        // Fila oculta con centros / drivers (si existen)
+        const detailTr = document.createElement("tr");
+        detailTr.className = "detail-row";
+        detailTr.id = baseId;
+        detailTr.style.display = "none";
+
+        const detailTd = document.createElement("td");
+        detailTd.colSpan = 8;
+        detailTd.className = "detail-cell";
+
+        const title = document.createElement("div");
+        title.className = "detail-title";
+        title.textContent = "Centros y drivers del servicio: " + (servicio.servicio || "");
+        detailTd.appendChild(title);
+
+        const note = document.createElement("div");
+        note.className = "detail-note";
+        if (!Array.isArray(servicio.centros) || servicio.centros.length === 0) {
+          note.textContent = "Sin centros asociados en el dataset.";
+          detailTd.appendChild(note);
+        } else {
+          note.textContent =
+            "Detalle por centro. Los drivers se muestran por centro y atributo.";
+          detailTd.appendChild(note);
+
+          const wrapper = document.createElement("div");
+          wrapper.className = "detail-table";
+
+          const innerTable = document.createElement("table");
+          const thead = document.createElement("thead");
+          thead.innerHTML =
+            "<tr>" +
+            "<th>Centro</th>" +
+            "<th class='text-right'>Nº comentarios</th>" +
+            "<th class='text-right'>% sobre texto</th>" +
+            "<th class='text-right'>NPS</th>" +
+            "<th class='text-right'>CSAT</th>" +
+            "<th class='text-right'>Uplift</th>" +
+            "<th>Driver</th>" +
+            "<th class='text-right'>CSAT driver</th>" +
+            "<th class='text-right'>Uplift driver</th>" +
+            "</tr>";
+          innerTable.appendChild(thead);
+
+          const innerBody = document.createElement("tbody");
+
+          servicio.centros.forEach((centro) => {
+            if (Array.isArray(centro.drivers) && centro.drivers.length > 0) {
+              centro.drivers.forEach((drv, idxDrv) => {
+                const r = document.createElement("tr");
+
+                const tdC = document.createElement("td");
+                tdC.textContent = idxDrv === 0 ? centro.centro || "" : "";
+                r.appendChild(tdC);
+
+                const tdCc = document.createElement("td");
+                tdCc.className = "text-right";
+                tdCc.textContent =
+                  idxDrv === 0 && centro.comentarios != null
+                    ? fmtNumber(centro.comentarios)
+                    : "";
+                r.appendChild(tdCc);
+
+                const tdCp = document.createElement("td");
+                tdCp.className = "text-right";
+                tdCp.textContent =
+                  idxDrv === 0 && centro.porcentaje_texto != null
+                    ? fmtPercent(centro.porcentaje_texto)
+                    : "";
+                r.appendChild(tdCp);
+
+                const tdCnps = document.createElement("td");
+                tdCnps.className = "text-right";
+                tdCnps.textContent =
+                  idxDrv === 0 && centro.nps != null
+                    ? centro.nps.toFixed(0)
+                    : "";
+                r.appendChild(tdCnps);
+
+                const tdCcsat = document.createElement("td");
+                tdCcsat.className = "text-right";
+                tdCcsat.textContent =
+                  idxDrv === 0 && centro.csat != null
+                    ? fmtCsat(centro.csat)
+                    : "";
+                r.appendChild(tdCcsat);
+
+                const tdCu = document.createElement("td");
+                tdCu.className =
+                  "text-right " +
+                  (centro.uplift > 0
+                    ? "text-positive"
+                    : centro.uplift < 0
+                    ? "text-danger"
+                    : "");
+                tdCu.textContent =
+                  idxDrv === 0 && centro.uplift != null
+                    ? fmtDelta(centro.uplift)
+                    : "";
+                r.appendChild(tdCu);
+
+                const tdDrv = document.createElement("td");
+                tdDrv.textContent = drv.driver || "";
+                r.appendChild(tdDrv);
+
+                const tdDrvCsat = document.createElement("td");
+                tdDrvCsat.className = "text-right";
+                tdDrvCsat.textContent =
+                  drv.csat != null ? fmtCsat(drv.csat) : "–";
+                r.appendChild(tdDrvCsat);
+
+                const tdDrvUp = document.createElement("td");
+                tdDrvUp.className =
+                  "text-right " +
+                  (drv.uplift > 0
+                    ? "text-positive"
+                    : drv.uplift < 0
+                    ? "text-danger"
+                    : "");
+                tdDrvUp.textContent =
+                  drv.uplift != null ? fmtDelta(drv.uplift) : "–";
+                r.appendChild(tdDrvUp);
+
+                innerBody.appendChild(r);
+              });
+            } else {
+              const r = document.createElement("tr");
+
+              const tdC = document.createElement("td");
+              tdC.textContent = centro.centro || "";
+              r.appendChild(tdC);
+
+              const tdCc = document.createElement("td");
+              tdCc.className = "text-right";
+              tdCc.textContent =
+                centro.comentarios != null
+                  ? fmtNumber(centro.comentarios)
+                  : "–";
+              r.appendChild(tdCc);
+
+              const tdCp = document.createElement("td");
+              tdCp.className = "text-right";
+              tdCp.textContent =
+                centro.porcentaje_texto != null
+                  ? fmtPercent(centro.porcentaje_texto)
+                  : "–";
+              r.appendChild(tdCp);
+
+              const tdCnps = document.createElement("td");
+              tdCnps.className = "text-right";
+              tdCnps.textContent =
+                centro.nps != null ? centro.nps.toFixed(0) : "–";
+              r.appendChild(tdCnps);
+
+              const tdCcsat = document.createElement("td");
+              tdCcsat.className = "text-right";
+              tdCcsat.textContent =
+                centro.csat != null ? fmtCsat(centro.csat) : "–";
+              r.appendChild(tdCcsat);
+
+              const tdCu = document.createElement("td");
+              tdCu.className =
+                "text-right " +
+                (centro.uplift > 0
+                  ? "text-positive"
+                  : centro.uplift < 0
+                  ? "text-danger"
+                  : "");
+              tdCu.textContent =
+                centro.uplift != null ? fmtDelta(centro.uplift) : "–";
+              r.appendChild(tdCu);
+
+              const tdDrv = document.createElement("td");
+              tdDrv.colSpan = 3;
+              tdDrv.className = "text-muted";
+              tdDrv.textContent = "Sin drivers declarados.";
+              r.appendChild(tdDrv);
+
+              innerBody.appendChild(r);
+            }
+          });
+
+          innerTable.appendChild(innerBody);
+          wrapper.appendChild(innerTable);
+          detailTd.appendChild(wrapper);
+        }
+
+        detailTr.appendChild(detailTd);
+        tbody.appendChild(detailTr);
+      });
+
+      // listeners para botones "+"
+      tbody.querySelectorAll(".btn-toggle").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.dataset.target;
+          const row = document.getElementById(targetId);
+          if (!row) return;
+          const visible = row.style.display !== "none";
+          row.style.display = visible ? "none" : "table-row";
+          btn.textContent = visible ? "+" : "–";
+        });
       });
     }
 
-    document.addEventListener("DOMContentLoaded", cargarDatos);
+    async function cargarDatos() {
+      try {
+        const resp = await fetch(JSON_URL);
+        if (!resp.ok) {
+          throw new Error("HTTP " + resp.status + " al leer " + JSON_URL);
+        }
+        const data = await resp.json();
+
+        renderResumen(data.meta || data.resumen);
+
+        const driversMacro = data.drivers_macro || data.driversMacro;
+        renderDriversMacro(driversMacro);
+
+        if (driversMacro) {
+          renderEvolucion("tbody-evol-csat", driversMacro.evolucion_csat);
+          renderEvolucion("tbody-evol-uplift", driversMacro.evolucion_uplift);
+        }
+
+        renderServicios(data.servicios_agregados || data.servicios || []);
+      } catch (err) {
+        console.error("Error al cargar datos de texto abierto", err);
+
+        const errDrivers = document.getElementById("error-drivers");
+        if (errDrivers) {
+          errDrivers.style.display = "block";
+          errDrivers.textContent =
+            "Error al cargar datos de texto abierto (" + err.message + ").";
+        }
+        const errServ = document.getElementById("error-servicios");
+        if (errServ) {
+          errServ.style.display = "block";
+          errServ.textContent =
+            "Error al cargar datos de texto abierto (" + err.message + ").";
+        }
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // activar / desactivar trimestres
+      document.querySelectorAll(".trimestre-pill").forEach((pill) => {
+        pill.addEventListener("click", () => {
+          pill.classList.toggle("active");
+          // Re-pintar servicios con el filtro de trimestres
+          if (window.__lastDataServicios) {
+            renderServicios(window.__lastDataServicios);
+          }
+        });
+      });
+
+      cargarDatos().then(() => {
+        // guardamos referencia de servicios para refrescar con trimestres
+        // (se setea dentro de cargarDatos vía renderServicios)
+      });
+    });
+
+    // Hook para mantener última data de servicios
+    const originalRenderServicios = renderServicios;
+    renderServicios = function (serviciosData) {
+      window.__lastDataServicios = serviciosData;
+      originalRenderServicios(serviciosData);
+    };
   </script>
 </body>
 </html>
