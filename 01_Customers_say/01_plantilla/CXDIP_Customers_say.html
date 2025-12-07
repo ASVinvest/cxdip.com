@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>CXDIP · Customers Say</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #2563eb;
+      --accent-soft: #38bdf8;
+      --accent-good: #16a34a;
+      --accent-bad: #ef4444;
+      --radius-card: 16px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 24px 18px 40px;
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .title-main {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .title-main span {
+      color: var(--accent);
+    }
+
+    .title-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .badge-secondary {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .summary-card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .summary-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .summary-value {
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    .summary-foot {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      padding: 16px 18px 18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      margin-top: 18px;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    /* Fila de filtros (año, trimestres) */
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 6px 0 10px;
+    }
+
+    .filter-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .filter-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .year-select {
+      padding: 4px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      font-size: 0.8rem;
+      color: #ffffff;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    .year-select:hover {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+
+    /* Píldoras de trimestres */
+    .trim-pills {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .trim-pill {
+      border-radius: 999px;
+      border: 1px solid #c7d2fe;
+      background: #e5edff;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .trim-pill.selected {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .table-wrapper table {
+      min-width: 720px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+
+    thead tr {
+      background: #f9fafb;
+    }
+
+    th, td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #eef0f4;
+    }
+
+    th {
+      text-align: left;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.78rem;
+    }
+
+    .tbl-name {
+      font-weight: 500;
+    }
+
+    .tbl-num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    tbody tr:hover {
+      background: #f4f5fb;
+    }
+
+    .row-total td {
+      font-weight: 600;
+      background: #eef2ff;
+    }
+
+    .row-prom td {
+      font-weight: 600;
+      background: #e0f2fe;
+    }
+
+    .val-csat.pos, .val-uplift.pos {
+      color: var(--accent-good);
+    }
+
+    .val-csat.neg, .val-uplift.neg {
+      color: var(--accent-bad);
+    }
+
+    .val-csat.neutral, .val-uplift.neutral {
+      color: var(--accent);
+    }
+
+    .ranking-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .ranking-card {
+      background: #f9fafb;
+      border-radius: 14px;
+      padding: 12px 14px 14px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .ranking-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .ranking-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      margin-top: 24px;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .level-tag {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .plus-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: #e5f0ff;
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid #bfdbfe;
+      margin-left: 6px;
+      cursor: pointer;
+    }
+
+    .center-cell {
+      padding-left: 24px;
+    }
+
+    .center-cell-empty {
+      padding-left: 24px;
+    }
+
+    .note-inline {
+      margin-top: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    th.sortable-col {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .sort-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: flex-end;
+      width: 100%;
+    }
+
+    .sort-indicator {
+      font-size: 0.65rem;
+      opacity: 0.5;
+    }
+
+    /* Scroll interno evoluciones */
+    .table-wrapper-ranking {
+      max-height: 190px;
+      overflow-y: auto;
+      overflow-x: auto;
+      position: relative;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .table-wrapper-ranking table {
+      min-width: 520px;
+    }
+
+    .table-wrapper-ranking thead th {
+      position: sticky;
+      top: 0;
+      background: #f9fafb;
+      z-index: 1;
+    }
+
+    /* Primera columna fija (Driver) */
+    .ranking-table th:first-child,
+    .ranking-table td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: #f9fafb;
+    }
+
+    .ranking-table tbody td:first-child {
+      background: #ffffff;
+    }
+
+    .ranking-table thead th:first-child {
+      z-index: 3;
+    }
+
+    .ranking-table th:nth-child(n+2),
+    .ranking-table td:nth-child(n+2) {
+      width: 70px;
+      white-space: nowrap;
+    }
+
+    /* Drivers en servicios agregados */
+    .drivers-cell {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      white-space: normal;
+    }
+
+    .driver-row .drivers-cell {
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .page {
+        padding: 16px 10px 28px;
+      }
+
+      .title-main {
+        font-size: 1.5rem;
+      }
+
+      .summary-card {
+        padding: 10px 12px;
+      }
+
+      .card {
+        padding: 12px 12px 14px;
+      }
+
+      .table-wrapper table {
+        min-width: 600px;
+      }
+
+      .table-wrapper-ranking table {
+        min-width: 520px;
+      }
+
+      table {
+        font-size: 0.8rem;
+      }
+
+      th, td {
+        padding: 5px 6px;
+      }
+
+      .ranking-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <!-- ENCABEZADO -->
+    <header>
+      <div class="title-row">
+        <div>
+          <div class="title-main"><span>CXDIP</span> Customers Say</div>
+          <div class="title-sub">
+            Procesamiento  de texto abierto.
+          </div>
+        </div>
+        <div class="badge-secondary">
+          Demo · Valores de ejemplo (reemplazar con ETL)
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-label">Total de respuestas</div>
+          <div class="summary-value">12.540</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">Respuestas con comentario</div>
+          <div class="summary-value">4.320</div>
+          <div class="summary-foot">34,4% aportan texto</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">CSAT global (texto)</div>
+          <div class="summary-value">4,10</div>
+          <div class="summary-foot">Escala 1–5 · sólo casos con comentario</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- DRIVERS MACRO -->
+    <section class="card">
+      <h2>Drivers Macro</h2>
+      <div class="card-subtitle">
+        Tabla consolidada por atributo
+      </div>
+
+      <!-- Selector de año -->
+      <div class="filter-row">
+        <span class="filter-label">Selecciona el Año que quieres analizar:</span>
+        <select id="year-select" class="year-select">
+          <option value="2023">2023</option>
+          <option value="2024" selected>2024</option>
+          <option value="2025">2025</option>
+        </select>
+        <span class="filter-hint"></span>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="drivers-table">
+          <thead>
+            <tr>
+              <th>Atributos macro</th>
+              <th class="sortable-col" data-sort-type="int" style="text-align:right;">
+                <span class="sort-label">
+                  N° comentarios
+                  <span class="sort-indicator">↕</span>
+                </span>
+              </th>
+              <th class="sortable-col" data-sort-type="percent" style="text-align:right;">
+                <span class="sort-label">
+                  % sobre texto
+                  <span class="sort-indicator">↕</span>
+                </span>
+              </th>
+              <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                <span class="sort-label">
+                  CSAT atributo
+                  <span class="sort-indicator">↕</span>
+                </span>
+              </th>
+              <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                <span class="sort-label">
+                  Uplift atributo
+                  <span class="sort-indicator">↕</span>
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rellenado por JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- EVOLUCIÓN CSAT / UPLIFT -->
+      <div class="ranking-row">
+        <!-- Evolución CSAT -->
+        <div class="ranking-card">
+          <div class="ranking-title">Evolución CSAT atributo</div>
+          <div class="ranking-sub">
+            Evolución del CSAT por atributo.
+          </div>
+
+          <div class="table-wrapper table-wrapper-ranking">
+            <table class="ranking-table ranking-csat">
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T1<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T2<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T3<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T4<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">Total anual<span class="sort-indicator">↕</span></span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Evolución Uplift -->
+        <div class="ranking-card">
+          <div class="ranking-title">Evolución Uplift atributo</div>
+            <!--<div class="ranking-sub">
+            Uplift del atributo vs CSAT global (4,10) por trimestre y total anual.
+          </div>-->
+
+          <div class="table-wrapper table-wrapper-ranking">
+            <table class="ranking-table ranking-uplift">
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T1<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T2<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T3<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T4<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">Total anual<span class="sort-indicator">↕</span></span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS AGREGADOS -->
+    <div class="section-title">SERVICIOS AGREGADOS</div>
+
+    <section class="card">
+      <div class="level-tag">Vista por servicio (apertura con “+”).</div>
+
+      <!-- Filtro de trimestres -->
+      <div class="filter-row">
+        <span class="filter-label">Trimestres:</span>
+        <div class="trim-pills" id="trim-filter">
+          <div class="trim-pill selected" data-trim="1">T1</div>
+          <div class="trim-pill selected" data-trim="2">T2</div>
+          <div class="trim-pill selected" data-trim="3">T3</div>
+          <div class="trim-pill selected" data-trim="4">T4</div>
+        </div>
+        <span class="filter-hint">Selecciona uno o varios trimestres. Los datos respetan el año elegido arriba.</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Servicio / Centro</th>
+              <th>Atributos mencionados</th>
+              <th style="text-align:right;">N° comentarios</th>
+              <th style="text-align:right;">% sobre texto</th>
+              <th style="text-align:right;">NPS</th>
+              <th style="text-align:right;">CSAT atributo</th>
+              <th style="text-align:right;">Uplift atributo</th>
+            </tr>
+          </thead>
+          <tbody id="services-tbody">
+            <!-- JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note-inline">
+        Al presionar <span class="plus-btn" style="pointer-events:none;">+</span> se despliegan los centros asociados
+        a cada servicio con sus métricas (NPS, comentarios, % sobre texto, CSAT, Uplift) y los drivers desagregados por fila.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // -------------------- UTILIDADES GENERALES --------------------
+    function parseCellValue(text, type) {
+      if (!text) return null;
+      text = text.trim();
+      if (text === '–' || text === '-' || text === '') return null;
+      text = text.replace(/\s/g, '');
+
+      if (type === 'int') {
+        var cleanedInt = text.replace(/\./g, '');
+        var intVal = parseInt(cleanedInt, 10);
+        return isNaN(intVal) ? null : intVal;
+      }
+
+      if (type === 'percent') {
+        var cleanedPct = text.replace('%', '').replace(/\./g, '').replace(',', '.');
+        var pctVal = parseFloat(cleanedPct);
+        return isNaN(pctVal) ? null : pctVal;
+      }
+
+      if (type === 'decimal') {
+        var cleanedDec = text.replace('+', '').replace('–', '-').replace(',', '.');
+        var decVal = parseFloat(cleanedDec);
+        return isNaN(decVal) ? null : decVal;
+      }
+      return null;
+    }
+
+    function formatDecimal(value, decimals, withSign) {
+      if (value === null || typeof value === 'undefined' || isNaN(value)) return '–';
+      var fixed = value.toFixed(decimals);
+      var out = fixed.replace('.', ',');
+      if (withSign && value > 0) out = '+' + out;
+      return out;
+    }
+
+    function getCsatClass(v) {
+      if (v === null || isNaN(v)) return 'neutral';
+      if (v >= 4.2) return 'pos';
+      if (v <= 3.6) return 'neg';
+      return 'neutral';
+    }
+
+    function getUpliftClass(v) {
+      if (v === null || isNaN(v)) return 'neutral';
+      if (v > 0.001) return 'pos';
+      if (v < -0.001) return 'neg';
+      return 'neutral';
+    }
+
+    // -------------------- ORDEN TABLA DRIVERS MACRO --------------------
+    (function() {
+      var table = document.getElementById('drivers-table');
+      if (!table) return;
+
+      table.querySelectorAll('thead th.sortable-col').forEach(function(th) {
+        th.dataset.sortDirection = 'none';
+
+        th.addEventListener('click', function() {
+          var sortType = th.dataset.sortType || 'decimal';
+          var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
+          var current  = th.dataset.sortDirection;
+          var next     = current === 'asc' ? 'desc' : 'asc';
+          th.dataset.sortDirection = next;
+          var direction = next === 'asc' ? 1 : -1;
+
+          table.querySelectorAll('thead th.sortable-col').forEach(function(other) {
+            if (other !== th) {
+              other.dataset.sortDirection = 'none';
+              var io = other.querySelector('.sort-indicator');
+              if (io) io.textContent = '↕';
+            }
+          });
+
+          var icon = th.querySelector('.sort-indicator');
+          if (icon) icon.textContent = next === 'asc' ? '▲' : '▼';
+
+          var tbody = table.querySelector('tbody');
+          var totalRow = tbody.querySelector('.row-total');
+          var promRow  = tbody.querySelector('.row-prom');
+
+          var dataRows = Array.from(tbody.querySelectorAll('tr')).filter(function(row) {
+            return !row.classList.contains('row-total') && !row.classList.contains('row-prom');
+          });
+
+          dataRows.sort(function(rowA, rowB) {
+            var textA = rowA.children[colIndex].textContent;
+            var textB = rowB.children[colIndex].textContent;
+            var valA  = parseCellValue(textA, sortType);
+            var valB  = parseCellValue(textB, sortType);
+
+            if (valA === null && valB === null) return 0;
+            if (valA === null) return 1;
+            if (valB === null) return -1;
+            return (valA - valB) * direction;
+          });
+
+          tbody.innerHTML = '';
+          dataRows.forEach(function(r) { tbody.appendChild(r); });
+          if (totalRow) tbody.appendChild(totalRow);
+          if (promRow)  tbody.appendChild(promRow);
+        });
+      });
+    })();
+
+    // -------------------- DATA DRIVERS MACRO POR AÑO --------------------
+    var macroBase2024 = [
+      { driver: 'Tiempos de espera',     comments: 980, csat: 3.60, uplift: -0.50 },
+      { driver: 'Productos',             comments: 720, csat: 4.30, uplift:  0.20 },
+      { driver: 'Logística / entrega',   comments: 610, csat: 3.90, uplift: -0.30 },
+      { driver: 'Atención vendedor',     comments: 540, csat: 4.40, uplift:  0.30 },
+      { driver: 'Atención repartidor',   comments: 380, csat: 4.00, uplift: -0.10 },
+      { driver: 'Problema sin solución', comments: 430, csat: 3.10, uplift: -1.00 },
+      { driver: 'Otros',                 comments: 420, csat: 4.00, uplift: -0.10 },
+      { driver: 'En blanco',             comments: 240, csat: null, uplift: null }
+    ];
+
+    function shiftMacroData(base, factorComments, csatDelta, upliftDelta) {
+      return base.map(function(row) {
+        return {
+          driver: row.driver,
+          comments: Math.round(row.comments * factorComments),
+          csat: (row.csat === null || typeof row.csat === 'undefined') ? null : row.csat + csatDelta,
+          uplift: (row.uplift === null || typeof row.uplift === 'undefined') ? null : row.uplift + upliftDelta
+        };
+      });
+    }
+
+    var macroDataByYear = {
+      2023: shiftMacroData(macroBase2024, 0.95, -0.05, -0.05),
+      2024: macroBase2024,
+      2025: shiftMacroData(macroBase2024, 1.05,  0.05,  0.05)
+    };
+
+    function renderDriversMacro(year) {
+      var tbody = document.querySelector('#drivers-table tbody');
+      if (!tbody) return;
+
+      var rowsData = macroDataByYear[year] || macroBase2024;
+      var totalComments = rowsData.reduce(function(acc, row) {
+        return acc + (row.comments || 0);
+      }, 0);
+
+      tbody.innerHTML = '';
+
+      rowsData.forEach(function(row) {
+        var tr = document.createElement('tr');
+
+        var tdDriver = document.createElement('td');
+        tdDriver.className = 'tbl-name';
+        tdDriver.textContent = row.driver;
+        tr.appendChild(tdDriver);
+
+        var tdComments = document.createElement('td');
+        tdComments.className = 'tbl-num';
+        tdComments.textContent = totalComments
+          ? new Intl.NumberFormat('es-CL').format(row.comments || 0)
+          : '0';
+        tr.appendChild(tdComments);
+
+        var tdPct = document.createElement('td');
+        tdPct.className = 'tbl-num';
+        var pctVal = totalComments ? ((row.comments || 0) / totalComments * 100) : 0;
+        tdPct.textContent = totalComments ? formatDecimal(pctVal, 1, false) + '%' : '0,0%';
+        tr.appendChild(tdPct);
+
+        var tdCsat = document.createElement('td');
+        var csatVal = row.csat;
+        tdCsat.className = 'tbl-num val-csat ' + getCsatClass(csatVal);
+        tdCsat.textContent = (csatVal === null || typeof csatVal === 'undefined')
+          ? '–'
+          : formatDecimal(csatVal, 2, false);
+        tr.appendChild(tdCsat);
+
+        var tdU = document.createElement('td');
+        var uVal = row.uplift;
+        tdU.className = 'tbl-num val-uplift ' + getUpliftClass(uVal);
+        tdU.textContent = (uVal === null || typeof uVal === 'undefined')
+          ? '–'
+          : formatDecimal(uVal, 2, true);
+        tr.appendChild(tdU);
+
+        tbody.appendChild(tr);
+      });
+
+      // Fila Totales
+      var trTotal = document.createElement('tr');
+      trTotal.className = 'row-total';
+
+      var tdLabelTot = document.createElement('td');
+      tdLabelTot.className = 'tbl-name';
+      tdLabelTot.textContent = 'Totales';
+      trTotal.appendChild(tdLabelTot);
+
+      var tdCommTot = document.createElement('td');
+      tdCommTot.className = 'tbl-num';
+      tdCommTot.textContent = new Intl.NumberFormat('es-CL').format(totalComments);
+      trTotal.appendChild(tdCommTot);
+
+      var tdPctTot = document.createElement('td');
+      tdPctTot.className = 'tbl-num';
+      tdPctTot.textContent = totalComments ? '100,0%' : '0,0%';
+      trTotal.appendChild(tdPctTot);
+
+      var tdCsatTot = document.createElement('td');
+      tdCsatTot.className = 'tbl-num';
+      tdCsatTot.textContent = '–';
+      trTotal.appendChild(tdCsatTot);
+
+      var tdUpliftTot = document.createElement('td');
+      tdUpliftTot.className = 'tbl-num';
+      tdUpliftTot.textContent = '–';
+      trTotal.appendChild(tdUpliftTot);
+
+      tbody.appendChild(trTotal);
+
+      // Fila Promedios (usa CSAT/Uplift global por año demo)
+      var trProm = document.createElement('tr');
+      trProm.className = 'row-prom';
+
+      var tdLabelProm = document.createElement('td');
+      tdLabelProm.className = 'tbl-name';
+      tdLabelProm.textContent = 'Promedios';
+      trProm.appendChild(tdLabelProm);
+
+      var tdVoid1 = document.createElement('td');
+      tdVoid1.className = 'tbl-num';
+      tdVoid1.textContent = '–';
+      trProm.appendChild(tdVoid1);
+
+      var tdVoid2 = document.createElement('td');
+      tdVoid2.className = 'tbl-num';
+      tdVoid2.textContent = '–';
+      trProm.appendChild(tdVoid2);
+
+      var globalCsat = { '2023': 4.00, '2024': 4.10, '2025': 4.20 }[year] || 4.10;
+      var tdCsatProm = document.createElement('td');
+      tdCsatProm.className = 'tbl-num val-csat ' + getCsatClass(globalCsat);
+      tdCsatProm.textContent = formatDecimal(globalCsat, 2, false);
+      trProm.appendChild(tdCsatProm);
+
+      var globalUplift = { '2023': -0.05, '2024': 0.00, '2025': 0.05 }[year] || 0.00;
+      var tdUpliftProm = document.createElement('td');
+      tdUpliftProm.className = 'tbl-num val-uplift ' + getUpliftClass(globalUplift);
+      tdUpliftProm.textContent = formatDecimal(globalUplift, 2, false);
+      trProm.appendChild(tdUpliftProm);
+
+      tbody.appendChild(trProm);
+    }
+
+    function getYearTextTotal(year) {
+      var rows = macroDataByYear[year] || macroBase2024;
+      return rows.reduce(function(acc, r) { return acc + (r.comments || 0); }, 0);
+    }
+
+    // -------------------- DATA EVOLUCIÓN TRIMESTRAL --------------------
+    var baseCsat2024 = [
+      { driver: 'Tiempos de espera',     quarters: [3.5, 3.6, 3.7, 3.6] },
+      { driver: 'Productos',             quarters: [4.2, 4.3, 4.4, 4.3] },
+      { driver: 'Logística / entrega',   quarters: [3.8, 3.9, 4.0, 3.9] },
+      { driver: 'Atención vendedor',     quarters: [4.3, 4.4, 4.5, 4.4] },
+      { driver: 'Atención repartidor',   quarters: [3.9, 4.0, 4.1, 4.0] },
+      { driver: 'Problema sin solución', quarters: [3.0, 3.1, 3.2, 3.1] },
+      { driver: 'Otros',                 quarters: [3.9, 4.0, 4.1, 4.0] },
+      { driver: 'En blanco',             quarters: [null, null, null, null] }
+    ];
+
+    var baseUplift2024 = [
+      { driver: 'Tiempos de espera',     quarters: [-0.60, -0.50, -0.40, -0.50] },
+      { driver: 'Productos',             quarters: [ 0.10,  0.20,  0.30,  0.20] },
+      { driver: 'Logística / entrega',   quarters: [-0.40, -0.30, -0.20, -0.30] },
+      { driver: 'Atención vendedor',     quarters: [ 0.20,  0.30,  0.40,  0.30] },
+      { driver: 'Atención repartidor',   quarters: [-0.10, -0.10,  0.00, -0.10] },
+      { driver: 'Problema sin solución', quarters: [-1.10, -1.00, -0.90, -1.00] },
+      { driver: 'Otros',                 quarters: [-0.20, -0.10,  0.00, -0.10] },
+      { driver: 'En blanco',             quarters: [0.00, 0.00, 0.00, 0.00] }
+    ];
+
+    function shiftQuarters(data, delta) {
+      return data.map(function(row) {
+        return {
+          driver: row.driver,
+          quarters: row.quarters.map(function(q) {
+            if (q === null) return null;
+            return q + delta;
+          })
+        };
+      });
+    }
+
+    var csatDataByYear = {
+      2023: shiftQuarters(baseCsat2024, -0.10),
+      2024: baseCsat2024,
+      2025: shiftQuarters(baseCsat2024,  0.10)
+    };
+
+    var upliftDataByYear = {
+      2023: shiftQuarters(baseUplift2024, -0.05),
+      2024: baseUplift2024,
+      2025: shiftQuarters(baseUplift2024,  0.05)
+    };
+
+    function renderEvolutionTables(year) {
+      var csatBody   = document.querySelector('.ranking-csat tbody');
+      var upliftBody = document.querySelector('.ranking-uplift tbody');
+      if (!csatBody || !upliftBody) return;
+
+      var csatRows   = csatDataByYear[year]   || [];
+      var upliftRows = upliftDataByYear[year] || [];
+
+      csatBody.innerHTML = '';
+      upliftBody.innerHTML = '';
+
+      csatRows.forEach(function(row) {
+        var tr = document.createElement('tr');
+
+        var tdDriver = document.createElement('td');
+        tdDriver.className = 'tbl-name';
+        tdDriver.textContent = row.driver;
+        tr.appendChild(tdDriver);
+
+        var quarters = row.quarters;
+        var sum = 0;
+        var count = 0;
+
+        quarters.forEach(function(q) {
+          var td = document.createElement('td');
+          var cls = 'tbl-num val-csat ' + getCsatClass(q);
+          td.className = cls;
+          td.textContent = q === null ? '–' : formatDecimal(q, 2, false);
+          tr.appendChild(td);
+
+          if (q !== null && !isNaN(q)) {
+            sum += q;
+            count++;
+          }
+        });
+
+        var avg = count > 0 ? sum / count : null;
+        var tdTotal = document.createElement('td');
+        tdTotal.className = 'tbl-num val-csat ' + getCsatClass(avg);
+        tdTotal.textContent = formatDecimal(avg, 2, false);
+        tdTotal.setAttribute('data-total', 'true');
+        tr.appendChild(tdTotal);
+
+        csatBody.appendChild(tr);
+      });
+
+      upliftRows.forEach(function(row) {
+        var tr = document.createElement('tr');
+
+        var tdDriver = document.createElement('td');
+        tdDriver.className = 'tbl-name';
+        tdDriver.textContent = row.driver;
+        tr.appendChild(tdDriver);
+
+        var quarters = row.quarters;
+        var sum = 0;
+        var count = 0;
+
+        quarters.forEach(function(q) {
+          var td = document.createElement('td');
+          var cls = 'tbl-num val-uplift ' + getUpliftClass(q);
+          td.className = cls;
+          td.textContent = q === null ? '–' : formatDecimal(q, 2, true);
+          tr.appendChild(td);
+
+          if (q !== null && !isNaN(q)) {
+            sum += q;
+            count++;
+          }
+        });
+
+        var avg = count > 0 ? sum / count : null;
+        var tdTotal = document.createElement('td');
+        tdTotal.className = 'tbl-num val-uplift ' + getUpliftClass(avg);
+        tdTotal.textContent = formatDecimal(avg, 2, true);
+        tdTotal.setAttribute('data-total', 'true');
+        tr.appendChild(tdTotal);
+
+        upliftBody.appendChild(tr);
+      });
+    }
+
+    // Orden evoluciones (CSAT / Uplift) incluyendo Total anual
+    (function() {
+      var rankingTables = document.querySelectorAll('.ranking-table');
+      rankingTables.forEach(function(table) {
+        var tbody = table.querySelector('tbody');
+
+        table.querySelectorAll('thead th.sortable-col').forEach(function(th) {
+          th.dataset.sortDirection = 'none';
+
+          th.addEventListener('click', function() {
+            var sortType = th.dataset.sortType || 'decimal';
+            var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
+            var current  = th.dataset.sortDirection;
+            var next     = current === 'asc' ? 'desc' : 'asc';
+            th.dataset.sortDirection = next;
+            var direction = next === 'asc' ? 1 : -1;
+
+            table.querySelectorAll('thead th.sortable-col').forEach(function(other) {
+              if (other !== th) {
+                other.dataset.sortDirection = 'none';
+                var io = other.querySelector('.sort-indicator');
+                if (io) io.textContent = '↕';
+              }
+            });
+
+            var icon = th.querySelector('.sort-indicator');
+            if (icon) icon.textContent = next === 'asc' ? '▲' : '▼';
+
+            var dataRows = Array.from(tbody.querySelectorAll('tr'));
+
+            dataRows.sort(function(rowA, rowB) {
+              var textA = rowA.children[colIndex].textContent;
+              var textB = rowB.children[colIndex].textContent;
+              var valA  = parseCellValue(textA, sortType);
+              var valB  = parseCellValue(textB, sortType);
+
+              if (valA === null && valB === null) return 0;
+              if (valA === null) return 1;
+              if (valB === null) return -1;
+              return (valA - valB) * direction;
+            });
+
+            tbody.innerHTML = '';
+            dataRows.forEach(function(r) { tbody.appendChild(r); });
+          });
+        });
+      });
+    })();
+
+    // -------------------- DATA SERVICIOS AGREGADOS POR AÑO/TRIM --------------------
+    var servicesBase2024 = [
+      {
+        id: 'serv1',
+        name: 'Servicio 1',
+        quarters: {
+          1: { comments: 150, nps: 60.0, csat: 4.30, uplift: 0.20 },
+          2: { comments: 155, nps: 60.0, csat: 4.30, uplift: 0.20 },
+          3: { comments: 155, nps: 60.0, csat: 4.30, uplift: 0.20 },
+          4: { comments: 160, nps: 60.0, csat: 4.30, uplift: 0.20 }
+        },
+        centers: [
+          {
+            id: 'serv1_c1',
+            name: 'Centro 1',
+            drivers: ['Tiempos de espera', 'Atención vendedor'],
+            quarters: {
+              1: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 },
+              2: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 },
+              3: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 },
+              4: { comments: 35, nps: 65.0, csat: 4.60, uplift: 0.50 }
+            }
+          },
+          {
+            id: 'serv1_c2',
+            name: 'Centro 2',
+            drivers: ['Productos', 'Logística / entrega'],
+            quarters: {
+              1: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 },
+              2: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 },
+              3: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 },
+              4: { comments: 30, nps: 62.0, csat: 4.40, uplift: 0.30 }
+            }
+          },
+          {
+            id: 'serv1_c3',
+            name: 'Centro 3',
+            drivers: ['Atención repartidor', 'Otros'],
+            quarters: {
+              1: { comments: 24, nps: 58.0, csat: 4.10, uplift: 0.00 },
+              2: { comments: 24, nps: 58.0, csat: 4.10, uplift: 0.00 },
+              3: { comments: 24, nps: 58.0, csat: 4.10, uplift: 0.00 },
+              4: { comments: 23, nps: 58.0, csat: 4.10, uplift: 0.00 }
+            }
+          }
+        ]
+      },
+      {
+        id: 'serv2',
+        name: 'Servicio 2',
+        quarters: {
+          1: { comments: 130, nps: 55.0, csat: 4.10, uplift: 0.00 },
+          2: { comments: 135, nps: 55.0, csat: 4.10, uplift: 0.00 },
+          3: { comments: 135, nps: 55.0, csat: 4.10, uplift: 0.00 },
+          4: { comments: 140, nps: 55.0, csat: 4.10, uplift: 0.00 }
+        },
+        centers: [
+          {
+            id: 'serv2_c1',
+            name: 'Centro 1',
+            drivers: ['Productos', 'Atención vendedor'],
+            quarters: {
+              1: { comments: 22, nps: 57.0, csat: 4.20, uplift: 0.10 },
+              2: { comments: 23, nps: 57.0, csat: 4.20, uplift: 0.10 },
+              3: { comments: 22, nps: 57.0, csat: 4.20, uplift: 0.10 },
+              4: { comments: 23, nps: 57.0, csat: 4.20, uplift: 0.10 }
+            }
+          },
+          {
+            id: 'serv2_c3',
+            name: 'Centro 3',
+            drivers: ['Tiempos de espera', 'Problema sin solución'],
+            quarters: {
+              1: { comments: 18, nps: 50.0, csat: 3.80, uplift: -0.30 },
+              2: { comments: 17, nps: 50.0, csat: 3.80, uplift: -0.30 },
+              3: { comments: 17, nps: 50.0, csat: 3.80, uplift: -0.30 },
+              4: { comments: 18, nps: 50.0, csat: 3.80, uplift: -0.30 }
+            }
+          }
+        ]
+      },
+      {
+        id: 'serv3',
+        name: 'Servicio 3',
+        quarters: {
+          1: { comments: 110, nps: 52.0, csat: 3.90, uplift: -0.20 },
+          2: { comments: 115, nps: 52.0, csat: 3.90, uplift: -0.20 },
+          3: { comments: 115, nps: 52.0, csat: 3.90, uplift: -0.20 },
+          4: { comments: 130, nps: 52.0, csat: 3.90, uplift: -0.20 }
+        },
+        centers: [
+          {
+            id: 'serv3_c2',
+            name: 'Centro 2',
+            drivers: ['Logística / entrega', 'Problema sin solución'],
+            quarters: {
+              1: { comments: 21, nps: 48.0, csat: 3.70, uplift: -0.40 },
+              2: { comments: 21, nps: 48.0, csat: 3.70, uplift: -0.40 },
+              3: { comments: 21, nps: 48.0, csat: 3.70, uplift: -0.40 },
+              4: { comments: 22, nps: 48.0, csat: 3.70, uplift: -0.40 }
+            }
+          }
+        ]
+      }
+    ];
+
+    function cloneServicesWithShift(base, factorComments, csatDelta, upliftDelta, npsDelta) {
+      return base.map(function(serv) {
+        var newServ = {
+          id: serv.id,
+          name: serv.name,
+          quarters: {},
+          centers: []
+        };
+
+        [1,2,3,4].forEach(function(q) {
+          var src = serv.quarters[q];
+          newServ.quarters[q] = {
+            comments: Math.round(src.comments * factorComments),
+            nps: src.nps + npsDelta,
+            csat: src.csat + csatDelta,
+            uplift: src.uplift + upliftDelta
+          };
+        });
+
+        newServ.centers = serv.centers.map(function(c) {
+          var nc = {
+            id: c.id,
+            name: c.name,
+            drivers: c.drivers.slice(),
+            quarters: {}
+          };
+          [1,2,3,4].forEach(function(q) {
+            var src = c.quarters[q];
+            nc.quarters[q] = {
+              comments: Math.round(src.comments * factorComments),
+              nps: src.nps + npsDelta,
+              csat: src.csat + csatDelta,
+              uplift: src.uplift + upliftDelta
+            };
+          });
+          return nc;
+        });
+
+        return newServ;
+      });
+    }
+
+    var servicesDataByYear = {
+      2023: cloneServicesWithShift(servicesBase2024, 0.95, -0.05, -0.05, -0.5),
+      2024: servicesBase2024,
+      2025: cloneServicesWithShift(servicesBase2024, 1.05, 0.05, 0.05, 0.5)
+    };
+
+    function aggregateEntity(entity, trims) {
+      var totalComments = 0;
+      var sumNps = 0, countNps = 0;
+      var sumCsat = 0, countCsat = 0;
+      var sumUplift = 0, countUplift = 0;
+
+      trims.forEach(function(t) {
+        var q = entity.quarters[t];
+        if (!q) return;
+        totalComments += q.comments || 0;
+
+        if (q.nps !== null && typeof q.nps !== 'undefined') {
+          sumNps += q.nps; countNps++;
+        }
+        if (q.csat !== null && typeof q.csat !== 'undefined') {
+          sumCsat += q.csat; countCsat++;
+        }
+        if (q.uplift !== null && typeof q.uplift !== 'undefined') {
+          sumUplift += q.uplift; countUplift++;
+        }
+      });
+
+      return {
+        comments: totalComments,
+        nps: countNps ? (sumNps / countNps) : null,
+        csat: countCsat ? (sumCsat / countCsat) : null,
+        uplift: countUplift ? (sumUplift / countUplift) : null
+      };
+    }
+
+    function initServiceToggles() {
+      document.querySelectorAll('.service-toggle').forEach(function(btn) {
+        btn.onclick = function() {
+          var sid = this.getAttribute('data-service');
+          var expanded = this.getAttribute('data-expanded') === 'true';
+          var rows = document.querySelectorAll("tr[data-parent='" + sid + "']");
+          rows.forEach(function(row) {
+            row.style.display = expanded ? 'none' : 'table-row';
+          });
+          this.textContent = expanded ? '+' : '–';
+          this.setAttribute('data-expanded', expanded ? 'false' : 'true');
+        };
+      });
+    }
+
+    function renderServicesTable(year, trims) {
+      var tbody = document.getElementById('services-tbody');
+      if (!tbody) return;
+
+      var dataset = servicesDataByYear[year] || servicesBase2024;
+      var yearTextTotal = getYearTextTotal(year);
+      tbody.innerHTML = '';
+
+      var computed = dataset.map(function(serv) {
+        var aggService = aggregateEntity(serv, trims);
+        var centersAgg = serv.centers.map(function(c) {
+          return aggregateEntity(c, trims);
+        });
+        return { serv: serv, agg: aggService, centersAgg: centersAgg };
+      });
+
+      computed.forEach(function(item) {
+        var serv = item.serv;
+        var agg = item.agg;
+
+        // Servicio row
+        var trServ = document.createElement('tr');
+
+        var tdName = document.createElement('td');
+        tdName.className = 'tbl-name';
+        tdName.innerHTML = serv.name +
+          ' <button class="plus-btn service-toggle" data-service="' + serv.id + '" data-expanded="false">+</button>';
+        trServ.appendChild(tdName);
+
+        var tdDrivers = document.createElement('td');
+        tdDrivers.className = 'drivers-cell';
+        tdDrivers.textContent = '–';
+        trServ.appendChild(tdDrivers);
+
+        var tdComments = document.createElement('td');
+        tdComments.className = 'tbl-num';
+        tdComments.textContent = new Intl.NumberFormat('es-CL').format(agg.comments);
+        trServ.appendChild(tdComments);
+
+        var pctService = yearTextTotal > 0 ? (agg.comments / yearTextTotal * 100) : 0;
+        var tdPct = document.createElement('td');
+        tdPct.className = 'tbl-num';
+        tdPct.textContent = yearTextTotal ? formatDecimal(pctService, 1, false) + '%' : '0,0%';
+        trServ.appendChild(tdPct);
+
+        var tdNps = document.createElement('td');
+        tdNps.className = 'tbl-num';
+        tdNps.textContent = agg.nps !== null ? formatDecimal(agg.nps, 1, false) : '–';
+        trServ.appendChild(tdNps);
+
+        var tdCsat = document.createElement('td');
+        tdCsat.className = 'tbl-num val-csat ' + getCsatClass(agg.csat);
+        tdCsat.textContent = agg.csat !== null ? formatDecimal(agg.csat, 2, false) : '–';
+        trServ.appendChild(tdCsat);
+
+        var tdUplift = document.createElement('td');
+        tdUplift.className = 'tbl-num val-uplift ' + getUpliftClass(agg.uplift);
+        tdUplift.textContent = agg.uplift !== null ? formatDecimal(agg.uplift, 2, true) : '–';
+        trServ.appendChild(tdUplift);
+
+        tbody.appendChild(trServ);
+
+        // Centros + drivers
+        item.serv.centers.forEach(function(center, idx) {
+          var cAgg = item.centersAgg[idx];
+          var pctCenter = yearTextTotal > 0 ? (cAgg.comments / yearTextTotal * 100) : 0;
+
+          var trCenter = document.createElement('tr');
+          trCenter.className = 'center-row';
+          trCenter.setAttribute('data-parent', serv.id);
+          trCenter.style.display = 'none';
+
+          var tdSC = document.createElement('td');
+          tdSC.className = 'tbl-name center-cell';
+          tdSC.textContent = '↳ ' + center.name;
+          trCenter.appendChild(tdSC);
+
+          var tdDrv = document.createElement('td');
+          tdDrv.className = 'drivers-cell';
+          tdDrv.textContent = center.drivers.length ? center.drivers[0] : '–';
+          trCenter.appendChild(tdDrv);
+
+          var tdCommC = document.createElement('td');
+          tdCommC.className = 'tbl-num';
+          tdCommC.textContent = new Intl.NumberFormat('es-CL').format(cAgg.comments);
+          trCenter.appendChild(tdCommC);
+
+          var tdPctC = document.createElement('td');
+          tdPctC.className = 'tbl-num';
+          tdPctC.textContent = yearTextTotal ? formatDecimal(pctCenter, 1, false) + '%' : '0,0%';
+          trCenter.appendChild(tdPctC);
+
+          var tdNpsC = document.createElement('td');
+          tdNpsC.className = 'tbl-num';
+          tdNpsC.textContent = cAgg.nps !== null ? formatDecimal(cAgg.nps, 1, false) : '–';
+          trCenter.appendChild(tdNpsC);
+
+          var tdCsatC = document.createElement('td');
+          tdCsatC.className = 'tbl-num val-csat ' + getCsatClass(cAgg.csat);
+          tdCsatC.textContent = cAgg.csat !== null ? formatDecimal(cAgg.csat, 2, false) : '–';
+          trCenter.appendChild(tdCsatC);
+
+          var tdUpliftC = document.createElement('td');
+          tdUpliftC.className = 'tbl-num val-uplift ' + getUpliftClass(cAgg.uplift);
+          tdUpliftC.textContent = cAgg.uplift !== null ? formatDecimal(cAgg.uplift, 2, true) : '–';
+          trCenter.appendChild(tdUpliftC);
+
+          tbody.appendChild(trCenter);
+
+          // Drivers adicionales (solo texto)
+          for (var d = 1; d < center.drivers.length; d++) {
+            var trDrv = document.createElement('tr');
+            trDrv.className = 'center-row driver-row';
+            trDrv.setAttribute('data-parent', serv.id);
+            trDrv.style.display = 'none';
+
+            var tdEmpty = document.createElement('td');
+            tdEmpty.className = 'tbl-name center-cell-empty';
+            tdEmpty.textContent = '';
+            trDrv.appendChild(tdEmpty);
+
+            var tdDrvName = document.createElement('td');
+            tdDrvName.className = 'drivers-cell';
+            tdDrvName.textContent = center.drivers[d];
+            trDrv.appendChild(tdDrvName);
+
+            for (var k = 0; k < 5; k++) {
+              var tdm = document.createElement('td');
+              tdm.className = 'tbl-num';
+              tdm.textContent = '–';
+              trDrv.appendChild(tdm);
+            }
+            tbody.appendChild(trDrv);
+          }
+        });
+      });
+
+      initServiceToggles();
+    }
+
+    // -------------------- INICIALIZACIÓN --------------------
+    var selectedTrims = [1, 2, 3, 4];
+
+    function getCurrentYear() {
+      var sel = document.getElementById('year-select');
+      return sel ? sel.value : '2024';
+    }
+
+    function refreshAll() {
+      var year = getCurrentYear();
+      renderDriversMacro(year);
+      renderEvolutionTables(year);
+      renderServicesTable(year, selectedTrims);
+    }
+
+    // Eventos selector de año
+    var yearSelect = document.getElementById('year-select');
+    if (yearSelect) {
+      yearSelect.addEventListener('change', function() {
+        refreshAll();
+      });
+    }
+
+    // Eventos de trimestres (multi selección)
+    document.querySelectorAll('#trim-filter .trim-pill').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        var t = parseInt(this.getAttribute('data-trim'), 10);
+        var idx = selectedTrims.indexOf(t);
+
+        if (idx !== -1) {
+          if (selectedTrims.length === 1) return; // siempre al menos uno
+          selectedTrims.splice(idx, 1);
+          this.classList.remove('selected');
+        } else {
+          selectedTrims.push(t);
+          selectedTrims.sort();
+          this.classList.add('selected');
+        }
+        refreshAll();
+      });
+    });
+
+    // Primera carga
+    refreshAll();
+  </script>
+</body>
+</html>
