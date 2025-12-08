@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>CXDIP · Customers Say - RedSalud IBB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* CSS NO MODIFICADO */
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #2563eb;
+      --accent-soft: #38bdf8;
+      --accent-good: #16a34a;
+      --accent-bad: #ef4444;
+      --radius-card: 16px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 24px 18px 40px;
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .title-main {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .title-main span {
+      color: var(--accent);
+    }
+
+    .title-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .badge-secondary {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .summary-card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .summary-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .summary-value {
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    .summary-foot {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      padding: 16px 18px 18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      margin-top: 18px;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    /* Fila de filtros (año, trimestres) */
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 6px 0 10px;
+    }
+
+    .filter-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .filter-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .year-select {
+      padding: 4px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      font-size: 0.8rem;
+      color: #ffffff;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    .year-select:hover {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+
+    /* Píldoras de trimestres */
+    .trim-pills {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .trim-pill {
+      border-radius: 999px;
+      border: 1px solid #c7d2fe;
+      background: #e5edff;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .trim-pill.selected {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .table-wrapper table {
+      min-width: 720px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+
+    thead tr {
+      background: #f9fafb;
+    }
+
+    th, td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #eef0f4;
+    }
+
+    th {
+      text-align: left;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.78rem;
+    }
+
+    .tbl-name {
+      font-weight: 500;
+    }
+
+    .tbl-num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    tbody tr:hover {
+      background: #f4f5fb;
+    }
+
+    .row-total td {
+      font-weight: 600;
+      background: #eef2ff;
+    }
+
+    .row-prom td {
+      font-weight: 600;
+      background: #e0f2fe;
+    }
+
+    .val-csat.pos, .val-uplift.pos {
+      color: var(--accent-good);
+    }
+
+    .val-csat.neg, .val-uplift.neg {
+      color: var(--accent-bad);
+    }
+
+    .val-csat.neutral, .val-uplift.neutral {
+      color: var(--accent);
+    }
+
+    .ranking-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .ranking-card {
+      background: #f9fafb;
+      border-radius: 14px;
+      padding: 12px 14px 14px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .ranking-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .ranking-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      margin-top: 24px;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .level-tag {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .plus-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: #e5f0ff;
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid #bfdbfe;
+      margin-left: 6px;
+      cursor: pointer;
+    }
+
+    .center-cell {
+      padding-left: 24px;
+    }
+
+    .center-cell-empty {
+      padding-left: 24px;
+    }
+
+    .note-inline {
+      margin-top: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    th.sortable-col {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .sort-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: flex-end;
+      width: 100%;
+    }
+
+    .sort-indicator {
+      font-size: 0.65rem;
+      opacity: 0.5;
+    }
+
+    /* Scroll interno evoluciones */
+    .table-wrapper-ranking {
+      max-height: 190px;
+      overflow-y: auto;
+      overflow-x: auto;
+      position: relative;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .table-wrapper-ranking table {
+      min-width: 520px;
+    }
+
+    .table-wrapper-ranking thead th {
+      position: sticky;
+      top: 0;
+      background: #f9fafb;
+      z-index: 1;
+    }
+
+    /* Primera columna fija (Driver) */
+    .ranking-table th:first-child,
+    .ranking-table td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: #f9fafb;
+    }
+
+    .ranking-table tbody td:first-child {
+      background: #ffffff;
+    }
+
+    .ranking-table thead th:first-child {
+      z-index: 3;
+    }
+
+    .ranking-table th:nth-child(n+2),
+    .ranking-table td:nth-child(n+2) {
+      width: 70px;
+      white-space: nowrap;
+    }
+
+    /* Drivers en servicios agregados */
+    .drivers-cell {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      white-space: normal;
+    }
+
+    .driver-row .drivers-cell {
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .page {
+        padding: 16px 10px 28px;
+      }
+
+      .title-main {
+        font-size: 1.5rem;
+      }
+
+      .summary-card {
+        padding: 10px 12px;
+      }
+
+      .card {
+        padding: 12px 12px 14px;
+      }
+
+      .table-wrapper table {
+        min-width: 600px;
+      }
+
+      .table-wrapper-ranking table {
+        min-width: 520px;
+      }
+
+      table {
+        font-size: 0.8rem;
+      }
+
+      th, td {
+        padding: 5px 6px;
+      }
+
+      .ranking-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header>
+      <div class="title-row">
+        <div>
+          <div class="title-main"><span>CXDIP</span> Customers Say</div>
+          <div class="title-sub">
+            Procesamiento de texto abierto y medición de IBB.
+          </div>
+        </div>
+        <div class="badge-secondary">
+          Data cargada desde ETL Python.
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-label">Total Comentarios (Año Actual)</div>
+          <div class="summary-value" id="total-comments">Cargando...</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">Nº Atributos Macro</div>
+          <div class="summary-value" id="total-attributes">Cargando...</div>
+          <div class="summary-foot">Incluye "Otro/Inclasificable"</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">IBB global (texto)</div>
+          <div class="summary-value" id="overall-ibb">Cargando...</div>
+          <div class="summary-foot">Índice de Balance de Bajas (IBB)</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>Drivers Macro</h2>
+      <div class="card-subtitle">
+        Tabla consolidada por atributo
+      </div>
+
+      <div class="filter-row">
+        <span class="filter-label">Selecciona el Año que quieres analizar:</span>
+        <select id="year-select" class="year-select">
+          <option value="2025" selected>2025</option>
+        </select>
+        <span class="filter-hint">Solo se procesa el año más reciente de la base de datos RAW.</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="drivers-table">
+          <thead>
+            <tr>
+              <th>Atributos macro</th>
+              <th class="sortable-col" data-sort-type="int" style="text-align:right;">
+                <span class="sort-label">
+                  N° comentarios
+                  <span class="sort-indicator">↕</span>
+                </span>
+              </th>
+              <th class="sortable-col" data-sort-type="percent" style="text-align:right;">
+                <span class="sort-label">
+                  % sobre texto
+                  <span class="sort-indicator">↕</span>
+                </span>
+              </th>
+              <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                <span class="sort-label">
+                  IBB atributo
+                  <span class="sort-indicator">↕</span>
+                </span>
+              </th>
+              <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                <span class="sort-label">
+                  Uplift atributo
+                  <span class="sort-indicator">↕</span>
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            </tbody>
+        </table>
+      </div>
+
+      <div class="ranking-row">
+        <div class="ranking-card">
+          <div class="ranking-title">Evolución IBB atributo</div>
+          <div class="ranking-sub">
+            Evolución del IBB por atributo por trimestre.
+          </div>
+
+          <div class="table-wrapper table-wrapper-ranking">
+            <table class="ranking-table ranking-csat">
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T1<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T2<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T3<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T4<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">IBB Anual<span class="sort-indicator">↕</span></span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="ranking-card">
+          <div class="ranking-title">Evolución Uplift atributo</div>
+          <div class="ranking-sub">
+            Uplift del atributo vs IBB General del trimestre.
+          </div>
+
+          <div class="table-wrapper table-wrapper-ranking">
+            <table class="ranking-table ranking-uplift">
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T1<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T2<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T3<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">T4<span class="sort-indicator">↕</span></span>
+                  </th>
+                  <th class="sortable-col" data-sort-type="decimal" style="text-align:right;">
+                    <span class="sort-label">Uplift Anual<span class="sort-indicator">↕</span></span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-title">SERVICIOS AGREGADOS</div>
+
+    <section class="card">
+      <div class="level-tag">Vista por Centro (apertura con “+”) y sus Servicios.</div>
+
+      <div class="filter-row">
+        <span class="filter-label">Trimestres:</span>
+        <div class="trim-pills" id="trim-filter">
+          <div class="trim-pill selected" data-trim="1">T1</div>
+          <div class="trim-pill selected" data-trim="2">T2</div>
+          <div class="trim-pill selected" data-trim="3">T3</div>
+          <div class="trim-pill selected" data-trim="4">T4</div>
+        </div>
+        <span class="filter-hint">Selecciona uno o varios trimestres. Los datos respetan el año elegido arriba.</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Centro / Servicio</th>
+              <th>Atributos clave</th>
+              <th style="text-align:right;">N° comentarios</th>
+              <th style="text-align:right;">% sobre texto</th>
+              <th style="text-align:right;">IBB</th>
+              <th style="text-align:right;">Uplift (vs IBB Global)</th>
+            </tr>
+          </thead>
+          <tbody id="services-tbody">
+            </tbody>
+        </table>
+      </div>
+
+      <div class="note-inline">
+        Al presionar <span class="plus-btn" style="pointer-events:none;">+</span> se despliegan los servicios
+        de cada Centro con sus métricas y los drivers desagregados por fila.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Variable global que almacenará los datos cargados
+    var REDSALUD_DATA = null;
+    var selectedTrims = [1, 2, 3, 4];
+    
+    // -------------------- UTILIDADES GENERALES --------------------
+    function parseCellValue(text, type) {
+      if (!text) return null;
+      text = text.trim();
+      if (text === '–' || text === '-' || text === 'Cargando...') return null;
+      text = text.replace(/\s/g, '');
+
+      if (type === 'int') {
+        var cleanedInt = text.replace(/\./g, '');
+        var intVal = parseInt(cleanedInt, 10);
+        return isNaN(intVal) ? null : intVal;
+      }
+
+      if (type === 'percent') {
+        var cleanedPct = text.replace('%', '').replace(/\./g, '').replace(',', '.');
+        var pctVal = parseFloat(cleanedPct);
+        return isNaN(pctVal) ? null : pctVal;
+      }
+
+      if (type === 'decimal') {
+        var cleanedDec = text.replace('+', '').replace('–', '-').replace(',', '.');
+        var decVal = parseFloat(cleanedDec);
+        return isNaN(decVal) ? null : decVal;
+      }
+      return null;
+    }
+
+    function formatDecimal(value, decimals, withSign) {
+      if (value === null || typeof value === 'undefined' || isNaN(value)) return '–';
+      var fixed = value.toFixed(decimals);
+      var out = fixed.replace('.', ',');
+      if (withSign && value > 0) out = '+' + out;
+      return out;
+    }
+
+    function getIBBClass(v) {
+      if (v === null || isNaN(v)) return 'neutral';
+      if (v >= 10.0) return 'pos'; 
+      if (v <= -10.0) return 'neg'; 
+      return 'neutral'; 
+    }
+
+    function getUpliftClass(v) {
+      if (v === null || isNaN(v)) return 'neutral';
+      if (v > 0.001) return 'pos';
+      if (v < -0.001) return 'neg';
+      return 'neutral';
+    }
+
+    // -------------------- LÓGICA DE ORDENAMIENTO (NO MODIFICADA) --------------------
+    (function() {
+      var table = document.getElementById('drivers-table');
+      if (!table) return;
+
+      table.querySelectorAll('thead th.sortable-col').forEach(function(th) {
+        th.dataset.sortDirection = 'none';
+
+        th.addEventListener('click', function() {
+          var sortType = th.dataset.sortType || 'decimal';
+          var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
+          var current  = th.dataset.sortDirection;
+          var next     = current === 'asc' ? 'desc' : 'asc';
+          th.dataset.sortDirection = next;
+          var direction = next === 'asc' ? 1 : -1;
+
+          table.querySelectorAll('thead th.sortable-col').forEach(function(other) {
+            if (other !== th) {
+              other.dataset.sortDirection = 'none';
+              var io = other.querySelector('.sort-indicator');
+              if (io) io.textContent = '↕';
+            }
+          });
+
+          var icon = th.querySelector('.sort-indicator');
+          if (icon) icon.textContent = next === 'asc' ? '▲' : '▼';
+
+          var tbody = table.querySelector('tbody');
+          var totalRow = tbody.querySelector('.row-total');
+          var promRow  = tbody.querySelector('.row-prom');
+
+          var dataRows = Array.from(tbody.querySelectorAll('tr')).filter(function(row) {
+            return !row.classList.contains('row-total') && !row.classList.contains('row-prom');
+          });
+
+          dataRows.sort(function(rowA, rowB) {
+            var textA = rowA.children[colIndex].textContent;
+            var textB = rowB.children[colIndex].textContent;
+            var valA = parseCellValue(textA, sortType);
+            var valB = parseCellValue(textB, sortType);
+
+            if (valA === null && valB === null) return 0;
+            if (valA === null) return 1;
+            if (valB === null) return -1;
+
+            return (valA - valB) * direction;
+          });
+
+          tbody.innerHTML = '';
+          dataRows.forEach(function(r) { tbody.appendChild(r); });
+          if (totalRow) tbody.appendChild(totalRow);
+          if (promRow) tbody.appendChild(promRow); 
+        });
+      });
+    })();
+    
+    // Lógica de ordenamiento para tablas de Evolución (ranking)
+    (function() {
+      var rankingTables = document.querySelectorAll('.ranking-table');
+      rankingTables.forEach(function(table) {
+        var tbody = table.querySelector('tbody');
+        if (!tbody) return; 
+        
+        table.querySelectorAll('thead th.sortable-col').forEach(function(th) {
+          th.dataset.sortDirection = 'none';
+
+          th.addEventListener('click', function() {
+            var sortType = th.dataset.sortType || 'decimal';
+            var colIndex = Array.prototype.indexOf.call(th.parentNode.children, th);
+            var current = th.dataset.sortDirection;
+            var next = current === 'asc' ? 'desc' : 'asc';
+            th.dataset.sortDirection = next;
+            var direction = next === 'asc' ? 1 : -1;
+
+            table.querySelectorAll('thead th.sortable-col').forEach(function(other) {
+              if (other !== th) {
+                other.dataset.sortDirection = 'none';
+                var io = other.querySelector('.sort-indicator');
+                if (io) io.textContent = '↕';
+              }
+            });
+
+            var icon = th.querySelector('.sort-indicator');
+            if (icon) icon.textContent = next === 'asc' ? '▲' : '▼';
+
+            var dataRows = Array.from(tbody.querySelectorAll('tr'));
+            dataRows.sort(function(rowA, rowB) {
+              var cellA = rowA.children[colIndex];
+              var cellB = rowB.children[colIndex];
+              var textA = cellA ? cellA.textContent : '';
+              var textB = cellB ? cellB.textContent : '';
+              
+              var valA = parseCellValue(textA, sortType);
+              var valB = parseCellValue(textB, sortType);
+
+              if (valA === null && valB === null) return 0;
+              if (valA === null) return 1;
+              if (valB === null) return -1;
+              
+              return (valA - valB) * direction;
+            });
+
+            tbody.innerHTML = '';
+            dataRows.forEach(function(r) { tbody.appendChild(r); });
+          });
+        });
+      });
+    })();
+
+
+    // -------------------- FUNCIONES DE RENDERIZADO --------------------
+
+    function renderDriversMacro(year) {
+      var tbody = document.querySelector('#drivers-table tbody');
+      if (!tbody || !REDSALUD_DATA || !REDSALUD_DATA.drivers_macro) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay datos de drivers para mostrar.</td></tr>';
+        return;
+      }
+
+      var rowsData = REDSALUD_DATA.drivers_macro;
+      var totalComments = rowsData.reduce(function(acc, row) { return acc + (row.count || 0); }, 0);
+      var overallIBB = REDSALUD_DATA.overall_ibb || 0.0;
+      tbody.innerHTML = '';
+
+      rowsData.forEach(function(row) {
+        var tr = document.createElement('tr');
+        var tdDriver = document.createElement('td');
+        tdDriver.className = 'tbl-name';
+        tdDriver.textContent = row.attribute;
+        tr.appendChild(tdDriver);
+
+        var tdComments = document.createElement('td');
+        tdComments.className = 'tbl-num';
+        tdComments.textContent = totalComments ? new Intl.NumberFormat('es-CL').format(row.count || 0) : '0';
+        tr.appendChild(tdComments);
+
+        var tdPct = document.createElement('td');
+        tdPct.className = 'tbl-num';
+        var pctVal = totalComments ? ((row.count || 0) / totalComments * 100) : 0;
+        tdPct.textContent = totalComments ? formatDecimal(pctVal, 1, false) + '%' : '0,0%';
+        tr.appendChild(tdPct);
+
+        var tdIBB = document.createElement('td');
+        var ibbVal = row.ibb;
+        tdIBB.className = 'tbl-num val-csat ' + getIBBClass(ibbVal); 
+        tdIBB.textContent = (ibbVal === null || typeof ibbVal === 'undefined') ? '–' : formatDecimal(ibbVal, 2, false);
+        tr.appendChild(tdIBB);
+
+        var tdU = document.createElement('td');
+        var uVal = row.uplift;
+        tdU.className = 'tbl-num val-uplift ' + getUpliftClass(uVal);
+        tdU.textContent = (uVal === null || typeof uVal === 'undefined') ? '–' : formatDecimal(uVal, 2, true);
+        tr.appendChild(tdU);
+        
+        tbody.appendChild(tr);
+      });
+
+      // Fila Totales
+      var trTotal = document.createElement('tr');
+      trTotal.className = 'row-total';
+      var tdLabelTot = document.createElement('td');
+      tdLabelTot.textContent = 'Total comentarios clasificados';
+      trTotal.appendChild(tdLabelTot);
+      
+      var tdCommentsTot = document.createElement('td');
+      tdCommentsTot.className = 'tbl-num';
+      tdCommentsTot.textContent = new Intl.NumberFormat('es-CL').format(totalComments);
+      trTotal.appendChild(tdCommentsTot);
+      
+      var tdPctTot = document.createElement('td');
+      tdPctTot.className = 'tbl-num';
+      tdPctTot.textContent = '100,0%';
+      trTotal.appendChild(tdPctTot);
+      
+      trTotal.appendChild(document.createElement('td')); 
+      trTotal.appendChild(document.createElement('td')); 
+      tbody.appendChild(trTotal);
+
+      // Fila IBB general (Promedio)
+      var trProm = document.createElement('tr');
+      trProm.className = 'row-prom';
+      var tdLabelProm = document.createElement('td');
+      tdLabelProm.textContent = 'IBB General';
+      trProm.appendChild(tdLabelProm);
+      
+      trProm.appendChild(document.createElement('td')); 
+      trProm.appendChild(document.createElement('td')); 
+      
+      var tdIBBProm = document.createElement('td');
+      tdIBBProm.className = 'tbl-num val-csat ' + getIBBClass(overallIBB);
+      tdIBBProm.textContent = formatDecimal(overallIBB, 2, false);
+      trProm.appendChild(tdIBBProm);
+
+      var tdUpliftProm = document.createElement('td');
+      tdUpliftProm.className = 'tbl-num val-uplift neutral';
+      tdUpliftProm.textContent = formatDecimal(0.0, 2, true); 
+      trProm.appendChild(tdUpliftProm);
+      
+      tbody.appendChild(trProm);
+      
+      // Update Summary Cards
+      document.getElementById('total-comments').textContent = new Intl.NumberFormat('es-CL').format(totalComments);
+      document.getElementById('total-attributes').textContent = rowsData.length;
+      document.getElementById('overall-ibb').textContent = formatDecimal(overallIBB, 2, false);
+      document.getElementById('overall-ibb').className = 'summary-value ' + getIBBClass(overallIBB);
+    }
+
+    function renderEvolutionTables(year) {
+      var csatBody = document.querySelector('.ranking-csat tbody');
+      var upliftBody = document.querySelector('.ranking-uplift tbody');
+      var csatHead = document.querySelector('.ranking-csat thead tr');
+      var upliftHead = document.querySelector('.ranking-uplift thead tr');
+
+      if (!csatBody || !upliftBody || !REDSALUD_DATA || !REDSALUD_DATA.evolution_ibb || !REDSALUD_DATA.evolution_uplift) {
+        csatBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay datos de evolución para mostrar.</td></tr>';
+        upliftBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay datos de evolución para mostrar.</td></tr>';
+        return;
+      }
+
+      var ibbRows = REDSALUD_DATA.evolution_ibb;
+      var upliftRows = REDSALUD_DATA.evolution_uplift;
+
+      // 1. Obtener y renderizar los headers de los trimestres (T1, T2, T3, T4)
+      var availableQuarters = ibbRows.map(r => r.trimestre.split('-')[1]);
+      var uniqueQuarters = Array.from(new Set(availableQuarters)).sort();
+
+      var currentCSATHeaders = csatHead.querySelectorAll('th');
+      for (let i = currentCSATHeaders.length - 2; i >= 1; i--) {
+        csatHead.removeChild(currentCSATHeaders[i]);
+      }
+      var currentUPLIFTHeaders = upliftHead.querySelectorAll('th');
+      for (let i = currentUPLIFTHeaders.length - 2; i >= 1; i--) {
+        upliftHead.removeChild(currentUPLIFTHeaders[i]);
+      }
+
+      var totalHeader = csatHead.querySelector('th[style*="IBB Anual"]');
+      if (!totalHeader) totalHeader = csatHead.lastElementChild;
+      var upliftTotalHeader = upliftHead.querySelector('th[style*="Uplift Anual"]');
+      if (!upliftTotalHeader) upliftTotalHeader = upliftHead.lastElementChild;
+
+
+      uniqueQuarters.forEach(q => {
+        var thCSAT = document.createElement('th');
+        thCSAT.className = 'sortable-col';
+        thCSAT.dataset.sortType = 'decimal';
+        thCSAT.style.textAlign = 'right';
+        thCSAT.innerHTML = `<span class="sort-label">${q}<span class="sort-indicator">↕</span></span>`;
+        csatHead.insertBefore(thCSAT, totalHeader);
+        
+        var thUPLIFT = document.createElement('th');
+        thUPLIFT.className = 'sortable-col';
+        thUPLIFT.dataset.sortType = 'decimal';
+        thUPLIFT.style.textAlign = 'right';
+        thUPLIFT.innerHTML = `<span class="sort-label">${q}<span class="sort-indicator">↕</span></span>`;
+        upliftHead.insertBefore(thUPLIFT, upliftTotalHeader);
+      });
+
+      // 2. Rellenar las filas (Drivers)
+      csatBody.innerHTML = '';
+      upliftBody.innerHTML = '';
+
+      var allAttributes = REDSALUD_DATA.drivers_macro.map(d => d.attribute);
+      
+      allAttributes.forEach(function(attribute) {
+        // --- IBB Table ---
+        var trIBB = document.createElement('tr');
+        var tdDriverIBB = document.createElement('td');
+        tdDriverIBB.className = 'tbl-name';
+        tdDriverIBB.textContent = attribute;
+        trIBB.appendChild(tdDriverIBB);
+        
+        ibbRows.forEach(function(row) {
+          var ibb_q = row[attribute] === undefined ? null : row[attribute];
+          var td = document.createElement('td');
+          var cls = 'tbl-num val-csat ' + getIBBClass(ibb_q);
+          td.className = cls;
+          td.textContent = ibb_q === null ? '–' : formatDecimal(ibb_q, 2, false);
+          trIBB.appendChild(td);
+        });
+        
+        var annualData = REDSALUD_DATA.drivers_macro.find(d => d.attribute === attribute);
+        var avgIBB = annualData ? annualData.ibb : null;
+        var tdTotalIBB = document.createElement('td');
+        tdTotalIBB.className = 'tbl-num val-csat ' + getIBBClass(avgIBB);
+        tdTotalIBB.textContent = formatDecimal(avgIBB, 2, false);
+        tdTotalIBB.setAttribute('data-total', 'true');
+        trIBB.appendChild(tdTotalIBB);
+        csatBody.appendChild(trIBB);
+
+        // --- Uplift Table ---
+        var trUplift = document.createElement('tr');
+        var tdDriverUplift = document.createElement('td');
+        tdDriverUplift.className = 'tbl-name';
+        tdDriverUplift.textContent = attribute;
+        trUplift.appendChild(tdDriverUplift);
+        
+        upliftRows.forEach(function(row) {
+          var uplift_q = row[attribute] === undefined ? null : row[attribute];
+          var td = document.createElement('td');
+          var cls = 'tbl-num val-uplift ' + getUpliftClass(uplift_q);
+          td.className = cls;
+          td.textContent = uplift_q === null ? '–' : formatDecimal(uplift_q, 2, true);
+          trUplift.appendChild(td);
+        });
+        
+        var annualUplift = annualData ? annualData.uplift : null;
+        var tdTotalUplift = document.createElement('td');
+        tdTotalUplift.className = 'tbl-num val-uplift ' + getUpliftClass(annualUplift);
+        tdTotalUplift.textContent = formatDecimal(annualUplift, 2, true);
+        tdTotalUplift.setAttribute('data-total', 'true');
+        trUplift.appendChild(tdTotalUplift);
+        upliftBody.appendChild(trUplift);
+      });
+    }
+
+    function initServiceToggles() {
+      document.querySelectorAll('.service-toggle').forEach(function(btn) {
+        btn.onclick = null; 
+      });
+
+      document.querySelectorAll('.service-toggle').forEach(function(btn) {
+        btn.onclick = function() {
+          var cid = this.getAttribute('data-center');
+          var expanded = this.getAttribute('data-expanded') === 'true';
+          var rows = document.querySelectorAll("tr[data-parent-center='" + cid + "']");
+          rows.forEach(function(row) {
+            row.style.display = expanded ? 'none' : 'table-row';
+          });
+          this.textContent = expanded ? '+' : '–';
+          this.setAttribute('data-expanded', expanded ? 'false' : 'true');
+        };
+      });
+    }
+
+    function renderServicesTable(year, trims) {
+      var tbody = document.getElementById('services-tbody');
+      if (!tbody || !REDSALUD_DATA || !REDSALUD_DATA.services_breakdown) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay datos de servicios para mostrar.</td></tr>';
+        return;
+      }
+      
+      var dataset = REDSALUD_DATA.services_breakdown.Centers || [];
+      var totalCommentsYear = document.getElementById('total-comments').textContent.replace(/\./g, '');
+      var yearTextTotal = parseInt(totalCommentsYear) || 1; 
+      var overallIBB = REDSALUD_DATA.overall_ibb || 0.0;
+
+      tbody.innerHTML = '';
+
+      dataset.forEach(function(center) {
+        // --- 1. Fila de Centro (Center) ---
+        var trCenter = document.createElement('tr');
+        trCenter.className = 'center-row';
+        var tdName = document.createElement('td');
+        tdName.className = 'tbl-name';
+        tdName.innerHTML = `<strong>${center.center}</strong> <button class="plus-btn service-toggle" data-center="${center.center}" data-expanded="false">+</button>`;
+        trCenter.appendChild(tdName);
+
+        var tdDrivers = document.createElement('td');
+        tdDrivers.className = 'drivers-cell';
+        tdDrivers.textContent = '–';
+        trCenter.appendChild(tdDrivers);
+
+        var tdComments = document.createElement('td');
+        tdComments.className = 'tbl-num';
+        tdComments.textContent = new Intl.NumberFormat('es-CL').format(center.count);
+        trCenter.appendChild(tdComments);
+
+        var pctCenter = yearTextTotal > 0 ? (center.count / yearTextTotal * 100) : 0;
+        var tdPct = document.createElement('td');
+        tdPct.className = 'tbl-num';
+        tdPct.textContent = yearTextTotal ? formatDecimal(pctCenter, 1, false) + '%' : '0,0%';
+        trCenter.appendChild(tdPct);
+
+        var tdIBB = document.createElement('td');
+        tdIBB.className = 'tbl-num val-csat ' + getIBBClass(center.ibb);
+        tdIBB.textContent = formatDecimal(center.ibb, 2, false);
+        trCenter.appendChild(tdIBB);
+
+        var upliftCenter = center.ibb - overallIBB;
+        var tdUplift = document.createElement('td');
+        tdUplift.className = 'tbl-num val-uplift ' + getUpliftClass(upliftCenter);
+        tdUplift.textContent = formatDecimal(upliftCenter, 2, true);
+        trCenter.appendChild(tdUplift);
+        
+        tbody.appendChild(trCenter);
+
+        // --- 2. Filas de Servicio (Service) - Inicialmente ocultas ---
+        center.services.forEach(function(service) {
+          var serviceDriversList = service.attributes.map(attr => attr.attribute).join(', ');
+          var upliftService = service.ibb - overallIBB;
+          
+          var trService = document.createElement('tr');
+          trService.style.display = 'none'; 
+          trService.setAttribute('data-parent-center', center.center);
+          
+          var tdNameService = document.createElement('td');
+          tdNameService.className = 'tbl-name center-cell';
+          tdNameService.innerHTML = service.service;
+          trService.appendChild(tdNameService);
+
+          var tdDriversService = document.createElement('td');
+          tdDriversService.className = 'drivers-cell';
+          tdDriversService.textContent = serviceDriversList || '–';
+          trService.appendChild(tdDriversService);
+
+          var tdCommentsService = document.createElement('td');
+          tdCommentsService.className = 'tbl-num';
+          tdCommentsService.textContent = new Intl.NumberFormat('es-CL').format(service.count);
+          trService.appendChild(tdCommentsService);
+
+          var pctService = yearTextTotal > 0 ? (service.count / yearTextTotal * 100) : 0;
+          var tdPctService = document.createElement('td');
+          tdPctService.className = 'tbl-num';
+          tdPctService.textContent = yearTextTotal ? formatDecimal(pctService, 1, false) + '%' : '0,0%';
+          trService.appendChild(tdPctService);
+          
+          var tdIBBService = document.createElement('td');
+          tdIBBService.className = 'tbl-num val-csat ' + getIBBClass(service.ibb);
+          tdIBBService.textContent = formatDecimal(service.ibb, 2, false);
+          trService.appendChild(tdIBBService);
+
+          var tdUpliftService = document.createElement('td');
+          tdUpliftService.className = 'tbl-num val-uplift ' + getUpliftClass(upliftService);
+          tdUpliftService.textContent = formatDecimal(upliftService, 2, true);
+          trService.appendChild(tdUpliftService);
+          
+          tbody.appendChild(trService);
+        });
+      });
+
+      initServiceToggles();
+    }
+
+
+    // -------------------- Carga Asíncrona de Datos y Inicialización --------------------
+
+    async function fetchData() {
+        // RUTA CORREGIDA: Usando una ruta relativa
+        const JSON_URL = './data_redsalud.json'; 
+        
+        try {
+            const response = await fetch(JSON_URL);
+            
+            if (!response.ok) {
+                // Si la respuesta no es 200 OK, es un error de archivo no encontrado (404) o de permisos.
+                throw new Error(`Error ${response.status}: El archivo JSON no se encontró o no es accesible en la ruta: ${JSON_URL}`);
+            }
+
+            REDSALUD_DATA = await response.json();
+            console.log("Datos cargados correctamente desde la URL relativa.");
+            refreshAll(); 
+        } catch (error) {
+            console.error("Error al cargar o parsear el JSON:", error);
+            document.getElementById('overall-ibb').textContent = 'ERROR';
+            document.getElementById('total-comments').textContent = 'ERROR';
+            document.getElementById('total-attributes').textContent = 'ERROR';
+            alert(`No se pudo cargar el JSON. Asegúrese de que el archivo 'data_redsalud.json' está en la misma carpeta que el HTML y es accesible. Detalle: ${error.message}`);
+        }
+    }
+
+    function getCurrentYear() {
+      return '2025';
+    }
+
+    function refreshAll() {
+      var year = getCurrentYear();
+      if (REDSALUD_DATA) {
+        renderDriversMacro(year);
+        renderEvolutionTables(year);
+        renderServicesTable(year, selectedTrims);
+      } else {
+        console.error("Error: REDSALUD_DATA no está definido.");
+      }
+    }
+
+    // Eventos selector de año
+    var yearSelect = document.getElementById('year-select');
+    if (yearSelect) {
+      yearSelect.addEventListener('change', function() {
+        refreshAll();
+      });
+    }
+
+    // Eventos de trimestres (multi selección para servicios)
+    document.querySelectorAll('#trim-filter .trim-pill').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        var t = parseInt(this.getAttribute('data-trim'), 10);
+        var idx = selectedTrims.indexOf(t);
+
+        if (idx !== -1) {
+          if (selectedTrims.length === 1) return; 
+          selectedTrims.splice(idx, 1);
+          this.classList.remove('selected');
+        } else {
+          selectedTrims.push(t);
+          this.classList.add('selected');
+          selectedTrims.sort();
+        }
+        renderServicesTable(getCurrentYear(), selectedTrims);
+      });
+    });
+
+    // Inicia la carga de datos al cargar el documento
+    document.addEventListener('DOMContentLoaded', fetchData);
+  </script>
+</body>
+</html>
