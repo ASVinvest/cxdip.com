@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>CXDIP Loyalty – Boutique de Experiencia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Tipografía Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --bg-soft: #ffffff;
+      --primary: #0f172a;
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+      --text-main: #111827;
+      --text-soft: #4b5563;
+      --border-soft: #e5e7eb;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.12);
+      --radius-lg: 20px;
+      --radius-pill: 999px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, rgba(37,99,235,0.12), transparent 55%),
+                  linear-gradient(to bottom, #f9fafb, #e5e7eb);
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
+
+    .card-page {
+      background: var(--bg-soft);
+      border-radius: 34px;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+    }
+
+    .header-gradient {
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,0.20), transparent 60%),
+        radial-gradient(circle at top right, rgba(56,189,248,0.18), transparent 55%),
+        linear-gradient(to bottom, #ffffff, #f9fafb);
+      padding: 32px 32px 24px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid #d1d5db;
+      font-size: 12px;
+      color: #4b5563;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), #60a5fa);
+      box-shadow: 0 0 0 6px rgba(37,99,235,0.18);
+    }
+
+    .header-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .header-title {
+      font-size: 36px;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .header-subtitle {
+      font-size: 15px;
+      color: var(--text-soft);
+      max-width: 460px;
+    }
+
+    .header-subtitle strong {
+      color: #111827;
+      font-weight: 600;
+    }
+
+    .header-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .highlight-pill {
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      color: #0f172a;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      border: none;
+      cursor: pointer;
+      border-radius: var(--radius-pill);
+      padding: 9px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      box-shadow: 0 10px 22px rgba(37,99,235,0.32);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 15px 26px rgba(37,99,235,0.36);
+    }
+
+    .btn-secondary {
+      border-radius: var(--radius-pill);
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #0f172a;
+      border: 1px solid #cbd5f5;
+      background: #eff6ff;
+      text-decoration: none;
+    }
+
+    .cta-note {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .hero-right {
+      border-radius: 24px;
+      padding: 14px 14px 10px;
+      background:#020617;
+      border: 1px solid rgba(15,23,42,0.5);
+      overflow: hidden;
+    }
+
+    .hero-tag {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.7);
+      color: #e5e7eb;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .hero-ai-image {
+      background: #020617;
+      border-radius: 18px;
+      height: 180px;
+      border: 1px solid rgba(148,163,184,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-ai-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-metrics {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .metric-card {
+      flex: 1 1 120px;
+      border-radius: 14px;
+      padding: 8px 10px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.8);
+      color: #e5e7eb;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .metric-value {
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .metric-footnote {
+      font-size: 10px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    /* Body */
+    .body {
+      padding: 22px 28px 26px;
+      background: #f9fafb;
+    }
+
+    .section {
+      padding: 20px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .section:last-child {
+      border-bottom: none;
+      padding-bottom: 4px;
+    }
+
+    .section-kicker {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #6b7280;
+      letter-spacing: 0.16em;
+      margin-bottom: 4px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+
+    .section-subtitle {
+      font-size: 13px;
+      color: #6b7280;
+      max-width: 520px;
+    }
+
+    .two-cols {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 22px;
+      margin-top: 12px;
+    }
+
+    .text-block p {
+      font-size: 13px;
+      color: #111827;
+      margin-bottom: 6px;
+    }
+
+    .text-block p strong {
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    .bullet-list {
+      margin-top: 4px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .bullet-item {
+      display: flex;
+      gap: 6px;
+      font-size: 12px;
+      color: #374151;
+    }
+
+    .bullet-dot {
+      margin-top: 5px;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      padding: 12px 12px 14px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+    }
+
+    .card-tag {
+      font-size: 10px;
+      color: #2563eb;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .card p {
+      font-size: 12px;
+      color: #4b5563;
+      margin-bottom: 4px;
+    }
+
+    .pricing-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 22px;
+      margin-top: 10px;
+    }
+
+    .price-tag {
+      font-size: 24px;
+      color: var(--primary);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .price-tag span {
+      font-size: 14px;
+      color: #6b7280;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .price-note {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .check-list {
+      margin-top: 6px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 6px;
+      font-size: 12px;
+      color: #111827;
+    }
+
+    .check-icon {
+      margin-top: 2px;
+      width: 13px;
+      height: 13px;
+      border-radius: 4px;
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #2563eb;
+      flex-shrink: 0;
+    }
+
+    /* Footer CTA */
+    .footer-cta {
+      padding: 18px 22px 22px;
+      border-radius: 0 0 30px 30px;
+      background:#0f172a;
+      border-top: 1px solid rgba(148,163,184,0.4);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-cta-main {
+      max-width: 520px;
+    }
+
+    .footer-cta-title {
+      font-size: 16px;
+      color: #f9fafb;
+      margin-bottom: 4px;
+    }
+
+    .footer-cta-text {
+      font-size: 13px;
+      color: #e5e7eb;
+    }
+
+    .footer-cta-note {
+      font-size: 11px;
+      color: #cbd5f5;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 900px) {
+      .header-main,
+      .two-cols,
+      .pricing-wrap {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-right { margin-top: 16px; }
+      .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .body { padding: 18px 18px 22px; }
+      .header-gradient { padding: 24px 20px 18px; }
+      .header-title { font-size: 28px; }
+    }
+
+    @media (max-width: 640px) {
+      .cards-grid { grid-template-columns: minmax(0, 1fr); }
+      .page { padding: 18px 10px 36px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="card-page">
+      <!-- HEADER / HERO -->
+      <header class="header-gradient">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          CXDIP Loyalty · Boutique de Experiencia
+        </div>
+        <div class="header-main">
+          <div>
+            <h1 class="header-title">CXDIP Loyalty</h1>
+            <p class="header-subtitle">
+              El servicio <strong>all-in-one</strong> que convierte NPS y comentarios en un sistema simple
+              para <strong>proteger a tus mejores clientes y decidir dónde invertir en CX</strong>.
+            </p>
+            <div class="header-highlights">
+              <span class="highlight-pill">Diseño + encuesta + panel + informes</span>
+              <span class="highlight-pill">Hasta 3.600 respuestas al año</span>
+              <span class="highlight-pill">Web &amp; mobile listo para comité</span>
+            </div>
+            <div class="cta-row">
+              <a href="#contacto" class="btn-primary">
+                Quiero ver una demo
+                <span>↗</span>
+              </a>
+              <a href="#paquete" class="btn-secondary">Qué incluye</a>
+              <p class="cta-note">30 minutos. Sin compromiso. Con tus preguntas sobre la mesa.</p>
+            </div>
+          </div>
+
+          <div class="hero-right">
+            <span class="hero-tag">Vista de panel CXDIP Loyalty (mockup)</span>
+            <div class="hero-ai-image">
+              <!-- Reemplaza el src por la ruta real de tu imagen hero -->
+              <img src="hero_cxdip_loyalty.jpg"
+                   alt="Equipo ejecutivo mirando un panel CXDIP Loyalty en una sala de reuniones moderna" />
+            </div>
+            <div class="hero-metrics">
+              <div class="metric-card">
+                <div class="metric-label">Capacidad incluida</div>
+                <div class="metric-value">3.600</div>
+                <div class="metric-footnote">Respuestas NPS al año, un solo paquete.</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Acompañamiento</div>
+                <div class="metric-value">2 informes</div>
+                <div class="metric-footnote">Lectura ejecutiva y foco en decisiones.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- BODY -->
+      <main class="body">
+        <!-- POR QUÉ CXDIP -->
+        <section class="section">
+          <div>
+            <div class="section-kicker">Por qué elegirnos</div>
+            <h2 class="section-title">Menos plataforma, más decisiones</h2>
+            <p class="section-subtitle">
+              Muchas empresas ya miden NPS, pero siguen sin claridad para decidir. CXDIP Loyalty está pensado para
+              que en menos de 30 segundos se entienda qué pasa y qué hacer.
+            </p>
+          </div>
+
+          <div class="two-cols">
+            <div class="text-block">
+              <p><strong>Lo que evitamos:</strong></p>
+              <div class="bullet-list">
+                <div class="bullet-item">
+                  <span class="bullet-dot"></span>
+                  <span>Licencias complejas que requieren “súper usuarios” para operar.</span>
+                </div>
+                <div class="bullet-item">
+                  <span class="bullet-dot"></span>
+                  <span>Dashboards que nadie abre en comité porque son densos o poco claros.</span>
+                </div>
+                <div class="bullet-item">
+                  <span class="bullet-dot"></span>
+                  <span>Informes que describen el dato, pero no priorizan acciones.</span>
+                </div>
+              </div>
+
+              <p style="margin-top: 8px;"><strong>Lo que hacemos distinto:</strong></p>
+              <div class="bullet-list">
+                <div class="bullet-item">
+                  <span class="bullet-dot"></span>
+                  <span>Diseño la medición contigo, en lenguaje de tu negocio.</span>
+                </div>
+                <div class="bullet-item">
+                  <span class="bullet-dot"></span>
+                  <span>Panel único, limpio y pensado para comités de dirección.</span>
+                </div>
+                <div class="bullet-item">
+                  <span class="bullet-dot"></span>
+                  <span>Acompañamiento para traducir NPS y drivers en 2–3 decisiones clave por periodo.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-tag">Boutique CX</div>
+              <h3 class="card-title">Socio, no solo herramienta</h3>
+              <p>
+                No vendemos software y luego desaparecemos. CXDIP Loyalty combina medición,
+                panel y lectura ejecutiva en un solo servicio, pensado para banca, retail,
+                salud, medios de pago y servicios masivos.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- QUE INCLUYE -->
+        <section class="section" id="paquete">
+          <div>
+            <div class="section-kicker">Qué incluye</div>
+            <h2 class="section-title">Un sistema completo de lealtad, paquetizado</h2>
+            <p class="section-subtitle">
+              Todo lo que necesitas para medir, entender y gestionar la experiencia, sin piezas sueltas.
+            </p>
+          </div>
+
+          <div class="cards-grid">
+            <div class="card">
+              <div class="card-tag">Diseño</div>
+              <h3 class="card-title">Cuestionario &amp; modelo de datos</h3>
+              <p>Encuesta optimizada, escalas claras y maquetado con tu marca.</p>
+              <p>Definición de segmentos, canales y variables clave para el panel.</p>
+            </div>
+
+            <div class="card">
+              <div class="card-tag">Plataforma</div>
+              <h3 class="card-title">Panel web &amp; mobile</h3>
+              <p>Hasta 3.600 respuestas NPS al año.</p>
+              <p>Vista simple por NPS, segmentos, periodos y principales drivers.</p>
+            </div>
+
+            <div class="card">
+              <div class="card-tag">Acompañamiento</div>
+              <h3 class="card-title">Informes ejecutivos</h3>
+              <p>2 informes al año, con lectura ejecutiva y foco en acciones.</p>
+              <p>Sesión de presentación a comité incluida.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRECIO -->
+        <section class="section">
+          <div>
+            <div class="section-kicker">Inversión</div>
+            <h2 class="section-title">Tarifa clara, sin letras chicas</h2>
+            <p class="section-subtitle">
+              Un solo paquete, con todo incluido. Sin costos ocultos por “consultoría aparte”.
+            </p>
+          </div>
+
+          <div class="pricing-wrap">
+            <div>
+              <div class="price-tag">
+                5.800 USD <span>/ primer año</span>
+              </div>
+              <p class="price-note">
+                · 1.000 USD de onboarding (una vez).<br/>
+                · 4.800 USD de servicio anual.<br/>
+                · Hasta 3.600 respuestas NPS al año.
+              </p>
+              <div class="check-list">
+                <div class="check-item">
+                  <div class="check-icon">✓</div>
+                  <span>Diseño de encuesta y modelo de datos.</span>
+                </div>
+                <div class="check-item">
+                  <div class="check-icon">✓</div>
+                  <span>Panel web &amp; mobile para tu equipo.</span>
+                </div>
+                <div class="check-item">
+                  <div class="check-icon">✓</div>
+                  <span>Informes ejecutivos y sesión de presentación.</span>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-tag">Años siguientes</div>
+              <h3 class="card-title">Mantención del sistema</h3>
+              <p class="price-note">
+                4.800 USD / año, manteniendo capacidad de respuestas, panel
+                y acompañamiento ejecutivo.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- PARA QUIÉN ES -->
+        <section class="section" id="contacto">
+          <div>
+            <div class="section-kicker">¿Para quién es?</div>
+            <h2 class="section-title">Para equipos que quieren pasar a la acción</h2>
+            <p class="section-subtitle">
+              Ideal si ya mides NPS o piensas hacerlo, pero quieres algo concreto: menos ruido y más decisiones en cada comité.
+            </p>
+          </div>
+
+          <div class="two-cols">
+            <div class="text-block">
+              <p><strong>CXDIP Loyalty encaja si tu organización:</strong></p>
+              <div class="bullet-list">
+                <div class="bullet-item">
+                  <span class="bullet-dot"></span>
+                  <span>Necesita un panel que cualquier director entienda en segundos.</span>
+                </div>
+                <div class="bullet-item">
+                  <span class="bullet-dot"></span>
+                  <span>No quiere depender de un único “experto de la herramienta”.</span>
+                </div>
+                <div class="bullet-item">
+                  <span class="bullet-dot"></span>
+                  <span>Valora tener un socio que lea los datos contigo y priorice 2–3 movimientos por periodo.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-tag">Próximo paso</div>
+              <h3 class="card-title">Demo de 30 minutos</h3>
+              <p>
+                Revisamos cómo mides hoy, te mostramos un panel tipo CXDIP Loyalty
+                y definimos si el modelo hace sentido para tu realidad.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- FOOTER CTA -->
+      <footer class="footer-cta">
+        <div class="footer-cta-main">
+          <div class="footer-cta-title">CXDIP Loyalty: menos ruido, más decisiones</div>
+          <p class="footer-cta-text">
+            Un solo servicio que reúne encuesta, panel e informes ejecutivos para que la voz del cliente
+            tenga un lugar claro en la gestión.
+          </p>
+          <p class="footer-cta-note">
+            Escríbenos y agendamos una demo personalizada de 30 minutos.
+          </p>
+        </div>
+        <div>
+          <a href="mailto:contacto@cxdip.com?subject=Demo%20CXDIP%20Loyalty"
+             class="btn-primary">
+            Agendar demo
+          </a>
+        </div>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
