@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>CXDIP – Loyalty Basic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+
+  <style>
+    :root {
+      /* Paleta CXDIP aproximada */
+      --brand-blue: #2563eb;
+      --brand-blue-soft: #f6fff7;
+      --brand-deep-blue: #111827;
+      --brand-green: #22c55e;
+      --brand-yellow: #ffcc00;
+      --brand-red: #f97373;
+
+      --bg-main: #e2eed4;
+      --bg-card: #ffffff;
+      --text-main: #111827;
+      --text-soft: #6b7280;
+      --border-soft: #c3d658;
+      --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.07);
+      --radius-large: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+      background: radial-gradient(circle at top left, #e5edff 0, #f4f6ff 45%, #f4f6ff 100%);
+      color: var(--text-main);
+    }
+
+    .cxdip-wrapper {
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+
+    /* HEADER DE PRODUCTO */
+    .app-header { margin-bottom: 18px; }
+
+    .app-header-minititle {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .app-header-product {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .brand-name {
+      color: var(--brand-blue);
+      margin-right: 4px;
+    }
+
+    .product-name {
+      color: var(--brand-deep-blue);
+    }
+
+    .app-header-subtitle {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-bottom: 3px;
+    }
+
+    .app-header-meta {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .panel-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 20px 22px;
+      margin-bottom: 22px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .section-header h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .section-header small {
+      color: var(--text-soft);
+      font-size: 12px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .year-selector {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .year-label { color: var(--text-soft); }
+
+    .year-pill {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 3px 18px;
+      border-radius: 999px;
+      background: var(--brand-blue-soft);
+      color: var(--brand-blue);
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+      transition: all 0.15s ease-in-out;
+    }
+
+    .year-pill.active {
+      background: var(--brand-blue);
+      color: #ffffff;
+    }
+
+    .chart {
+      width: 100%;
+      height: 260px;
+    }
+
+    /* YTD overview */
+    .ytd-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .kpi-card {
+      background: #f9fbff;
+      border-radius: 14px;
+      padding: 10px 14px;
+      border: 1px solid #e3e6f4;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      color: var(--brand-deep-blue);
+    }
+
+    .kpi-unit {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .kpi-trend {
+      font-size: 11px;
+      color: #16a34a;
+      margin-top: 2px;
+    }
+
+    .kpi-trend.down {
+      color: #dc2626;
+    }
+
+    .progress-wrapper { margin-top: 2px; }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: #e1e4f3;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--brand-blue), var(--brand-green));
+      transition: width 0.3s ease-out;
+    }
+
+    .mini-kpi {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #eef2ff;
+      border: 1px solid #e0e7ff;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    hr.section-divider {
+      border: none;
+      border-top: 1px solid var(--border-soft);
+      margin: 4px 0 10px;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 14px;
+      }
+      .chart {
+        height: 230px;
+      }
+      .app-header-product {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cxdip-wrapper">
+    <!-- HEADER CXDIP + PRODUCTO -->
+    <header class="app-header">
+      <div class="app-header-minititle">Panel Loyalty 2025</div>
+      <div class="app-header-product">
+        <span class="brand-name">CXDIP</span>
+        <span class="product-name">Loyalty Basic</span>
+      </div>
+      <div class="app-header-subtitle">
+        Lealtad 2024–2025 · Retail Enterprise.
+      </div>
+      <div class="app-header-meta">
+        • Universo: clientes activos retail · Periodicidad: mensual · Canales: email + SMS + app
+      </div>
+    </header>
+
+    <!-- 1. VISTA YTD GLOBAL -->
+    <section class="panel-card" id="ytd-panel">
+      <div class="section-header">
+        <div>
+          <h2>Resumen YTD</h2>
+          <small>Loyalty acumulado año seleccionado</small>
+        </div>
+        <div class="header-right">
+          <div class="year-selector">
+            <span class="year-label">Selecciona año</span>
+            <button class="year-pill active" data-year="2025">2025</button>
+            <button class="year-pill" data-year="2024">2024</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ytd-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Loyalty global</div>
+          <div class="kpi-value">
+            <span id="kpi-nps-ytd">65</span>
+            <span class="kpi-unit">pts</span>
+          </div>
+          <div class="progress-wrapper">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-nps"></div>
+            </div>
+          </div>
+          <div class="kpi-trend" id="kpi-nps-trend">+3 pts vs 2024</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-label">Encuestas respondidas</div>
+          <div class="kpi-value">
+            <span id="kpi-resp-ytd">3.600</span>
+            <span class="kpi-unit">resp.</span>
+          </div>
+          <div class="progress-wrapper">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-resp"></div>
+            </div>
+          </div>
+          <div class="kpi-trend" id="kpi-resp-trend">+8% vs 2024</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-label">% con comentario abierto</div>
+          <div class="kpi-value">
+            <span id="kpi-open-ytd">32</span>
+            <span class="kpi-unit">%</span>
+          </div>
+          <div class="progress-wrapper">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-open"></div>
+            </div>
+          </div>
+          <div class="kpi-trend" id="kpi-open-trend">+4 pp vs 2024</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-label">Riesgo de fuga estimado</div>
+          <div class="kpi-value">
+            <span id="kpi-churn-ytd">17</span>
+            <span class="kpi-unit">%</span>
+          </div>
+          <div class="progress-wrapper">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-churn"></div>
+            </div>
+          </div>
+          <div class="kpi-trend down" id="kpi-churn-trend">-2 pp vs 2024</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. NPS MENSUAL -->
+    <section class="panel-card">
+      <div class="section-header">
+        <div>
+          <h2>Loyalty mensual</h2>
+          <small>Barras apiladas por promotores, pasivos y detractores + línea Loyalty.</small>
+        </div>
+        <div class="header-right">
+          <div class="mini-kpi">
+            Loyalty YTD: <span id="mini-nps-ytd">65</span> pts
+          </div>
+          <div class="mini-kpi">
+            Año: <span id="current-year-label">2025</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="chart-nps" class="chart"></div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 3. N RESPUESTAS / COMENTARIOS -->
+    <section class="panel-card">
+      <div class="section-header">
+        <div>
+          <h2>N respuestas / Comentarios abiertos</h2>
+          <small>Volumen mensual de encuestas y comentarios</small>
+        </div>
+        <div class="header-right">
+          <div class="mini-kpi">
+            Resp. YTD: <span id="mini-resp-ytd">0</span>
+          </div>
+          <div class="mini-kpi">
+            Comentarios YTD: <span id="mini-com-ytd">0</span>
+          </div>
+        </div>
+      </div>
+      <div id="chart-respuestas" class="chart"></div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 4. PREGUNTA 1 (CSAT 1–5, MULTI-DIMENSIONES) -->
+    <section class="panel-card">
+      <div class="section-header">
+        <div>
+          <h2>Pregunta 1</h2>
+          <small>CSAT 1–5 por dimensión (promedio mensual)</small>
+        </div>
+        <div class="header-right">
+          <div class="mini-kpi">
+            Dim 1 YTD: <span id="mini-p1-d1">0</span>
+          </div>
+          <div class="mini-kpi">
+            Dim 2 YTD: <span id="mini-p1-d2">0</span>
+          </div>
+        </div>
+      </div>
+      <div id="chart-p1" class="chart"></div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 5. PREGUNTA 2 (CSAT 1–5, MULTI-DIMENSIONES) -->
+    <section class="panel-card">
+      <div class="section-header">
+        <div>
+          <h2>Pregunta 2</h2>
+          <small>CSAT 1–5 por dimensiones</small>
+        </div>
+        <div class="header-right">
+          <div class="mini-kpi">
+            Dim 1 YTD: <span id="mini-p2-d1">0</span>
+          </div>
+          <div class="mini-kpi">
+            Dim 2 YTD: <span id="mini-p2-d2">0</span>
+          </div>
+          <div class="mini-kpi">
+            Dim 3 YTD: <span id="mini-p2-d3">0</span>
+          </div>
+          <div class="mini-kpi">
+            Dim 4 YTD: <span id="mini-p2-d4">0</span>
+          </div>
+        </div>
+      </div>
+      <div id="chart-p2" class="chart"></div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 6. PREGUNTA DE FUGA -->
+    <section class="panel-card">
+      <div class="section-header">
+        <div>
+          <h2>Riesgo de fuga</h2>
+          <small>% clientes con alta probabilidad de abandono</small>
+        </div>
+        <div class="header-right">
+          <div class="mini-kpi">
+            Fuga YTD: <span id="mini-fuga-ytd">0%</span>
+          </div>
+        </div>
+      </div>
+      <div id="chart-fuga" class="chart"></div>
+    </section>
+  </div>
+
+  <script>
+    // Colores base: NPS + variantes
+    const COLOR_BLUE       = "#2563eb";                 // línea / marca CXDIP
+    const COLOR_BLUE_BAR   = "rgba(37, 99, 235, 0.5)";  // barras azules 50%
+    const COLOR_GREEN      = "#9af09e";                 // promotores NPS
+    const COLOR_YELLOW     = "#e9e647";                 // pasivos NPS
+    const COLOR_RED        = "#fecaca";                 // detractores NPS
+    const COLOR_ORANGE_BAR = "rgba(249, 115, 22, 0.5)"; // naranjo 50% (fuga)
+
+    const months = [
+      "Ene","Feb","Mar","Abr","May","Jun",
+      "Jul","Ago","Sept","Oct","Nov","Dic"
+    ];
+
+    const npsData = {
+      2025: {
+        detractors: [10,10,8,8,10,10,10,10,10,10,10,8],
+        passives:   [25,26,24,22,20,18,16,14,12,11,10,8],
+        promoters:  [65,64,68,70,72,74,76,78,79,80,82,84],
+        nps:        [55,54,60,62,64,66,68,70,71,72,74,76]
+      },
+      2024: {
+        detractors: [12,13,11,10,11,11,12,11,11,10,10,9],
+        passives:   [28,30,26,25,24,22,20,19,18,18,17,16],
+        promoters:  [60,57,63,65,65,67,68,70,71,72,73,75],
+        nps:        [48,44,52,55,54,56,56,59,60,62,63,66]
+      }
+    };
+
+    const respuestasData = {
+      total:        [300,300,300,300,300,300,300,300,300,300,300,300],
+      conComentario:[100,100,100,100,100,100,90,100,100,250,250,300]
+    };
+
+    const p1Data = {
+      dim1: [4.5,4.5,4.4,4.4,4.3,4.2,4.4,4.5,4.3,4.3,4.2,4.2],
+      dim2: [3.8,3.7,3.6,3.5,3.5,3.4,3.6,3.7,3.5,3.5,3.4,3.4]
+    };
+
+    const p2Data = {
+      dim1: [4.2,4.3,4.2,4.4,4.3,4.4,4.5,4.4,4.6,4.6,4.5,4.6],
+      dim2: [4.0,4.0,3.9,4.1,4.1,4.1,4.2,4.1,4.3,4.3,4.2,4.3],
+      dim3: [3.8,3.7,3.6,3.8,3.8,3.9,4.0,3.9,4.0,4.0,3.9,4.0],
+      dim4: [3.5,3.4,3.4,3.6,3.6,3.7,3.8,3.7,3.8,3.9,3.8,3.9]
+    };
+
+    // datos ejemplo para fuga (%)
+    const fugaData = [18,17,19,20,18,17,16,15,16,17,18,19];
+
+    const ytdKpiData = {
+      2025: {
+        nps: 65,
+        npsTrend: "+8 pts vs 2024",
+        resp: 3600,
+        respTrend: "+8% vs 2024",
+        open: 32,
+        openTrend: "+4 pp vs 2024",
+        churn: 7.2,
+        churnTrend: "-2,3 pts vs 2024"
+      },
+      2024: {
+        nps: 57,
+        npsTrend: "--",
+        resp: 3300,
+        respTrend: "--",
+        open: 28,
+        openTrend: "--",
+        churn: 9.5,
+        churnTrend: "--"
+      }
+    };
+
+    function sum(a){return a.reduce((x,y)=>x+y,0);}
+    function avg(a){return a.length?sum(a)/a.length:0;}
+    function formatNumber(n){return n.toLocaleString("es-ES");}
+
+    const chartNps        = echarts.init(document.getElementById("chart-nps"));
+    const chartRespuestas = echarts.init(document.getElementById("chart-respuestas"));
+    const chartP1         = echarts.init(document.getElementById("chart-p1"));
+    const chartP2         = echarts.init(document.getElementById("chart-p2"));
+    const chartFuga       = echarts.init(document.getElementById("chart-fuga"));
+
+    function renderYtdKpis(year){
+      const kpi = ytdKpiData[year];
+      if(!kpi) return;
+
+      document.getElementById("kpi-nps-ytd").textContent = kpi.nps;
+      document.getElementById("kpi-nps-trend").textContent = kpi.npsTrend;
+      document.getElementById("kpi-resp-ytd").textContent = formatNumber(kpi.resp);
+      document.getElementById("kpi-resp-trend").textContent = kpi.respTrend;
+      document.getElementById("kpi-open-ytd").textContent = kpi.open;
+      document.getElementById("kpi-open-trend").textContent = kpi.openTrend;
+      document.getElementById("kpi-churn-ytd").textContent = kpi.churn + "%";
+      document.getElementById("kpi-churn-trend").textContent = kpi.churnTrend;
+
+      document.getElementById("mini-nps-ytd").textContent = kpi.nps;
+      document.getElementById("current-year-label").textContent = year;
+
+      const npsPct   = Math.min(kpi.nps,100);
+      const respPct  = Math.min((kpi.resp/5000)*100,100);
+      const openPct  = Math.min(kpi.open,100);
+      const churnPct = Math.min(kpi.churn,100);
+
+      document.getElementById("progress-nps").style.width   = npsPct + "%";
+      document.getElementById("progress-resp").style.width  = respPct + "%";
+      document.getElementById("progress-open").style.width  = openPct + "%";
+      document.getElementById("progress-churn").style.width = churnPct + "%";
+    }
+
+    function renderNps(year){
+      const d = npsData[year];
+      if(!d) return;
+
+      const option = {
+        color: [COLOR_RED, COLOR_YELLOW, COLOR_GREEN, COLOR_BLUE],
+        tooltip: { trigger:"axis" },
+        legend: {
+          data:["Detractores","Pasivos","Promotores","Loyalty"],
+          top:10
+        },
+        grid:{ left:"3%", right:"4%", bottom:"8%", containLabel:true },
+        xAxis:{
+          type:"category",
+          data:months,
+          axisTick:{ alignWithLabel:true },
+          splitLine:{ show:false }
+        },
+        yAxis:[
+          { type:"value", axisLabel:{show:false}, splitLine:{show:false}, axisTick:{show:false} },
+          { type:"value", position:"right", min:0, max:100,
+            axisLabel:{show:false}, splitLine:{show:false}, axisTick:{show:false} }
+        ],
+        series:[
+          { name:"Detractores", type:"bar", stack:"total", data:d.detractors, label:{show:false} },
+          { name:"Pasivos",     type:"bar", stack:"total", data:d.passives,   label:{show:false} },
+          { name:"Promotores",  type:"bar", stack:"total", data:d.promoters,  label:{show:false} },
+          {
+            name:"Loyalty", type:"line", yAxisIndex:1, smooth:true, data:d.nps,
+            label:{ show:true, position:"top", fontSize:10, formatter:"{c}" }
+          }
+        ]
+      };
+      chartNps.setOption(option);
+      document.getElementById("mini-nps-ytd").textContent = avg(d.nps).toFixed(1);
+    }
+
+    function renderRespuestas(){
+      const option = {
+        color:[COLOR_BLUE_BAR, COLOR_YELLOW],
+        tooltip:{ trigger:"axis" },
+        legend:{ data:["Total encuestas","Con comentario"], top:10 },
+        grid:{ left:"3%", right:"4%", bottom:"8%", containLabel:true },
+        xAxis:{
+          type:"category",
+          data:months,
+          axisTick:{ alignWithLabel:true },
+          splitLine:{ show:false }
+        },
+        yAxis:{ type:"value", axisLabel:{show:false}, splitLine:{show:false}, axisTick:{show:false} },
+        series:[
+          { name:"Total encuestas", type:"bar", data:respuestasData.total,
+            label:{show:true, position:"top", fontSize:10} },
+          { name:"Con comentario", type:"bar", data:respuestasData.conComentario,
+            label:{show:true, position:"top", fontSize:10} }
+        ]
+      };
+      chartRespuestas.setOption(option);
+
+      document.getElementById("mini-resp-ytd").textContent = formatNumber(sum(respuestasData.total));
+      document.getElementById("mini-com-ytd").textContent  = formatNumber(sum(respuestasData.conComentario));
+    }
+
+    function renderP1(){
+      const option = {
+        color:[COLOR_BLUE_BAR, COLOR_GREEN],
+        tooltip:{ trigger:"axis" },
+        legend:{ data:["Dimensión 1","Dimensión 2"], top:10 },
+        grid:{ left:"3%", right:"4%", bottom:"8%", containLabel:true },
+        xAxis:{
+          type:"category",
+          data:months,
+          axisTick:{ alignWithLabel:true },
+          splitLine:{ show:false }
+        },
+        yAxis:{
+          type:"value", min:1, max:5,
+          axisLabel:{show:false}, splitLine:{show:false}, axisTick:{show:false}
+        },
+        series:[
+          { name:"Dimensión 1", type:"bar", data:p1Data.dim1,
+            label:{show:true, position:"top", fontSize:10} },
+          { name:"Dimensión 2", type:"bar", data:p1Data.dim2,
+            label:{show:true, position:"top", fontSize:10} }
+        ]
+      };
+      chartP1.setOption(option);
+
+      document.getElementById("mini-p1-d1").textContent = avg(p1Data.dim1).toFixed(2);
+      document.getElementById("mini-p1-d2").textContent = avg(p1Data.dim2).toFixed(2);
+    }
+
+    function renderP2(){
+      const option = {
+        color:[COLOR_GREEN, COLOR_BLUE_BAR, COLOR_YELLOW, COLOR_RED],
+        tooltip:{ trigger:"axis" },
+        legend:{
+          data:["Dimensión 1","Dimensión 2","Dimensión 3","Dimensión 4"],
+          top:10
+        },
+        grid:{ left:"3%", right:"4%", bottom:"8%", containLabel:true },
+        xAxis:{
+          type:"category",
+          data:months,
+          axisTick:{ alignWithLabel:true },
+          splitLine:{ show:false }
+        },
+        yAxis:{
+          type:"value", min:1, max:5,
+          axisLabel:{show:false}, splitLine:{show:false}, axisTick:{show:false}
+        },
+        series:[
+          { name:"Dimensión 1", type:"bar", data:p2Data.dim1,
+            label:{show:true, position:"top", fontSize:10} },
+          { name:"Dimensión 2", type:"bar", data:p2Data.dim2,
+            label:{show:true, position:"top", fontSize:10} },
+          { name:"Dimensión 3", type:"bar", data:p2Data.dim3,
+            label:{show:true, position:"top", fontSize:10} },
+          { name:"Dimensión 4", type:"bar", data:p2Data.dim4,
+            label:{show:true, position:"top", fontSize:10} }
+        ]
+      };
+      chartP2.setOption(option);
+
+      document.getElementById("mini-p2-d1").textContent = avg(p2Data.dim1).toFixed(2);
+      document.getElementById("mini-p2-d2").textContent = avg(p2Data.dim2).toFixed(2);
+      document.getElementById("mini-p2-d3").textContent = avg(p2Data.dim3).toFixed(2);
+      document.getElementById("mini-p2-d4").textContent = avg(p2Data.dim4).toFixed(2);
+    }
+
+    function renderFuga(){
+      const option = {
+        color:[COLOR_ORANGE_BAR],
+        tooltip:{ trigger:"axis" },
+        legend:{ show:false },
+        grid:{ left:"3%", right:"4%", bottom:"8%", containLabel:true },
+        xAxis:{
+          type:"category",
+          data:months,
+          axisTick:{ alignWithLabel:true },
+          splitLine:{ show:false }
+        },
+        yAxis:{
+          type:"value",
+          axisLabel:{ show:false },
+          splitLine:{ show:false },
+          axisTick:{ show:false }
+        },
+        series:[
+          {
+            name:"Riesgo de fuga",
+            type:"bar",
+            data:fugaData,
+            label:{
+              show:true,
+              position:"top",
+              fontSize:10,
+              formatter:"{c}%"
+            }
+          }
+        ]
+      };
+      chartFuga.setOption(option);
+
+      document.getElementById("mini-fuga-ytd").textContent =
+        avg(fugaData).toFixed(1) + "%";
+    }
+
+    function setYear(year){
+      document.querySelectorAll("[data-year]").forEach(b=>{
+        b.classList.toggle("active", b.getAttribute("data-year")===String(year));
+      });
+      renderYtdKpis(year);
+      renderNps(year);
+    }
+
+    document.querySelectorAll("[data-year]").forEach(btn=>{
+      btn.addEventListener("click", e=>{
+        const year = parseInt(e.target.getAttribute("data-year"),10);
+        setYear(year);
+      });
+    });
+
+    // Render inicial
+    setYear(2025);
+    renderRespuestas();
+    renderP1();
+    renderP2();
+    renderFuga();
+
+    window.addEventListener("resize", ()=>{
+      chartNps.resize();
+      chartRespuestas.resize();
+      chartP1.resize();
+      chartP2.resize();
+      chartFuga.resize();
+    });
+  </script>
+</body>
+</html>
