@@ -112,11 +112,12 @@
     .metric-value.positive { color: var(--positive); }
     .metric-value.negative { color: var(--negative); }
 
+    /* >>> CAMBIO: más alto para que la curva ocupe el espacio blanco <<< */
     .track {
       margin-top: 4px;
       margin-bottom: 8px;
       flex: 1;
-      min-height: 260px;
+      min-height: 380px;   /* antes 260px */
     }
 
     .track-scroll {
@@ -226,7 +227,7 @@
       display: flex;
       gap: 14px;
       align-items: stretch;
-      min-height: 230px;
+      min-height: 260px;
       margin-top: 4px;
     }
 
@@ -241,9 +242,10 @@
       text-align: right;
     }
 
+    /* >>> CAMBIO: área de curva más alta para usar el espacio <<< */
     .curve-area {
       position: relative;
-      height: 260px;
+      height: 340px;   /* antes 260px */
       flex: 1;
     }
 
@@ -258,8 +260,8 @@
 
     .curve-path {
       fill: none;
-      stroke: #cbd5f5;
-      stroke-width: 2;
+      stroke: #d7e1ff;
+      stroke-width: 2.3;
     }
 
     .curve-nodes {
@@ -459,6 +461,7 @@
       .info { grid-template-columns: 1fr; }
       header { flex-direction: column; align-items: flex-start; }
       .top-right { align-items: flex-start; margin-left: 0; }
+      .curve-area { height: 260px; }  /* en pantallas chicas bajamos un poco */
     }
 
     button { outline: none; }
@@ -572,6 +575,7 @@
     <div class="tooltip" id="tooltip"></div>
   </div>
 
+  <!-- JS igual que la versión anterior (funcionando) -->
   <script>
     const stages = [
       {
@@ -728,7 +732,7 @@
 
         const score = Math.max(0, Math.min(100, stage.matchScore ?? stage.clvPorc));
         const norm = score / 100;
-        const y = topPadding + (1 - norm) * availableHeight; // 100 arriba, 0 abajo
+        const y = topPadding + (1 - norm) * availableHeight;
 
         points.push({ x, y, stage, score });
       });
