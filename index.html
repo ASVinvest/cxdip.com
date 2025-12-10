@@ -33,6 +33,16 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* compensación para el header sticky al usar anchors */
+    main[id],
+    section[id] {
+      scroll-margin-top: 90px;
+    }
+
     a {
       text-decoration: none;
       color: inherit;
@@ -88,7 +98,45 @@
       color: var(--text-muted);
     }
 
-    nav ul {
+    /* botón hamburguesa */
+
+    .menu-toggle {
+      display: none;
+      border: none;
+      background: transparent;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      margin-left: auto;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: #111827;
+      transition: transform 0.18s ease, opacity 0.18s ease, background 0.18s ease;
+    }
+
+    .menu-toggle span + span {
+      margin-top: 5px;
+    }
+
+    body.nav-open .menu-toggle span:nth-child(1) {
+      transform: translateY(3px) rotate(45deg);
+    }
+
+    body.nav-open .menu-toggle span:nth-child(2) {
+      transform: translateY(-3px) rotate(-45deg);
+    }
+
+    /* NAV principal */
+
+    .main-nav ul {
       list-style: none;
       display: flex;
       align-items: center;
@@ -96,12 +144,12 @@
       font-size: 0.9rem;
     }
 
-    nav a {
+    .main-nav a {
       color: var(--text-muted);
       transition: color 0.15s ease;
     }
 
-    nav a:hover {
+    .main-nav a:hover {
       color: var(--text-main);
     }
 
@@ -761,7 +809,7 @@
       }
     }
 
-    /* PANEL 3: OPS & SALES (el que te gustó) */
+    /* PANEL 3: OPS & SALES */
 
     .panel-mockup--ops {
       background: radial-gradient(circle at top, #e0f2fe, #eff6ff);
@@ -1377,8 +1425,42 @@
     /* RESPONSIVE */
 
     @media (max-width: 960px) {
-      nav ul {
-        display: none;
+      .header-inner {
+        padding: 0.7rem 0;
+        position: relative;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .main-nav {
+        position: absolute;
+        top: 100%;
+        left: 1.5rem;
+        right: 1.5rem;
+      }
+
+      .main-nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.9rem;
+        padding: 0.85rem 1rem 1rem;
+        margin-top: 0.4rem;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        background: #ffffff;
+        box-shadow: var(--shadow-soft);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-6px);
+        transition: opacity 0.18s ease, transform 0.18s ease;
+      }
+
+      body.nav-open .main-nav ul {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
       }
 
       .hero-inner {
@@ -1394,6 +1476,12 @@
       .steps,
       .why {
         grid-template-columns: minmax(0, 1fr);
+      }
+
+      /* un poquito más de margen para el scroll en mobile */
+      main[id],
+      section[id] {
+        scroll-margin-top: 110px;
       }
     }
 
@@ -1416,7 +1504,13 @@
         <div class="logo">CXDIP</div>
         <div class="logo-sub">Somos tu partner Boutique de experiencias</div>
       </div>
-      <nav>
+
+      <button class="menu-toggle" type="button" aria-label="Abrir menú principal">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="main-nav">
         <ul>
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#paneles">Servicios</a></li>
@@ -1589,88 +1683,82 @@
             </div>
           </div>
 
-           <!-- PANEL 2: DIP Loyalty 360° -->
-<div class="panel-card">
-  <h3 class="panel-title">DIP Loyalty 360°</h3>
-  <div class="panel-mockup panel-mockup--drill">
-    <div class="drill-stack">
-      <div class="drill-header-global"></div>
+          <!-- PANEL 2: DIP Loyalty 360° -->
+          <div class="panel-card">
+            <h3 class="panel-title">DIP Loyalty 360°</h3>
+            <div class="panel-mockup panel-mockup--drill">
+              <div class="drill-stack">
+                <div class="drill-header-global"></div>
 
-      <div class="drill-card drill-card--manager">
-        <div class="drill-header">
-          <span class="drill-tag">Gerencial</span>
-          <span class="drill-metric-main">NPS global 68 · Churn 3,2%</span>
-        </div>
-        <div class="drill-body">
-          <div class="drill-row">
-            <span class="drill-row-label">Resumen por país / canal</span>
-            <span class="drill-bar"></span>
-          </div>
-          <div class="drill-row">
-            <span class="drill-row-label">Clientes en riesgo alto</span>
-            <span class="drill-bar drill-bar--risk"></span>
-          </div>
-          <div class="drill-row">
-           
-          </div>
-        </div>
-      </div>
+                <div class="drill-card drill-card--manager">
+                  <div class="drill-header">
+                    <span class="drill-tag">Gerencial</span>
+                    <span class="drill-metric-main">NPS global 68 · Churn 3,2%</span>
+                  </div>
+                  <div class="drill-body">
+                    <div class="drill-row">
+                      <span class="drill-row-label">Resumen por país / canal</span>
+                      <span class="drill-bar"></span>
+                    </div>
+                    <div class="drill-row">
+                      <span class="drill-row-label">Clientes en riesgo alto</span>
+                      <span class="drill-bar drill-bar--risk"></span>
+                    </div>
+                    <div class="drill-row">
+                    </div>
+                  </div>
+                </div>
 
-      <div class="drill-card drill-card--branch">
-        <div class="drill-header">
-          <span class="drill-tag">Sucursales</span>
-          <span class="drill-metric-main">Sucursal Ñuñoa · Loyalty 74</span>
-        </div>
-        <div class="drill-body">
-          <div class="drill-row">
-            <span class="drill-row-label">Drivers clave del NPS</span>
-            <span class="drill-bar"></span>
-          </div>
-          <div class="drill-row">
-            <span class="drill-row-label">Fuga probable 30 días</span>
-            <span class="drill-bar drill-bar--risk"></span>
-          </div>
-          <div class="drill-row">
-            <!--<span class="drill-row-label">Ranking ejecutivos</span>
-            <span class="drill-bar drill-bar--branch"></span>-->
-          </div>
-        </div>
-      </div>
+                <div class="drill-card drill-card--branch">
+                  <div class="drill-header">
+                    <span class="drill-tag">Sucursales</span>
+                    <span class="drill-metric-main">Sucursal Ñuñoa · Loyalty 74</span>
+                  </div>
+                  <div class="drill-body">
+                    <div class="drill-row">
+                      <span class="drill-row-label">Drivers clave del NPS</span>
+                      <span class="drill-bar"></span>
+                    </div>
+                    <div class="drill-row">
+                      <span class="drill-row-label">Fuga probable 30 días</span>
+                      <span class="drill-bar drill-bar--risk"></span>
+                    </div>
+                    <div class="drill-row">
+                    </div>
+                  </div>
+                </div>
 
-      <div class="drill-card drill-card--exec">
-        <div class="drill-header">
-          <span class="drill-tag">Ejecutivos</span>
-          <span class="drill-metric-main">Ejecutivo A · Cartera 230 clientes</span>
-        </div>
-        <div class="drill-body">
-          <div class="drill-row">
-            <span class="drill-row-label">Clientes con alertas abiertas</span>
-            <span class="drill-bar drill-bar--risk"></span>
-          </div>
-          <div class="drill-row">
-            <span class="drill-row-label">Seguimientos completados</span>
-            <span class="drill-bar"></span>
-          </div>
-          <div class="drill-row">
-            <!--<span class="drill-row-label">Oportunidades de up-sell</span>
-            <span class="drill-bar"></span>-->
-          </div>
-        </div>
-      </div>
+                <div class="drill-card drill-card--exec">
+                  <div class="drill-header">
+                    <span class="drill-tag">Ejecutivos</span>
+                    <span class="drill-metric-main">Ejecutivo A · Cartera 230 clientes</span>
+                  </div>
+                  <div class="drill-body">
+                    <div class="drill-row">
+                      <span class="drill-row-label">Clientes con alertas abiertas</span>
+                      <span class="drill-bar drill-bar--risk"></span>
+                    </div>
+                    <div class="drill-row">
+                      <span class="drill-row-label">Seguimientos completados</span>
+                      <span class="drill-bar"></span>
+                    </div>
+                    <div class="drill-row">
+                    </div>
+                  </div>
+                </div>
 
-      <div class="drill-report-strip">
-      
-      </div>
-    </div>
-  </div>
+                <div class="drill-report-strip">
+                </div>
+              </div>
+            </div>
 
-  <!-- Texto limpio, sin puntos de colores ni chips -->
-  <div class="panel-tags">
-    <span>Vista gerencial - </span>
-    <span>Detalle de indicadores por sucursales - </span>
-    <span>Detalles a nivel de ejecutivos</span>
-  </div>
-</div>
+            <div class="panel-tags">
+              <span>Vista gerencial - </span>
+              <span>Detalle de indicadores por sucursales - </span>
+              <span>Detalles a nivel de ejecutivos</span>
+            </div>
+          </div>
+
           <!-- PANEL 3: OPS & SALES -->
           <div class="panel-card">
             <h3 class="panel-title">Panel XM: OPs &amp; Sales</h3>
@@ -1737,9 +1825,6 @@
                   </div>
                 </div>
               </div>
-              <!--<div class="panel-caption">
-                El indicador recorre el viaje completo del cliente, mostrando dónde se rompen o potencian las experiencias.
-              </div>-->
             </div>
             <div class="panel-tags">
               <span>Customer Journey</span>
@@ -1759,9 +1844,6 @@
                 <div class="cluster-node cluster-node--value">Valor estratégico</div>
                 <div class="cluster-node cluster-node--sleep">Dormidos a reactivar</div>
               </div>
-             <!-- <div class="panel-caption">
-                Diseño profesional de segmentos por valor, riesgo y potencial, priorizando retención y crecimiento.
-              </div>-->
             </div>
             <div class="panel-tags">
               <span>Clusterizamos - </span>
@@ -1775,46 +1857,46 @@
             <h3 class="panel-title">Capacitaciones áreas claves</h3>
             <div class="panel-mockup panel-mockup--training">
               <div class="training-header">Programas de formación CX</div>
-              <div class="training-timeline">
-                <div class="training-step training-step--1">
-                  <div class="training-dot"></div>
-                  <div class="training-label">
-                    <span class="training-label-title">Frontline &amp; sucursales</span>
-                    <span class="training-label-sub">Taller práctico orientado a casos reales.</span>
-                  </div>
-                  <div class="training-bar-wrap">
-                    <div class="training-bar">
-                      <div class="training-bar-fill"></div>
+                <div class="training-timeline">
+                  <div class="training-step training-step--1">
+                    <div class="training-dot"></div>
+                    <div class="training-label">
+                      <span class="training-label-title">Frontline &amp; sucursales</span>
+                      <span class="training-label-sub">Taller práctico orientado a casos reales.</span>
+                    </div>
+                    <div class="training-bar-wrap">
+                      <div class="training-bar">
+                        <div class="training-bar-fill"></div>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="training-step training-step--2">
-                  <div class="training-dot"></div>
-                  <div class="training-label">
-                    <span class="training-label-title">Líderes &amp; jefaturas</span>
-                    <span class="training-label-sub">Uso del panel para gestionar KPIs.</span>
-                  </div>
-                  <div class="training-bar-wrap">
-                    <div class="training-bar">
-                      <div class="training-bar-fill"></div>
+                  <div class="training-step training-step--2">
+                    <div class="training-dot"></div>
+                    <div class="training-label">
+                      <span class="training-label-title">Líderes &amp; jefaturas</span>
+                      <span class="training-label-sub">Uso del panel para gestionar KPIs.</span>
+                    </div>
+                    <div class="training-bar-wrap">
+                      <div class="training-bar">
+                        <div class="training-bar-fill"></div>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="training-step training-step--3">
-                  <div class="training-dot"></div>
-                  <div class="training-label">
-                    <span class="training-label-title">Comité ejecutivo</span>
-                    <span class="training-label-sub">Lectura ejecutiva y toma de decisiones.</span>
-                  </div>
-                  <div class="training-bar-wrap">
-                    <div class="training-bar">
-                      <div class="training-bar-fill"></div>
+                  <div class="training-step training-step--3">
+                    <div class="training-dot"></div>
+                    <div class="training-label">
+                      <span class="training-label-title">Comité ejecutivo</span>
+                      <span class="training-label-sub">Lectura ejecutiva y toma de decisiones.</span>
+                    </div>
+                    <div class="training-bar-wrap">
+                      <div class="training-bar">
+                        <div class="training-bar-fill"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
               <div class="panel-caption">
                 Capacitaciones modulares para que cada área entienda su rol en la experiencia y use el sistema con propiedad.
               </div>
@@ -1946,5 +2028,25 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    (function () {
+      const toggle = document.querySelector('.menu-toggle');
+      const body = document.body;
+      const navLinks = document.querySelectorAll('.main-nav a[href^="#"]');
+
+      if (!toggle) return;
+
+      toggle.addEventListener('click', function () {
+        body.classList.toggle('nav-open');
+      });
+
+      navLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+          body.classList.remove('nav-open');
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
