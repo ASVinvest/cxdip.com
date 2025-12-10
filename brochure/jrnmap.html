@@ -39,7 +39,7 @@
     .journey-card {
       background: var(--card);
       border-radius: 28px;
-      border: 1px solid rgba(229, 231, 235, 0.4); /* borde muy suave */
+      border: 1px solid rgba(229, 231, 235, 0.4);
       box-shadow: var(--shadow-soft);
       padding: 24px 26px 26px;
       min-height: calc(100vh - 64px);
@@ -112,7 +112,6 @@
     .metric-value.positive { color: var(--positive); }
     .metric-value.negative { color: var(--negative); }
 
-    /* TRACK GENERAL */
     .track {
       margin-top: 4px;
       margin-bottom: 8px;
@@ -126,7 +125,6 @@
       padding-bottom: 4px;
     }
 
-    /* ETAPAS */
     .stage-bar {
       display: grid;
       grid-auto-flow: column;
@@ -151,6 +149,7 @@
       border-right: 1px solid rgba(255, 255, 255, 0.3);
       background: linear-gradient(135deg, #38bdf8, #6366f1);
       box-shadow: 0 12px 30px rgba(15, 23, 42, 0.35);
+      border: none;
     }
 
     .stage-arrow:nth-child(1) { background: linear-gradient(135deg, #22c55e, #10b981); }
@@ -181,7 +180,6 @@
       transform: translateY(-1px);
     }
 
-    /* LEYENDA */
     .legend-row {
       display: flex;
       justify-content: space-between;
@@ -213,8 +211,8 @@
       padding: 3px 8px;
       border-radius: var(--radius-pill);
       background: #eef2ff;
-      border: 1px solid rgba(199, 210, 254, 0.9);
-      box-shadow: 0 6px 18px rgba(148, 163, 184, 0.3);
+      border: none;
+      box-shadow: none;
     }
 
     .dot { width: 9px; height: 9px; border-radius: 50%; }
@@ -222,7 +220,8 @@
     .dot-costo { background: var(--negative); }
     .dot-riesgo { background: var(--risk); }
 
-    /* FILA ESCALA + CURVA */
+    /* CURVA + ESCALA */
+
     .curve-row {
       display: flex;
       gap: 14px;
@@ -237,7 +236,7 @@
       justify-content: space-between;
       font-size: 0.78rem;
       color: #9ca3af;
-      padding: 6px 0;
+      padding: 30px 0 40px 0;
       min-width: 32px;
       text-align: right;
     }
@@ -259,32 +258,19 @@
 
     .curve-path {
       fill: none;
-      stroke: #d1d5db;
-      stroke-width: 1.8;
-      stroke-dasharray: 4 4;
+      stroke: #cbd5f5;
+      stroke-width: 2;
     }
 
-    .curve-grid {
-      position: relative;
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(130px, 1fr);
-      height: 100%;
-      padding: 44px 10px 42px 10px; /* +18px top => estrella más abajo */
-    }
-
-    .curve-col {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
+    .curve-nodes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
     }
 
     .curve-node {
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: calc(30px + (var(--score, 0.5) * 140px)); /* un poco menos de altura total */
+      transform: translate(-50%, -50%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -293,6 +279,7 @@
       background: none;
       border: none;
       padding: 0;
+      pointer-events: auto;
     }
 
     .curve-icon {
@@ -345,7 +332,8 @@
       box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.7);
     }
 
-    /* PANEL INFERIOR */
+    /* INFO ABAJO */
+
     .info {
       margin-top: 10px;
       padding-top: 12px;
@@ -435,7 +423,6 @@
 
     .hint { margin-top: 9px; font-size: 0.72rem; color: var(--text-muted); }
 
-    /* TOOLTIP NUEVO (claro, azulado) */
     .tooltip {
       position: fixed;
       pointer-events: none;
@@ -529,13 +516,12 @@
                 <svg class="curve-svg" id="curve-svg">
                   <path id="curve-path" class="curve-path"></path>
                 </svg>
-                <div class="curve-grid" id="curve-grid"></div>
+                <div class="curve-nodes" id="curve-nodes"></div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- PANEL INFERIOR -->
         <div class="info">
           <div>
             <div class="info-main-title" id="info-title">–</div>
@@ -600,8 +586,8 @@
         costo: "USD 3.000 en marketing",
         riesgo: "Todo el CLV depende de captar su atención",
         clvPorc: 5,
-        matchScore: 45,
-        tooltip: "Match experiencia × retorno: 45/100 · CLV potencial ≈ USD 90.000.",
+        matchScore: 38,
+        tooltip: "Match experiencia × retorno: 38/100 · CLV potencial ≈ USD 90.000.",
         hint: "Mejorar visibilidad y CTA impacta fuerte en generación de pipeline en esta etapa."
       },
       {
@@ -616,8 +602,8 @@
         costo: "USD 4.000 en pre-venta",
         riesgo: "Comparación activa con competidores",
         clvPorc: 18,
-        matchScore: 58,
-        tooltip: "Match experiencia × retorno: 58/100 · alto riesgo de perder todo el valor si la venta falla.",
+        matchScore: 60,
+        tooltip: "Match experiencia × retorno: 60/100 · alto riesgo de perder todo el valor si la venta falla.",
         hint: "Aquí se decide si entras al short-list. La experiencia comercial define ganar o perder todo el valor."
       },
       {
@@ -632,8 +618,8 @@
         costo: "USD 1.500 en descuentos / concesiones",
         riesgo: "Expectativas mal alineadas → alto churn temprano",
         clvPorc: 35,
-        matchScore: 62,
-        tooltip: "Match experiencia × retorno: 62/100 · ingreso inicial USD 25.000, gran parte del valor por delante.",
+        matchScore: 72,
+        tooltip: "Match experiencia × retorno: 72/100 · ingreso inicial USD 25.000, gran parte del valor por delante.",
         hint: "No es solo cerrar: es cerrar con promesas que puedas cumplir sin destruir margen ni confianza."
       },
       {
@@ -648,8 +634,8 @@
         costo: "USD 6.000 en equipo de implementación",
         riesgo: "Hasta el 50% del CLV puede perderse si el arranque es malo",
         clvPorc: 52,
-        matchScore: 68,
-        tooltip: "Match experiencia × retorno: 68/100 · gran parte del CLV aún en juego.",
+        matchScore: 55,
+        tooltip: "Match experiencia × retorno: 55/100 · gran parte del CLV aún en juego, con riesgo fuerte si el arranque falla.",
         hint: "Onboarding fluido consolida la decisión. Onboarding caótico instala duda y pone todo el valor en riesgo."
       },
       {
@@ -664,8 +650,8 @@
         costo: "USD 3.500 en soporte y éxito de cliente",
         riesgo: "Churn en riesgo ≈ USD 20.000 si el soporte es deficiente",
         clvPorc: 74,
-        matchScore: 78,
-        tooltip: "Match experiencia × retorno: 78/100 · riesgo de churn controlable según CX y soporte.",
+        matchScore: 77,
+        tooltip: "Match experiencia × retorno: 77/100 · riesgo de churn controlable según CX y soporte.",
         hint: "Aquí CX y operación se mezclan. Menos fricción = más renovación y más share of wallet."
       },
       {
@@ -687,10 +673,10 @@
     ];
 
     const stageBar   = document.getElementById("stage-bar");
-    const curveGrid  = document.getElementById("curve-grid");
     const curveArea  = document.getElementById("curve-area");
     const curveSvg   = document.getElementById("curve-svg");
     const curvePath  = document.getElementById("curve-path");
+    const nodesLayer = document.getElementById("curve-nodes");
 
     const infoTitle   = document.getElementById("info-title");
     const infoDesc    = document.getElementById("info-desc");
@@ -703,6 +689,8 @@
     const clvLabel    = document.getElementById("clv-label");
     const infoHint    = document.getElementById("info-hint");
     const tooltip     = document.getElementById("tooltip");
+
+    let currentStageId = null;
 
     function renderStageArrows() {
       stages.forEach(stage => {
@@ -722,26 +710,84 @@
       });
     }
 
-    function renderCurveNodes() {
-      stages.forEach(stage => {
-        const col = document.createElement("div");
-        col.className = "curve-col";
-        col.dataset.id = stage.id;
+    function computePoints() {
+      const areaRect = curveArea.getBoundingClientRect();
+      const topPadding = 30;
+      const bottomPadding = 40;
+      const height = areaRect.height;
+      const availableHeight = Math.max(40, height - topPadding - bottomPadding);
 
+      const points = [];
+
+      stages.forEach(stage => {
+        const arrow = stageBar.querySelector(`.stage-arrow[data-id="${stage.id}"]`);
+        if (!arrow) return;
+
+        const arrowRect = arrow.getBoundingClientRect();
+        const x = arrowRect.left + arrowRect.width / 2 - areaRect.left;
+
+        const score = Math.max(0, Math.min(100, stage.matchScore ?? stage.clvPorc));
+        const norm = score / 100;
+        const y = topPadding + (1 - norm) * availableHeight; // 100 arriba, 0 abajo
+
+        points.push({ x, y, stage, score });
+      });
+
+      return { points, width: areaRect.width, height, topPadding, availableHeight };
+    }
+
+    function buildCurveAndNodes() {
+      const { points, width, height, topPadding, availableHeight } = computePoints();
+      if (!points.length) return;
+
+      const yMin = topPadding;
+      const yMax = topPadding + availableHeight;
+
+      curveSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+      let d = "";
+      if (points.length === 1) {
+        d = `M ${points[0].x} ${points[0].y}`;
+      } else if (points.length === 2) {
+        d = `M ${points[0].x} ${points[0].y} L ${points[1].x} ${points[1].y}`;
+      } else {
+        d = `M ${points[0].x} ${points[0].y}`;
+        for (let i = 0; i < points.length - 1; i++) {
+          const p0 = points[i - 1] || points[i];
+          const p1 = points[i];
+          const p2 = points[i + 1];
+          const p3 = points[i + 2] || points[i + 1];
+
+          const t = 0.9;
+
+          let cp1x = p1.x + (p2.x - p0.x) / 6 * t;
+          let cp1y = p1.y + (p2.y - p0.y) / 6 * t;
+          let cp2x = p2.x - (p3.x - p1.x) / 6 * t;
+          let cp2y = p2.y - (p3.y - p1.y) / 6 * t;
+
+          cp1y = Math.max(yMin, Math.min(yMax, cp1y));
+          cp2y = Math.max(yMin, Math.min(yMax, cp2y));
+
+          d += ` C ${cp1x} ${cp1y} ${cp2x} ${cp2y} ${p2.x} ${p2.y}`;
+        }
+      }
+      curvePath.setAttribute("d", d);
+
+      nodesLayer.innerHTML = "";
+      points.forEach(({ x, y, stage, score }) => {
         const node = document.createElement("button");
         node.type = "button";
         node.className = "curve-node";
         node.dataset.id = stage.id;
-
-        const score = Math.max(0, Math.min(100, stage.matchScore ?? stage.clvPorc));
-        const scoreNorm = score / 100;
-        node.style.setProperty("--score", scoreNorm);
 
         let scoreClass;
         if (score < 40) scoreClass = "node-low";
         else if (score < 70) scoreClass = "node-mid";
         else scoreClass = "node-high";
         node.classList.add(scoreClass);
+
+        node.style.left = `${x}px`;
+        node.style.top  = `${y}px`;
 
         node.innerHTML = `
           <div class="curve-icon">${stage.icon}</div>
@@ -754,8 +800,21 @@
         node.addEventListener("mouseleave", hideTooltip);
         node.addEventListener("click", () => selectStage(stage.id));
 
-        col.appendChild(node);
-        curveGrid.appendChild(col);
+        nodesLayer.appendChild(node);
+      });
+
+      updateActiveNodes();
+    }
+
+    function updateActiveStages() {
+      document.querySelectorAll(".stage-arrow").forEach(el => {
+        el.classList.toggle("active", el.dataset.id === currentStageId);
+      });
+    }
+
+    function updateActiveNodes() {
+      document.querySelectorAll(".curve-node").forEach(el => {
+        el.classList.toggle("active", el.dataset.id === currentStageId);
       });
     }
 
@@ -763,13 +822,9 @@
       const stage = stages.find(s => s.id === id);
       if (!stage) return;
 
-      document.querySelectorAll(".stage-arrow").forEach(el => {
-        el.classList.toggle("active", el.dataset.id === id);
-      });
-
-      document.querySelectorAll(".curve-node").forEach(el => {
-        el.classList.toggle("active", el.dataset.id === id);
-      });
+      currentStageId = id;
+      updateActiveStages();
+      updateActiveNodes();
 
       infoTitle.textContent = stage.nombre;
       infoDesc.textContent  = stage.resumen;
@@ -791,8 +846,6 @@
       clvLabel.textContent = `${stage.clvPorc}% del CLV capturado · ${100 - stage.clvPorc}% por capturar`;
 
       infoHint.textContent = stage.hint;
-
-      drawCurve();
     }
 
     function showTooltip(stage, x, y) {
@@ -805,46 +858,20 @@
       tooltip.classList.add("visible");
     }
 
-    function hideTooltip() { tooltip.classList.remove("visible"); }
-
-    function drawCurve() {
-      const circles = document.querySelectorAll(".curve-node-circle");
-      if (!curveArea || !curveSvg || !curvePath || circles.length === 0) return;
-
-      const areaRect = curveArea.getBoundingClientRect();
-      const points = [];
-
-      circles.forEach(circle => {
-        const rect = circle.getBoundingClientRect();
-        const x = rect.left + rect.width / 2 - areaRect.left;
-        const y = rect.top  + rect.height / 2 - areaRect.top;
-        points.push({ x, y });
-      });
-
-      if (!points.length) {
-        curvePath.setAttribute("d", "");
-        return;
-      }
-
-      curveSvg.setAttribute("viewBox", `0 0 ${areaRect.width} ${areaRect.height}`);
-
-      let d = `M ${points[0].x} ${points[0].y}`;
-      for (let i = 1; i < points.length; i++) {
-        d += ` L ${points[i].x} ${points[i].y}`;
-      }
-      curvePath.setAttribute("d", d);
+    function hideTooltip() {
+      tooltip.classList.remove("visible");
     }
 
     renderStageArrows();
-    renderCurveNodes();
+    buildCurveAndNodes();
     selectStage(stages[0].id);
-
-    window.requestAnimationFrame(drawCurve);
 
     let resizeTimeout;
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(drawCurve, 120);
+      resizeTimeout = setTimeout(() => {
+        buildCurveAndNodes();
+      }, 130);
     });
   </script>
 </body>
