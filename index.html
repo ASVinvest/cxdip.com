@@ -31,13 +31,17 @@
 
     html { scroll-behavior: smooth; }
 
-    /* compensación para el header sticky al usar anchors */
     main[id], section[id] { scroll-margin-top: 90px; }
 
     a { text-decoration: none; color: inherit; }
+
     img { max-width: 100%; display: block; }
 
-    .container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
 
     /* HEADER */
     header {
@@ -56,7 +60,12 @@
       padding: 0.85rem 0;
     }
 
-    .logo-block { display: flex; flex-direction: column; gap: 0.1rem; }
+    .logo-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
     .logo {
       font-size: 1.15rem;
       font-weight: 800;
@@ -64,6 +73,7 @@
       text-transform: uppercase;
       color: var(--primary);
     }
+
     .logo-sub {
       font-size: 0.7rem;
       text-transform: uppercase;
@@ -96,8 +106,13 @@
 
     .menu-toggle span + span { margin-top: 5px; }
 
-    body.nav-open .menu-toggle span:nth-child(1) { transform: translateY(3px) rotate(45deg); }
-    body.nav-open .menu-toggle span:nth-child(2) { transform: translateY(-3px) rotate(-45deg); }
+    body.nav-open .menu-toggle span:nth-child(1) {
+      transform: translateY(3px) rotate(45deg);
+    }
+
+    body.nav-open .menu-toggle span:nth-child(2) {
+      transform: translateY(-3px) rotate(-45deg);
+    }
 
     /* NAV principal */
     .main-nav ul {
@@ -108,11 +123,7 @@
       font-size: 0.9rem;
     }
 
-    .main-nav a {
-      color: var(--text-muted);
-      transition: color 0.15s ease;
-    }
-
+    .main-nav a { color: var(--text-muted); transition: color 0.15s ease; }
     .main-nav a:hover { color: var(--text-main); }
 
     .btn-primary {
@@ -120,7 +131,7 @@
       border-radius: 999px;
       padding: 0.5rem 1.1rem;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       background: var(--primary);
       color: #fff;
       cursor: pointer;
@@ -131,22 +142,21 @@
       box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
       transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
       white-space: nowrap;
-      text-decoration: none;
-      line-height: 1;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.18); /* mejora legibilidad */
     }
+
+    /* IMPORTANT: asegura legibilidad en anchors (visited) */
+    a.btn-primary, a.btn-primary:visited { color: #fff !important; }
 
     .btn-primary:hover {
       background: var(--primary-hover);
       transform: translateY(-1px);
       box-shadow: 0 16px 32px rgba(37, 99, 235, 0.3);
-      color: #fff;
     }
 
-    /* FIX: el link del nav estaba pisando el color del CTA */
-    .main-nav a.btn-primary,
-    .main-nav a.btn-primary:hover,
-    .main-nav a.btn-primary:visited {
-      color: #fff !important;
+    .btn-primary:focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.35);
+      outline-offset: 3px;
     }
 
     .btn-secondary {
@@ -179,7 +189,12 @@
       align-items: center;
     }
 
-    .hero-kicker-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.7rem; }
+    .hero-kicker-row {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.7rem;
+    }
 
     .hero-title {
       font-size: clamp(2.2rem, 3.4vw, 2.7rem);
@@ -197,7 +212,12 @@
       margin-bottom: 1.3rem;
     }
 
-    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.6rem; }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1.6rem;
+    }
 
     .hero-tag {
       font-size: 0.78rem;
@@ -280,7 +300,11 @@
       color: var(--text-main);
     }
 
-    .device-metrics-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+    .device-metrics-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.6rem;
+    }
 
     .device-metric {
       border-radius: 0.9rem;
@@ -297,9 +321,18 @@
       letter-spacing: 0.12em;
     }
 
-    .device-metric-value { font-size: 0.98rem; font-weight: 600; color: #111827; }
+    .device-metric-value {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #111827;
+    }
 
-    .device-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 0.7rem; align-items: stretch; }
+    .device-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 0.7rem;
+      align-items: stretch;
+    }
 
     .device-chart, .device-table {
       border-radius: 0.9rem;
@@ -345,15 +378,43 @@
     .row-line:nth-child(2) { width: 75%; }
     .row-line:nth-child(3) { width: 55%; }
 
-    .device-foot { display: flex; justify-content: space-between; font-size: 0.72rem; color: #6b7280; }
+    .device-foot {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: #6b7280;
+    }
 
-    @keyframes pulseGlow { 0% { opacity: 0.7; transform: scale(0.98); } 50% { opacity: 0.25; transform: scale(1.03); } 100% { opacity: 0.7; transform: scale(0.98); } }
-    @keyframes barSlide { 0% { transform: translateX(-8%); } 50% { transform: translateX(8%); } 100% { transform: translateX(-8%); } }
-    @keyframes shimmerBars { 0% { background-position: -40% 0; } 100% { background-position: 140% 0; } }
+    @keyframes pulseGlow {
+      0%   { opacity: 0.7; transform: scale(0.98); }
+      50%  { opacity: 0.25; transform: scale(1.03); }
+      100% { opacity: 0.7; transform: scale(0.98); }
+    }
+
+    @keyframes barSlide {
+      0%   { transform: translateX(-8%); }
+      50%  { transform: translateX(8%); }
+      100% { transform: translateX(-8%); }
+    }
+
+    @keyframes shimmerBars {
+      0%   { background-position: -40% 0; }
+      100% { background-position: 140% 0; }
+    }
 
     /* TRUST STRIP */
-    .trust-strip { background: var(--bg-alt); border-bottom: 1px solid var(--border); padding: 1.2rem 0; }
-    .trust-inner { text-align: center; font-size: 0.9rem; color: var(--text-muted); }
+    .trust-strip {
+      background: var(--bg-alt);
+      border-bottom: 1px solid var(--border);
+      padding: 1.2rem 0;
+    }
+
+    .trust-inner {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
     .trust-inner strong { color: var(--text-main); }
 
     .trust-tags {
@@ -378,14 +439,27 @@
 
     .section-heading { text-align: center; margin-bottom: 2rem; }
 
-    .section-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
 
     .section-title--primary { color: var(--primary); }
 
-    .section-subtitle { font-size: 0.9rem; color: var(--text-muted); max-width: 30rem; margin: 0 auto; }
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 30rem;
+      margin: 0 auto;
+    }
 
     /* PANEL GALLERY */
-    .panel-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+    .panel-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
 
     .panel-card {
       border-radius: var(--radius-lg);
@@ -414,7 +488,14 @@
     }
 
     .panel-caption { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem; }
-    .panel-tags { display: flex; flex-wrap: wrap; gap: 0.25rem; font-size: 0.76rem; color: var(--text-muted); }
+
+    .panel-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
 
     /* PANEL 1: NPS */
     .panel-mockup--nps {
@@ -437,7 +518,14 @@
     .nps-axis-x { height: 1px; left: 0.4rem; right: 0.1rem; bottom: 0.25rem; }
     .nps-axis-y { width: 1px; top: 0.15rem; bottom: 0.25rem; left: 0.4rem; }
 
-    .nps-bars { flex: 1; display: flex; align-items: flex-end; justify-content: space-between; gap: 0.22rem; margin-left: 0.35rem; }
+    .nps-bars {
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 0.22rem;
+      margin-left: 0.35rem;
+    }
 
     .nps-bar {
       width: 16%;
@@ -464,15 +552,28 @@
     .nps-bar-seg--pas { background: #facc15; height: 25%; }
     .nps-bar-seg--pro { background: #22c55e; height: 40%; }
 
-    .nps-legend { display: flex; align-items: center; gap: 0.55rem; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.15rem; flex-wrap: wrap; }
+    .nps-legend {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+      flex-wrap: wrap;
+    }
+
     .nps-dot { width: 7px; height: 7px; border-radius: 999px; display: inline-block; }
     .nps-dot--det { background: #ef4444; }
     .nps-dot--pas { background: #facc15; }
     .nps-dot--pro { background: #22c55e; }
 
-    @keyframes npsWave { 0% { transform: scaleY(0.7); } 50% { transform: scaleY(1.1); } 100% { transform: scaleY(0.85); } }
+    @keyframes npsWave {
+      0%   { transform: scaleY(0.7); }
+      50%  { transform: scaleY(1.1); }
+      100% { transform: scaleY(0.85); }
+    }
 
-    /* PANEL 2b: Drill */
+    /* PANEL 2b: drill */
     .panel-mockup--drill {
       background: radial-gradient(circle at 20% 0%, #dbeafe, #eff6ff 40%, #e5e7eb 100%);
       display: flex;
@@ -531,6 +632,7 @@
     }
 
     .drill-metric-main { font-weight: 600; font-size: 0.78rem; color: #111827; }
+
     .drill-body { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.1rem; }
 
     .drill-row {
@@ -559,7 +661,7 @@
       26%, 100% { opacity: 0; transform: translateY(-8px) scale(0.98); }
     }
 
-    /* PANEL 3: OPS & SALES */
+    /* PANEL 3: OPS */
     .panel-mockup--ops { background: radial-gradient(circle at top, #e0f2fe, #eff6ff); }
 
     .report-scroll {
@@ -571,11 +673,28 @@
       position: relative;
     }
 
-    .report-lines { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.5rem 0.6rem; animation: reportSlide 6.5s ease-in-out infinite; }
+    .report-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0.5rem 0.6rem;
+      animation: reportSlide 6.5s ease-in-out infinite;
+    }
 
-    .report-line { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #4b5563; }
+    .report-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      color: #4b5563;
+    }
 
-    .report-line span:first-child { max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .report-line span:first-child {
+      max-width: 60%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     .report-bar {
       flex: 0 0 48%;
@@ -589,7 +708,11 @@
     .report-line:nth-child(3) .report-bar { background: linear-gradient(90deg, #ef4444, #f97316); width: 52%; }
     .report-line:nth-child(4) .report-bar { background: linear-gradient(90deg, #22c55e, #22c55e); width: 82%; }
 
-    @keyframes reportSlide { 0% { transform: translateY(0); } 50% { transform: translateY(-18%); } 100% { transform: translateY(0); } }
+    @keyframes reportSlide {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-18%); }
+      100% { transform: translateY(0); }
+    }
 
     .panel-details { margin-top: 0.35rem; font-size: 0.72rem; }
 
@@ -652,11 +775,31 @@
       overflow: hidden;
     }
 
-    .journey-line { position: absolute; left: 8%; right: 8%; height: 2px; background: linear-gradient(90deg, #22c55e, #2563eb); opacity: 0.5; }
+    .journey-line {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      height: 2px;
+      background: linear-gradient(90deg, #22c55e, #2563eb);
+      opacity: 0.5;
+    }
 
-    .journey-steps { position: relative; display: flex; justify-content: space-between; width: 100%; font-size: 0.7rem; color: #4b5563; }
+    .journey-steps {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 0.7rem;
+      color: #4b5563;
+    }
 
-    .journey-step { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.15rem; }
+    .journey-step {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15rem;
+    }
 
     .journey-dot {
       width: 14px;
@@ -669,12 +812,32 @@
       overflow: hidden;
     }
 
+    .journey-dot::after {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      border-radius: inherit;
+      background: radial-gradient(circle, #22c55e, #2563eb);
+      opacity: 0;
+      transform: scale(0.3);
+      animation: journeyPulse 6s ease-in-out infinite;
+    }
+
+    .journey-step--1 .journey-dot::after { animation-delay: 0s; }
+    .journey-step--2 .journey-dot::after { animation-delay: 2s; }
+    .journey-step--3 .journey-dot::after { animation-delay: 4s; }
+
     .journey-label {
       background: rgba(255, 255, 255, 0.9);
       border-radius: 999px;
       padding: 0.12rem 0.4rem;
       border: 1px solid rgba(148, 163, 184, 0.7);
       white-space: nowrap;
+    }
+
+    @keyframes journeyPulse {
+      0%, 20% { opacity: 1; transform: scale(1); }
+      26%, 100% { opacity: 0; transform: scale(0.3); }
     }
 
     /* PANEL 5: Clusters */
@@ -711,13 +874,36 @@
       animation: clusterFloat 5.5s ease-in-out infinite;
     }
 
-    .cluster-node--core { top: 38%; left: 38%; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border: none; }
-    .cluster-node--risk { top: 16%; left: 8%; background: linear-gradient(135deg, #ef4444, #f97316); color: #fff; border: none; animation-delay: -1.2s; }
-    .cluster-node--growth { top: 66%; left: 12%; background: linear-gradient(135deg, #2563eb, #22c55e); color: #fff; border: none; animation-delay: -2.4s; }
-    .cluster-node--value { top: 20%; right: 4%; background: linear-gradient(135deg, #0ea5e9, #6366f1); color: #fff; border: none; animation-delay: -3.1s; }
+    .cluster-node--core {
+      top: 38%; left: 38%;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #ffffff; border: none; animation-delay: 0s;
+    }
+
+    .cluster-node--risk {
+      top: 16%; left: 8%;
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      color: #ffffff; border: none; animation-delay: -1.2s;
+    }
+
+    .cluster-node--growth {
+      top: 66%; left: 12%;
+      background: linear-gradient(135deg, #2563eb, #22c55e);
+      color: #ffffff; border: none; animation-delay: -2.4s;
+    }
+
+    .cluster-node--value {
+      top: 20%; right: 4%;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      color: #ffffff; border: none; animation-delay: -3.1s;
+    }
+
     .cluster-node--sleep { bottom: 8%; right: 10%; background: #fef9c3; animation-delay: -4s; }
 
-    @keyframes clusterFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.02); } }
+    @keyframes clusterFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-4px) scale(1.02); }
+    }
 
     /* PANEL 6: Training */
     .panel-mockup--training {
@@ -727,9 +913,21 @@
       justify-content: space-between;
     }
 
-    .training-header { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.16em; color: #6b7280; margin-bottom: 0.3rem; }
+    .training-header {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #6b7280;
+      margin-bottom: 0.3rem;
+    }
 
-    .training-timeline { flex: 1; display: flex; flex-direction: column; gap: 0.35rem; padding-top: 0.1rem; }
+    .training-timeline {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      padding-top: 0.1rem;
+    }
 
     .training-step {
       display: grid;
@@ -751,12 +949,35 @@
       overflow: hidden;
     }
 
+    .training-dot::after {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      border-radius: inherit;
+      background: radial-gradient(circle, #22c55e, #2563eb);
+      transform: scale(0.3);
+      opacity: 0;
+      animation: trainingPing 5s ease-in-out infinite;
+    }
+
+    .training-step--1 .training-dot::after { animation-delay: 0s; }
+    .training-step--2 .training-dot::after { animation-delay: 1.2s; }
+    .training-step--3 .training-dot::after { animation-delay: 2.4s; }
+
     .training-label { display: flex; flex-direction: column; gap: 0.05rem; }
     .training-label-title { font-weight: 600; font-size: 0.78rem; color: #111827; }
     .training-label-sub { font-size: 0.68rem; color: #6b7280; }
 
     .training-bar-wrap { grid-column: 2 / 3; margin-top: 0.15rem; }
-    .training-bar { width: 100%; height: 5px; border-radius: 999px; background: rgba(209, 213, 219, 0.8); overflow: hidden; position: relative; }
+
+    .training-bar {
+      width: 100%;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(209, 213, 219, 0.8);
+      overflow: hidden;
+      position: relative;
+    }
 
     .training-bar-fill {
       position: absolute;
@@ -772,7 +993,16 @@
     .training-step--2 .training-bar-fill { animation-delay: 1.2s; }
     .training-step--3 .training-bar-fill { animation-delay: 2.4s; }
 
-    @keyframes trainingProgress { 0% { transform: scaleX(0.1); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0.1); } }
+    @keyframes trainingPing {
+      0%, 15% { opacity: 1; transform: scale(1); }
+      25%, 100% { opacity: 0; transform: scale(0.3); }
+    }
+
+    @keyframes trainingProgress {
+      0% { transform: scaleX(0.1); }
+      50% { transform: scaleX(1); }
+      100% { transform: scaleX(0.1); }
+    }
 
     /* STEPS */
     .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.3rem; }
@@ -785,18 +1015,35 @@
       box-shadow: 0 6px 14px rgba(15, 23, 42, 0.03);
     }
 
-    .step-number { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .step-number {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
     .step-title { font-size: 0.96rem; font-weight: 600; margin-bottom: 0.25rem; }
+
     .step-text { font-size: 0.86rem; color: var(--text-muted); }
 
     /* WHY */
     .why { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 1.6rem; align-items: flex-start; }
+
     .why-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; }
-    .why-kicker { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); margin-bottom: 0.2rem; }
     .why-subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.7rem; max-width: 34rem; }
+    .why-kicker { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); margin-bottom: 0.2rem; }
     .why-subheading { font-size: 0.82rem; font-weight: 600; margin-top: 0.4rem; margin-bottom: 0.2rem; color: var(--text-main); }
 
-    .why-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.86rem; color: var(--text-muted); }
+    .why-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
     .why-bullets li::before { content: "•"; color: var(--primary); margin-right: 0.35rem; font-weight: 700; }
 
     .why-card {
@@ -826,18 +1073,71 @@
     .cta-email { margin-top: 0.9rem; font-size: 0.85rem; color: var(--text-muted); }
     .cta-email strong { color: var(--text-main); }
 
-    footer { border-top: 1px solid var(--border); padding: 1.3rem 0; font-size: 0.8rem; color: var(--text-muted); background: #ffffff; }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.3rem 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: #ffffff;
+    }
 
-    .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.7rem; }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+    }
+
     .footer-nav { display: flex; flex-wrap: wrap; gap: 0.8rem; }
     .footer-right { display: flex; gap: 0.7rem; align-items: center; }
+
+    /* TOAST fallback */
+    .mail-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.92);
+      color: #fff;
+      padding: 0.7rem 0.9rem;
+      border-radius: 999px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.28);
+      display: none;
+      align-items: center;
+      gap: 0.8rem;
+      z-index: 50;
+      max-width: calc(100vw - 24px);
+    }
+
+    .mail-toast a {
+      color: #fff;
+      text-decoration: underline;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .mail-toast button {
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.85);
+      cursor: pointer;
+      font-weight: 700;
+      padding: 0.1rem 0.35rem;
+    }
 
     /* RESPONSIVE */
     @media (max-width: 960px) {
       .header-inner { padding: 0.7rem 0; position: relative; }
       .menu-toggle { display: inline-flex; }
 
-      .main-nav { position: absolute; top: 100%; left: 1.5rem; right: 1.5rem; }
+      .main-nav {
+        position: absolute;
+        top: 100%;
+        left: 1.5rem;
+        right: 1.5rem;
+      }
+
       .main-nav ul {
         flex-direction: column;
         align-items: flex-start;
@@ -854,14 +1154,17 @@
         transition: opacity 0.18s ease, transform 0.18s ease;
       }
 
-      body.nav-open .main-nav ul { opacity: 1; pointer-events: auto; transform: translateY(0); }
+      body.nav-open .main-nav ul {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
 
       .hero-inner { grid-template-columns: minmax(0, 1fr); }
       .hero-right { justify-content: flex-start; margin-top: 1.5rem; }
 
       .panel-gallery, .steps, .why { grid-template-columns: minmax(0, 1fr); }
 
-      /* un poquito más de margen para el scroll en mobile */
       main[id], section[id] { scroll-margin-top: 110px; }
     }
 
@@ -871,7 +1174,6 @@
     }
   </style>
 </head>
-
 <body>
   <!-- HEADER -->
   <header>
@@ -886,18 +1188,14 @@
         <span></span>
       </button>
 
-      <nav class="main-nav" aria-label="Navegación principal">
+      <nav class="main-nav">
         <ul>
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#paneles">Servicios</a></li>
           <li><a href="#como">¿Cómo trabajamos?</a></li>
           <li><a href="#por-que">¿Por qué elegirnos?</a></li>
           <li>
-            <!-- CTA: abre el cliente de correo inmediatamente -->
-            <a class="btn-primary"
-               href="mailto:ariel.salazar@cxdip.com?subject=Solicitud%20de%20demo%20CXDIP&body=Hola%20Ariel,%0D%0A%0D%0AQuiero%20agendar%20una%20demo.%0D%0A%0D%0ANombre:%0D%0AEmpresa:%0D%0ATel%C3%A9fono:%0D%0AFecha%20y%20hora%20ideal:%0D%0A%0D%0AGracias.%0D%0A">
-              Agenda una demo
-            </a>
+            <a class="btn-primary js-demo" href="#" role="button">Agenda una demo</a>
           </li>
         </ul>
       </nav>
@@ -927,10 +1225,7 @@
           </div>
 
           <div class="hero-cta-row">
-            <a class="btn-primary"
-               href="mailto:ariel.salazar@cxdip.com?subject=Solicitud%20de%20demo%20CXDIP&body=Hola%20Ariel,%0D%0A%0D%0AQuiero%20agendar%20una%20demo.%0D%0A%0D%0ANombre:%0D%0AEmpresa:%0D%0ATel%C3%A9fono:%0D%0AFecha%20y%20hora%20ideal:%0D%0A%0D%0AGracias.%0D%0A">
-              Agenda una demo
-            </a>
+            <a class="btn-primary js-demo" href="#" role="button">Agenda una demo</a>
           </div>
 
           <div class="hero-note">
@@ -982,7 +1277,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </section>
 
@@ -1008,11 +1302,13 @@
       <div class="container">
         <div class="section-heading">
           <h2 class="section-title">Variedad en soluciones, que se ajustan a tus necesidades</h2>
-          <p class="section-subtitle">En un solo ecosistema: Completo, eficiente y personalizado.</p>
+          <p class="section-subtitle">
+            En un solo ecosistema: Completo, eficiente y personalizado.
+          </p>
         </div>
 
         <div class="panel-gallery">
-          <!-- PANEL 1 -->
+          <!-- PANEL 1: NPS -->
           <div class="panel-card">
             <h3 class="panel-title">DIP Loyalty</h3>
             <div class="panel-mockup panel-mockup--nps">
@@ -1020,20 +1316,41 @@
                 <div class="nps-axis-x"></div>
                 <div class="nps-axis-y"></div>
                 <div class="nps-bars">
-                  <div class="nps-bar"><div class="nps-bar-seg nps-bar-seg--det"></div><div class="nps-bar-seg nps-bar-seg--pas"></div><div class="nps-bar-seg nps-bar-seg--pro"></div></div>
-                  <div class="nps-bar"><div class="nps-bar-seg nps-bar-seg--det"></div><div class="nps-bar-seg nps-bar-seg--pas"></div><div class="nps-bar-seg nps-bar-seg--pro"></div></div>
-                  <div class="nps-bar"><div class="nps-bar-seg nps-bar-seg--det"></div><div class="nps-bar-seg nps-bar-seg--pas"></div><div class="nps-bar-seg nps-bar-seg--pro"></div></div>
-                  <div class="nps-bar"><div class="nps-bar-seg nps-bar-seg--det"></div><div class="nps-bar-seg nps-bar-seg--pas"></div><div class="nps-bar-seg nps-bar-seg--pro"></div></div>
-                  <div class="nps-bar"><div class="nps-bar-seg nps-bar-seg--det"></div><div class="nps-bar-seg nps-bar-seg--pas"></div><div class="nps-bar-seg nps-bar-seg--pro"></div></div>
+                  <div class="nps-bar">
+                    <div class="nps-bar-seg nps-bar-seg--det"></div>
+                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
+                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
+                  </div>
+                  <div class="nps-bar">
+                    <div class="nps-bar-seg nps-bar-seg--det"></div>
+                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
+                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
+                  </div>
+                  <div class="nps-bar">
+                    <div class="nps-bar-seg nps-bar-seg--det"></div>
+                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
+                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
+                  </div>
+                  <div class="nps-bar">
+                    <div class="nps-bar-seg nps-bar-seg--det"></div>
+                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
+                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
+                  </div>
+                  <div class="nps-bar">
+                    <div class="nps-bar-seg nps-bar-seg--det"></div>
+                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
+                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
+                  </div>
                 </div>
               </div>
+
               <div class="nps-legend">
                 <span><span class="nps-dot nps-dot--det"></span> Detractores</span>
                 <span><span class="nps-dot nps-dot--pas"></span> Pasivos</span>
                 <span><span class="nps-dot nps-dot--pro"></span> Promotores</span>
               </div>
-              <div class="panel-caption"></div>
             </div>
+
             <div class="panel-tags">
               <span>Estudios relacionales - </span>
               <span>Probabilidad de fuga - </span>
@@ -1052,8 +1369,14 @@
                     <span class="drill-metric-main">NPS global 68 · Churn 3,2%</span>
                   </div>
                   <div class="drill-body">
-                    <div class="drill-row"><span class="drill-row-label">Resumen por país / canal</span><span class="drill-bar"></span></div>
-                    <div class="drill-row"><span class="drill-row-label">Clientes en riesgo alto</span><span class="drill-bar drill-bar--risk"></span></div>
+                    <div class="drill-row">
+                      <span class="drill-row-label">Resumen por país / canal</span>
+                      <span class="drill-bar"></span>
+                    </div>
+                    <div class="drill-row">
+                      <span class="drill-row-label">Clientes en riesgo alto</span>
+                      <span class="drill-bar drill-bar--risk"></span>
+                    </div>
                   </div>
                 </div>
 
@@ -1063,8 +1386,14 @@
                     <span class="drill-metric-main">Sucursal Ñuñoa · Loyalty 74</span>
                   </div>
                   <div class="drill-body">
-                    <div class="drill-row"><span class="drill-row-label">Drivers clave del NPS</span><span class="drill-bar"></span></div>
-                    <div class="drill-row"><span class="drill-row-label">Fuga probable 30 días</span><span class="drill-bar drill-bar--risk"></span></div>
+                    <div class="drill-row">
+                      <span class="drill-row-label">Drivers clave del NPS</span>
+                      <span class="drill-bar"></span>
+                    </div>
+                    <div class="drill-row">
+                      <span class="drill-row-label">Fuga probable 30 días</span>
+                      <span class="drill-bar drill-bar--risk"></span>
+                    </div>
                   </div>
                 </div>
 
@@ -1074,8 +1403,14 @@
                     <span class="drill-metric-main">Ejecutivo A · Cartera 230 clientes</span>
                   </div>
                   <div class="drill-body">
-                    <div class="drill-row"><span class="drill-row-label">Clientes con alertas abiertas</span><span class="drill-bar drill-bar--risk"></span></div>
-                    <div class="drill-row"><span class="drill-row-label">Seguimientos completados</span><span class="drill-bar"></span></div>
+                    <div class="drill-row">
+                      <span class="drill-row-label">Clientes con alertas abiertas</span>
+                      <span class="drill-bar drill-bar--risk"></span>
+                    </div>
+                    <div class="drill-row">
+                      <span class="drill-row-label">Seguimientos completados</span>
+                      <span class="drill-bar"></span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1094,12 +1429,25 @@
             <div class="panel-mockup panel-mockup--ops">
               <div class="report-scroll">
                 <div class="report-lines">
-                  <div class="report-line"><span>Conversión total red</span><span class="report-bar"></span></div>
-                  <div class="report-line"><span>Ventas día vs meta</span><span class="report-bar"></span></div>
-                  <div class="report-line"><span>Loyalty sucursales en riesgo</span><span class="report-bar"></span></div>
-                  <div class="report-line"><span>Productividad fuerza de venta</span><span class="report-bar"></span></div>
+                  <div class="report-line">
+                    <span>Conversión total red</span>
+                    <span class="report-bar"></span>
+                  </div>
+                  <div class="report-line">
+                    <span>Ventas día vs meta</span>
+                    <span class="report-bar"></span>
+                  </div>
+                  <div class="report-line">
+                    <span>Loyalty sucursales en riesgo</span>
+                    <span class="report-bar"></span>
+                  </div>
+                  <div class="report-line">
+                    <span>Productividad fuerza de venta</span>
+                    <span class="report-bar"></span>
+                  </div>
                 </div>
               </div>
+
               <details class="panel-details">
                 <summary>Ver detalle por locales</summary>
                 <div class="panel-details-body">
@@ -1109,8 +1457,8 @@
                   <span>Lambaré</span><span>76</span><span>+64</span>
                 </div>
               </details>
-              <div class="panel-caption"></div>
             </div>
+
             <div class="panel-tags">
               <span>Gestión XM 360° - </span>
               <span>Valoriza el riesgo a tiempo - </span>
@@ -1127,9 +1475,18 @@
               <div class="journey-track">
                 <div class="journey-line"></div>
                 <div class="journey-steps">
-                  <div class="journey-step"><div class="journey-dot"></div><div class="journey-label">Descubrimiento</div></div>
-                  <div class="journey-step"><div class="journey-dot"></div><div class="journey-label">Uso / servicio</div></div>
-                  <div class="journey-step"><div class="journey-dot"></div><div class="journey-label">Post venta</div></div>
+                  <div class="journey-step journey-step--1">
+                    <div class="journey-dot"></div>
+                    <div class="journey-label">Descubrimiento</div>
+                  </div>
+                  <div class="journey-step journey-step--2">
+                    <div class="journey-dot"></div>
+                    <div class="journey-label">Uso / servicio</div>
+                  </div>
+                  <div class="journey-step journey-step--3">
+                    <div class="journey-dot"></div>
+                    <div class="journey-label">Post venta</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1164,6 +1521,7 @@
             <h3 class="panel-title">Capacitaciones áreas claves</h3>
             <div class="panel-mockup panel-mockup--training">
               <div class="training-header">Programas de formación CX</div>
+
               <div class="training-timeline">
                 <div class="training-step training-step--1">
                   <div class="training-dot"></div>
@@ -1171,7 +1529,9 @@
                     <span class="training-label-title">Frontline &amp; sucursales</span>
                     <span class="training-label-sub">Taller práctico orientado a casos reales.</span>
                   </div>
-                  <div class="training-bar-wrap"><div class="training-bar"><div class="training-bar-fill"></div></div></div>
+                  <div class="training-bar-wrap">
+                    <div class="training-bar"><div class="training-bar-fill"></div></div>
+                  </div>
                 </div>
 
                 <div class="training-step training-step--2">
@@ -1180,7 +1540,9 @@
                     <span class="training-label-title">Líderes &amp; jefaturas</span>
                     <span class="training-label-sub">Uso del panel para gestionar KPIs.</span>
                   </div>
-                  <div class="training-bar-wrap"><div class="training-bar"><div class="training-bar-fill"></div></div></div>
+                  <div class="training-bar-wrap">
+                    <div class="training-bar"><div class="training-bar-fill"></div></div>
+                  </div>
                 </div>
 
                 <div class="training-step training-step--3">
@@ -1189,7 +1551,9 @@
                     <span class="training-label-title">Comité ejecutivo</span>
                     <span class="training-label-sub">Lectura ejecutiva y toma de decisiones.</span>
                   </div>
-                  <div class="training-bar-wrap"><div class="training-bar"><div class="training-bar-fill"></div></div></div>
+                  <div class="training-bar-wrap">
+                    <div class="training-bar"><div class="training-bar-fill"></div></div>
+                  </div>
                 </div>
               </div>
 
@@ -1197,13 +1561,13 @@
                 Capacitaciones modulares para que cada área entienda su rol en la experiencia y use el sistema con propiedad.
               </div>
             </div>
+
             <div class="panel-tags">
               <span>Toda la organización es clave</span>
               <span> - </span>
               <span>Todas las áreas son relevantes</span>
             </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -1213,7 +1577,9 @@
       <div class="container">
         <div class="section-heading">
           <h2 class="section-title section-title--primary">Un sistema paquetizado de lealtad</h2>
-          <p class="section-subtitle">Todo lo que necesitas para medir, entender y gestionar la experiencia.</p>
+          <p class="section-subtitle">
+            Todo lo que necesitas para medir, entender y gestionar la experiencia.
+          </p>
         </div>
 
         <div class="steps">
@@ -1225,6 +1591,7 @@
               Definición de segmentos, cabales y variables claves.
             </p>
           </div>
+
           <div class="step-card">
             <div class="step-number">02 · Plataforma</div>
             <h3 class="step-title">Panel Web &amp; Mobile</h3>
@@ -1233,6 +1600,7 @@
               Vistas simples y gestionables a través de Drivers claves.
             </p>
           </div>
+
           <div class="step-card">
             <div class="step-number">03 · Acompañamiento</div>
             <h3 class="step-title">Informes ejecutivos</h3>
@@ -1294,15 +1662,14 @@
     <section class="cta-final">
       <div class="container">
         <h2 class="cta-title">¿Te imaginas ver todo esto en un solo panel?</h2>
-        <p class="cta-text">Agenda una demo de 30 minutos y podemos revisar la vista que necesitas.</p>
+        <p class="cta-text">
+          Agenda una demo de 30 minutos y podemos revisar la vista que necesitas.
+        </p>
 
-        <a class="btn-primary"
-           href="mailto:ariel.salazar@cxdip.com?subject=Solicitud%20de%20demo%20CXDIP&body=Hola%20Ariel,%0D%0A%0D%0AQuiero%20agendar%20una%20demo.%0D%0A%0D%0ANombre:%0D%0AEmpresa:%0D%0ATel%C3%A9fono:%0D%0AFecha%20y%20hora%20ideal:%0D%0A%0D%0AGracias.%0D%0A">
-          Agenda una demo
-        </a>
+        <a class="btn-primary js-demo" href="#" role="button">Agenda una demo</a>
 
         <div class="cta-email">
-          O escríbeme a <strong>ariel.salazar@cxdip.com</strong>
+          O ecríbeme a <strong>ariel.salazar@cxdip.com</strong>
         </div>
       </div>
     </section>
@@ -1316,7 +1683,7 @@
         <a href="#inicio">Inicio</a>
         <a href="#paneles">Servicios</a>
         <a href="#como">¿Cómo trabajamos?</a>
-        <a href="#por-que">Por qué CXDIP</a>
+        <a href="#por-que">¿Por qué elegirnos?</a>
       </div>
       <div class="footer-right">
         <span>LinkedIn</span>
@@ -1324,21 +1691,95 @@
     </div>
   </footer>
 
+  <!-- Toast fallback (para escritorio sin handler de correo) -->
+  <div id="mailToast" class="mail-toast" role="status" aria-live="polite">
+    <span>¿No se abrió tu correo?</span>
+    <a id="gmailFallback" href="#" target="_blank" rel="noopener">Abrir en Gmail Web</a>
+    <button type="button" id="toastClose" aria-label="Cerrar">✕</button>
+  </div>
+
   <script>
     (function () {
+      // --- Menú mobile ---
       const toggle = document.querySelector('.menu-toggle');
       const body = document.body;
-      const navLinks = document.querySelectorAll('.main-nav a'); // incluye mailto + anchors
+      const navLinks = document.querySelectorAll('.main-nav a[href^="#"]');
 
-      if (!toggle) return;
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          body.classList.toggle('nav-open');
+        });
 
-      toggle.addEventListener('click', function () {
-        body.classList.toggle('nav-open');
+        navLinks.forEach(function (link) {
+          link.addEventListener('click', function () {
+            body.classList.remove('nav-open');
+          });
+        });
+      }
+
+      // --- CTA correo (mailto + fallback Gmail web) ---
+      const TO = 'contacto@cxdip.com';
+      const SUBJECT = 'Solicitud de demo CXDIP';
+      const BODY =
+`Hola,
+
+Quiero agendar una demo de CXDIP (Loyalty 360° / Paneles CX).
+
+Mis datos:
+- Nombre:
+- Empresa:
+- País:
+- Teléfono:
+- Mejor horario:
+
+Gracias.`;
+
+      const mailtoUrl = 'mailto:' + TO
+        + '?subject=' + encodeURIComponent(SUBJECT)
+        + '&body=' + encodeURIComponent(BODY);
+
+      // Nota: este link de Gmail funciona como “compose” en web.
+      // No puedo confirmar que sea una API oficial documentada, pero es un patrón ampliamente usado.
+      const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1'
+        + '&to=' + encodeURIComponent(TO)
+        + '&su=' + encodeURIComponent(SUBJECT)
+        + '&body=' + encodeURIComponent(BODY);
+
+      // Set href (fallback universal)
+      document.querySelectorAll('.js-demo').forEach(function (el) {
+        el.setAttribute('href', mailtoUrl);
       });
 
-      navLinks.forEach(function (link) {
-        link.addEventListener('click', function () {
-          body.classList.remove('nav-open');
+      // Toast fallback (para casos donde mailto no abre en escritorio)
+      const toast = document.getElementById('mailToast');
+      const gmailFallback = document.getElementById('gmailFallback');
+      const toastClose = document.getElementById('toastClose');
+      let toastTimer = null;
+
+      if (gmailFallback) gmailFallback.href = gmailUrl;
+
+      function showToast() {
+        if (!toast) return;
+        toast.style.display = 'flex';
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(hideToast, 9000);
+      }
+
+      function hideToast() {
+        if (!toast) return;
+        toast.style.display = 'none';
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = null;
+      }
+
+      if (toastClose) toastClose.addEventListener('click', hideToast);
+
+      // Cuando clickean "Agenda una demo": intentamos mailto (default),
+      // y mostramos un fallback por si el navegador/SO no tiene handler.
+      document.querySelectorAll('.js-demo').forEach(function (el) {
+        el.addEventListener('click', function () {
+          // Pequeño delay para no “pegarse” con la apertura del handler
+          setTimeout(showToast, 180);
         });
       });
     })();
