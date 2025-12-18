@@ -19,11 +19,7 @@
       --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.08);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -33,34 +29,17 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     /* compensación para el header sticky al usar anchors */
-    main[id],
-    section[id] {
-      scroll-margin-top: 90px;
-    }
+    main[id], section[id] { scroll-margin-top: 90px; }
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
 
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .container {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
 
     /* HEADER */
-
     header {
       position: sticky;
       top: 0;
@@ -77,12 +56,7 @@
       padding: 0.85rem 0;
     }
 
-    .logo-block {
-      display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
-    }
-
+    .logo-block { display: flex; flex-direction: column; gap: 0.1rem; }
     .logo {
       font-size: 1.15rem;
       font-weight: 800;
@@ -90,7 +64,6 @@
       text-transform: uppercase;
       color: var(--primary);
     }
-
     .logo-sub {
       font-size: 0.7rem;
       text-transform: uppercase;
@@ -99,7 +72,6 @@
     }
 
     /* botón hamburguesa */
-
     .menu-toggle {
       display: none;
       border: none;
@@ -122,20 +94,12 @@
       transition: transform 0.18s ease, opacity 0.18s ease, background 0.18s ease;
     }
 
-    .menu-toggle span + span {
-      margin-top: 5px;
-    }
+    .menu-toggle span + span { margin-top: 5px; }
 
-    body.nav-open .menu-toggle span:nth-child(1) {
-      transform: translateY(3px) rotate(45deg);
-    }
-
-    body.nav-open .menu-toggle span:nth-child(2) {
-      transform: translateY(-3px) rotate(-45deg);
-    }
+    body.nav-open .menu-toggle span:nth-child(1) { transform: translateY(3px) rotate(45deg); }
+    body.nav-open .menu-toggle span:nth-child(2) { transform: translateY(-3px) rotate(-45deg); }
 
     /* NAV principal */
-
     .main-nav ul {
       list-style: none;
       display: flex;
@@ -149,9 +113,7 @@
       transition: color 0.15s ease;
     }
 
-    .main-nav a:hover {
-      color: var(--text-main);
-    }
+    .main-nav a:hover { color: var(--text-main); }
 
     .btn-primary {
       border: none;
@@ -167,15 +129,24 @@
       justify-content: center;
       gap: 0.25rem;
       box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
-      transition: background 0.15s ease, transform 0.1s ease,
-        box-shadow 0.1s ease;
+      transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
       white-space: nowrap;
+      text-decoration: none;
+      line-height: 1;
     }
 
     .btn-primary:hover {
       background: var(--primary-hover);
       transform: translateY(-1px);
       box-shadow: 0 16px 32px rgba(37, 99, 235, 0.3);
+      color: #fff;
+    }
+
+    /* FIX: el link del nav estaba pisando el color del CTA */
+    .main-nav a.btn-primary,
+    .main-nav a.btn-primary:hover,
+    .main-nav a.btn-primary:visited {
+      color: #fff !important;
     }
 
     .btn-secondary {
@@ -192,12 +163,9 @@
       gap: 0.25rem;
     }
 
-    .btn-secondary span {
-      font-size: 1rem;
-    }
+    .btn-secondary span { font-size: 1rem; }
 
     /* HERO */
-
     .hero {
       background: var(--bg);
       padding: 3.4rem 0 3.2rem;
@@ -211,28 +179,7 @@
       align-items: center;
     }
 
-    .hero-kicker-row {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      margin-bottom: 0.7rem;
-    }
-
-    .hero-kicker {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--text-muted);
-    }
-
-    .hero-badge {
-      font-size: 0.72rem;
-      padding: 0.15rem 0.65rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--bg-alt);
-      color: var(--text-muted);
-    }
+    .hero-kicker-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.7rem; }
 
     .hero-title {
       font-size: clamp(2.2rem, 3.4vw, 2.7rem);
@@ -241,9 +188,7 @@
       margin-bottom: 0.8rem;
     }
 
-    .hero-title span {
-      color: var(--primary);
-    }
+    .hero-title span { color: var(--primary); }
 
     .hero-subtitle {
       font-size: 0.98rem;
@@ -252,12 +197,7 @@
       margin-bottom: 1.3rem;
     }
 
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      margin-bottom: 1.6rem;
-    }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.6rem; }
 
     .hero-tag {
       font-size: 0.78rem;
@@ -276,17 +216,10 @@
       margin-bottom: 0.7rem;
     }
 
-    .hero-note {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
+    .hero-note { font-size: 0.82rem; color: var(--text-muted); }
 
     /* HERO PANEL (DISPOSITIVO) */
-
-    .hero-right {
-      display: flex;
-      justify-content: flex-end;
-    }
+    .hero-right { display: flex; justify-content: flex-end; }
 
     .hero-device {
       position: relative;
@@ -347,11 +280,7 @@
       color: var(--text-main);
     }
 
-    .device-metrics-row {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.6rem;
-    }
+    .device-metrics-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
 
     .device-metric {
       border-radius: 0.9rem;
@@ -368,21 +297,11 @@
       letter-spacing: 0.12em;
     }
 
-    .device-metric-value {
-      font-size: 0.98rem;
-      font-weight: 600;
-      color: #111827;
-    }
+    .device-metric-value { font-size: 0.98rem; font-weight: 600; color: #111827; }
 
-    .device-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-      gap: 0.7rem;
-      align-items: stretch;
-    }
+    .device-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 0.7rem; align-items: stretch; }
 
-    .device-chart,
-    .device-table {
+    .device-chart, .device-table {
       border-radius: 0.9rem;
       border: 1px solid rgba(209, 213, 219, 0.9);
       background: linear-gradient(135deg, #f9fafb, #eff6ff);
@@ -392,10 +311,7 @@
       gap: 0.45rem;
     }
 
-    .device-block-label {
-      font-size: 0.72rem;
-      color: #6b7280;
-    }
+    .device-block-label { font-size: 0.72rem; color: #6b7280; }
 
     .chart-placeholder {
       position: relative;
@@ -416,21 +332,12 @@
       animation: barSlide 3.2s ease-in-out infinite;
     }
 
-    .rows-placeholder {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
+    .rows-placeholder { display: flex; flex-direction: column; gap: 0.3rem; }
 
     .row-line {
       height: 6px;
       border-radius: 999px;
-      background: linear-gradient(
-        90deg,
-        rgba(148, 163, 184, 0.22),
-        rgba(15, 23, 42, 0.7),
-        rgba(148, 163, 184, 0.22)
-      );
+      background: linear-gradient(90deg, rgba(148, 163, 184, 0.22), rgba(15, 23, 42, 0.7), rgba(148, 163, 184, 0.22));
       background-size: 200% 100%;
       animation: shimmerBars 3s ease-in-out infinite;
     }
@@ -438,47 +345,16 @@
     .row-line:nth-child(2) { width: 75%; }
     .row-line:nth-child(3) { width: 55%; }
 
-    .device-foot {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.72rem;
-      color: #6b7280;
-    }
+    .device-foot { display: flex; justify-content: space-between; font-size: 0.72rem; color: #6b7280; }
 
-    @keyframes pulseGlow {
-      0%   { opacity: 0.7; transform: scale(0.98); }
-      50%  { opacity: 0.25; transform: scale(1.03); }
-      100% { opacity: 0.7; transform: scale(0.98); }
-    }
-
-    @keyframes barSlide {
-      0%   { transform: translateX(-8%); }
-      50%  { transform: translateX(8%); }
-      100% { transform: translateX(-8%); }
-    }
-
-    @keyframes shimmerBars {
-      0%   { background-position: -40% 0; }
-      100% { background-position: 140% 0; }
-    }
+    @keyframes pulseGlow { 0% { opacity: 0.7; transform: scale(0.98); } 50% { opacity: 0.25; transform: scale(1.03); } 100% { opacity: 0.7; transform: scale(0.98); } }
+    @keyframes barSlide { 0% { transform: translateX(-8%); } 50% { transform: translateX(8%); } 100% { transform: translateX(-8%); } }
+    @keyframes shimmerBars { 0% { background-position: -40% 0; } 100% { background-position: 140% 0; } }
 
     /* TRUST STRIP */
-
-    .trust-strip {
-      background: var(--bg-alt);
-      border-bottom: 1px solid var(--border);
-      padding: 1.2rem 0;
-    }
-
-    .trust-inner {
-      text-align: center;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .trust-inner strong {
-      color: var(--text-main);
-    }
+    .trust-strip { background: var(--bg-alt); border-bottom: 1px solid var(--border); padding: 1.2rem 0; }
+    .trust-inner { text-align: center; font-size: 0.9rem; color: var(--text-muted); }
+    .trust-inner strong { color: var(--text-main); }
 
     .trust-tags {
       margin-top: 0.7rem;
@@ -498,40 +374,18 @@
     }
 
     /* SECTIONS */
+    section { padding: 3rem 0; }
 
-    section {
-      padding: 3rem 0;
-    }
+    .section-heading { text-align: center; margin-bottom: 2rem; }
 
-    .section-heading {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+    .section-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.4rem; }
 
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
+    .section-title--primary { color: var(--primary); }
 
-    .section-title--primary {
-      color: var(--primary);
-    }
-
-    .section-subtitle {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      max-width: 30rem;
-      margin: 0 auto;
-    }
+    .section-subtitle { font-size: 0.9rem; color: var(--text-muted); max-width: 30rem; margin: 0 auto; }
 
     /* PANEL GALLERY */
-
-    .panel-gallery {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.5rem;
-    }
+    .panel-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
 
     .panel-card {
       border-radius: var(--radius-lg);
@@ -544,10 +398,7 @@
       gap: 0.7rem;
     }
 
-    .panel-title {
-      font-size: 0.98rem;
-      font-weight: 600;
-    }
+    .panel-title { font-size: 0.98rem; font-weight: 600; }
 
     .panel-mockup {
       position: relative;
@@ -562,22 +413,10 @@
       overflow: hidden;
     }
 
-    .panel-caption {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 0.15rem;
-    }
+    .panel-caption { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem; }
+    .panel-tags { display: flex; flex-wrap: wrap; gap: 0.25rem; font-size: 0.76rem; color: var(--text-muted); }
 
-    .panel-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.25rem;
-      font-size: 0.76rem;
-      color: var(--text-muted);
-    }
-
-    /* PANEL 1: NPS (barras apiladas rojo/amarillo/verde) */
-
+    /* PANEL 1: NPS */
     .panel-mockup--nps {
       background: radial-gradient(circle at top, #eff6ff, #e0f2fe);
       display: flex;
@@ -594,34 +433,11 @@
       padding: 0.2rem 0.3rem 0.45rem 0.65rem;
     }
 
-    .nps-axis-x,
-    .nps-axis-y {
-      position: absolute;
-      background: rgba(148, 163, 184, 0.7);
-    }
+    .nps-axis-x, .nps-axis-y { position: absolute; background: rgba(148, 163, 184, 0.7); }
+    .nps-axis-x { height: 1px; left: 0.4rem; right: 0.1rem; bottom: 0.25rem; }
+    .nps-axis-y { width: 1px; top: 0.15rem; bottom: 0.25rem; left: 0.4rem; }
 
-    .nps-axis-x {
-      height: 1px;
-      left: 0.4rem;
-      right: 0.1rem;
-      bottom: 0.25rem;
-    }
-
-    .nps-axis-y {
-      width: 1px;
-      top: 0.15rem;
-      bottom: 0.25rem;
-      left: 0.4rem;
-    }
-
-    .nps-bars {
-      flex: 1;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 0.22rem;
-      margin-left: 0.35rem;
-    }
+    .nps-bars { flex: 1; display: flex; align-items: flex-end; justify-content: space-between; gap: 0.22rem; margin-left: 0.35rem; }
 
     .nps-bar {
       width: 16%;
@@ -643,54 +459,20 @@
     .nps-bar:nth-child(4) { animation-delay: -1.7s; }
     .nps-bar:nth-child(5) { animation-delay: -2.1s; }
 
-    .nps-bar-seg {
-      width: 100%;
-    }
+    .nps-bar-seg { width: 100%; }
+    .nps-bar-seg--det { background: #ef4444; height: 35%; }
+    .nps-bar-seg--pas { background: #facc15; height: 25%; }
+    .nps-bar-seg--pro { background: #22c55e; height: 40%; }
 
-    .nps-bar-seg--det {
-      background: #ef4444;    /* rojo */
-      height: 35%;
-    }
-
-    .nps-bar-seg--pas {
-      background: #facc15;    /* amarillo (pasivos) */
-      height: 25%;
-    }
-
-    .nps-bar-seg--pro {
-      background: #22c55e;    /* verde (promotores) */
-      height: 40%;
-    }
-
-    .nps-legend {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-top: 0.15rem;
-      flex-wrap: wrap;
-    }
-
-    .nps-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      display: inline-block;
-    }
-
+    .nps-legend { display: flex; align-items: center; gap: 0.55rem; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.15rem; flex-wrap: wrap; }
+    .nps-dot { width: 7px; height: 7px; border-radius: 999px; display: inline-block; }
     .nps-dot--det { background: #ef4444; }
     .nps-dot--pas { background: #facc15; }
     .nps-dot--pro { background: #22c55e; }
 
-    @keyframes npsWave {
-      0%   { transform: scaleY(0.7); }
-      50%  { transform: scaleY(1.1); }
-      100% { transform: scaleY(0.85); }
-    }
+    @keyframes npsWave { 0% { transform: scaleY(0.7); } 50% { transform: scaleY(1.1); } 100% { transform: scaleY(0.85); } }
 
-    /* PANEL 2b: DIP Loyalty 360° drill-down loop */
-
+    /* PANEL 2b: Drill */
     .panel-mockup--drill {
       background: radial-gradient(circle at 20% 0%, #dbeafe, #eff6ff 40%, #e5e7eb 100%);
       display: flex;
@@ -748,18 +530,8 @@
       letter-spacing: 0.09em;
     }
 
-    .drill-metric-main {
-      font-weight: 600;
-      font-size: 0.78rem;
-      color: #111827;
-    }
-
-    .drill-body {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      margin-top: 0.1rem;
-    }
+    .drill-metric-main { font-weight: 600; font-size: 0.78rem; color: #111827; }
+    .drill-body { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.1rem; }
 
     .drill-row {
       display: flex;
@@ -770,11 +542,7 @@
       color: #4b5563;
     }
 
-    .drill-row-label {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .drill-row-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .drill-bar {
       flex: 0 0 52%;
@@ -784,36 +552,15 @@
       opacity: 0.9;
     }
 
-    .drill-bar--risk {
-      background: linear-gradient(90deg, #ef4444, #f97316);
-    }
-
-    .drill-bar--branch {
-      background: linear-gradient(90deg, #22c55e, #22c55e);
-    }
-
-    .drill-footnote {
-      font-size: 0.68rem;
-      color: #6b7280;
-      padding: 0 0.1rem 0.1rem;
-    }
+    .drill-bar--risk { background: linear-gradient(90deg, #ef4444, #f97316); }
 
     @keyframes drillLoop {
-      0%, 20% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      26%, 100% {
-        opacity: 0;
-        transform: translateY(-8px) scale(0.98);
-      }
+      0%, 20% { opacity: 1; transform: translateY(0) scale(1); }
+      26%, 100% { opacity: 0; transform: translateY(-8px) scale(0.98); }
     }
 
     /* PANEL 3: OPS & SALES */
-
-    .panel-mockup--ops {
-      background: radial-gradient(circle at top, #e0f2fe, #eff6ff);
-    }
+    .panel-mockup--ops { background: radial-gradient(circle at top, #e0f2fe, #eff6ff); }
 
     .report-scroll {
       flex: 1;
@@ -824,28 +571,11 @@
       position: relative;
     }
 
-    .report-lines {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      padding: 0.5rem 0.6rem;
-      animation: reportSlide 6.5s ease-in-out infinite;
-    }
+    .report-lines { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.5rem 0.6rem; animation: reportSlide 6.5s ease-in-out infinite; }
 
-    .report-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.7rem;
-      color: #4b5563;
-    }
+    .report-line { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #4b5563; }
 
-    .report-line span:first-child {
-      max-width: 60%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    .report-line span:first-child { max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     .report-bar {
       flex: 0 0 48%;
@@ -855,31 +585,13 @@
       opacity: 0.9;
     }
 
-    .report-line:nth-child(2) .report-bar {
-      background: linear-gradient(90deg, #f97316, #22c55e);
-      width: 65%;
-    }
+    .report-line:nth-child(2) .report-bar { background: linear-gradient(90deg, #f97316, #22c55e); width: 65%; }
+    .report-line:nth-child(3) .report-bar { background: linear-gradient(90deg, #ef4444, #f97316); width: 52%; }
+    .report-line:nth-child(4) .report-bar { background: linear-gradient(90deg, #22c55e, #22c55e); width: 82%; }
 
-    .report-line:nth-child(3) .report-bar {
-      background: linear-gradient(90deg, #ef4444, #f97316);
-      width: 52%;
-    }
+    @keyframes reportSlide { 0% { transform: translateY(0); } 50% { transform: translateY(-18%); } 100% { transform: translateY(0); } }
 
-    .report-line:nth-child(4) .report-bar {
-      background: linear-gradient(90deg, #22c55e, #22c55e);
-      width: 82%;
-    }
-
-    @keyframes reportSlide {
-      0%   { transform: translateY(0); }
-      50%  { transform: translateY(-18%); }
-      100% { transform: translateY(0); }
-    }
-
-    .panel-details {
-      margin-top: 0.35rem;
-      font-size: 0.72rem;
-    }
+    .panel-details { margin-top: 0.35rem; font-size: 0.72rem; }
 
     .panel-details summary {
       list-style: none;
@@ -895,14 +607,8 @@
       font-weight: 500;
     }
 
-    .panel-details summary::after {
-      content: "▾";
-      font-size: 0.6rem;
-    }
-
-    .panel-details[open] summary::after {
-      content: "▴";
-    }
+    .panel-details summary::after { content: "▾"; font-size: 0.6rem; }
+    .panel-details[open] summary::after { content: "▴"; }
 
     .panel-details-body {
       margin-top: 0.35rem;
@@ -915,18 +621,10 @@
       gap: 0.15rem 0.35rem;
     }
 
-    .panel-details-body span {
-      font-size: 0.68rem;
-      color: #4b5563;
-    }
+    .panel-details-body span { font-size: 0.68rem; color: #4b5563; }
+    .panel-details-body span:nth-child(-n+3) { font-weight: 600; color: #111827; }
 
-    .panel-details-body span:nth-child(-n+3) {
-      font-weight: 600;
-      color: #111827;
-    }
-
-    /* PANEL 4: Journey map animado */
-
+    /* PANEL 4: Journey */
     .panel-mockup--journey {
       background: radial-gradient(circle at top, #eff6ff, #e0f2fe);
       display: flex;
@@ -954,31 +652,11 @@
       overflow: hidden;
     }
 
-    .journey-line {
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      height: 2px;
-      background: linear-gradient(90deg, #22c55e, #2563eb);
-      opacity: 0.5;
-    }
+    .journey-line { position: absolute; left: 8%; right: 8%; height: 2px; background: linear-gradient(90deg, #22c55e, #2563eb); opacity: 0.5; }
 
-    .journey-steps {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      font-size: 0.7rem;
-      color: #4b5563;
-    }
+    .journey-steps { position: relative; display: flex; justify-content: space-between; width: 100%; font-size: 0.7rem; color: #4b5563; }
 
-    .journey-step {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.15rem;
-    }
+    .journey-step { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.15rem; }
 
     .journey-dot {
       width: 14px;
@@ -991,21 +669,6 @@
       overflow: hidden;
     }
 
-    .journey-dot::after {
-      content: "";
-      position: absolute;
-      inset: 2px;
-      border-radius: inherit;
-      background: radial-gradient(circle, #22c55e, #2563eb);
-      opacity: 0;
-      transform: scale(0.3);
-      animation: journeyPulse 6s ease-in-out infinite;
-    }
-
-    .journey-step--1 .journey-dot::after { animation-delay: 0s; }
-    .journey-step--2 .journey-dot::after { animation-delay: 2s; }
-    .journey-step--3 .journey-dot::after { animation-delay: 4s; }
-
     .journey-label {
       background: rgba(255, 255, 255, 0.9);
       border-radius: 999px;
@@ -1014,18 +677,7 @@
       white-space: nowrap;
     }
 
-    .panel-mockup--journey .panel-caption {
-      margin-top: 0.35rem;
-      font-size: 0.72rem;
-    }
-
-    @keyframes journeyPulse {
-      0%, 20% { opacity: 1; transform: scale(1); }
-      26%, 100% { opacity: 0; transform: scale(0.3); }
-    }
-
-    /* PANEL 5: Clusters & retención */
-
+    /* PANEL 5: Clusters */
     .panel-mockup--clusters {
       background: radial-gradient(circle at 0% 0%, #e0f2fe, #eff6ff 45%, #f9fafb 100%);
       display: flex;
@@ -1059,56 +711,15 @@
       animation: clusterFloat 5.5s ease-in-out infinite;
     }
 
-    .cluster-node--core {
-      top: 38%;
-      left: 38%;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: #ffffff;
-      border: none;
-      animation-delay: 0s;
-    }
+    .cluster-node--core { top: 38%; left: 38%; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border: none; }
+    .cluster-node--risk { top: 16%; left: 8%; background: linear-gradient(135deg, #ef4444, #f97316); color: #fff; border: none; animation-delay: -1.2s; }
+    .cluster-node--growth { top: 66%; left: 12%; background: linear-gradient(135deg, #2563eb, #22c55e); color: #fff; border: none; animation-delay: -2.4s; }
+    .cluster-node--value { top: 20%; right: 4%; background: linear-gradient(135deg, #0ea5e9, #6366f1); color: #fff; border: none; animation-delay: -3.1s; }
+    .cluster-node--sleep { bottom: 8%; right: 10%; background: #fef9c3; animation-delay: -4s; }
 
-    .cluster-node--risk {
-      top: 16%;
-      left: 8%;
-      background: linear-gradient(135deg, #ef4444, #f97316);
-      color: #ffffff;
-      border: none;
-      animation-delay: -1.2s;
-    }
+    @keyframes clusterFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.02); } }
 
-    .cluster-node--growth {
-      top: 66%;
-      left: 12%;
-      background: linear-gradient(135deg, #2563eb, #22c55e);
-      color: #ffffff;
-      border: none;
-      animation-delay: -2.4s;
-    }
-
-    .cluster-node--value {
-      top: 20%;
-      right: 4%;
-      background: linear-gradient(135deg, #0ea5e9, #6366f1);
-      color: #ffffff;
-      border: none;
-      animation-delay: -3.1s;
-    }
-
-    .cluster-node--sleep {
-      bottom: 8%;
-      right: 10%;
-      background: #fef9c3;
-      animation-delay: -4s;
-    }
-
-    @keyframes clusterFloat {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-4px) scale(1.02); }
-    }
-
-    /* PANEL 6: Capacitaciones animadas */
-
+    /* PANEL 6: Training */
     .panel-mockup--training {
       background: radial-gradient(circle at top, #eef2ff, #eff6ff);
       display: flex;
@@ -1116,21 +727,9 @@
       justify-content: space-between;
     }
 
-    .training-header {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #6b7280;
-      margin-bottom: 0.3rem;
-    }
+    .training-header { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.16em; color: #6b7280; margin-bottom: 0.3rem; }
 
-    .training-timeline {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      padding-top: 0.1rem;
-    }
+    .training-timeline { flex: 1; display: flex; flex-direction: column; gap: 0.35rem; padding-top: 0.1rem; }
 
     .training-step {
       display: grid;
@@ -1152,51 +751,12 @@
       overflow: hidden;
     }
 
-    .training-dot::after {
-      content: "";
-      position: absolute;
-      inset: 2px;
-      border-radius: inherit;
-      background: radial-gradient(circle, #22c55e, #2563eb);
-      transform: scale(0.3);
-      opacity: 0;
-      animation: trainingPing 5s ease-in-out infinite;
-    }
+    .training-label { display: flex; flex-direction: column; gap: 0.05rem; }
+    .training-label-title { font-weight: 600; font-size: 0.78rem; color: #111827; }
+    .training-label-sub { font-size: 0.68rem; color: #6b7280; }
 
-    .training-step--1 .training-dot::after { animation-delay: 0s; }
-    .training-step--2 .training-dot::after { animation-delay: 1.2s; }
-    .training-step--3 .training-dot::after { animation-delay: 2.4s; }
-
-    .training-label {
-      display: flex;
-      flex-direction: column;
-      gap: 0.05rem;
-    }
-
-    .training-label-title {
-      font-weight: 600;
-      font-size: 0.78rem;
-      color: #111827;
-    }
-
-    .training-label-sub {
-      font-size: 0.68rem;
-      color: #6b7280;
-    }
-
-    .training-bar-wrap {
-      grid-column: 2 / 3;
-      margin-top: 0.15rem;
-    }
-
-    .training-bar {
-      width: 100%;
-      height: 5px;
-      border-radius: 999px;
-      background: rgba(209, 213, 219, 0.8);
-      overflow: hidden;
-      position: relative;
-    }
+    .training-bar-wrap { grid-column: 2 / 3; margin-top: 0.15rem; }
+    .training-bar { width: 100%; height: 5px; border-radius: 999px; background: rgba(209, 213, 219, 0.8); overflow: hidden; position: relative; }
 
     .training-bar-fill {
       position: absolute;
@@ -1212,24 +772,10 @@
     .training-step--2 .training-bar-fill { animation-delay: 1.2s; }
     .training-step--3 .training-bar-fill { animation-delay: 2.4s; }
 
-    @keyframes trainingPing {
-      0%, 15% { opacity: 1; transform: scale(1); }
-      25%, 100% { opacity: 0; transform: scale(0.3); }
-    }
-
-    @keyframes trainingProgress {
-      0% { transform: scaleX(0.1); }
-      50% { transform: scaleX(1); }
-      100% { transform: scaleX(0.1); }
-    }
+    @keyframes trainingProgress { 0% { transform: scaleX(0.1); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0.1); } }
 
     /* STEPS */
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.3rem;
-    }
+    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.3rem; }
 
     .step-card {
       border-radius: var(--radius-md);
@@ -1239,100 +785,19 @@
       box-shadow: 0 6px 14px rgba(15, 23, 42, 0.03);
     }
 
-    .step-number {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--text-muted);
-      margin-bottom: 0.25rem;
-    }
-
-    .step-title {
-      font-size: 0.96rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .step-text {
-      font-size: 0.86rem;
-      color: var(--text-muted);
-    }
+    .step-number { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .step-title { font-size: 0.96rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .step-text { font-size: 0.86rem; color: var(--text-muted); }
 
     /* WHY */
+    .why { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 1.6rem; align-items: flex-start; }
+    .why-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .why-kicker { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); margin-bottom: 0.2rem; }
+    .why-subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.7rem; max-width: 34rem; }
+    .why-subheading { font-size: 0.82rem; font-weight: 600; margin-top: 0.4rem; margin-bottom: 0.2rem; color: var(--text-main); }
 
-    .why {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 1.6rem;
-      align-items: flex-start;
-    }
-
-    .why-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
-
-    .why-text {
-      font-size: 0.92rem;
-      color: var(--text-muted);
-      margin-bottom: 0.8rem;
-    }
-
-    .why-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .why-list li::before {
-      content: "•";
-      color: var(--primary);
-      margin-right: 0.35rem;
-      font-weight: 700;
-    }
-
-    .why-kicker {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--text-muted);
-      margin-bottom: 0.2rem;
-    }
-
-    .why-subtitle {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 0.7rem;
-      max-width: 34rem;
-    }
-
-    .why-subheading {
-      font-size: 0.82rem;
-      font-weight: 600;
-      margin-top: 0.4rem;
-      margin-bottom: 0.2rem;
-      color: var(--text-main);
-    }
-
-    .why-bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      font-size: 0.86rem;
-      color: var(--text-muted);
-    }
-
-    .why-bullets li::before {
-      content: "•";
-      color: var(--primary);
-      margin-right: 0.35rem;
-      font-weight: 700;
-    }
+    .why-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.86rem; color: var(--text-muted); }
+    .why-bullets li::before { content: "•"; color: var(--primary); margin-right: 0.35rem; font-weight: 700; }
 
     .why-card {
       border-radius: var(--radius-lg);
@@ -1342,27 +807,11 @@
       box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
     }
 
-    .why-card-kicker {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--text-muted);
-      margin-bottom: 0.25rem;
-    }
-
-    .why-card-title {
-      font-size: 0.96rem;
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-
-    .why-card-text {
-      font-size: 0.86rem;
-      color: var(--text-muted);
-    }
+    .why-card-kicker { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .why-card-title { font-size: 0.96rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .why-card-text { font-size: 0.86rem; color: var(--text-muted); }
 
     /* CTA & FOOTER */
-
     .cta-final {
       background: var(--bg-alt);
       padding: 3rem 0 2.4rem;
@@ -1371,76 +820,24 @@
       margin-top: 1.5rem;
     }
 
-    .cta-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 0.6rem;
-    }
+    .cta-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .cta-text { font-size: 0.95rem; color: var(--text-muted); max-width: 28rem; margin: 0 auto 1.4rem; }
 
-    .cta-text {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      max-width: 28rem;
-      margin: 0 auto 1.4rem;
-    }
+    .cta-email { margin-top: 0.9rem; font-size: 0.85rem; color: var(--text-muted); }
+    .cta-email strong { color: var(--text-main); }
 
-    .cta-email {
-      margin-top: 0.9rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
+    footer { border-top: 1px solid var(--border); padding: 1.3rem 0; font-size: 0.8rem; color: var(--text-muted); background: #ffffff; }
 
-    .cta-email strong {
-      color: var(--text-main);
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 1.3rem 0;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      background: #ffffff;
-    }
-
-    .footer-inner {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.7rem;
-    }
-
-    .footer-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-    }
-
-    .footer-right {
-      display: flex;
-      gap: 0.7rem;
-      align-items: center;
-    }
+    .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.7rem; }
+    .footer-nav { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+    .footer-right { display: flex; gap: 0.7rem; align-items: center; }
 
     /* RESPONSIVE */
-
     @media (max-width: 960px) {
-      .header-inner {
-        padding: 0.7rem 0;
-        position: relative;
-      }
+      .header-inner { padding: 0.7rem 0; position: relative; }
+      .menu-toggle { display: inline-flex; }
 
-      .menu-toggle {
-        display: inline-flex;
-      }
-
-      .main-nav {
-        position: absolute;
-        top: 100%;
-        left: 1.5rem;
-        right: 1.5rem;
-      }
-
+      .main-nav { position: absolute; top: 100%; left: 1.5rem; right: 1.5rem; }
       .main-nav ul {
         flex-direction: column;
         align-items: flex-start;
@@ -1457,45 +854,24 @@
         transition: opacity 0.18s ease, transform 0.18s ease;
       }
 
-      body.nav-open .main-nav ul {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateY(0);
-      }
+      body.nav-open .main-nav ul { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-      .hero-inner {
-        grid-template-columns: minmax(0, 1fr);
-      }
+      .hero-inner { grid-template-columns: minmax(0, 1fr); }
+      .hero-right { justify-content: flex-start; margin-top: 1.5rem; }
 
-      .hero-right {
-        justify-content: flex-start;
-        margin-top: 1.5rem;
-      }
-
-      .panel-gallery,
-      .steps,
-      .why {
-        grid-template-columns: minmax(0, 1fr);
-      }
+      .panel-gallery, .steps, .why { grid-template-columns: minmax(0, 1fr); }
 
       /* un poquito más de margen para el scroll en mobile */
-      main[id],
-      section[id] {
-        scroll-margin-top: 110px;
-      }
+      main[id], section[id] { scroll-margin-top: 110px; }
     }
 
     @media (max-width: 640px) {
-      .hero {
-        padding-top: 2.4rem;
-      }
-
-      .header-inner {
-        padding: 0.7rem 0;
-      }
+      .hero { padding-top: 2.4rem; }
+      .header-inner { padding: 0.7rem 0; }
     }
   </style>
 </head>
+
 <body>
   <!-- HEADER -->
   <header>
@@ -1510,16 +886,18 @@
         <span></span>
       </button>
 
-      <nav class="main-nav">
+      <nav class="main-nav" aria-label="Navegación principal">
         <ul>
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#paneles">Servicios</a></li>
           <li><a href="#como">¿Cómo trabajamos?</a></li>
           <li><a href="#por-que">¿Por qué elegirnos?</a></li>
           <li>
-            <button class="btn-primary" type="button">
+            <!-- CTA: abre el cliente de correo inmediatamente -->
+            <a class="btn-primary"
+               href="mailto:ariel.salazar@cxdip.com?subject=Solicitud%20de%20demo%20CXDIP&body=Hola%20Ariel,%0D%0A%0D%0AQuiero%20agendar%20una%20demo.%0D%0A%0D%0ANombre:%0D%0AEmpresa:%0D%0ATel%C3%A9fono:%0D%0AFecha%20y%20hora%20ideal:%0D%0A%0D%0AGracias.%0D%0A">
               Agenda una demo
-            </button>
+            </a>
           </li>
         </ul>
       </nav>
@@ -1531,15 +909,16 @@
     <section class="hero">
       <div class="container hero-inner">
         <div>
-          <div class="hero-kicker-row">
-            <!-- kicker opcional -->
-          </div>
+          <div class="hero-kicker-row"></div>
+
           <h1 class="hero-title">
             <span>CXDIP</span> Desarrollamos sistemas CX gestionables a tu medida
           </h1>
+
           <p class="hero-subtitle">
-           Vistas eficientes, <strong>profundas</strong> de alto impacto. Donde conviertes la voz de clientes en sistemas gestionables y rentabilizables.
+            Vistas eficientes, <strong>profundas</strong> de alto impacto. Donde conviertes la voz de clientes en sistemas gestionables y rentabilizables.
           </p>
+
           <div class="hero-tags">
             <span class="hero-tag">Diseño CX &amp; Loyalty</span>
             <span class="hero-tag">Desde 3.600 respuestas anuales</span>
@@ -1548,9 +927,10 @@
           </div>
 
           <div class="hero-cta-row">
-            <button class="btn-primary" type="button">
+            <a class="btn-primary"
+               href="mailto:ariel.salazar@cxdip.com?subject=Solicitud%20de%20demo%20CXDIP&body=Hola%20Ariel,%0D%0A%0D%0AQuiero%20agendar%20una%20demo.%0D%0A%0D%0ANombre:%0D%0AEmpresa:%0D%0ATel%C3%A9fono:%0D%0AFecha%20y%20hora%20ideal:%0D%0A%0D%0AGracias.%0D%0A">
               Agenda una demo
-            </button>
+            </a>
           </div>
 
           <div class="hero-note">
@@ -1602,6 +982,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
@@ -1627,13 +1008,11 @@
       <div class="container">
         <div class="section-heading">
           <h2 class="section-title">Variedad en soluciones, que se ajustan a tus necesidades</h2>
-          <p class="section-subtitle">
-           En un solo ecosistema: Completo, eficiente y personalizado.
-          </p>
+          <p class="section-subtitle">En un solo ecosistema: Completo, eficiente y personalizado.</p>
         </div>
 
         <div class="panel-gallery">
-          <!-- PANEL 1: NPS -->
+          <!-- PANEL 1 -->
           <div class="panel-card">
             <h3 class="panel-title">DIP Loyalty</h3>
             <div class="panel-mockup panel-mockup--nps">
@@ -1641,31 +1020,11 @@
                 <div class="nps-axis-x"></div>
                 <div class="nps-axis-y"></div>
                 <div class="nps-bars">
-                  <div class="nps-bar">
-                    <div class="nps-bar-seg nps-bar-seg--det"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
-                  </div>
-                  <div class="nps-bar">
-                    <div class="nps-bar-seg nps-bar-seg--det"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
-                  </div>
-                  <div class="nps-bar">
-                    <div class="nps-bar-seg nps-bar-seg--det"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
-                  </div>
-                  <div class="nps-bar">
-                    <div class="nps-bar-seg nps-bar-seg--det"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
-                  </div>
-                  <div class="nps-bar">
-                    <div class="nps-bar-seg nps-bar-seg--det"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
-                  </div>
+                  <div class="nps-bar"><div class="nps-bar-seg nps-bar-seg--det"></div><div class="nps-bar-seg nps-bar-seg--pas"></div><div class="nps-bar-seg nps-bar-seg--pro"></div></div>
+                  <div class="nps-bar"><div class="nps-bar-seg nps-bar-seg--det"></div><div class="nps-bar-seg nps-bar-seg--pas"></div><div class="nps-bar-seg nps-bar-seg--pro"></div></div>
+                  <div class="nps-bar"><div class="nps-bar-seg nps-bar-seg--det"></div><div class="nps-bar-seg nps-bar-seg--pas"></div><div class="nps-bar-seg nps-bar-seg--pro"></div></div>
+                  <div class="nps-bar"><div class="nps-bar-seg nps-bar-seg--det"></div><div class="nps-bar-seg nps-bar-seg--pas"></div><div class="nps-bar-seg nps-bar-seg--pro"></div></div>
+                  <div class="nps-bar"><div class="nps-bar-seg nps-bar-seg--det"></div><div class="nps-bar-seg nps-bar-seg--pas"></div><div class="nps-bar-seg nps-bar-seg--pro"></div></div>
                 </div>
               </div>
               <div class="nps-legend">
@@ -1673,8 +1032,7 @@
                 <span><span class="nps-dot nps-dot--pas"></span> Pasivos</span>
                 <span><span class="nps-dot nps-dot--pro"></span> Promotores</span>
               </div>
-              <div class="panel-caption">
-              </div>
+              <div class="panel-caption"></div>
             </div>
             <div class="panel-tags">
               <span>Estudios relacionales - </span>
@@ -1683,29 +1041,19 @@
             </div>
           </div>
 
-          <!-- PANEL 2: DIP Loyalty 360° -->
+          <!-- PANEL 2 -->
           <div class="panel-card">
             <h3 class="panel-title">DIP Loyalty 360°</h3>
             <div class="panel-mockup panel-mockup--drill">
               <div class="drill-stack">
-                <div class="drill-header-global"></div>
-
                 <div class="drill-card drill-card--manager">
                   <div class="drill-header">
                     <span class="drill-tag">Gerencial</span>
                     <span class="drill-metric-main">NPS global 68 · Churn 3,2%</span>
                   </div>
                   <div class="drill-body">
-                    <div class="drill-row">
-                      <span class="drill-row-label">Resumen por país / canal</span>
-                      <span class="drill-bar"></span>
-                    </div>
-                    <div class="drill-row">
-                      <span class="drill-row-label">Clientes en riesgo alto</span>
-                      <span class="drill-bar drill-bar--risk"></span>
-                    </div>
-                    <div class="drill-row">
-                    </div>
+                    <div class="drill-row"><span class="drill-row-label">Resumen por país / canal</span><span class="drill-bar"></span></div>
+                    <div class="drill-row"><span class="drill-row-label">Clientes en riesgo alto</span><span class="drill-bar drill-bar--risk"></span></div>
                   </div>
                 </div>
 
@@ -1715,16 +1063,8 @@
                     <span class="drill-metric-main">Sucursal Ñuñoa · Loyalty 74</span>
                   </div>
                   <div class="drill-body">
-                    <div class="drill-row">
-                      <span class="drill-row-label">Drivers clave del NPS</span>
-                      <span class="drill-bar"></span>
-                    </div>
-                    <div class="drill-row">
-                      <span class="drill-row-label">Fuga probable 30 días</span>
-                      <span class="drill-bar drill-bar--risk"></span>
-                    </div>
-                    <div class="drill-row">
-                    </div>
+                    <div class="drill-row"><span class="drill-row-label">Drivers clave del NPS</span><span class="drill-bar"></span></div>
+                    <div class="drill-row"><span class="drill-row-label">Fuga probable 30 días</span><span class="drill-bar drill-bar--risk"></span></div>
                   </div>
                 </div>
 
@@ -1734,20 +1074,9 @@
                     <span class="drill-metric-main">Ejecutivo A · Cartera 230 clientes</span>
                   </div>
                   <div class="drill-body">
-                    <div class="drill-row">
-                      <span class="drill-row-label">Clientes con alertas abiertas</span>
-                      <span class="drill-bar drill-bar--risk"></span>
-                    </div>
-                    <div class="drill-row">
-                      <span class="drill-row-label">Seguimientos completados</span>
-                      <span class="drill-bar"></span>
-                    </div>
-                    <div class="drill-row">
-                    </div>
+                    <div class="drill-row"><span class="drill-row-label">Clientes con alertas abiertas</span><span class="drill-bar drill-bar--risk"></span></div>
+                    <div class="drill-row"><span class="drill-row-label">Seguimientos completados</span><span class="drill-bar"></span></div>
                   </div>
-                </div>
-
-                <div class="drill-report-strip">
                 </div>
               </div>
             </div>
@@ -1759,28 +1088,16 @@
             </div>
           </div>
 
-          <!-- PANEL 3: OPS & SALES -->
+          <!-- PANEL 3 -->
           <div class="panel-card">
             <h3 class="panel-title">Panel XM: OPs &amp; Sales</h3>
             <div class="panel-mockup panel-mockup--ops">
               <div class="report-scroll">
                 <div class="report-lines">
-                  <div class="report-line">
-                    <span>Conversión total red</span>
-                    <span class="report-bar"></span>
-                  </div>
-                  <div class="report-line">
-                    <span>Ventas día vs meta</span>
-                    <span class="report-bar"></span>
-                  </div>
-                  <div class="report-line">
-                    <span>Loyalty sucursales en riesgo</span>
-                    <span class="report-bar"></span>
-                  </div>
-                  <div class="report-line">
-                    <span>Productividad fuerza de venta</span>
-                    <span class="report-bar"></span>
-                  </div>
+                  <div class="report-line"><span>Conversión total red</span><span class="report-bar"></span></div>
+                  <div class="report-line"><span>Ventas día vs meta</span><span class="report-bar"></span></div>
+                  <div class="report-line"><span>Loyalty sucursales en riesgo</span><span class="report-bar"></span></div>
+                  <div class="report-line"><span>Productividad fuerza de venta</span><span class="report-bar"></span></div>
                 </div>
               </div>
               <details class="panel-details">
@@ -1792,8 +1109,7 @@
                   <span>Lambaré</span><span>76</span><span>+64</span>
                 </div>
               </details>
-              <div class="panel-caption">
-              </div>
+              <div class="panel-caption"></div>
             </div>
             <div class="panel-tags">
               <span>Gestión XM 360° - </span>
@@ -1803,7 +1119,7 @@
             </div>
           </div>
 
-          <!-- PANEL 4: Estudios relacionales 360° -->
+          <!-- PANEL 4 -->
           <div class="panel-card">
             <h3 class="panel-title">Estudios &amp; Relacionales 360°</h3>
             <div class="panel-mockup panel-mockup--journey">
@@ -1811,18 +1127,9 @@
               <div class="journey-track">
                 <div class="journey-line"></div>
                 <div class="journey-steps">
-                  <div class="journey-step journey-step--1">
-                    <div class="journey-dot"></div>
-                    <div class="journey-label">Descubrimiento</div>
-                  </div>
-                  <div class="journey-step journey-step--2">
-                    <div class="journey-dot"></div>
-                    <div class="journey-label">Uso / servicio</div>
-                  </div>
-                  <div class="journey-step journey-step--3">
-                    <div class="journey-dot"></div>
-                    <div class="journey-label">Post venta</div>
-                  </div>
+                  <div class="journey-step"><div class="journey-dot"></div><div class="journey-label">Descubrimiento</div></div>
+                  <div class="journey-step"><div class="journey-dot"></div><div class="journey-label">Uso / servicio</div></div>
+                  <div class="journey-step"><div class="journey-dot"></div><div class="journey-label">Post venta</div></div>
                 </div>
               </div>
             </div>
@@ -1833,7 +1140,7 @@
             </div>
           </div>
 
-          <!-- PANEL 5: Diseño de clústers -->
+          <!-- PANEL 5 -->
           <div class="panel-card">
             <h3 class="panel-title">Diseño de segmentos &amp; Clusters</h3>
             <div class="panel-mockup panel-mockup--clusters">
@@ -1852,51 +1159,40 @@
             </div>
           </div>
 
-          <!-- PANEL 6: Capacitaciones -->
+          <!-- PANEL 6 -->
           <div class="panel-card">
             <h3 class="panel-title">Capacitaciones áreas claves</h3>
             <div class="panel-mockup panel-mockup--training">
               <div class="training-header">Programas de formación CX</div>
-                <div class="training-timeline">
-                  <div class="training-step training-step--1">
-                    <div class="training-dot"></div>
-                    <div class="training-label">
-                      <span class="training-label-title">Frontline &amp; sucursales</span>
-                      <span class="training-label-sub">Taller práctico orientado a casos reales.</span>
-                    </div>
-                    <div class="training-bar-wrap">
-                      <div class="training-bar">
-                        <div class="training-bar-fill"></div>
-                      </div>
-                    </div>
+              <div class="training-timeline">
+                <div class="training-step training-step--1">
+                  <div class="training-dot"></div>
+                  <div class="training-label">
+                    <span class="training-label-title">Frontline &amp; sucursales</span>
+                    <span class="training-label-sub">Taller práctico orientado a casos reales.</span>
                   </div>
-
-                  <div class="training-step training-step--2">
-                    <div class="training-dot"></div>
-                    <div class="training-label">
-                      <span class="training-label-title">Líderes &amp; jefaturas</span>
-                      <span class="training-label-sub">Uso del panel para gestionar KPIs.</span>
-                    </div>
-                    <div class="training-bar-wrap">
-                      <div class="training-bar">
-                        <div class="training-bar-fill"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="training-step training-step--3">
-                    <div class="training-dot"></div>
-                    <div class="training-label">
-                      <span class="training-label-title">Comité ejecutivo</span>
-                      <span class="training-label-sub">Lectura ejecutiva y toma de decisiones.</span>
-                    </div>
-                    <div class="training-bar-wrap">
-                      <div class="training-bar">
-                        <div class="training-bar-fill"></div>
-                      </div>
-                    </div>
-                  </div>
+                  <div class="training-bar-wrap"><div class="training-bar"><div class="training-bar-fill"></div></div></div>
                 </div>
+
+                <div class="training-step training-step--2">
+                  <div class="training-dot"></div>
+                  <div class="training-label">
+                    <span class="training-label-title">Líderes &amp; jefaturas</span>
+                    <span class="training-label-sub">Uso del panel para gestionar KPIs.</span>
+                  </div>
+                  <div class="training-bar-wrap"><div class="training-bar"><div class="training-bar-fill"></div></div></div>
+                </div>
+
+                <div class="training-step training-step--3">
+                  <div class="training-dot"></div>
+                  <div class="training-label">
+                    <span class="training-label-title">Comité ejecutivo</span>
+                    <span class="training-label-sub">Lectura ejecutiva y toma de decisiones.</span>
+                  </div>
+                  <div class="training-bar-wrap"><div class="training-bar"><div class="training-bar-fill"></div></div></div>
+                </div>
+              </div>
+
               <div class="panel-caption">
                 Capacitaciones modulares para que cada área entienda su rol en la experiencia y use el sistema con propiedad.
               </div>
@@ -1917,9 +1213,7 @@
       <div class="container">
         <div class="section-heading">
           <h2 class="section-title section-title--primary">Un sistema paquetizado de lealtad</h2>
-          <p class="section-subtitle">
-            Todo lo que necesitas para medir, entender y gestionar la experiencia.
-          </p>
+          <p class="section-subtitle">Todo lo que necesitas para medir, entender y gestionar la experiencia.</p>
         </div>
 
         <div class="steps">
@@ -1950,7 +1244,7 @@
       </div>
     </section>
 
-    <!-- WHY - NUEVA SECCIÓN ¿POR QUÉ ELEGIRNOS? -->
+    <!-- WHY -->
     <section id="por-que" style="border-top: 1px solid var(--border);">
       <div class="container">
         <div class="why">
@@ -2000,12 +1294,13 @@
     <section class="cta-final">
       <div class="container">
         <h2 class="cta-title">¿Te imaginas ver todo esto en un solo panel?</h2>
-        <p class="cta-text">
-          Agenda una demo de 30 minutos y podemos revisar la vista que necesitas.
-        </p>
-        <button class="btn-primary" type="button">
+        <p class="cta-text">Agenda una demo de 30 minutos y podemos revisar la vista que necesitas.</p>
+
+        <a class="btn-primary"
+           href="mailto:ariel.salazar@cxdip.com?subject=Solicitud%20de%20demo%20CXDIP&body=Hola%20Ariel,%0D%0A%0D%0AQuiero%20agendar%20una%20demo.%0D%0A%0D%0ANombre:%0D%0AEmpresa:%0D%0ATel%C3%A9fono:%0D%0AFecha%20y%20hora%20ideal:%0D%0A%0D%0AGracias.%0D%0A">
           Agenda una demo
-        </button>
+        </a>
+
         <div class="cta-email">
           O escríbenos a <strong>contacto@cxdip.com</strong>
         </div>
@@ -2021,7 +1316,7 @@
         <a href="#inicio">Inicio</a>
         <a href="#paneles">Servicios</a>
         <a href="#como">¿Cómo trabajamos?</a>
-        <a href="#por-que">¿Por qué elegirnos?</a>
+        <a href="#por-que">Por qué CXDIP</a>
       </div>
       <div class="footer-right">
         <span>LinkedIn</span>
@@ -2033,7 +1328,7 @@
     (function () {
       const toggle = document.querySelector('.menu-toggle');
       const body = document.body;
-      const navLinks = document.querySelectorAll('.main-nav a[href^="#"]');
+      const navLinks = document.querySelectorAll('.main-nav a'); // incluye mailto + anchors
 
       if (!toggle) return;
 
