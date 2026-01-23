@@ -142,10 +142,9 @@
       box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
       transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
       white-space: nowrap;
-      text-shadow: 0 1px 1px rgba(0,0,0,0.18); /* mejora legibilidad */
+      text-shadow: 0 1px 1px rgba(0,0,0,0.18);
     }
 
-    /* IMPORTANT: asegura legibilidad en anchors (visited) */
     a.btn-primary, a.btn-primary:visited { color: #fff !important; }
 
     .btn-primary:hover {
@@ -173,7 +172,11 @@
       gap: 0.25rem;
     }
 
-    .btn-secondary span { font-size: 1rem; }
+    .btn-secondary:hover {
+      border-color: rgba(37, 99, 235, 0.35);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+      transform: translateY(-1px);
+    }
 
     /* HERO */
     .hero {
@@ -1004,6 +1007,160 @@
       100% { transform: scaleX(0.1); }
     }
 
+    /* =========================
+       EQUIPO DIRECTIVO (NUEVO)
+       ========================= */
+    #equipo { background: var(--bg); border-top: 1px solid var(--border); }
+
+    .team-heading {
+      text-align: center;
+      margin-bottom: 2.2rem;
+    }
+
+    .team-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.01em;
+    }
+
+    .team-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      max-width: 44rem;
+      margin: 0 auto;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.7rem;
+      align-items: stretch;
+    }
+
+    .team-card {
+      border-radius: var(--radius-xl);
+      background: #ffffff;
+      border: 1px solid rgba(229, 231, 235, 0.95);
+      box-shadow: var(--shadow-soft);
+      padding: 1.4rem 1.4rem 1.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-card::before {
+      content: "";
+      position: absolute;
+      inset: -80px -80px auto auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.12), transparent 60%);
+      filter: blur(4px);
+      pointer-events: none;
+    }
+
+    .team-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .team-photo {
+      width: 240px;
+      height: 150px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(229, 231, 235, 0.95);
+      background: #f9fafb;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+    }
+
+    .team-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.02);
+    }
+
+    .team-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-align: center;
+      margin-top: 0.15rem;
+    }
+
+    .team-role {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(107, 114, 128, 0.95);
+      text-align: center;
+      margin-top: -0.2rem;
+    }
+
+    .team-body-box {
+      background: #f3f4f6;
+      border: 1px solid rgba(229, 231, 235, 0.95);
+      border-radius: 18px;
+      padding: 1rem 1.05rem;
+      margin: 0.95rem 0 0.85rem;
+    }
+
+    .team-exp-title {
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: #111827;
+      margin-bottom: 0.45rem;
+      text-transform: uppercase;
+    }
+
+    .team-exp-text {
+      font-size: 0.86rem;
+      color: #4b5563;
+      line-height: 1.55;
+    }
+
+    .team-philosophy {
+      background: #f3f4f6;
+      border: 1px solid rgba(229, 231, 235, 0.95);
+      border-radius: 14px;
+      padding: 0.7rem 0.9rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.95rem;
+      flex-wrap: wrap;
+    }
+
+    .team-philo-label {
+      font-size: 0.82rem;
+      color: #111827;
+      font-weight: 700;
+    }
+
+    .team-philo-quote {
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .team-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-top: 0.2rem;
+    }
+
+    .team-actions a { display: inline-flex; }
+
     /* STEPS */
     .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.3rem; }
 
@@ -1165,6 +1322,10 @@
 
       .panel-gallery, .steps, .why { grid-template-columns: minmax(0, 1fr); }
 
+      /* equipo */
+      .team-grid { grid-template-columns: minmax(0, 1fr); }
+      .team-photo { width: min(280px, 100%); height: 160px; }
+
       main[id], section[id] { scroll-margin-top: 110px; }
     }
 
@@ -1192,6 +1353,7 @@
         <ul>
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#paneles">Servicios</a></li>
+          <li><a href="#equipo">Equipo</a></li>
           <li><a href="#como">¿Cómo trabajamos?</a></li>
           <li><a href="#por-que">¿Por qué elegirnos?</a></li>
           <li>
@@ -1572,6 +1734,86 @@
       </div>
     </section>
 
+    <!-- EQUIPO DIRECTIVO (NUEVO) -->
+    <section id="equipo">
+      <div class="container">
+        <div class="team-heading">
+          <h2 class="team-title">Equipo directivo</h2>
+          <p class="team-subtitle">
+            Autoridad en experiencia y analítica: credenciales, ejecución y proyectos con impacto.
+          </p>
+        </div>
+
+        <div class="team-grid">
+          <!-- CARD 1: ARIEL -->
+          <article class="team-card">
+            <div class="team-top">
+              <div class="team-photo">
+                <img src="director_ariel.png" alt="Ariel Salazar V." />
+              </div>
+              <div class="team-name">Ariel Salazar V.</div>
+              <div class="team-role">Director Estratégico</div>
+            </div>
+
+            <div class="team-body-box">
+              <div class="team-exp-title">Experiencia:</div>
+              <div class="team-exp-text">
+                Ingeniero civil industrial, Consultor &amp; escritor. Con 10 años de experiencia en Banca, Retail, Última milla, Farmacias.
+                <br><br>
+                Ha liderado áreas de experiencia de clientes, logrando movilizar el NPS en más de 6 puntos en solo un año, en una compañía con más de 10.000 colaboradores y 440 locales a lo largo de Chile.
+                <br><br>
+                También ha liderado áreas claves en retail, logrando planificar eventos CX a nivel nacional, mejorando el service level en 26%, disminuyendo los tiempos de espera en tiendas físicas en más de 75% y aumentando las ventas online en la banca retail en más de un 200%.
+              </div>
+            </div>
+
+            <div class="team-philosophy">
+              <span class="team-philo-label">Filosofía de trabajo:</span>
+              <span class="team-philo-quote">“Simplificar, priorizar y accionar”</span>
+            </div>
+
+            <div class="team-actions">
+              <!-- Reemplaza el href por tu LinkedIn real -->
+              <a class="btn-secondary" href="#" role="button" title="Reemplaza con el link real">LinkedIn</a>
+              <a class="btn-primary js-demo" data-subject="Solicitud de reunión con Ariel" href="#" role="button">Agendar con Ariel</a>
+            </div>
+          </article>
+
+          <!-- CARD 2: JOHN -->
+          <article class="team-card">
+            <div class="team-top">
+              <div class="team-photo">
+                <img src="director_john.png" alt="John Baeza M." />
+              </div>
+              <div class="team-name">John Baeza M.</div>
+              <div class="team-role">Director Analytics</div>
+            </div>
+
+            <div class="team-body-box">
+              <div class="team-exp-title">Experiencia:</div>
+              <div class="team-exp-text">
+                Ingeniero en Control de Gestión &amp; consultor, con más de 25 años de experiencia en Banca &amp; retail en Chile.
+                <br><br>
+                Ha liderado y desarrollado equipos en banca retail, con foco en desarrollo de modelos de control y gestión tanto de tiendas retail, como bancos en todos sus canales (web, fono, físicos).
+                <br><br>
+                Logrando establecer estándares eficientes que permitieron gestionar una red de más de 5 mil colaboradores, 80 sucursales a lo largo de Chile y desarrollo y gestión de canales web.
+              </div>
+            </div>
+
+            <div class="team-philosophy">
+              <span class="team-philo-label">Filosofía de trabajo:</span>
+              <span class="team-philo-quote">“Medir para mejorar”</span>
+            </div>
+
+            <div class="team-actions">
+              <!-- Reemplaza el href por tu LinkedIn real -->
+              <a class="btn-secondary" href="#" role="button" title="Reemplaza con el link real">LinkedIn</a>
+              <a class="btn-primary js-demo" data-subject="Solicitud de reunión con John" href="#" role="button">Agendar con John</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <!-- CÓMO FUNCIONA -->
     <section id="como" style="background: var(--bg-alt);">
       <div class="container">
@@ -1682,6 +1924,7 @@
       <div class="footer-nav">
         <a href="#inicio">Inicio</a>
         <a href="#paneles">Servicios</a>
+        <a href="#equipo">Equipo</a>
         <a href="#como">¿Cómo trabajamos?</a>
         <a href="#por-que">¿Por qué elegirnos?</a>
       </div>
@@ -1719,8 +1962,8 @@
 
       // --- CTA correo (mailto + fallback Gmail web) ---
       const TO = 'ariel.salazar@cxdip.com';
-      const SUBJECT = 'Solicitud de demo CXDIP';
-      const BODY =
+      const DEFAULT_SUBJECT = 'Solicitud de demo CXDIP';
+      const DEFAULT_BODY =
 `Hola,
 
 Quiero agendar una reunión, para explorar las alternativas.
@@ -1734,20 +1977,31 @@ dejo mis datos de contacto:
 
 Gracias.`;
 
-      const mailtoUrl = 'mailto:' + TO
-        + '?subject=' + encodeURIComponent(SUBJECT)
-        + '&body=' + encodeURIComponent(BODY);
+      function buildMailto(subject, bodyText) {
+        const s = subject || DEFAULT_SUBJECT;
+        const b = bodyText || DEFAULT_BODY;
+
+        return 'mailto:' + TO
+          + '?subject=' + encodeURIComponent(s)
+          + '&body=' + encodeURIComponent(b);
+      }
 
       // Nota: este link de Gmail funciona como “compose” en web.
       // No puedo confirmar que sea una API oficial documentada, pero es un patrón ampliamente usado.
-      const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1'
-        + '&to=' + encodeURIComponent(TO)
-        + '&su=' + encodeURIComponent(SUBJECT)
-        + '&body=' + encodeURIComponent(BODY);
+      function buildGmailCompose(subject, bodyText) {
+        const s = subject || DEFAULT_SUBJECT;
+        const b = bodyText || DEFAULT_BODY;
 
-      // Set href (fallback universal)
+        return 'https://mail.google.com/mail/?view=cm&fs=1'
+          + '&to=' + encodeURIComponent(TO)
+          + '&su=' + encodeURIComponent(s)
+          + '&body=' + encodeURIComponent(b);
+      }
+
+      // Set href para CTAs (permite subject por botón)
       document.querySelectorAll('.js-demo').forEach(function (el) {
-        el.setAttribute('href', mailtoUrl);
+        const subjectOverride = el.getAttribute('data-subject') || DEFAULT_SUBJECT;
+        el.setAttribute('href', buildMailto(subjectOverride, DEFAULT_BODY));
       });
 
       // Toast fallback (para casos donde mailto no abre en escritorio)
@@ -1756,7 +2010,7 @@ Gracias.`;
       const toastClose = document.getElementById('toastClose');
       let toastTimer = null;
 
-      if (gmailFallback) gmailFallback.href = gmailUrl;
+      if (gmailFallback) gmailFallback.href = buildGmailCompose(DEFAULT_SUBJECT, DEFAULT_BODY);
 
       function showToast() {
         if (!toast) return;
@@ -1774,11 +2028,8 @@ Gracias.`;
 
       if (toastClose) toastClose.addEventListener('click', hideToast);
 
-      // Cuando clickean "Agenda una demo": intentamos mailto (default),
-      // y mostramos un fallback por si el navegador/SO no tiene handler.
       document.querySelectorAll('.js-demo').forEach(function (el) {
         el.addEventListener('click', function () {
-          // Pequeño delay para no “pegarse” con la apertura del handler
           setTimeout(showToast, 180);
         });
       });
