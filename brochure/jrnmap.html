@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Customer Journey · Valor Económico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --border: #e5e9f5;
+      --border-soft: #e7ecfb;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.14);
+      --positive: #059669;
+      --negative: #b91c1c;
+      --risk: #d97706;
+      --radius-pill: 999px;
+      --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.16);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e0e8ff 0, #f4f7fb 45%, #eef1f7 100%);
+      color: var(--text-main);
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .page { width: 100%; max-width: 1380px; }
+    main { display: block; }
+
+    .journey-card {
+      background: var(--card);
+      border-radius: 28px;
+      border: 1px solid rgba(229, 231, 235, 0.4);
+      box-shadow: var(--shadow-soft);
+      padding: 24px 26px 26px;
+      min-height: calc(100vh - 64px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    header {
+      margin-bottom: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    h1 {
+      font-size: 1.7rem;
+      letter-spacing: 0.03em;
+      font-weight: 650;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 560px;
+    }
+
+    .top-right {
+      margin-left: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .badge {
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.75rem;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      white-space: nowrap;
+    }
+
+    .metric-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .metric-pill {
+      min-width: 190px;
+      padding: 7px 11px;
+      border-radius: 14px;
+      background: #f9fafb;
+      border: 1px solid var(--border-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 0.78rem;
+      box-shadow: 0 10px 30px rgba(148, 163, 184, 0.2);
+    }
+
+    .metric-label { color: var(--text-muted); font-size: 0.74rem; }
+    .metric-value { font-weight: 600; }
+    .metric-value.positive { color: var(--positive); }
+    .metric-value.negative { color: var(--negative); }
+
+    /* >>> CAMBIO: más alto para que la curva ocupe el espacio blanco <<< */
+    .track {
+      margin-top: 4px;
+      margin-bottom: 8px;
+      flex: 1;
+      min-height: 380px;   /* antes 260px */
+    }
+
+    .track-scroll {
+      flex: 1;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .stage-bar {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(130px, 1fr);
+      margin-bottom: 8px;
+      gap: 1px;
+    }
+
+    .stage-arrow {
+      height: 64px;
+      clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 6% 50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+      cursor: pointer;
+      color: #f9fafb;
+      text-align: center;
+      opacity: 0.7;
+      transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      border-right: 1px solid rgba(255, 255, 255, 0.3);
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.35);
+      border: none;
+    }
+
+    .stage-arrow:nth-child(1) { background: linear-gradient(135deg, #22c55e, #10b981); }
+    .stage-arrow:nth-child(2) { background: linear-gradient(135deg, #38bdf8, #2563eb); }
+    .stage-arrow:nth-child(3) { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+    .stage-arrow:nth-child(4) { background: linear-gradient(135deg, #0ea5e9, #0369a1); }
+    .stage-arrow:nth-child(5) { background: linear-gradient(135deg, #14b8a6, #0f766e); }
+    .stage-arrow:nth-child(6) { background: linear-gradient(135deg, #0ea5e9, #1d4ed8); }
+
+    .stage-arrow-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stage-arrow-sub { font-size: 0.72rem; opacity: 0.92; }
+
+    .stage-arrow.active {
+      opacity: 1;
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.45);
+      filter: saturate(1.1);
+    }
+
+    .stage-arrow:hover:not(.active) {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .legend-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      gap: 8px;
+      padding-right: 8px;
+    }
+
+    .legend-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: #eef2ff;
+      border: none;
+      box-shadow: none;
+    }
+
+    .dot { width: 9px; height: 9px; border-radius: 50%; }
+    .dot-ingreso { background: var(--positive); }
+    .dot-costo { background: var(--negative); }
+    .dot-riesgo { background: var(--risk); }
+
+    /* CURVA + ESCALA */
+
+    .curve-row {
+      display: flex;
+      gap: 14px;
+      align-items: stretch;
+      min-height: 260px;
+      margin-top: 4px;
+    }
+
+    .curve-scale {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: #9ca3af;
+      padding: 30px 0 40px 0;
+      min-width: 32px;
+      text-align: right;
+    }
+
+    /* >>> CAMBIO: área de curva más alta para usar el espacio <<< */
+    .curve-area {
+      position: relative;
+      height: 340px;   /* antes 260px */
+      flex: 1;
+    }
+
+    .curve-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .curve-path {
+      fill: none;
+      stroke: #d7e1ff;
+      stroke-width: 2.3;
+    }
+
+    .curve-nodes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .curve-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      pointer-events: auto;
+    }
+
+    .curve-icon {
+      font-size: 20px;
+      transition: transform 0.18s ease, opacity 0.18s ease;
+      opacity: 0.9;
+    }
+
+    .curve-node-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #e5e7eb;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(148, 163, 184, 0.8);
+      position: relative;
+      transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+    }
+
+    .curve-node-circle::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 50%;
+      background: #e5e7eb;
+    }
+
+    .node-low .curve-node-circle { border-color: #fecaca; }
+    .node-low .curve-node-circle::after { background: #fee2e2; }
+
+    .node-mid .curve-node-circle { border-color: #fed7aa; }
+    .node-mid .curve-node-circle::after { background: #fffbeb; }
+
+    .node-high .curve-node-circle { border-color: #bbf7d0; }
+    .node-high .curve-node-circle::after { background: #dcfce7; }
+
+    .curve-score { font-size: 0.74rem; color: #6b7280; }
+
+    .curve-node.active .curve-node-circle {
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .curve-node.active .curve-icon {
+      transform: translateY(-1px);
+      opacity: 1;
+    }
+
+    .curve-node:hover:not(.active) .curve-node-circle {
+      box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.7);
+    }
+
+    /* INFO ABAJO */
+
+    .info {
+      margin-top: 10px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border-soft);
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .info-main-title { font-size: 0.96rem; font-weight: 600; margin-bottom: 4px; }
+    .info-sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .chip {
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+      background: #f9fafb;
+      border: 1px solid var(--border-soft);
+      font-size: 0.73rem;
+      color: var(--text-muted);
+    }
+
+    .money-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      font-size: 0.78rem;
+    }
+
+    .money-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      padding: 6px 8px;
+      border-radius: 10px;
+      background: #f9fafb;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 26px rgba(148, 163, 184, 0.28);
+    }
+
+    .money-label { color: var(--text-muted); font-size: 0.72rem; }
+    .money-value { font-weight: 600; }
+    .money-ingreso { color: var(--positive); }
+    .money-costo { color: var(--negative); }
+    .money-riesgo { color: var(--risk); }
+
+    .clv-block {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #f9fafb;
+      border: 1px solid var(--border-soft);
+      font-size: 0.75rem;
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.28);
+    }
+
+    .clv-bar {
+      position: relative;
+      margin-top: 10px;
+      height: 8px;
+      border-radius: var(--radius-pill);
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .clv-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent-soft), var(--accent));
+      transition: width 0.23s ease;
+    }
+
+    .clv-label {
+      margin-top: 4px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .hint { margin-top: 9px; font-size: 0.72rem; color: var(--text-muted); }
+
+    .tooltip {
+      position: fixed;
+      pointer-events: none;
+      background: #f3f6ff;
+      color: #4b5563;
+      padding: 8px 10px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.3);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.12s ease, transform 0.12s ease;
+      max-width: 280px;
+      z-index: 50;
+      border: 1px solid rgba(191, 219, 254, 0.9);
+    }
+
+    .tooltip.visible { opacity: 1; transform: translateY(0); }
+
+    .tooltip-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #1d4ed8;
+      margin-bottom: 2px;
+    }
+
+    .tooltip-body {
+      font-size: 0.73rem;
+      color: #4b5563;
+    }
+
+    @media (max-width: 960px) {
+      .journey-card { min-height: auto; }
+      .info { grid-template-columns: 1fr; }
+      header { flex-direction: column; align-items: flex-start; }
+      .top-right { align-items: flex-start; margin-left: 0; }
+      .curve-area { height: 260px; }  /* en pantallas chicas bajamos un poco */
+    }
+
+    button { outline: none; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <main>
+      <section class="journey-card">
+        <header>
+          <div>
+            <h1>Customer Journey · Valor Económico</h1>
+            <p class="subtitle">
+              Recorrido visual del cliente, combinando etapas, un índice 0–100 de experiencia × retorno
+              y el valor monetario asociado a cada momento clave del viaje.
+            </p>
+          </div>
+          <div class="top-right">
+            <span class="badge">Journey dinámico · Demo</span>
+            <div class="metric-row">
+              <div class="metric-pill">
+                <span class="metric-label">CLV estimado por cliente</span>
+                <span class="metric-value positive">USD 90.000</span>
+              </div>
+              <div class="metric-pill">
+                <span class="metric-label">CAC (costo de adquisición)</span>
+                <span class="metric-value negative">USD 11.500</span>
+              </div>
+              <div class="metric-pill">
+                <span class="metric-label">Margen bruto esperado</span>
+                <span class="metric-value positive">72%</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="track">
+          <div class="track-scroll">
+            <div class="stage-bar" id="stage-bar"></div>
+
+            <div class="legend-row">
+              <div class="legend-title">Vista del viaje &amp; economía del cliente</div>
+              <div class="legend">
+                <span class="legend-item"><span class="dot dot-ingreso"></span> Ingreso</span>
+                <span class="legend-item"><span class="dot dot-costo"></span> Costo</span>
+                <span class="legend-item"><span class="dot dot-riesgo"></span> Valor en riesgo</span>
+              </div>
+            </div>
+
+            <div class="curve-row">
+              <div class="curve-scale">
+                <span>100</span><span>50</span><span>0</span>
+              </div>
+              <div class="curve-area" id="curve-area">
+                <svg class="curve-svg" id="curve-svg">
+                  <path id="curve-path" class="curve-path"></path>
+                </svg>
+                <div class="curve-nodes" id="curve-nodes"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info">
+          <div>
+            <div class="info-main-title" id="info-title">–</div>
+            <div class="info-sub" id="info-desc">
+              Pasa el mouse por una etapa o una esfera para ver su impacto económico.
+            </div>
+            <div class="chips" id="info-tags"></div>
+            <div class="money-grid">
+              <div class="money-item">
+                <span class="money-label">Ingreso actual / anual</span>
+                <span class="money-value money-ingreso" id="info-ingreso">–</span>
+              </div>
+              <div class="money-item">
+                <span class="money-label">Ingreso potencial (up-sell / cross-sell)</span>
+                <span class="money-value money-ingreso" id="info-potencial">–</span>
+              </div>
+              <div class="money-item">
+                <span class="money-label">Costo asociado a esta etapa</span>
+                <span class="money-value money-costo" id="info-costo">–</span>
+              </div>
+              <div class="money-item">
+                <span class="money-label">Valor de CLV en riesgo</span>
+                <span class="money-value money-riesgo" id="info-riesgo">–</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="clv-block">
+              <div>Captura de CLV en esta etapa</div>
+              <div class="clv-bar">
+                <div class="clv-fill" id="clv-fill"></div>
+              </div>
+              <div class="clv-label">
+                <span>0%</span>
+                <span id="clv-label">–</span>
+              </div>
+            </div>
+            <p class="hint" id="info-hint">
+              Aquí se ve cuánto CLV ya está capturado y cuánto queda por capturar o en riesgo,
+              según la etapa seleccionada.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+
+  <!-- JS igual que la versión anterior (funcionando) -->
+  <script>
+    const stages = [
+      {
+        id: "descubrimiento",
+        nombre: "Descubrimiento",
+        subtitulo: "Awareness",
+        icon: "👁️",
+        resumen: "El cliente conoce la marca (ads, boca a boca, RRSS) y llega por primera vez a tu sitio.",
+        tags: ["Ads / RRSS", "Primera visita web"],
+        ingreso: "USD 0 (sin contrato aún)",
+        potencial: "USD 90.000 (CLV estimado)",
+        costo: "USD 3.000 en marketing",
+        riesgo: "Todo el CLV depende de captar su atención",
+        clvPorc: 5,
+        matchScore: 38,
+        tooltip: "Match experiencia × retorno: 38/100 · CLV potencial ≈ USD 90.000.",
+        hint: "Mejorar visibilidad y CTA impacta fuerte en generación de pipeline en esta etapa."
+      },
+      {
+        id: "consideracion",
+        nombre: "Consideración",
+        subtitulo: "Evaluación inicial",
+        icon: "🔍",
+        resumen: "Deja sus datos, pide una demo o agenda conversación comercial.",
+        tags: ["Lead calificado", "Demo / reunión"],
+        ingreso: "USD 0 (oportunidad en pipeline)",
+        potencial: "USD 75.000 (ajustado por probabilidad de cierre)",
+        costo: "USD 4.000 en pre-venta",
+        riesgo: "Comparación activa con competidores",
+        clvPorc: 18,
+        matchScore: 60,
+        tooltip: "Match experiencia × retorno: 60/100 · alto riesgo de perder todo el valor si la venta falla.",
+        hint: "Aquí se decide si entras al short-list. La experiencia comercial define ganar o perder todo el valor."
+      },
+      {
+        id: "propuesta",
+        nombre: "Propuesta & Cierre",
+        subtitulo: "Compra inicial",
+        icon: "📄",
+        resumen: "Presentas propuesta económica, negocias y se firma el contrato inicial.",
+        tags: ["Propuesta formal", "Negociación"],
+        ingreso: "USD 25.000 año 1",
+        potencial: "USD 65.000 en renovaciones y ampliaciones",
+        costo: "USD 1.500 en descuentos / concesiones",
+        riesgo: "Expectativas mal alineadas → alto churn temprano",
+        clvPorc: 35,
+        matchScore: 72,
+        tooltip: "Match experiencia × retorno: 72/100 · ingreso inicial USD 25.000, gran parte del valor por delante.",
+        hint: "No es solo cerrar: es cerrar con promesas que puedas cumplir sin destruir margen ni confianza."
+      },
+      {
+        id: "onboarding",
+        nombre: "Onboarding",
+        subtitulo: "Implementación",
+        icon: "⚙️",
+        resumen: "Implementación, setup técnico y primeras sesiones de uso real.",
+        tags: ["Implementación", "Formación usuarios"],
+        ingreso: "USD 25.000 facturados",
+        potencial: "USD 55.000 aún por capturar",
+        costo: "USD 6.000 en equipo de implementación",
+        riesgo: "Hasta el 50% del CLV puede perderse si el arranque es malo",
+        clvPorc: 52,
+        matchScore: 55,
+        tooltip: "Match experiencia × retorno: 55/100 · gran parte del CLV aún en juego, con riesgo fuerte si el arranque falla.",
+        hint: "Onboarding fluido consolida la decisión. Onboarding caótico instala duda y pone todo el valor en riesgo."
+      },
+      {
+        id: "uso",
+        nombre: "Uso & Soporte",
+        subtitulo: "Operación",
+        icon: "🎧",
+        resumen: "Uso recurrente, tickets, reuniones de seguimiento y mediciones de NPS / satisfacción.",
+        tags: ["Soporte", "NPS / encuestas", "Uso recurrente"],
+        ingreso: "USD 45.000 (renovaciones + uso)",
+        potencial: "USD 25.000 en up-sell y extensiones",
+        costo: "USD 3.500 en soporte y éxito de cliente",
+        riesgo: "Churn en riesgo ≈ USD 20.000 si el soporte es deficiente",
+        clvPorc: 74,
+        matchScore: 77,
+        tooltip: "Match experiencia × retorno: 77/100 · riesgo de churn controlable según CX y soporte.",
+        hint: "Aquí CX y operación se mezclan. Menos fricción = más renovación y más share of wallet."
+      },
+      {
+        id: "lealtad",
+        nombre: "Renovación & Lealtad",
+        subtitulo: "Advocacy",
+        icon: "⭐",
+        resumen: "Renovaciones, ampliaciones de servicio y referencias a nuevos clientes.",
+        tags: ["Renovación", "Up-sell / Cross-sell", "Referencias"],
+        ingreso: "USD 90.000 CLV realizado",
+        potencial: "USD 30.000 adicionales por referidos",
+        costo: "USD 2.000 en programas de fidelización",
+        riesgo: "Riesgo moderado: se protege con consistencia y escucha activa",
+        clvPorc: 100,
+        matchScore: 92,
+        tooltip: "Match experiencia × retorno: 92/100 · CLV realizado + extra potencial por referidos.",
+        hint: "El cliente leal estabiliza el flujo y se convierte en un canal de adquisición rentable."
+      }
+    ];
+
+    const stageBar   = document.getElementById("stage-bar");
+    const curveArea  = document.getElementById("curve-area");
+    const curveSvg   = document.getElementById("curve-svg");
+    const curvePath  = document.getElementById("curve-path");
+    const nodesLayer = document.getElementById("curve-nodes");
+
+    const infoTitle   = document.getElementById("info-title");
+    const infoDesc    = document.getElementById("info-desc");
+    const infoTags    = document.getElementById("info-tags");
+    const infoIngreso = document.getElementById("info-ingreso");
+    const infoPot     = document.getElementById("info-potencial");
+    const infoCosto   = document.getElementById("info-costo");
+    const infoRiesgo  = document.getElementById("info-riesgo");
+    const clvFill     = document.getElementById("clv-fill");
+    const clvLabel    = document.getElementById("clv-label");
+    const infoHint    = document.getElementById("info-hint");
+    const tooltip     = document.getElementById("tooltip");
+
+    let currentStageId = null;
+
+    function renderStageArrows() {
+      stages.forEach(stage => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "stage-arrow";
+        btn.dataset.id = stage.id;
+        btn.innerHTML = `
+          <div class="stage-arrow-label">${stage.subtitulo}</div>
+          <div class="stage-arrow-sub">${stage.nombre}</div>
+        `;
+        btn.addEventListener("mouseenter", e => { selectStage(stage.id); showTooltip(stage, e.clientX, e.clientY); });
+        btn.addEventListener("mousemove", e => showTooltip(stage, e.clientX, e.clientY));
+        btn.addEventListener("mouseleave", hideTooltip);
+        btn.addEventListener("click", () => selectStage(stage.id));
+        stageBar.appendChild(btn);
+      });
+    }
+
+    function computePoints() {
+      const areaRect = curveArea.getBoundingClientRect();
+      const topPadding = 30;
+      const bottomPadding = 40;
+      const height = areaRect.height;
+      const availableHeight = Math.max(40, height - topPadding - bottomPadding);
+
+      const points = [];
+
+      stages.forEach(stage => {
+        const arrow = stageBar.querySelector(`.stage-arrow[data-id="${stage.id}"]`);
+        if (!arrow) return;
+
+        const arrowRect = arrow.getBoundingClientRect();
+        const x = arrowRect.left + arrowRect.width / 2 - areaRect.left;
+
+        const score = Math.max(0, Math.min(100, stage.matchScore ?? stage.clvPorc));
+        const norm = score / 100;
+        const y = topPadding + (1 - norm) * availableHeight;
+
+        points.push({ x, y, stage, score });
+      });
+
+      return { points, width: areaRect.width, height, topPadding, availableHeight };
+    }
+
+    function buildCurveAndNodes() {
+      const { points, width, height, topPadding, availableHeight } = computePoints();
+      if (!points.length) return;
+
+      const yMin = topPadding;
+      const yMax = topPadding + availableHeight;
+
+      curveSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+      let d = "";
+      if (points.length === 1) {
+        d = `M ${points[0].x} ${points[0].y}`;
+      } else if (points.length === 2) {
+        d = `M ${points[0].x} ${points[0].y} L ${points[1].x} ${points[1].y}`;
+      } else {
+        d = `M ${points[0].x} ${points[0].y}`;
+        for (let i = 0; i < points.length - 1; i++) {
+          const p0 = points[i - 1] || points[i];
+          const p1 = points[i];
+          const p2 = points[i + 1];
+          const p3 = points[i + 2] || points[i + 1];
+
+          const t = 0.9;
+
+          let cp1x = p1.x + (p2.x - p0.x) / 6 * t;
+          let cp1y = p1.y + (p2.y - p0.y) / 6 * t;
+          let cp2x = p2.x - (p3.x - p1.x) / 6 * t;
+          let cp2y = p2.y - (p3.y - p1.y) / 6 * t;
+
+          cp1y = Math.max(yMin, Math.min(yMax, cp1y));
+          cp2y = Math.max(yMin, Math.min(yMax, cp2y));
+
+          d += ` C ${cp1x} ${cp1y} ${cp2x} ${cp2y} ${p2.x} ${p2.y}`;
+        }
+      }
+      curvePath.setAttribute("d", d);
+
+      nodesLayer.innerHTML = "";
+      points.forEach(({ x, y, stage, score }) => {
+        const node = document.createElement("button");
+        node.type = "button";
+        node.className = "curve-node";
+        node.dataset.id = stage.id;
+
+        let scoreClass;
+        if (score < 40) scoreClass = "node-low";
+        else if (score < 70) scoreClass = "node-mid";
+        else scoreClass = "node-high";
+        node.classList.add(scoreClass);
+
+        node.style.left = `${x}px`;
+        node.style.top  = `${y}px`;
+
+        node.innerHTML = `
+          <div class="curve-icon">${stage.icon}</div>
+          <div class="curve-node-circle"></div>
+          <div class="curve-score">${score}</div>
+        `;
+
+        node.addEventListener("mouseenter", e => { selectStage(stage.id); showTooltip(stage, e.clientX, e.clientY); });
+        node.addEventListener("mousemove", e => showTooltip(stage, e.clientX, e.clientY));
+        node.addEventListener("mouseleave", hideTooltip);
+        node.addEventListener("click", () => selectStage(stage.id));
+
+        nodesLayer.appendChild(node);
+      });
+
+      updateActiveNodes();
+    }
+
+    function updateActiveStages() {
+      document.querySelectorAll(".stage-arrow").forEach(el => {
+        el.classList.toggle("active", el.dataset.id === currentStageId);
+      });
+    }
+
+    function updateActiveNodes() {
+      document.querySelectorAll(".curve-node").forEach(el => {
+        el.classList.toggle("active", el.dataset.id === currentStageId);
+      });
+    }
+
+    function selectStage(id) {
+      const stage = stages.find(s => s.id === id);
+      if (!stage) return;
+
+      currentStageId = id;
+      updateActiveStages();
+      updateActiveNodes();
+
+      infoTitle.textContent = stage.nombre;
+      infoDesc.textContent  = stage.resumen;
+
+      infoTags.innerHTML = "";
+      stage.tags.forEach(tag => {
+        const span = document.createElement("span");
+        span.className = "chip";
+        span.textContent = tag;
+        infoTags.appendChild(span);
+      });
+
+      infoIngreso.textContent = stage.ingreso;
+      infoPot.textContent     = stage.potencial;
+      infoCosto.textContent   = stage.costo;
+      infoRiesgo.textContent  = stage.riesgo;
+
+      clvFill.style.width = stage.clvPorc + "%";
+      clvLabel.textContent = `${stage.clvPorc}% del CLV capturado · ${100 - stage.clvPorc}% por capturar`;
+
+      infoHint.textContent = stage.hint;
+    }
+
+    function showTooltip(stage, x, y) {
+      tooltip.innerHTML = `
+        <div class="tooltip-title">${stage.nombre}</div>
+        <div class="tooltip-body">${stage.tooltip}</div>
+      `;
+      tooltip.style.left = x + 14 + "px";
+      tooltip.style.top  = y + 12 + "px";
+      tooltip.classList.add("visible");
+    }
+
+    function hideTooltip() {
+      tooltip.classList.remove("visible");
+    }
+
+    renderStageArrows();
+    buildCurveAndNodes();
+    selectStage(stages[0].id);
+
+    let resizeTimeout;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        buildCurveAndNodes();
+      }, 130);
+    });
+  </script>
+</body>
+</html>
