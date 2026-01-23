@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CXDIP — Demo 20 min | Del dato a decisiones accionables</title>
+  <meta name="description" content="CXDIP: sistemas CX gestionables y rentabilizables. Panel limpio para comité + acompañamiento. Agenda una demo de 20 min." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#070B12;
+      --panel:#0B1220;
+      --card:#0D172A;
+      --text:#EAF0FF;
+      --muted:#A8B3CC;
+      --line:rgba(255,255,255,.10);
+      --brand:#2F6BFF;         /* azul CXDIP */
+      --brand2:#00D4FF;        /* acento sutil */
+      --ok:#19C37D;
+      --warn:#FFB020;
+      --bad:#FF4D4D;
+      --shadow: 0 24px 60px rgba(0,0,0,.45);
+      --radius:18px;
+      --radius2:24px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 20% -10%, rgba(47,107,255,.25), transparent 60%),
+                  radial-gradient(900px 600px at 100% 10%, rgba(0,212,255,.16), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.35;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1100px; margin:0 auto; padding:22px 18px 90px}
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0 18px;
+    }
+    .brand{
+      display:flex; gap:10px; align-items:center;
+      font-weight:800; letter-spacing:.4px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+      box-shadow:0 0 20px rgba(47,107,255,.55);
+    }
+    .navlinks{display:flex; gap:14px; color:var(--muted); font-weight:500}
+    .navlinks a{padding:8px 10px; border-radius:999px}
+    .navlinks a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px; border-radius:999px;
+      background:linear-gradient(135deg, rgba(47,107,255,.95), rgba(0,212,255,.55));
+      font-weight:700;
+      box-shadow:0 16px 40px rgba(47,107,255,.25);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .cta:hover{filter:brightness(1.07)}
+    .ghost{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px; border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--text); font-weight:700;
+    }
+    .ghost:hover{background:rgba(255,255,255,.09)}
+
+    .hero{
+      display:grid; grid-template-columns: 1.1fr .9fr;
+      gap:22px; align-items:stretch; margin-top:14px;
+    }
+    @media (max-width: 920px){
+      .hero{grid-template-columns:1fr}
+      .navlinks{display:none}
+    }
+
+    .panel{
+      background:linear-gradient(180deg, rgba(13,23,42,.70), rgba(11,18,32,.55));
+      border:1px solid var(--line);
+      border-radius:var(--radius2);
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+    .kicker{
+      display:inline-flex; gap:8px; align-items:center;
+      color:var(--muted); font-weight:600; font-size:13px;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      padding:8px 12px; border-radius:999px;
+    }
+    .kicker b{color:var(--text)}
+    h1{
+      margin:12px 0 12px;
+      font-size:40px;
+      letter-spacing:-.8px;
+      line-height:1.05;
+    }
+    @media (max-width: 520px){
+      h1{font-size:32px}
+    }
+    .lead{
+      color:var(--muted);
+      font-size:15.5px;
+      max-width:56ch;
+      margin:0 0 18px;
+    }
+    .heroActions{display:flex; gap:10px; flex-wrap:wrap}
+    .mini{
+      margin-top:18px;
+      display:grid; grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    @media (max-width: 520px){
+      .mini{grid-template-columns:1fr}
+    }
+    .pill{
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .pill b{color:var(--text)}
+    .metricGrid{
+      display:grid; grid-template-columns: repeat(2, 1fr);
+      gap:10px;
+    }
+    .metric{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+    }
+    .metric .label{color:var(--muted); font-size:12.5px}
+    .metric .value{font-size:22px; font-weight:800; margin-top:6px}
+    .metric .hint{color:var(--muted); font-size:12px; margin-top:6px}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:12.5px; color:var(--muted);
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      padding:8px 10px; border-radius:999px;
+      margin-top:10px;
+    }
+
+    .section{margin-top:26px}
+    .section h2{
+      font-size:22px; margin:0 0 10px;
+      letter-spacing:-.4px;
+    }
+    .section p{
+      margin:0 0 14px; color:var(--muted);
+      max-width:80ch;
+    }
+
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    @media (max-width: 920px){.grid2{grid-template-columns:1fr}}
+
+    .listCard{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:var(--radius);
+      padding:16px;
+    }
+    .listCard h3{margin:0 0 8px; font-size:16px}
+    .bullets{margin:0; padding-left:18px; color:var(--muted)}
+    .bullets li{margin:6px 0}
+
+    .cards{display:grid; grid-template-columns:repeat(4, 1fr); gap:12px}
+    @media (max-width: 1100px){.cards{grid-template-columns:repeat(2, 1fr)}}
+    @media (max-width: 520px){.cards{grid-template-columns:1fr}}
+
+    .card{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border-radius:var(--radius2);
+      padding:16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .card:before{
+      content:"";
+      position:absolute; inset:-40px -60px auto auto;
+      width:160px; height:160px;
+      background:radial-gradient(circle at 30% 30%, rgba(47,107,255,.35), transparent 55%);
+      transform:rotate(20deg);
+      pointer-events:none;
+    }
+    .card h3{margin:0 0 6px}
+    .card .sub{color:var(--muted); font-size:13.5px; margin-bottom:12px}
+    .price{font-size:18px; font-weight:900}
+    .metaRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .tag{
+      font-size:12px; color:var(--muted);
+      padding:7px 9px; border-radius:999px;
+      border:1px solid var(--line); background:rgba(255,255,255,.03);
+    }
+
+    .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+    @media (max-width: 920px){.steps{grid-template-columns:1fr}}
+    .step{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:var(--radius2);
+      padding:16px;
+    }
+    .step .n{
+      width:32px; height:32px; border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900;
+      background:rgba(47,107,255,.18);
+      border:1px solid rgba(47,107,255,.35);
+      margin-bottom:10px;
+    }
+    .step h4{margin:0 0 6px}
+    .step p{margin:0; color:var(--muted); font-size:13.5px}
+
+    .contacts{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    @media (max-width: 920px){.contacts{grid-template-columns:1fr}}
+    .person{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:var(--radius2);
+      padding:16px;
+      display:flex; justify-content:space-between; gap:12px;
+      align-items:flex-start;
+    }
+    .person h4{margin:0 0 6px}
+    .person .role{color:var(--muted); font-size:13px}
+    .person .btns{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
+    .small{font-size:12px; color:var(--muted); margin-top:10px}
+
+    .stickyCTA{
+      position:fixed; left:0; right:0; bottom:0;
+      padding:12px 14px;
+      background:rgba(7,11,18,.70);
+      backdrop-filter: blur(10px);
+      border-top:1px solid var(--line);
+    }
+    .stickyInner{
+      max-width:1100px; margin:0 auto;
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+    }
+    .stickyInner span{color:var(--muted); font-size:13px}
+    footer{
+      margin-top:34px;
+      color:var(--muted);
+      font-size:12.5px;
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+      padding-top:16px;
+      border-top:1px solid var(--line);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>CXDIP</div>
+      </div>
+
+      <div class="navlinks">
+        <a href="#productos">Productos</a>
+        <a href="#diferencia">Diferencia</a>
+        <a href="#metodo">Cómo trabajamos</a>
+        <a href="#equipo">Equipo</a>
+      </div>
+
+      <a class="cta" href="#demo">Agenda una demo</a>
+    </div>
+
+    <div class="hero">
+      <div class="panel">
+        <div class="kicker">Boutique CX • <b>del dato a decisiones accionables</b></div>
+        <h1>Un panel limpio para comité.<br/>Y acompañamiento para decidir.</h1>
+        <p class="lead">
+          Desarrollamos sistemas CX gestionables a tu medida: medición + vistas ejecutivas + acción.
+          Diseñado para compañías de servicios y retail que quieren rentabilizar la gestión CX.
+        </p>
+
+        <div class="heroActions">
+          <a class="cta" href="#demo">Agenda demo 20 min</a>
+          <a class="ghost" href="#productos">Ver portafolio</a>
+        </div>
+
+        <div class="mini">
+          <div class="pill"><b>20 min</b> • sin compromiso</div>
+          <div class="pill"><b>Panel único</b> • listo para comité</div>
+          <div class="pill"><b>2–3 decisiones</b> por período</div>
+        </div>
+
+        <div class="badge">⚡ En menos de 30 segundos: qué pasa y qué hacer</div>
+      </div>
+
+      <div class="panel">
+        <h2 style="margin:0 0 12px;">Ejemplo de lectura ejecutiva</h2>
+        <div class="metricGrid">
+          <div class="metric">
+            <div class="label">CSAT total</div>
+            <div class="value">+54</div>
+            <div class="hint">visión clara por canal / local</div>
+          </div>
+          <div class="metric">
+            <div class="label">Locales en rojo</div>
+            <div class="value">7</div>
+            <div class="hint">foco inmediato: críticos</div>
+          </div>
+          <div class="metric">
+            <div class="label">Meta ventas</div>
+            <div class="value">92%</div>
+            <div class="hint">gestión XM: Ops & Sales</div>
+          </div>
+          <div class="metric">
+            <div class="label">Plan 30 días</div>
+            <div class="value">ON</div>
+            <div class="hint">priorización + acción</div>
+          </div>
+        </div>
+
+        <p class="small">
+          *Estos indicadores son ejemplo visual de cómo se presenta la información para comité.
+        </p>
+      </div>
+    </div>
+
+    <div id="diferencia" class="section">
+      <h2>Plataforma al servicio de las decisiones</h2>
+      <p>
+        Muchas empresas ya miden NPS/CSAT, pero siguen sin claridad para decidir.
+        CXDIP está pensado para que comité entienda rápido qué hacer.
+      </p>
+
+      <div class="grid2">
+        <div class="listCard">
+          <h3>Lo que evitamos</h3>
+          <ul class="bullets">
+            <li>Licencias complejas que requieren “súper usuarios”.</li>
+            <li>Dashboards densos que nadie abre en comité.</li>
+            <li>Informes que describen el dato, pero no priorizan acciones.</li>
+          </ul>
+        </div>
+
+        <div class="listCard">
+          <h3>Lo que hacemos distinto</h3>
+          <ul class="bullets">
+            <li>Diseñamos la medición contigo, en el lenguaje de tu negocio.</li>
+            <li>Panel único, limpio y pensado para comités de dirección.</li>
+            <li>Acompañamiento para traducir drivers en decisiones.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="productos" class="section">
+      <h2>Portafolio inicial (para empezar rápido)</h2>
+      <p>
+        4 productos de entrada para activar valor desde la primera semana:
+        Quick wins, estudios relacionales y programas de fidelización orientados a ROI.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Hallazgos & Análisis</h3>
+          <div class="sub">Transforma hallazgos operativos en proyectos rentables.</div>
+          <div class="price">USD 1.500 – 2.100</div>
+          <div class="metaRow">
+            <div class="tag">1–3 semanas</div>
+            <div class="tag">Onboarding + análisis</div>
+            <div class="tag">Presentación online/presencial</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Estudio relacional Básico</h3>
+          <div class="sub">Insights económicos antes de gestionar experiencia.</div>
+          <div class="price">USD 2.100 – 2.900</div>
+          <div class="metaRow">
+            <div class="tag">4–6 semanas</div>
+            <div class="tag">100–300 respuestas</div>
+            <div class="tag">Informe profesional</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Estudio relacional 360°</h3>
+          <div class="sub">Diagnóstico + data operativa + percepción real.</div>
+          <div class="price">USD 3.900 – 4.900</div>
+          <div class="metaRow">
+            <div class="tag">4–6 semanas</div>
+            <div class="tag">hasta 500 respuestas</div>
+            <div class="tag">Metodología CXDIP</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Programas de Fidelización</h3>
+          <div class="sub">Gestiona lealtad y transfórmala en ingresos (ROI).</div>
+          <div class="price">A convenir</div>
+          <div class="metaRow">
+            <div class="tag">4–12 semanas</div>
+            <div class="tag">Sin límite de horas</div>
+            <div class="tag">Modelo ROI del programa</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="metodo" class="section">
+      <h2>Cómo trabajamos (simple y gestionable)</h2>
+      <p>Un ecosistema claro: Estatus & diseño → Análisis → Acompañamiento.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="n">01</div>
+          <h4>Estatus & Diseño</h4>
+          <p>Cuestionario + modelo de datos + segmentos y variables clave + maquetado con tu marca.</p>
+        </div>
+        <div class="step">
+          <div class="n">02</div>
+          <h4>Análisis</h4>
+          <p>Vistas claras por drivers, preparado para comité y lectura ejecutiva real.</p>
+        </div>
+        <div class="step">
+          <div class="n">03</div>
+          <h4>Acompañamiento</h4>
+          <p>Priorización de focos + recomendaciones accionables + trazabilidad de ejecución.</p>
+        </div>
+      </div>
+
+      <div class="section" style="margin-top:14px;">
+        <div class="listCard">
+          <h3>Próximos pasos (20–30 min)</h3>
+          <ul class="bullets">
+            <li>Definimos casos de uso</li>
+            <li>Revisamos la data</li>
+            <li>Armamos las vistas</li>
+            <li>Cerramos alcance y plazos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="equipo" class="section">
+      <h2>Equipo directivo</h2>
+      <p>Autoridad en CX y Analytics: credenciales, ejecución y foco en resultado.</p>
+
+      <div class="contacts">
+        <div class="person">
+          <div>
+            <h4>Ariel Salazar V.</h4>
+            <div class="role">Director Estratégico</div>
+            <div class="small">Filosofía: “Simplificar, priorizar y accionar”.</div>
+          </div>
+          <div class="btns">
+            <a class="ghost" href="https://www.linkedin.com/in/ariel-salazar-valenzuela/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="cta" href="mailto:ariel.salazar@cxdip.com?subject=CXDIP%20Demo%2020%20min&body=Hola%20Ariel,%20me%20interesa%20agendar%20una%20demo%20de%2020%20min.%0A%0AEmpresa:%0ACargo:%0AObjetivo:%0ADisponibilidad:" target="_blank" rel="noopener">Agendar</a>
+          </div>
+        </div>
+
+        <div class="person">
+          <div>
+            <h4>John Baeza M.</h4>
+            <div class="role">Director Analytics</div>
+            <div class="small">Filosofía: “Medir para mejorar”.</div>
+          </div>
+          <div class="btns">
+            <a class="ghost" href="https://www.linkedin.com/in/john-baeza-02093539/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="cta" href="mailto:john.baeza@cxdip.com?subject=CXDIP%20Demo%2020%20min&body=Hola%20John,%20me%20interesa%20agendar%20una%20demo%20de%2020%20min.%0A%0AEmpresa:%0ACargo:%0AObjetivo:%0ADisponibilidad:" target="_blank" rel="noopener">Agendar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="demo" class="section">
+      <h2>Agenda tu demo</h2>
+      <p>
+        20 minutos. Sin compromiso. Con tus preguntas sobre la mesa.
+      </p>
+
+      <div class="panel">
+        <p style="margin:0 0 12px; color:var(--muted)">
+          Opción rápida: escríbenos con tu objetivo y te respondemos hoy.
+        </p>
+        <div class="heroActions">
+          <a class="cta" href="mailto:EquipocxDIP@cxdip.com?subject=Demo%20CXDIP%20(20%20min)&body=Hola%20equipo%20CXDIP,%20quisiera%20agendar%20una%20demo%20de%2020%20min.%0A%0AEmpresa:%0AIndustria:%0AObjetivo:%0A%E2%80%9CProblema%20que%20quiero%20resolver%E2%80%9D:%0ADisponibilidad:" target="_blank" rel="noopener">
+            Enviar solicitud
+          </a>
+          <a class="ghost" href="https://www.cxdip.com/" target="_blank" rel="noopener">Ver sitio</a>
+        </div>
+
+        <p class="small" style="margin-top:12px">
+          Tip: si usan Calendly, aquí se puede embeder en 2 minutos (me lo pides y te dejo el bloque listo).
+        </p>
+      </div>
+    </div>
+
+    <footer>
+      <div>© <span id="y"></span> CXDIP · Paneles para CX, sucursales y ventas</div>
+      <div style="color:var(--muted)">Boutique CX · Loyalty 360° · Ops & Sales</div>
+    </footer>
+  </div>
+
+  <div class="stickyCTA">
+    <div class="stickyInner">
+      <span><b>CXDIP</b> · ¿Lo vemos en 20 min?</span>
+      <a class="cta" href="#demo">Agenda demo</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
