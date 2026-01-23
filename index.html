@@ -34,7 +34,6 @@
     main[id], section[id] { scroll-margin-top: 90px; }
 
     a { text-decoration: none; color: inherit; }
-
     img { max-width: 100%; display: block; }
 
     .container {
@@ -172,11 +171,7 @@
       gap: 0.25rem;
     }
 
-    .btn-secondary:hover {
-      border-color: rgba(37, 99, 235, 0.35);
-      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
-      transform: translateY(-1px);
-    }
+    .btn-secondary span { font-size: 1rem; }
 
     /* HERO */
     .hero {
@@ -1007,160 +1002,6 @@
       100% { transform: scaleX(0.1); }
     }
 
-    /* =========================
-       EQUIPO DIRECTIVO (NUEVO)
-       ========================= */
-    #equipo { background: var(--bg); border-top: 1px solid var(--border); }
-
-    .team-heading {
-      text-align: center;
-      margin-bottom: 2.2rem;
-    }
-
-    .team-title {
-      font-size: 1.55rem;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 0.35rem;
-      letter-spacing: -0.01em;
-    }
-
-    .team-subtitle {
-      font-size: 0.92rem;
-      color: var(--text-muted);
-      max-width: 44rem;
-      margin: 0 auto;
-    }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.7rem;
-      align-items: stretch;
-    }
-
-    .team-card {
-      border-radius: var(--radius-xl);
-      background: #ffffff;
-      border: 1px solid rgba(229, 231, 235, 0.95);
-      box-shadow: var(--shadow-soft);
-      padding: 1.4rem 1.4rem 1.2rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .team-card::before {
-      content: "";
-      position: absolute;
-      inset: -80px -80px auto auto;
-      width: 220px;
-      height: 220px;
-      background: radial-gradient(circle, rgba(37, 99, 235, 0.12), transparent 60%);
-      filter: blur(4px);
-      pointer-events: none;
-    }
-
-    .team-top {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.65rem;
-      margin-bottom: 0.9rem;
-    }
-
-    .team-photo {
-      width: 240px;
-      height: 150px;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(229, 231, 235, 0.95);
-      background: #f9fafb;
-      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-    }
-
-    .team-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      transform: scale(1.02);
-    }
-
-    .team-name {
-      font-size: 1.05rem;
-      font-weight: 800;
-      text-align: center;
-      margin-top: 0.15rem;
-    }
-
-    .team-role {
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: rgba(107, 114, 128, 0.95);
-      text-align: center;
-      margin-top: -0.2rem;
-    }
-
-    .team-body-box {
-      background: #f3f4f6;
-      border: 1px solid rgba(229, 231, 235, 0.95);
-      border-radius: 18px;
-      padding: 1rem 1.05rem;
-      margin: 0.95rem 0 0.85rem;
-    }
-
-    .team-exp-title {
-      font-size: 0.88rem;
-      font-weight: 900;
-      color: #111827;
-      margin-bottom: 0.45rem;
-      text-transform: uppercase;
-    }
-
-    .team-exp-text {
-      font-size: 0.86rem;
-      color: #4b5563;
-      line-height: 1.55;
-    }
-
-    .team-philosophy {
-      background: #f3f4f6;
-      border: 1px solid rgba(229, 231, 235, 0.95);
-      border-radius: 14px;
-      padding: 0.7rem 0.9rem;
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      align-items: center;
-      margin-bottom: 0.95rem;
-      flex-wrap: wrap;
-    }
-
-    .team-philo-label {
-      font-size: 0.82rem;
-      color: #111827;
-      font-weight: 700;
-    }
-
-    .team-philo-quote {
-      font-size: 0.86rem;
-      font-weight: 800;
-      color: #0f172a;
-    }
-
-    .team-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.65rem;
-      flex-wrap: wrap;
-      margin-top: 0.2rem;
-    }
-
-    .team-actions a { display: inline-flex; }
-
     /* STEPS */
     .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.3rem; }
 
@@ -1215,6 +1056,120 @@
     .why-card-title { font-size: 0.96rem; font-weight: 600; margin-bottom: 0.3rem; }
     .why-card-text { font-size: 0.86rem; color: var(--text-muted); }
 
+    /* TEAM (EQUIPO DIRECTIVO) */
+    .team-section { padding-top: 2.6rem; }
+    .team-subline { margin-top: 0.2rem; }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.6rem;
+      align-items: stretch;
+    }
+
+    .team-card {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      background: #ffffff;
+      padding: 1.2rem 1.2rem 1.05rem;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      overflow: hidden;
+    }
+
+    .team-photo-wrap {
+      width: min(260px, 100%);
+      margin: 0 auto;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(229, 231, 235, 0.95);
+      background: linear-gradient(135deg, #eff6ff, #ffffff);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+    }
+
+    .team-photo-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .team-name-block {
+      text-align: center;
+      margin-top: 0.1rem;
+    }
+
+    .team-name {
+      font-size: 1.02rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+    }
+
+    .team-role {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(107, 114, 128, 0.95);
+      font-weight: 700;
+      margin-top: 0.15rem;
+    }
+
+    .team-bubble {
+      border-radius: 20px;
+      background: #f3f4f6;
+      border: 1px solid rgba(229, 231, 235, 0.95);
+      padding: 0.85rem 0.9rem;
+      color: #374151;
+      font-size: 0.86rem;
+    }
+
+    .team-bubble strong {
+      display: inline-block;
+      font-size: 0.84rem;
+      letter-spacing: 0.02em;
+      color: #111827;
+      text-transform: uppercase;
+      margin-bottom: 0.45rem;
+    }
+
+    .team-bubble p { margin-top: 0.5rem; color: #4b5563; }
+
+    .team-quote {
+      border-radius: 14px;
+      border: 1px solid rgba(229, 231, 235, 0.95);
+      background: #ffffff;
+      padding: 0.7rem 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.86rem;
+      color: #111827;
+      font-weight: 700;
+    }
+
+    .team-quote span {
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .team-actions {
+      display: flex;
+      gap: 0.7rem;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0.1rem;
+      flex-wrap: wrap;
+    }
+
+    .team-actions a.btn-secondary,
+    .team-actions a.btn-primary {
+      min-width: 148px;
+      justify-content: center;
+    }
+
     /* CTA & FOOTER */
     .cta-final {
       background: var(--bg-alt);
@@ -1247,7 +1202,14 @@
     }
 
     .footer-nav { display: flex; flex-wrap: wrap; gap: 0.8rem; }
-    .footer-right { display: flex; gap: 0.7rem; align-items: center; }
+    .footer-right { display: flex; gap: 0.9rem; align-items: center; flex-wrap: wrap; }
+
+    .footer-right a {
+      color: var(--text-muted);
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(107, 114, 128, 0.35);
+    }
+    .footer-right a:hover { color: var(--text-main); border-bottom-color: rgba(15, 23, 42, 0.4); }
 
     /* TOAST fallback */
     .mail-toast {
@@ -1320,11 +1282,7 @@
       .hero-inner { grid-template-columns: minmax(0, 1fr); }
       .hero-right { justify-content: flex-start; margin-top: 1.5rem; }
 
-      .panel-gallery, .steps, .why { grid-template-columns: minmax(0, 1fr); }
-
-      /* equipo */
-      .team-grid { grid-template-columns: minmax(0, 1fr); }
-      .team-photo { width: min(280px, 100%); height: 160px; }
+      .panel-gallery, .steps, .why, .team-grid { grid-template-columns: minmax(0, 1fr); }
 
       main[id], section[id] { scroll-margin-top: 110px; }
     }
@@ -1332,9 +1290,11 @@
     @media (max-width: 640px) {
       .hero { padding-top: 2.4rem; }
       .header-inner { padding: 0.7rem 0; }
+      .team-actions a.btn-secondary, .team-actions a.btn-primary { min-width: 140px; }
     }
   </style>
 </head>
+
 <body>
   <!-- HEADER -->
   <header>
@@ -1357,7 +1317,8 @@
           <li><a href="#como">¿Cómo trabajamos?</a></li>
           <li><a href="#por-que">¿Por qué elegirnos?</a></li>
           <li>
-            <a class="btn-primary js-demo" href="#" role="button">Agenda una demo</a>
+            <!-- Demo = Ariel por defecto -->
+            <a class="btn-primary js-demo" data-to="ariel.salazar@cxdip.com" data-subject="Solicitud de demo CXDIP" href="#" role="button">Agenda una demo</a>
           </li>
         </ul>
       </nav>
@@ -1387,7 +1348,7 @@
           </div>
 
           <div class="hero-cta-row">
-            <a class="btn-primary js-demo" href="#" role="button">Agenda una demo</a>
+            <a class="btn-primary js-demo" data-to="ariel.salazar@cxdip.com" data-subject="Solicitud de demo CXDIP" href="#" role="button">Agenda una demo</a>
           </div>
 
           <div class="hero-note">
@@ -1734,80 +1695,75 @@
       </div>
     </section>
 
-    <!-- EQUIPO DIRECTIVO (NUEVO) -->
-    <section id="equipo">
+    <!-- EQUIPO DIRECTIVO -->
+    <section id="equipo" class="team-section" style="background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
       <div class="container">
-        <div class="team-heading">
-          <h2 class="team-title">Equipo directivo</h2>
-          <p class="team-subtitle">
+        <div class="section-heading">
+          <h2 class="section-title section-title--primary">Equipo directivo</h2>
+          <p class="section-subtitle team-subline">
             Autoridad en experiencia y analítica: credenciales, ejecución y proyectos con impacto.
           </p>
         </div>
 
         <div class="team-grid">
-          <!-- CARD 1: ARIEL -->
+          <!-- ARIEL -->
           <article class="team-card">
-            <div class="team-top">
-              <div class="team-photo">
-                <img src="director_ariel.png" alt="Ariel Salazar V." />
-              </div>
+            <div class="team-photo-wrap">
+              <!-- CAMBIA AQUÍ la URL cuando lo subas al repo -->
+              <!-- Ej: https://raw.githubusercontent.com/tuuser/tu-repo/main/assets/director_ariel.png -->
+              <img src="director_ariel.png" alt="Ariel Salazar V." />
+            </div>
+
+            <div class="team-name-block">
               <div class="team-name">Ariel Salazar V.</div>
               <div class="team-role">Director Estratégico</div>
             </div>
 
-            <div class="team-body-box">
-              <div class="team-exp-title">Experiencia:</div>
-              <div class="team-exp-text">
-                Ingeniero civil industrial, Consultor &amp; escritor. Con 10 años de experiencia en Banca, Retail, Última milla, Farmacias.
-                <br><br>
-                Ha liderado áreas de experiencia de clientes, logrando movilizar el NPS en más de 6 puntos en solo un año, en una compañía con más de 10.000 colaboradores y 440 locales a lo largo de Chile.
-                <br><br>
-                También ha liderado áreas claves en retail, logrando planificar eventos CX a nivel nacional, mejorando el service level en 26%, disminuyendo los tiempos de espera en tiendas físicas en más de 75% y aumentando las ventas online en la banca retail en más de un 200%.
-              </div>
+            <div class="team-bubble">
+              <strong>Experiencia:</strong>
+              <div>Ingeniero civil industrial, Consultor &amp; escritor. Con 10 años de experiencia en Banca, Retail, Última milla, Farmacias.</div>
+              <p>
+                Ha liderado áreas de experiencia de clientes, logrando movilizar el NPS en más de 6 puntos en solo un año, en una compañía con más de 10.000 colaboradores y 440 locales a lo largo de Chile. También ha liderado áreas claves en retail, logrando planificar eventos Cyber a nivel nacional mejorando el service level en 26%, disminuyendo los tiempos de espera en tiendas físicas en más de 75% y aumentando las ventas online en la banca retail en más de un 200%.
+              </p>
             </div>
 
-            <div class="team-philosophy">
-              <span class="team-philo-label">Filosofía de trabajo:</span>
-              <span class="team-philo-quote">“Simplificar, priorizar y accionar”</span>
+            <div class="team-quote">
+              <span>Filosofía de trabajo:</span> “Simplificar, priorizar y accionar”
             </div>
 
             <div class="team-actions">
-              <!-- Reemplaza el href por tu LinkedIn real -->
-              <a class="btn-secondary" href="#" role="button" title="Reemplaza con el link real">LinkedIn</a>
-              <a class="btn-primary js-demo" data-subject="Solicitud de reunión con Ariel" href="#" role="button">Agendar con Ariel</a>
+              <a class="btn-secondary" href="https://www.linkedin.com/in/ariel-salazar-valenzuela/" target="_blank" rel="noopener">LinkedIn</a>
+              <a class="btn-primary js-demo" data-to="ariel.salazar@cxdip.com" data-subject="Solicitud de reunión con Ariel" href="#" role="button">Agendar con Ariel</a>
             </div>
           </article>
 
-          <!-- CARD 2: JOHN -->
+          <!-- JOHN -->
           <article class="team-card">
-            <div class="team-top">
-              <div class="team-photo">
-                <img src="director_john.png" alt="John Baeza M." />
-              </div>
+            <div class="team-photo-wrap">
+              <!-- CAMBIA AQUÍ la URL cuando lo subas al repo -->
+              <img src="director_john.png" alt="John Baeza M." />
+            </div>
+
+            <div class="team-name-block">
               <div class="team-name">John Baeza M.</div>
               <div class="team-role">Director Analytics</div>
             </div>
 
-            <div class="team-body-box">
-              <div class="team-exp-title">Experiencia:</div>
-              <div class="team-exp-text">
-                Ingeniero en Control de Gestión &amp; consultor, con más de 25 años de experiencia en Banca &amp; retail en Chile.
-                <br><br>
-                Ha liderado y desarrollado equipos en banca retail, con foco en desarrollo de modelos de control y gestión tanto de tiendas retail, como bancos en todos sus canales (web, fono, físicos).
-                <br><br>
-                Logrando establecer estándares eficientes que permitieron gestionar una red de más de 5 mil colaboradores, 80 sucursales a lo largo de Chile y desarrollo y gestión de canales web.
-              </div>
+            <div class="team-bubble">
+              <strong>Experiencia:</strong>
+              <div>Ingeniero control de gestión &amp; consultor, con más de 25 años de experiencia en Banca &amp; retail en Chile.</div>
+              <p>
+                Ha liderado y desarrollado equipos en banca retail, con foco en desarrollo de modelos de control y gestión tanto de tiendas retail, como bancos en todos sus canales (web, fono, físicos). Logrando establecer estándares eficientes que permitieron gestionar una red de más de 5 mil colaboradores, 80 sucursales a lo largo de Chile y desarrollo y gestión de canales web.
+              </p>
             </div>
 
-            <div class="team-philosophy">
-              <span class="team-philo-label">Filosofía de trabajo:</span>
-              <span class="team-philo-quote">“Medir para mejorar”</span>
+            <div class="team-quote">
+              <span>Filosofía de trabajo:</span> “Medir para mejorar”
             </div>
 
             <div class="team-actions">
-              <!-- Reemplaza el href por tu LinkedIn real -->
-              <a class="btn-secondary" href="#" role="button" title="Reemplaza con el link real">LinkedIn</a>
-              <a class="btn-primary js-demo" data-subject="Solicitud de reunión con John" href="#" role="button">Agendar con John</a>
+              <a class="btn-secondary" href="https://www.linkedin.com/in/john-baeza-02093539/" target="_blank" rel="noopener">LinkedIn</a>
+              <a class="btn-primary js-demo" data-to="john.baeza@cxdip.com" data-subject="Solicitud de reunión con John" href="#" role="button">Agendar con John</a>
             </div>
           </article>
         </div>
@@ -1908,10 +1864,10 @@
           Agenda una demo de 30 minutos y podemos revisar la vista que necesitas.
         </p>
 
-        <a class="btn-primary js-demo" href="#" role="button">Agenda una demo</a>
+        <a class="btn-primary js-demo" data-to="ariel.salazar@cxdip.com" data-subject="Solicitud de demo CXDIP" href="#" role="button">Agenda una demo</a>
 
         <div class="cta-email">
-          O ecríbeme a <strong>ariel.salazar@cxdip.com</strong>
+          O escríbeme a <strong>ariel.salazar@cxdip.com</strong>
         </div>
       </div>
     </section>
@@ -1929,7 +1885,8 @@
         <a href="#por-que">¿Por qué elegirnos?</a>
       </div>
       <div class="footer-right">
-        <span>LinkedIn</span>
+        <a href="https://www.linkedin.com/in/ariel-salazar-valenzuela/" target="_blank" rel="noopener">LinkedIn Ariel</a>
+        <a href="https://www.linkedin.com/in/john-baeza-02093539/" target="_blank" rel="noopener">LinkedIn John</a>
       </div>
     </div>
   </footer>
@@ -1960,14 +1917,14 @@
         });
       }
 
-      // --- CTA correo (mailto + fallback Gmail web) ---
-      const TO = 'ariel.salazar@cxdip.com';
+      // --- Config email + contenido ---
+      const DEFAULT_TO = 'ariel.salazar@cxdip.com';
       const DEFAULT_SUBJECT = 'Solicitud de demo CXDIP';
       const DEFAULT_BODY =
 `Hola,
 
-Quiero agendar una reunión, para explorar las alternativas.
-dejo mis datos de contacto:
+Quiero agendar una reunión para explorar las alternativas.
+Dejo mis datos de contacto:
 
 - Nombre:
 - Empresa:
@@ -1977,40 +1934,32 @@ dejo mis datos de contacto:
 
 Gracias.`;
 
-      function buildMailto(subject, bodyText) {
+      function buildMailto(to, subject, bodyText) {
+        const email = to || DEFAULT_TO;
         const s = subject || DEFAULT_SUBJECT;
         const b = bodyText || DEFAULT_BODY;
 
-        return 'mailto:' + TO
+        return 'mailto:' + email
           + '?subject=' + encodeURIComponent(s)
           + '&body=' + encodeURIComponent(b);
       }
 
-      // Nota: este link de Gmail funciona como “compose” en web.
-      // No puedo confirmar que sea una API oficial documentada, pero es un patrón ampliamente usado.
-      function buildGmailCompose(subject, bodyText) {
+      function buildGmailUrl(to, subject, bodyText) {
+        const email = to || DEFAULT_TO;
         const s = subject || DEFAULT_SUBJECT;
         const b = bodyText || DEFAULT_BODY;
 
         return 'https://mail.google.com/mail/?view=cm&fs=1'
-          + '&to=' + encodeURIComponent(TO)
+          + '&to=' + encodeURIComponent(email)
           + '&su=' + encodeURIComponent(s)
           + '&body=' + encodeURIComponent(b);
       }
 
-      // Set href para CTAs (permite subject por botón)
-      document.querySelectorAll('.js-demo').forEach(function (el) {
-        const subjectOverride = el.getAttribute('data-subject') || DEFAULT_SUBJECT;
-        el.setAttribute('href', buildMailto(subjectOverride, DEFAULT_BODY));
-      });
-
-      // Toast fallback (para casos donde mailto no abre en escritorio)
+      // --- Toast fallback dinámico ---
       const toast = document.getElementById('mailToast');
       const gmailFallback = document.getElementById('gmailFallback');
       const toastClose = document.getElementById('toastClose');
       let toastTimer = null;
-
-      if (gmailFallback) gmailFallback.href = buildGmailCompose(DEFAULT_SUBJECT, DEFAULT_BODY);
 
       function showToast() {
         if (!toast) return;
@@ -2028,8 +1977,20 @@ Gracias.`;
 
       if (toastClose) toastClose.addEventListener('click', hideToast);
 
-      document.querySelectorAll('.js-demo').forEach(function (el) {
+      // --- Set href de CTAs según data-to / data-subject ---
+      const demoButtons = document.querySelectorAll('.js-demo');
+      demoButtons.forEach(function (el) {
+        const toOverride = el.getAttribute('data-to') || DEFAULT_TO;
+        const subjectOverride = el.getAttribute('data-subject') || DEFAULT_SUBJECT;
+
+        // mailto correcto para cada botón
+        el.setAttribute('href', buildMailto(toOverride, subjectOverride, DEFAULT_BODY));
+
+        // al click: actualiza fallback Gmail para ese destinatario/subject
         el.addEventListener('click', function () {
+          if (gmailFallback) {
+            gmailFallback.href = buildGmailUrl(toOverride, subjectOverride, DEFAULT_BODY);
+          }
           setTimeout(showToast, 180);
         });
       });
