@@ -142,10 +142,9 @@
       box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
       transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
       white-space: nowrap;
-      text-shadow: 0 1px 1px rgba(0,0,0,0.18); /* mejora legibilidad */
+      text-shadow: 0 1px 1px rgba(0,0,0,0.18);
     }
 
-    /* IMPORTANT: asegura legibilidad en anchors (visited) */
     a.btn-primary, a.btn-primary:visited { color: #fff !important; }
 
     .btn-primary:hover {
@@ -164,7 +163,7 @@
       border: 1px solid var(--border);
       padding: 0.5rem 1.1rem;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       background: #ffffff;
       color: var(--text-main);
       cursor: pointer;
@@ -173,7 +172,7 @@
       gap: 0.25rem;
     }
 
-    .btn-secondary span { font-size: 1rem; }
+    .btn-secondary:hover { border-color: rgba(37,99,235,0.35); }
 
     /* HERO */
     .hero {
@@ -323,7 +322,7 @@
 
     .device-metric-value {
       font-size: 0.98rem;
-      font-weight: 600;
+      font-weight: 700;
       color: #111827;
     }
 
@@ -441,7 +440,7 @@
 
     .section-title {
       font-size: 1.35rem;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 0.4rem;
     }
 
@@ -450,7 +449,7 @@
     .section-subtitle {
       font-size: 0.9rem;
       color: var(--text-muted);
-      max-width: 30rem;
+      max-width: 34rem;
       margin: 0 auto;
     }
 
@@ -472,7 +471,7 @@
       gap: 0.7rem;
     }
 
-    .panel-title { font-size: 0.98rem; font-weight: 600; }
+    .panel-title { font-size: 0.98rem; font-weight: 700; }
 
     .panel-mockup {
       position: relative;
@@ -573,7 +572,7 @@
       100% { transform: scaleY(0.85); }
     }
 
-    /* PANEL 2b: drill */
+    /* PANEL 2: drill */
     .panel-mockup--drill {
       background: radial-gradient(circle at 20% 0%, #dbeafe, #eff6ff 40%, #e5e7eb 100%);
       display: flex;
@@ -618,6 +617,7 @@
       align-items: center;
       font-size: 0.74rem;
       color: #4b5563;
+      gap: 0.5rem;
     }
 
     .drill-tag {
@@ -629,9 +629,10 @@
       color: #1d4ed8;
       text-transform: uppercase;
       letter-spacing: 0.09em;
+      white-space: nowrap;
     }
 
-    .drill-metric-main { font-weight: 600; font-size: 0.78rem; color: #111827; }
+    .drill-metric-main { font-weight: 700; font-size: 0.78rem; color: #111827; }
 
     .drill-body { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.1rem; }
 
@@ -687,6 +688,7 @@
       align-items: center;
       font-size: 0.7rem;
       color: #4b5563;
+      gap: 0.5rem;
     }
 
     .report-line span:first-child {
@@ -727,7 +729,7 @@
       border: 1px solid rgba(148, 163, 184, 0.9);
       background: #ffffff;
       color: #2563eb;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .panel-details summary::after { content: "▾"; font-size: 0.6rem; }
@@ -745,7 +747,7 @@
     }
 
     .panel-details-body span { font-size: 0.68rem; color: #4b5563; }
-    .panel-details-body span:nth-child(-n+3) { font-weight: 600; color: #111827; }
+    .panel-details-body span:nth-child(-n+3) { font-weight: 800; color: #111827; }
 
     /* PANEL 4: Journey */
     .panel-mockup--journey {
@@ -761,6 +763,7 @@
       letter-spacing: 0.16em;
       color: #6b7280;
       margin-bottom: 0.3rem;
+      font-weight: 700;
     }
 
     .journey-track {
@@ -833,6 +836,7 @@
       padding: 0.12rem 0.4rem;
       border: 1px solid rgba(148, 163, 184, 0.7);
       white-space: nowrap;
+      font-weight: 600;
     }
 
     @keyframes journeyPulse {
@@ -872,6 +876,7 @@
       box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
       transform-origin: center;
       animation: clusterFloat 5.5s ease-in-out infinite;
+      font-weight: 700;
     }
 
     .cluster-node--core {
@@ -919,6 +924,7 @@
       letter-spacing: 0.16em;
       color: #6b7280;
       margin-bottom: 0.3rem;
+      font-weight: 800;
     }
 
     .training-timeline {
@@ -965,7 +971,7 @@
     .training-step--3 .training-dot::after { animation-delay: 2.4s; }
 
     .training-label { display: flex; flex-direction: column; gap: 0.05rem; }
-    .training-label-title { font-weight: 600; font-size: 0.78rem; color: #111827; }
+    .training-label-title { font-weight: 800; font-size: 0.78rem; color: #111827; }
     .training-label-sub { font-size: 0.68rem; color: #6b7280; }
 
     .training-bar-wrap { grid-column: 2 / 3; margin-top: 0.15rem; }
@@ -1004,6 +1010,132 @@
       100% { transform: scaleX(0.1); }
     }
 
+    /* TEAM (ARREGLADO Y PROFESIONAL) */
+    .team-section {
+      background: var(--bg-alt);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+
+    .team-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: #ffffff;
+      padding: 1rem;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .team-photo {
+      width: 104px;
+      height: 104px;
+      border-radius: 18px;
+      object-fit: cover;
+      border: 1px solid rgba(229,231,235,0.95);
+      background: #e5e7eb;
+    }
+
+    .team-content { min-width: 0; display: flex; flex-direction: column; gap: 0.65rem; }
+
+    .team-head { display: flex; flex-direction: column; gap: 0.1rem; }
+    .team-name { font-size: 1.05rem; font-weight: 900; letter-spacing: -0.01em; }
+    .team-role {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      font-weight: 800;
+    }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .pill {
+      font-size: 0.74rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(37,99,235,0.22);
+      background: rgba(37,99,235,0.06);
+      color: #1d4ed8;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .cred-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      min-width: 0;
+    }
+
+    .cred-card {
+      border: 1px solid rgba(229,231,235,0.95);
+      background: #f9fafb;
+      border-radius: 14px;
+      padding: 0.75rem 0.75rem 0.8rem;
+      min-width: 0;
+    }
+
+    .cred-card--wide { grid-column: 1 / -1; }
+
+    .cred-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #64748b;
+      font-weight: 900;
+      margin-bottom: 0.35rem;
+    }
+
+    .cred-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      color: #475569;
+      font-size: 0.86rem;
+      line-height: 1.35;
+    }
+
+    .cred-list li { min-width: 0; }
+    .cred-list li::before {
+      content: "•";
+      color: var(--primary);
+      margin-right: 0.35rem;
+      font-weight: 900;
+    }
+
+    .authority-box {
+      border-radius: 14px;
+      border: 1px dashed rgba(37,99,235,0.35);
+      background: linear-gradient(135deg, rgba(37,99,235,0.06), rgba(34,197,94,0.05));
+      padding: 0.75rem 0.85rem;
+    }
+
+    .authority-title {
+      font-weight: 900;
+      color: #0f172a;
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .authority-text { color: #475569; font-size: 0.86rem; }
+
+    .team-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.05rem;
+    }
+
     /* STEPS */
     .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.3rem; }
 
@@ -1021,19 +1153,20 @@
       letter-spacing: 0.16em;
       color: var(--text-muted);
       margin-bottom: 0.25rem;
+      font-weight: 800;
     }
 
-    .step-title { font-size: 0.96rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .step-title { font-size: 0.96rem; font-weight: 800; margin-bottom: 0.25rem; }
 
     .step-text { font-size: 0.86rem; color: var(--text-muted); }
 
     /* WHY */
     .why { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 1.6rem; align-items: flex-start; }
 
-    .why-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .why-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 0.4rem; }
     .why-subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.7rem; max-width: 34rem; }
-    .why-kicker { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); margin-bottom: 0.2rem; }
-    .why-subheading { font-size: 0.82rem; font-weight: 600; margin-top: 0.4rem; margin-bottom: 0.2rem; color: var(--text-main); }
+    .why-kicker { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); margin-bottom: 0.2rem; font-weight: 900; }
+    .why-subheading { font-size: 0.82rem; font-weight: 900; margin-top: 0.4rem; margin-bottom: 0.2rem; color: var(--text-main); }
 
     .why-bullets {
       list-style: none;
@@ -1044,7 +1177,7 @@
       color: var(--text-muted);
     }
 
-    .why-bullets li::before { content: "•"; color: var(--primary); margin-right: 0.35rem; font-weight: 700; }
+    .why-bullets li::before { content: "•"; color: var(--primary); margin-right: 0.35rem; font-weight: 900; }
 
     .why-card {
       border-radius: var(--radius-lg);
@@ -1054,8 +1187,8 @@
       box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
     }
 
-    .why-card-kicker { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--text-muted); margin-bottom: 0.25rem; }
-    .why-card-title { font-size: 0.96rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .why-card-kicker { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 900; }
+    .why-card-title { font-size: 0.96rem; font-weight: 900; margin-bottom: 0.3rem; }
     .why-card-text { font-size: 0.86rem; color: var(--text-muted); }
 
     /* CTA & FOOTER */
@@ -1067,7 +1200,7 @@
       margin-top: 1.5rem;
     }
 
-    .cta-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .cta-title { font-size: 1.4rem; font-weight: 900; margin-bottom: 0.6rem; }
     .cta-text { font-size: 0.95rem; color: var(--text-muted); max-width: 28rem; margin: 0 auto 1.4rem; }
 
     .cta-email { margin-top: 0.9rem; font-size: 0.85rem; color: var(--text-muted); }
@@ -1113,7 +1246,7 @@
     .mail-toast a {
       color: #fff;
       text-decoration: underline;
-      font-weight: 700;
+      font-weight: 900;
       white-space: nowrap;
     }
 
@@ -1122,7 +1255,7 @@
       background: transparent;
       color: rgba(255,255,255,0.85);
       cursor: pointer;
-      font-weight: 700;
+      font-weight: 900;
       padding: 0.1rem 0.35rem;
     }
 
@@ -1163,7 +1296,12 @@
       .hero-inner { grid-template-columns: minmax(0, 1fr); }
       .hero-right { justify-content: flex-start; margin-top: 1.5rem; }
 
-      .panel-gallery, .steps, .why { grid-template-columns: minmax(0, 1fr); }
+      .panel-gallery, .steps, .why, .team-grid { grid-template-columns: minmax(0, 1fr); }
+
+      .team-card { grid-template-columns: 88px 1fr; }
+      .team-photo { width: 88px; height: 88px; border-radius: 16px; }
+      .cred-grid { grid-template-columns: minmax(0, 1fr); }
+      .cred-card--wide { grid-column: auto; }
 
       main[id], section[id] { scroll-margin-top: 110px; }
     }
@@ -1171,6 +1309,9 @@
     @media (max-width: 640px) {
       .hero { padding-top: 2.4rem; }
       .header-inner { padding: 0.7rem 0; }
+      .device-metrics-row { grid-template-columns: minmax(0, 1fr); }
+      .device-layout { grid-template-columns: minmax(0, 1fr); }
+      .device-foot { flex-direction: column; gap: 0.25rem; }
     }
   </style>
 </head>
@@ -1180,7 +1321,7 @@
     <div class="container header-inner">
       <div class="logo-block">
         <div class="logo">CXDIP</div>
-        <div class="logo-sub">Somos tu partner Boutique de experiencias</div>
+        <div class="logo-sub">Somos tu partner boutique de experiencias</div>
       </div>
 
       <button class="menu-toggle" type="button" aria-label="Abrir menú principal">
@@ -1192,6 +1333,7 @@
         <ul>
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#paneles">Servicios</a></li>
+          <li><a href="#equipo">Equipo</a></li>
           <li><a href="#como">¿Cómo trabajamos?</a></li>
           <li><a href="#por-que">¿Por qué elegirnos?</a></li>
           <li>
@@ -1214,13 +1356,13 @@
           </h1>
 
           <p class="hero-subtitle">
-            Vistas eficientes, <strong>profundas</strong> de alto impacto. Donde conviertes la voz de clientes en sistemas gestionables y rentabilizables.
+            Vistas eficientes, <strong>profundas</strong> y de alto impacto. Convierte la voz del cliente en decisiones claras y gestionables.
           </p>
 
           <div class="hero-tags">
             <span class="hero-tag">Diseño CX &amp; Loyalty</span>
             <span class="hero-tag">Desde 3.600 respuestas anuales</span>
-            <span class="hero-tag">Rentabilizamos toda gestión CX</span>
+            <span class="hero-tag">Rentabilizamos la gestión CX</span>
             <span class="hero-tag">Paneles Web &amp; Mobile listos para comité</span>
           </div>
 
@@ -1242,7 +1384,7 @@
             <div class="hero-device-screen">
               <div class="device-metrics-row">
                 <div class="device-metric">
-                  <div class="device-metric-label">CSat total</div>
+                  <div class="device-metric-label">CSAT total</div>
                   <div class="device-metric-value">+54</div>
                 </div>
                 <div class="device-metric">
@@ -1284,7 +1426,7 @@
     <section class="trust-strip">
       <div class="container trust-inner">
         <div>
-          Diseñado para compañías de <strong>servicios y retails</strong> que quieren llevar la gestión real del CX al siguiente nivel.
+          Diseñado para compañías de <strong>servicios y retail</strong> que quieren llevar la gestión real del CX al siguiente nivel.
         </div>
         <div class="trust-tags">
           <span class="tag-pill">Banca &amp; Finanzas</span>
@@ -1301,9 +1443,9 @@
     <section id="paneles">
       <div class="container">
         <div class="section-heading">
-          <h2 class="section-title">Variedad en soluciones, que se ajustan a tus necesidades</h2>
+          <h2 class="section-title">Variedad en soluciones que se ajustan a tus necesidades</h2>
           <p class="section-subtitle">
-            En un solo ecosistema: Completo, eficiente y personalizado.
+            En un solo ecosistema: completo, eficiente y personalizado.
           </p>
         </div>
 
@@ -1352,9 +1494,9 @@
             </div>
 
             <div class="panel-tags">
-              <span>Estudios relacionales - </span>
-              <span>Probabilidad de fuga - </span>
-              <span>Gestión de retención</span>
+              <span>Estudios relacionales</span>
+              <span>· Probabilidad de fuga</span>
+              <span>· Gestión de retención</span>
             </div>
           </div>
 
@@ -1417,15 +1559,15 @@
             </div>
 
             <div class="panel-tags">
-              <span>Vista gerencial - </span>
-              <span>Detalle de indicadores por sucursales - </span>
-              <span>Detalles a nivel de ejecutivos</span>
+              <span>Vista gerencial</span>
+              <span>· Detalle por sucursal</span>
+              <span>· Gestión a nivel ejecutivo</span>
             </div>
           </div>
 
           <!-- PANEL 3 -->
           <div class="panel-card">
-            <h3 class="panel-title">Panel XM: OPs &amp; Sales</h3>
+            <h3 class="panel-title">Panel XM: Ops &amp; Sales</h3>
             <div class="panel-mockup panel-mockup--ops">
               <div class="report-scroll">
                 <div class="report-lines">
@@ -1460,16 +1602,16 @@
             </div>
 
             <div class="panel-tags">
-              <span>Gestión XM 360° - </span>
-              <span>Valoriza el riesgo a tiempo - </span>
-              <span>Gestiona la productividad - </span>
-              <span>Close the loop a todo nivel </span>
+              <span>Gestión XM 360°</span>
+              <span>· Valoriza el riesgo</span>
+              <span>· Productividad</span>
+              <span>· Close the loop</span>
             </div>
           </div>
 
           <!-- PANEL 4 -->
           <div class="panel-card">
-            <h3 class="panel-title">Estudios &amp; Relacionales 360°</h3>
+            <h3 class="panel-title">Estudios Relacionales 360°</h3>
             <div class="panel-mockup panel-mockup--journey">
               <div class="journey-header">Journey map relacional</div>
               <div class="journey-track">
@@ -1492,8 +1634,8 @@
             </div>
             <div class="panel-tags">
               <span>Customer Journey</span>
-              <span>/ Momentos de verdad</span>
-              <span>/ Brechas de servicio</span>
+              <span>· Momentos de verdad</span>
+              <span>· Brechas de servicio</span>
             </div>
           </div>
 
@@ -1506,19 +1648,19 @@
                 <div class="cluster-node cluster-node--risk">En riesgo</div>
                 <div class="cluster-node cluster-node--growth">Alto potencial</div>
                 <div class="cluster-node cluster-node--value">Valor estratégico</div>
-                <div class="cluster-node cluster-node--sleep">Dormidos a reactivar</div>
+                <div class="cluster-node cluster-node--sleep">Dormidos</div>
               </div>
             </div>
             <div class="panel-tags">
-              <span>Clusterizamos - </span>
-              <span>Analizamos en profundidad - </span>
-              <span>Entregamos insights de valor</span>
+              <span>Clusterizamos</span>
+              <span>· Analítica aplicada</span>
+              <span>· Insights accionables</span>
             </div>
           </div>
 
           <!-- PANEL 6 -->
           <div class="panel-card">
-            <h3 class="panel-title">Capacitaciones áreas claves</h3>
+            <h3 class="panel-title">Capacitaciones áreas clave</h3>
             <div class="panel-mockup panel-mockup--training">
               <div class="training-header">Programas de formación CX</div>
 
@@ -1558,22 +1700,165 @@
               </div>
 
               <div class="panel-caption">
-                Capacitaciones modulares para que cada área entienda su rol en la experiencia y use el sistema con propiedad.
+                Capacitaciones modulares para que cada área entienda su rol y use el sistema con propiedad.
               </div>
             </div>
 
             <div class="panel-tags">
               <span>Toda la organización es clave</span>
-              <span> - </span>
-              <span>Todas las áreas son relevantes</span>
+              <span>· Cada área tiene responsabilidad</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- EQUIPO DIRECTIVO (ARREGLADO) -->
+    <section id="equipo" class="team-section">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-title section-title--primary">Equipo directivo</h2>
+          <p class="section-subtitle">
+            Autoridad en experiencia y analítica: credenciales, ejecución y proyectos con impacto.
+          </p>
+        </div>
+
+        <div class="team-grid">
+          <!-- ARIEL -->
+          <article class="team-card">
+            <!-- Reemplaza la URL por tu imagen alojada -->
+            <img class="team-photo" src="images/ariel.jpg" alt="Ariel Salazar" />
+
+            <div class="team-content">
+              <div class="team-head">
+                <div class="team-name">Ariel Salazar</div>
+                <div class="team-role">Director XM</div>
+              </div>
+
+              <div class="pill-row" aria-label="Áreas de foco">
+                <span class="pill">Customer Experience</span>
+                <span class="pill">Loyalty</span>
+                <span class="pill">Ejecución en terreno</span>
+                <span class="pill">Gestión KPI</span>
+              </div>
+
+              <div class="cred-grid">
+                <div class="cred-card">
+                  <div class="cred-title">Formación</div>
+                  <ul class="cred-list">
+                    <li>[Título / Universidad]</li>
+                    <li>[Diplomado / certificación relevante]</li>
+                    <li>[Especialización en CX / gestión / datos]</li>
+                  </ul>
+                </div>
+
+                <div class="cred-card">
+                  <div class="cred-title">Experiencia</div>
+                  <ul class="cred-list">
+                    <li>[Años de experiencia / industrias]</li>
+                    <li>[Roles de liderazgo / alcance]</li>
+                    <li>[Foco: simplificar, priorizar y accionar]</li>
+                  </ul>
+                </div>
+
+                <div class="cred-card cred-card--wide">
+                  <div class="cred-title">Proyectos de alto impacto</div>
+                  <ul class="cred-list">
+                    <li>[Proyecto 1: qué se implementó / alcance / resultado]</li>
+                    <li>[Proyecto 2: programa de loyalty / comité / adopción]</li>
+                    <li>[Proyecto 3: mejora KPI / eficiencia / retención]</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="authority-box">
+                <div class="authority-title">Prueba de autoridad (medible)</div>
+                <div class="authority-text">
+                  [Ej.: “Implementación de modelo CX en X sedes”, “+X respuestas analizadas al año”, “reducción de fuga en X%”.]
+                </div>
+              </div>
+
+              <div class="team-actions">
+                <a class="btn-secondary" href="https://www.linkedin.com/in/ariel-salazar-valenzuela/" target="_blank" rel="noopener">
+                  LinkedIn
+                </a>
+                <a class="btn-primary js-demo-person" href="#" data-person="Ariel" role="button">
+                  Agendar con Ariel
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- JOHN -->
+          <article class="team-card">
+            <!-- Reemplaza la URL por tu imagen alojada -->
+            <img class="team-photo" src="images/john.jpg" alt="John Baeza" />
+
+            <div class="team-content">
+              <div class="team-head">
+                <div class="team-name">John Baeza</div>
+                <div class="team-role">Director Analytics</div>
+              </div>
+
+              <div class="pill-row" aria-label="Áreas de foco">
+                <span class="pill">Data &amp; Analytics</span>
+                <span class="pill">Modelos predictivos</span>
+                <span class="pill">Segmentación</span>
+                <span class="pill">Dashboards ejecutivos</span>
+              </div>
+
+              <div class="cred-grid">
+                <div class="cred-card">
+                  <div class="cred-title">Formación</div>
+                  <ul class="cred-list">
+                    <li>[Título / Universidad]</li>
+                    <li>[Certificación BI / Data / Analytics]</li>
+                    <li>[Especialización en estadística / ML / CX]</li>
+                  </ul>
+                </div>
+
+                <div class="cred-card">
+                  <div class="cred-title">Experiencia</div>
+                  <ul class="cred-list">
+                    <li>[Años en data / industrias]</li>
+                    <li>[Arquitectura de datos / pipelines]</li>
+                    <li>[Analítica aplicada a CX, ventas y ops]</li>
+                  </ul>
+                </div>
+
+                <div class="cred-card cred-card--wide">
+                  <div class="cred-title">Proyectos de alto impacto</div>
+                  <ul class="cred-list">
+                    <li>[Proyecto 1: data pipeline / cobertura / tiempos]</li>
+                    <li>[Proyecto 2: modelo de priorización / foco comercial]</li>
+                    <li>[Proyecto 3: dashboard comité / adopción / decisiones]</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="authority-box">
+                <div class="authority-title">Prueba de autoridad (medible)</div>
+                <div class="authority-text">
+                  [Ej.: “Unificación de fuentes en X áreas”, “automatización de reportes”, “mejora de decisión en comité”.]
+                </div>
+              </div>
+
+              <div class="team-actions">
+                <a class="btn-secondary" href="https://www.linkedin.com/in/john-baeza-02093539/" target="_blank" rel="noopener">
+                  LinkedIn
+                </a>
+                <a class="btn-primary js-demo-person" href="#" data-person="John" role="button">
+                  Agendar con John
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <!-- CÓMO FUNCIONA -->
-    <section id="como" style="background: var(--bg-alt);">
+    <section id="como" style="background: var(--bg);">
       <div class="container">
         <div class="section-heading">
           <h2 class="section-title section-title--primary">Un sistema paquetizado de lealtad</h2>
@@ -1587,8 +1872,8 @@
             <div class="step-number">01 · Estatus &amp; Diseño</div>
             <h3 class="step-title">Cuestionario &amp; modelo de datos</h3>
             <p class="step-text">
-              Encuestas optimizadas, escalas claras y maquetados con tu marca.
-              Definición de segmentos, cabales y variables claves.
+              Encuestas optimizadas, escalas claras y maquetado con tu marca.
+              Definición de segmentos, variables clave y estructura.
             </p>
           </div>
 
@@ -1597,7 +1882,7 @@
             <h3 class="step-title">Panel Web &amp; Mobile</h3>
             <p class="step-text">
               Desde 3.600 respuestas anuales.
-              Vistas simples y gestionables a través de Drivers claves.
+              Vistas simples y gestionables a través de drivers clave.
             </p>
           </div>
 
@@ -1605,7 +1890,7 @@
             <div class="step-number">03 · Acompañamiento</div>
             <h3 class="step-title">Informes ejecutivos</h3>
             <p class="step-text">
-              Te acompañamos durante todo el proceso y construimos en conjunto la mejor experiencia.
+              Acompañamiento durante todo el proceso: lectura ejecutiva, foco y plan de acción por periodo.
             </p>
           </div>
         </div>
@@ -1663,13 +1948,13 @@
       <div class="container">
         <h2 class="cta-title">¿Te imaginas ver todo esto en un solo panel?</h2>
         <p class="cta-text">
-          Agenda una demo de 30 minutos y podemos revisar la vista que necesitas.
+          Agenda una demo de 20 minutos y revisamos la vista que necesitas.
         </p>
 
         <a class="btn-primary js-demo" href="#" role="button">Agenda una demo</a>
 
         <div class="cta-email">
-          O ecríbeme a <strong>ariel.salazar@cxdip.com</strong>
+          O escríbeme a <strong>ariel.salazar@cxdip.com</strong>
         </div>
       </div>
     </section>
@@ -1682,6 +1967,7 @@
       <div class="footer-nav">
         <a href="#inicio">Inicio</a>
         <a href="#paneles">Servicios</a>
+        <a href="#equipo">Equipo</a>
         <a href="#como">¿Cómo trabajamos?</a>
         <a href="#por-que">¿Por qué elegirnos?</a>
       </div>
@@ -1719,12 +2005,17 @@
 
       // --- CTA correo (mailto + fallback Gmail web) ---
       const TO = 'ariel.salazar@cxdip.com';
-      const SUBJECT = 'Solicitud de demo CXDIP';
-      const BODY =
+
+      function buildEmail(personName) {
+        const subject = personName
+          ? ('Solicitud de demo CXDIP — con ' + personName)
+          : 'Solicitud de demo CXDIP';
+
+        const body =
 `Hola,
 
-Quiero agendar una reunión, para explorar las alternativas.
-dejo mis datos de contacto:
+Quiero agendar una reunión${personName ? (' con ' + personName) : ''} para explorar alternativas.
+Dejo mis datos de contacto:
 
 - Nombre:
 - Empresa:
@@ -1734,32 +2025,45 @@ dejo mis datos de contacto:
 
 Gracias.`;
 
-      const mailtoUrl = 'mailto:' + TO
-        + '?subject=' + encodeURIComponent(SUBJECT)
-        + '&body=' + encodeURIComponent(BODY);
+        const mailtoUrl = 'mailto:' + TO
+          + '?subject=' + encodeURIComponent(subject)
+          + '&body=' + encodeURIComponent(body);
 
-      // Nota: este link de Gmail funciona como “compose” en web.
-      // No puedo confirmar que sea una API oficial documentada, pero es un patrón ampliamente usado.
-      const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1'
-        + '&to=' + encodeURIComponent(TO)
-        + '&su=' + encodeURIComponent(SUBJECT)
-        + '&body=' + encodeURIComponent(BODY);
+        const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1'
+          + '&to=' + encodeURIComponent(TO)
+          + '&su=' + encodeURIComponent(subject)
+          + '&body=' + encodeURIComponent(body);
 
-      // Set href (fallback universal)
+        return { mailtoUrl, gmailUrl };
+      }
+
+      // Set href para CTA principal
+      const main = buildEmail('');
       document.querySelectorAll('.js-demo').forEach(function (el) {
-        el.setAttribute('href', mailtoUrl);
+        el.setAttribute('href', main.mailtoUrl);
       });
 
-      // Toast fallback (para casos donde mailto no abre en escritorio)
+      // Set href para CTA por persona
+      document.querySelectorAll('.js-demo-person').forEach(function (el) {
+        const person = el.getAttribute('data-person') || '';
+        const pack = buildEmail(person);
+        el.setAttribute('href', pack.mailtoUrl);
+        el.setAttribute('data-gmail', pack.gmailUrl);
+      });
+
+      // Toast fallback
       const toast = document.getElementById('mailToast');
       const gmailFallback = document.getElementById('gmailFallback');
       const toastClose = document.getElementById('toastClose');
       let toastTimer = null;
 
-      if (gmailFallback) gmailFallback.href = gmailUrl;
+      // por defecto: gmail del CTA principal
+      if (gmailFallback) gmailFallback.href = main.gmailUrl;
 
-      function showToast() {
+      function showToast(gmailUrl) {
         if (!toast) return;
+        if (gmailFallback && gmailUrl) gmailFallback.href = gmailUrl;
+
         toast.style.display = 'flex';
         if (toastTimer) clearTimeout(toastTimer);
         toastTimer = setTimeout(hideToast, 9000);
@@ -1774,12 +2078,18 @@ Gracias.`;
 
       if (toastClose) toastClose.addEventListener('click', hideToast);
 
-      // Cuando clickean "Agenda una demo": intentamos mailto (default),
-      // y mostramos un fallback por si el navegador/SO no tiene handler.
+      // CTA principal
       document.querySelectorAll('.js-demo').forEach(function (el) {
         el.addEventListener('click', function () {
-          // Pequeño delay para no “pegarse” con la apertura del handler
-          setTimeout(showToast, 180);
+          setTimeout(function () { showToast(main.gmailUrl); }, 180);
+        });
+      });
+
+      // CTA por persona
+      document.querySelectorAll('.js-demo-person').forEach(function (el) {
+        el.addEventListener('click', function () {
+          const gmailUrl = el.getAttribute('data-gmail') || main.gmailUrl;
+          setTimeout(function () { showToast(gmailUrl); }, 180);
         });
       });
     })();
