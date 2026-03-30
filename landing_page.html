@@ -1,526 +1,1497 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CXDIP — Demo 20 min | Del dato a decisiones accionables</title>
-  <meta name="description" content="CXDIP: sistemas CX gestionables y rentabilizables. Panel limpio para comité + acompañamiento. Agenda una demo de 20 min." />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CXDIP — Boutique CX | Analítica accionable con impacto económico</title>
+  <meta name="description" content="CXDIP convierte la Voz del Cliente en decisiones ejecutivas: panel limpio para comité + acompañamiento. Enfoque económico, ROI y acción." />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg:#070B12;
-      --panel:#0B1220;
-      --card:#0D172A;
-      --text:#EAF0FF;
-      --muted:#A8B3CC;
-      --line:rgba(255,255,255,.10);
-      --brand:#2F6BFF;         /* azul CXDIP */
-      --brand2:#00D4FF;        /* acento sutil */
-      --ok:#19C37D;
-      --warn:#FFB020;
-      --bad:#FF4D4D;
-      --shadow: 0 24px 60px rgba(0,0,0,.45);
-      --radius:18px;
-      --radius2:24px;
+      /* Marca */
+      --blue:#2F6BFF;
+      --blue2:#00C2FF;
+
+      /* Neutrales */
+      --ink:#0B1220;
+      --muted:#63708A;
+      --bg:#F7F9FC;
+      --white:#FFFFFF;
+      --line: rgba(13, 23, 42, .10);
+
+      --shadow: 0 30px 80px rgba(10, 15, 28, .10);
+      --shadow2: 0 16px 40px rgba(10, 15, 28, .08);
+
+      --r16:16px;
+      --r20:20px;
+      --r28:28px;
+
+      --max: 1160px;
+
+      /* Charts (menos “chillones”) */
+      --c1: rgba(47,107,255,.88);
+      --c2: rgba(0,194,255,.70);
+      --c3: rgba(34,197,94,.55);
+      --c4: rgba(245,158,11,.55);
+      --c5: rgba(168,85,247,.50);
+      --c6: rgba(239,68,68,.48);
     }
 
     *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
     body{
-      margin:0;
-      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 20% -10%, rgba(47,107,255,.25), transparent 60%),
-                  radial-gradient(900px 600px at 100% 10%, rgba(0,212,255,.16), transparent 55%),
-                  var(--bg);
-      color:var(--text);
-      line-height:1.35;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);              /* ✅ sin degradado azul */
+      line-height: 1.25;
+      overflow-x:hidden;
     }
 
     a{color:inherit; text-decoration:none}
-    .wrap{max-width:1100px; margin:0 auto; padding:22px 18px 90px}
+    .wrap{max-width: var(--max); margin:0 auto; padding:0 18px}
+
+    /* NAV */
     .nav{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:14px 0 18px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(247,249,252,.90);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
     }
-    .brand{
-      display:flex; gap:10px; align-items:center;
-      font-weight:800; letter-spacing:.4px;
+    .nav-in{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px;
+      padding:14px 0;
+    }
+    .logo{
+      display:flex; align-items:center; gap:10px;
+      font-weight: 900;
+      letter-spacing:-.02em;
+    }
+    .mark{
+      width:36px;height:36px;border-radius: 12px;
+      background: linear-gradient(135deg,var(--blue),var(--blue2));
+      box-shadow: 0 18px 40px rgba(47,107,255,.18);
+      display:grid; place-items:center;
+      color:#fff; font-size:13px;
+    }
+    .logotxt{display:flex; flex-direction:column; line-height:1.05}
+    .logotxt small{font-weight:700; color:var(--muted); font-size:12px; margin-top:2px}
+    .navlinks{
+      display:flex; gap:18px; align-items:center;
+      font-weight:700; font-size:13px; color:var(--muted);
+    }
+    .navlinks a{padding:8px 10px; border-radius:999px}
+    .navlinks a:hover{background: rgba(13,23,42,.05); color:var(--ink)}
+
+    .cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(47,107,255,.22);
+      background: linear-gradient(135deg, rgba(47,107,255,.98), rgba(0,194,255,.65));
+      color:#fff;
+      font-weight:800; font-size:13px;
+      box-shadow: 0 22px 55px rgba(47,107,255,.18);
+      transition: transform .15s ease, filter .15s ease;
+      white-space:nowrap;
+      cursor:pointer;
+    }
+    .cta:hover{transform: translateY(-1px); filter: brightness(1.03)}
+    .ghost{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.85);
+      color: var(--ink);
+      font-weight:800; font-size:13px;
+      transition: transform .15s ease, box-shadow .15s ease;
+      white-space:nowrap;
+      cursor:pointer;
+    }
+    .ghost:hover{transform: translateY(-1px); box-shadow: var(--shadow2)}
+
+    /* HERO (solo izquierda, más holgada) */
+    .hero{ padding: 44px 0 18px; }
+    .heroIntro{
+      max-width: 920px;                 /* ✅ más “holgado” */
+      padding: 0 0 8px;
+    }
+    .tagline{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:8px 12px;
+      border-radius: 999px;
+      background: rgba(47,107,255,.08);
+      border:1px solid rgba(47,107,255,.16);
+      color: #1E3A8A;
+      font-weight: 900;
+      font-size: 12px;
+      width:fit-content;
     }
     .dot{
       width:10px; height:10px; border-radius:999px;
-      background:linear-gradient(135deg,var(--brand),var(--brand2));
-      box-shadow:0 0 20px rgba(47,107,255,.55);
+      background: linear-gradient(135deg,var(--blue),var(--blue2));
+      box-shadow: 0 0 0 4px rgba(47,107,255,.10);
     }
-    .navlinks{display:flex; gap:14px; color:var(--muted); font-weight:500}
-    .navlinks a{padding:8px 10px; border-radius:999px}
-    .navlinks a:hover{background:rgba(255,255,255,.06); color:var(--text)}
-    .cta{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 14px; border-radius:999px;
-      background:linear-gradient(135deg, rgba(47,107,255,.95), rgba(0,212,255,.55));
-      font-weight:700;
-      box-shadow:0 16px 40px rgba(47,107,255,.25);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .cta:hover{filter:brightness(1.07)}
-    .ghost{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 14px; border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      color:var(--text); font-weight:700;
-    }
-    .ghost:hover{background:rgba(255,255,255,.09)}
-
-    .hero{
-      display:grid; grid-template-columns: 1.1fr .9fr;
-      gap:22px; align-items:stretch; margin-top:14px;
-    }
-    @media (max-width: 920px){
-      .hero{grid-template-columns:1fr}
-      .navlinks{display:none}
-    }
-
-    .panel{
-      background:linear-gradient(180deg, rgba(13,23,42,.70), rgba(11,18,32,.55));
-      border:1px solid var(--line);
-      border-radius:var(--radius2);
-      box-shadow:var(--shadow);
-      padding:22px;
-    }
-    .kicker{
-      display:inline-flex; gap:8px; align-items:center;
-      color:var(--muted); font-weight:600; font-size:13px;
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--line);
-      padding:8px 12px; border-radius:999px;
-    }
-    .kicker b{color:var(--text)}
     h1{
-      margin:12px 0 12px;
-      font-size:40px;
-      letter-spacing:-.8px;
+      margin:14px 0 12px;
+      font-size: clamp(34px, 4.3vw, 58px);
+      line-height: .98;
+      letter-spacing: -.04em;
+    }
+    .sub{
+      margin:0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 66ch;
+    }
+    .sub b{color: var(--ink)}
+    .heroActions{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .microRow{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      max-width: 920px;
+    }
+    .micro{
+      background: rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: 0 1px 0 rgba(13,23,42,.03);
+    }
+    .micro strong{
+      display:block;
+      font-weight: 900;
+      font-size: 13px;
+      margin-bottom: 4px;
+      letter-spacing: -.02em;
+    }
+    .micro span{
+      display:block;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    /* IMPACT SECTION (full width debajo del hero) */
+    .impactSection{
+      padding: 14px 0 28px;
+    }
+
+    .impactCard{
+      border-radius: 28px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(13,23,42,.10);
+      padding: 18px;
+
+      /* ✅ sin degradado azul (solo blanco/neutral) */
+      background: rgba(255,255,255,.95);
+    }
+
+    .impactTop{
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap:12px;
+      margin-bottom: 12px;
+    }
+    .impactTitle{
+      display:flex; flex-direction:column;
       line-height:1.05;
     }
-    @media (max-width: 520px){
-      h1{font-size:32px}
-    }
-    .lead{
-      color:var(--muted);
-      font-size:15.5px;
-      max-width:56ch;
-      margin:0 0 18px;
-    }
-    .heroActions{display:flex; gap:10px; flex-wrap:wrap}
-    .mini{
-      margin-top:18px;
-      display:grid; grid-template-columns: repeat(3, 1fr);
-      gap:10px;
-    }
-    @media (max-width: 520px){
-      .mini{grid-template-columns:1fr}
-    }
-    .pill{
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
-      color:var(--muted);
-      font-size:13px;
-    }
-    .pill b{color:var(--text)}
-    .metricGrid{
-      display:grid; grid-template-columns: repeat(2, 1fr);
-      gap:10px;
-    }
-    .metric{
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px;
-    }
-    .metric .label{color:var(--muted); font-size:12.5px}
-    .metric .value{font-size:22px; font-weight:800; margin-top:6px}
-    .metric .hint{color:var(--muted); font-size:12px; margin-top:6px}
-    .badge{
+    .impactTitle b{font-weight: 950; letter-spacing:-.02em}
+    .impactTitle small{color: var(--muted); font-weight:800; font-size:12px; margin-top:5px}
+
+    .impactChip{
       display:inline-flex; align-items:center; gap:8px;
-      font-size:12.5px; color:var(--muted);
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(13,23,42,.08);
+      background: rgba(247,249,252,.95);
+      color: var(--ink);
+      font-weight: 900;
+      font-size: 12px;
+      white-space: nowrap;
+      box-shadow: 0 10px 24px rgba(10, 15, 28, .06);
+    }
+    .impactChip i{
+      width:8px;height:8px;border-radius:999px;
+      background: #22C55E;
+      box-shadow: 0 0 0 4px rgba(34,197,94,.16);
+      display:inline-block;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%{transform:scale(1); opacity:1}
+      60%{transform:scale(1.08); opacity:.9}
+      100%{transform:scale(1); opacity:1}
+    }
+
+    .kpiGrid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .kpi{
+      border-radius: 18px;
+      border: 1px solid rgba(13,23,42,.08);
+      background: rgba(247,249,252,.85);
+      padding: 14px;
+      box-shadow: 0 1px 0 rgba(13,23,42,.03);
+      min-height: 92px;
+    }
+    .kpi small{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing:.02em;
+    }
+    .kpi small .dotK{
+      width:10px;height:10px;border-radius:999px;
+      background: linear-gradient(135deg,var(--blue),var(--blue2));
+      box-shadow: 0 0 0 4px rgba(47,107,255,.10);
+    }
+    .kpi .v{
+      margin-top: 8px;
+      font-size: 26px;
+      font-weight: 950;
+      letter-spacing: -.03em;
+      display:flex;
+      align-items: baseline;
+      gap: 8px;
+      color: var(--ink);
+    }
+    .kpi .hint{
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+      line-height: 1.25;
+    }
+
+    .liveGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;  /* ✅ espacio real para gráficos */
+      gap: 12px;
+      margin-top: 12px;
+      align-items: stretch;
+    }
+    .chartCard{
+      border-radius: 18px;
+      border: 1px solid rgba(13,23,42,.08);
+      background: rgba(247,249,252,.85);
+      padding: 12px;
+      box-shadow: 0 1px 0 rgba(13,23,42,.03);
+      overflow: hidden; /* ✅ evita “cortes” raros */
+    }
+    .chartHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+    .chartHead b{
+      font-weight:950;
+      letter-spacing:-.02em;
+      font-size: 12px;
+      color: var(--ink);
+    }
+    .liveBadge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 9px;
+      border-radius:999px;
+      border:1px solid rgba(13,23,42,.08);
+      background: rgba(255,255,255,.65);
+      color: var(--ink);
+      font-weight: 900;
+      font-size: 11px;
+    }
+    .liveBadge span{
+      width:8px;height:8px;border-radius:999px;
+      background: rgba(34,197,94,.9);
+      box-shadow: 0 0 0 4px rgba(34,197,94,.12);
+      display:inline-block;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+
+    /* Bars (menos saturación + sin shimmer “chillón”) */
+    .barsWrap{
+      border-radius: 16px;
+      border:1px solid rgba(13,23,42,.06);
+      background: rgba(255,255,255,.70);
+      padding: 10px;
+      height: 120px;
+      display:flex;
+      align-items:flex-end;
+      gap:10px;
+      overflow:hidden;
+      position:relative;
+    }
+    .barsWrap:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(to right, rgba(13,23,42,.04) 1px, transparent 1px);
+      background-size: 24px 100%;
+      opacity:.35;
+      pointer-events:none;
+    }
+    .barItem{
+      flex:1;
+      position:relative;
+      height:100%;
+      border-radius: 999px;
+      background: rgba(13,23,42,.04);
+      overflow:hidden;
+      border:1px solid rgba(13,23,42,.06);
+      display:flex;
+      align-items:flex-end;
+    }
+    .barFill{
+      width:100%;
+      height: var(--h, 55%);
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--col, var(--c1)), rgba(255,255,255,.20));
+      transition: height .85s cubic-bezier(.2,.9,.2,1);
+      box-shadow: 0 10px 20px rgba(10, 15, 28, .08);
+    }
+    .barsLegend{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-top: 9px;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    /* RADAR */
+    .radarGrid{
+      display:grid;
+      grid-template-columns: 1fr 180px;
+      gap: 12px;
+      align-items: center;
+    }
+    .radarBox{
+      border-radius: 16px;
+      border:1px solid rgba(13,23,42,.06);
+      background: rgba(255,255,255,.70);
+      padding: 10px;
+      min-height: 180px;
+      display:grid;
+      place-items:center;
+    }
+    .radarMeta{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .radarScore{
+      border-radius: 16px;
+      border:1px solid rgba(13,23,42,.08);
+      background: rgba(255,255,255,.70);
+      padding: 10px 12px;
+    }
+    .radarScore b{
+      display:block;
+      font-size: 20px;
+      font-weight: 950;
+      letter-spacing:-.03em;
+    }
+    .radarScore small{
+      display:block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-weight: 850;
+      font-size: 12px;
+    }
+    .radarList{
+      border-radius: 16px;
+      border:1px solid rgba(13,23,42,.08);
+      background: rgba(255,255,255,.70);
+      padding: 10px 12px;
+      display:grid;
+      gap:8px;
+    }
+    .radarRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size: 12px;
+      font-weight: 850;
+      color: var(--muted);
+    }
+    .radarRow .v{
+      font-weight: 950;
+      color: var(--ink);
+      min-width: 42px;
+      text-align:right;
+    }
+    .radarHint{
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    /* Sparkline */
+    .spark{
+      margin-top: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(13,23,42,.08);
+      background: rgba(247,249,252,.85);
+      padding: 12px;
+    }
+    .sparkHead{
+      display:flex; align-items:center; justify-content:space-between;
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+    .spark svg path.main{
+      stroke-width: 4;
+      stroke-linecap: round;
+      filter: drop-shadow(0 10px 16px rgba(47,107,255,.14));
+    }
+    .spark svg path.ghost{
+      stroke-width: 10;
+      stroke-linecap: round;
+      opacity:.14;
+    }
+    .spark svg .pulseDot{
+      animation: dotPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes dotPulse{
+      0%{transform:scale(1); opacity:1}
+      60%{transform:scale(1.16); opacity:.85}
+      100%{transform:scale(1); opacity:1}
+    }
+
+    /* SECTIONS */
+    section{padding: 38px 0}
+    .head{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:18px;
+      margin-bottom: 16px;
+    }
+    .head h2{
+      margin:0;
+      font-size: 22px;
+      letter-spacing: -.03em;
+    }
+    .head p{
+      margin:0;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+      max-width: 70ch;
+    }
+
+    /* PRODUCTS */
+    .grid4{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .cardW{
+      background: rgba(255,255,255,.92);
       border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
-      padding:8px 10px; border-radius:999px;
-      margin-top:10px;
-    }
-
-    .section{margin-top:26px}
-    .section h2{
-      font-size:22px; margin:0 0 10px;
-      letter-spacing:-.4px;
-    }
-    .section p{
-      margin:0 0 14px; color:var(--muted);
-      max-width:80ch;
-    }
-
-    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    @media (max-width: 920px){.grid2{grid-template-columns:1fr}}
-
-    .listCard{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
-      border-radius:var(--radius);
-      padding:16px;
-    }
-    .listCard h3{margin:0 0 8px; font-size:16px}
-    .bullets{margin:0; padding-left:18px; color:var(--muted)}
-    .bullets li{margin:6px 0}
-
-    .cards{display:grid; grid-template-columns:repeat(4, 1fr); gap:12px}
-    @media (max-width: 1100px){.cards{grid-template-columns:repeat(2, 1fr)}}
-    @media (max-width: 520px){.cards{grid-template-columns:1fr}}
-
-    .card{
-      border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border-radius:var(--radius2);
-      padding:16px;
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: 0 1px 0 rgba(13,23,42,.03);
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
       position:relative;
       overflow:hidden;
     }
-    .card:before{
+    .cardW:hover{
+      transform: translateY(-3px);
+      box-shadow: var(--shadow2);
+      border-color: rgba(47,107,255,.18);
+    }
+    .cardW:before{
       content:"";
-      position:absolute; inset:-40px -60px auto auto;
-      width:160px; height:160px;
-      background:radial-gradient(circle at 30% 30%, rgba(47,107,255,.35), transparent 55%);
-      transform:rotate(20deg);
+      position:absolute; inset:-60px -60px auto auto;
+      width:200px;height:200px;
+      background: radial-gradient(circle at 30% 30%, rgba(47,107,255,.14), transparent 60%);
+      transform: rotate(20deg);
       pointer-events:none;
     }
-    .card h3{margin:0 0 6px}
-    .card .sub{color:var(--muted); font-size:13.5px; margin-bottom:12px}
-    .price{font-size:18px; font-weight:900}
-    .metaRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
-    .tag{
-      font-size:12px; color:var(--muted);
-      padding:7px 9px; border-radius:999px;
-      border:1px solid var(--line); background:rgba(255,255,255,.03);
+    .pTop{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom: 8px;
+    }
+    .pTop b{font-weight: 900; letter-spacing:-.02em}
+    .pill{
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(47,107,255,.08);
+      border:1px solid rgba(47,107,255,.14);
+      color:#1E3A8A;
+      font-weight: 900;
+      font-size: 11px;
+      white-space:nowrap;
+    }
+    .price{
+      margin-top: 10px;
+      font-weight: 950;
+      letter-spacing:-.03em;
+      font-size: 18px;
+    }
+    .desc{
+      margin: 6px 0 10px;
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 13px;
+      line-height: 1.32;
+    }
+    .metaRow{
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .meta{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(13,23,42,.03);
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
     }
 
-    .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
-    @media (max-width: 920px){.steps{grid-template-columns:1fr}}
+    /* HOW */
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
     .step{
+      background: rgba(255,255,255,.92);
       border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
-      border-radius:var(--radius2);
-      padding:16px;
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: 0 1px 0 rgba(13,23,42,.03);
     }
-    .step .n{
-      width:32px; height:32px; border-radius:12px;
-      display:flex; align-items:center; justify-content:center;
-      font-weight:900;
-      background:rgba(47,107,255,.18);
-      border:1px solid rgba(47,107,255,.35);
-      margin-bottom:10px;
+    .num{
+      width: 36px; height: 36px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      font-weight: 950;
+      color:#1E3A8A;
+      background: rgba(47,107,255,.08);
+      border:1px solid rgba(47,107,255,.14);
+      margin-bottom: 10px;
     }
-    .step h4{margin:0 0 6px}
-    .step p{margin:0; color:var(--muted); font-size:13.5px}
+    .step h3{margin:0 0 8px; font-size: 15px; letter-spacing:-.02em}
+    .step ul{margin:0; padding-left: 18px; color: var(--muted); font-weight:650; font-size:13px}
+    .step li{margin:6px 0}
 
-    .contacts{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    @media (max-width: 920px){.contacts{grid-template-columns:1fr}}
+    /* TEAM */
+    .team{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
     .person{
+      background: rgba(255,255,255,.92);
       border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
-      border-radius:var(--radius2);
-      padding:16px;
-      display:flex; justify-content:space-between; gap:12px;
-      align-items:flex-start;
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: 0 1px 0 rgba(13,23,42,.03);
+      display:flex; align-items:center; gap:14px;
     }
-    .person h4{margin:0 0 6px}
-    .person .role{color:var(--muted); font-size:13px}
-    .person .btns{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
-    .small{font-size:12px; color:var(--muted); margin-top:10px}
+    .avatar{
+      width:72px; height:72px;
+      border-radius: 20px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background: rgba(13,23,42,.05);
+      flex: 0 0 auto;
+    }
+    .avatar img{width:100%; height:100%; object-fit:cover}
+    .who h3{margin:0; font-size: 16px; letter-spacing:-.02em}
+    .who p{margin:5px 0 10px; color: var(--muted); font-weight:650; font-size:13px}
+    .actions{display:flex; gap:8px; flex-wrap:wrap}
 
-    .stickyCTA{
-      position:fixed; left:0; right:0; bottom:0;
-      padding:12px 14px;
-      background:rgba(7,11,18,.70);
-      backdrop-filter: blur(10px);
-      border-top:1px solid var(--line);
+    /* CTA BLOCK (se mantiene como estaba) */
+    .final{
+      margin-top: 12px;
+      border-radius: 28px;
+      overflow:hidden;
+      border:1px solid rgba(13,23,42,.10);
+      box-shadow: var(--shadow);
+      background:
+        radial-gradient(1000px 420px at 10% 0%, rgba(47,107,255,.18), transparent 55%),
+        radial-gradient(800px 380px at 100% 10%, rgba(0,194,255,.12), transparent 52%),
+        linear-gradient(180deg, #0B1220, #0A1020);
+      color:#EAF0FF;
+      padding: 18px;
     }
-    .stickyInner{
-      max-width:1100px; margin:0 auto;
-      display:flex; gap:10px; align-items:center; justify-content:space-between;
+    .finalGrid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      align-items: start;
     }
-    .stickyInner span{color:var(--muted); font-size:13px}
+    .final h2{margin:0 0 8px; letter-spacing:-.03em}
+    .final p{margin:0; color: rgba(234,240,255,.75); font-weight:650}
+
+    .form{
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      padding: 14px;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .field{
+      display:flex; flex-direction:column; gap:6px;
+      margin-bottom: 10px;
+    }
+    label{
+      font-size: 12px;
+      font-weight: 850;
+      color: rgba(234,240,255,.75);
+    }
+    input, textarea{
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(10, 16, 32, .55);
+      color:#EAF0FF;
+      padding: 10px 12px;
+      outline:none;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    textarea{min-height: 84px; resize: vertical}
+    input::placeholder, textarea::placeholder{color: rgba(234,240,255,.45); font-weight:650}
+
+    .submitRow{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+      margin-top: 10px;
+    }
+    .hint2{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(234,240,255,.60);
+      font-weight: 650;
+    }
+
     footer{
-      margin-top:34px;
-      color:var(--muted);
-      font-size:12.5px;
-      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
-      padding-top:16px;
-      border-top:1px solid var(--line);
+      padding: 26px 0 34px;
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 12px;
+    }
+    .foot{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .microRow{grid-template-columns:1fr}
+      .grid4{grid-template-columns:1fr 1fr}
+      .grid3{grid-template-columns:1fr}
+      .team{grid-template-columns:1fr}
+      .finalGrid{grid-template-columns:1fr}
+      .navlinks{display:none}
+
+      .kpiGrid{grid-template-columns: 1fr 1fr}
+      .liveGrid{grid-template-columns:1fr}
+      .radarGrid{grid-template-columns:1fr}
+    }
+    @media (max-width: 560px){
+      .grid4{grid-template-columns:1fr}
+      .row{grid-template-columns:1fr}
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important; transition:none !important}
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="nav">
-      <div class="brand">
-        <div class="dot"></div>
-        <div>CXDIP</div>
-      </div>
 
-      <div class="navlinks">
-        <a href="#productos">Productos</a>
-        <a href="#diferencia">Diferencia</a>
-        <a href="#metodo">Cómo trabajamos</a>
-        <a href="#equipo">Equipo</a>
-      </div>
+  <!-- NAV -->
+  <header class="nav">
+    <div class="wrap">
+      <div class="nav-in">
+        <a class="logo" href="#top">
+          <div class="mark">DIP</div>
+          <div class="logotxt">
+            <span>CXDIP</span>
+            <small>Boutique CX · analítica accionable</small>
+          </div>
+        </a>
 
-      <a class="cta" href="#demo">Agenda una demo</a>
+        <nav class="navlinks">
+          <a href="#productos">Productos</a>
+          <a href="#metodo">Método</a>
+          <a href="#equipo">Equipo</a>
+          <a href="#agenda">Agenda</a>
+        </nav>
+
+        <div style="display:flex; gap:10px; align-items:center;">
+          <a class="ghost" href="#productos">Ver portafolio</a>
+          <a class="cta" href="#agenda">Agenda demo 20 min</a>
+        </div>
+      </div>
     </div>
+  </header>
 
-    <div class="hero">
-      <div class="panel">
-        <div class="kicker">Boutique CX • <b>del dato a decisiones accionables</b></div>
-        <h1>Un panel limpio para comité.<br/>Y acompañamiento para decidir.</h1>
-        <p class="lead">
-          Desarrollamos sistemas CX gestionables a tu medida: medición + vistas ejecutivas + acción.
-          Diseñado para compañías de servicios y retail que quieren rentabilizar la gestión CX.
+  <!-- HERO (solo texto / izquierda) -->
+  <main id="top" class="hero">
+    <div class="wrap">
+      <section class="heroIntro">
+        <div class="tagline"><span class="dot"></span> del dato a decisiones accionables</div>
+
+        <h1>
+          CX que se entiende en comité.<br>
+          Y se ejecuta en operación.
+        </h1>
+
+        <p class="sub">
+          Convertimos NPS/CSAT + verbatims en un <b>panel ejecutivo</b> (limpio, accionable)
+          y te acompañamos para decidir <b>qué mover primero</b>, con foco económico y ROI.
         </p>
 
         <div class="heroActions">
-          <a class="cta" href="#demo">Agenda demo 20 min</a>
-          <a class="ghost" href="#productos">Ver portafolio</a>
+          <a class="cta" href="#agenda">Agenda demo 20 min</a>
+          <a class="ghost" href="mailto:equipocxdip@cxdip.com?subject=Quiero%20una%20demo%20CXDIP%20(20%20min)">
+            Contactar por correo
+          </a>
         </div>
 
-        <div class="mini">
-          <div class="pill"><b>20 min</b> • sin compromiso</div>
-          <div class="pill"><b>Panel único</b> • listo para comité</div>
-          <div class="pill"><b>2–3 decisiones</b> por período</div>
-        </div>
-
-        <div class="badge">⚡ En menos de 30 segundos: qué pasa y qué hacer</div>
-      </div>
-
-      <div class="panel">
-        <h2 style="margin:0 0 12px;">Ejemplo de lectura ejecutiva</h2>
-        <div class="metricGrid">
-          <div class="metric">
-            <div class="label">CSAT total</div>
-            <div class="value">+54</div>
-            <div class="hint">visión clara por canal / local</div>
+        <div class="microRow">
+          <div class="micro">
+            <strong>20 min · sin compromiso</strong>
+            <span>Te mostramos cómo se ve en comité.</span>
           </div>
-          <div class="metric">
-            <div class="label">Locales en rojo</div>
-            <div class="value">7</div>
-            <div class="hint">foco inmediato: críticos</div>
+          <div class="micro">
+            <strong>Panel único · real</strong>
+            <span>Menos texto, más decisión.</span>
           </div>
-          <div class="metric">
-            <div class="label">Meta ventas</div>
-            <div class="value">92%</div>
-            <div class="hint">gestión XM: Ops & Sales</div>
-          </div>
-          <div class="metric">
-            <div class="label">Plan 30 días</div>
-            <div class="value">ON</div>
-            <div class="hint">priorización + acción</div>
+          <div class="micro">
+            <strong>Prioridad por impacto</strong>
+            <span>2–3 acciones que cambian el juego.</span>
           </div>
         </div>
+      </section>
+    </div>
+  </main>
 
-        <p class="small">
-          *Estos indicadores son ejemplo visual de cómo se presenta la información para comité.
-        </p>
+  <!-- IMPACT SNAPSHOT (✅ full width debajo del hero) -->
+  <section id="impact" class="impactSection">
+    <div class="wrap">
+      <div class="impactCard" aria-label="Impact Snapshot panel">
+        <div class="impactTop">
+          <div class="impactTitle">
+            <b>Impact Snapshot</b>
+            <small>Simulación en vivo · vista comité (ejemplo)</small>
+          </div>
+          <div class="impactChip"><i></i> LIVE · actualización automática</div>
+        </div>
+
+        <div class="kpiGrid">
+          <div class="kpi">
+            <small><span class="dotK"></span> CSAT total</small>
+            <div class="v"><span id="k_csat">54</span> <span style="font-size:12px; font-weight:950; opacity:.85">pts</span></div>
+            <div class="hint">Se entiende por canal / local.</div>
+          </div>
+
+          <div class="kpi">
+            <small><span class="dotK"></span> Locales críticos</small>
+            <div class="v"><span id="k_rojos">7</span> <span style="font-size:12px; font-weight:950; opacity:.85">rojos</span></div>
+            <div class="hint">Foco inmediato + responsables.</div>
+          </div>
+
+          <div class="kpi">
+            <small><span class="dotK"></span> Meta ventas</small>
+            <div class="v"><span id="k_ventas">92</span><span style="font-size:12px; font-weight:950; opacity:.85">%</span></div>
+            <div class="hint">XM conectado a Ops & Sales.</div>
+          </div>
+
+          <div class="kpi">
+            <small><span class="dotK"></span> Plan 30 días</small>
+            <div class="v"><span id="k_plan">ON</span></div>
+            <div class="hint">Prioridad, acción, seguimiento.</div>
+          </div>
+        </div>
+
+        <div class="liveGrid">
+          <!-- Bars -->
+          <div class="chartCard">
+            <div class="chartHead">
+              <b>Drivers (actividad por categoría)</b>
+              <div class="liveBadge"><span></span> tiempo real</div>
+            </div>
+
+            <div class="barsWrap">
+              <div class="barItem"><div class="barFill" id="b1" style="--h:72%;--col:var(--c1)"></div></div>
+              <div class="barItem"><div class="barFill" id="b2" style="--h:56%;--col:var(--c2)"></div></div>
+              <div class="barItem"><div class="barFill" id="b3" style="--h:44%;--col:var(--c3)"></div></div>
+              <div class="barItem"><div class="barFill" id="b4" style="--h:61%;--col:var(--c4)"></div></div>
+              <div class="barItem"><div class="barFill" id="b5" style="--h:38%;--col:var(--c5)"></div></div>
+              <div class="barItem"><div class="barFill" id="b6" style="--h:49%;--col:var(--c6)"></div></div>
+            </div>
+
+            <div class="barsLegend">
+              <span>Espera</span>
+              <span>Info</span>
+              <span>Resol.</span>
+              <span>Empatía</span>
+              <span>Proceso</span>
+              <span>Producto</span>
+            </div>
+          </div>
+
+          <!-- ✅ Radar (gráfico de araña) -->
+          <div class="chartCard">
+            <div class="chartHead">
+              <b>Desviación NPS por dimensión</b>
+              <div class="liveBadge"><span></span> animado</div>
+            </div>
+
+            <div class="radarGrid">
+              <div class="radarBox">
+                <svg id="radarSvg" viewBox="0 0 360 240" width="100%" height="100%" aria-label="radar">
+                  <!-- grid + polígonos se dibujan por JS -->
+                  <g id="radarGrid"></g>
+
+                  <!-- baseline (0) -->
+                  <polygon id="radarBase" points="" fill="rgba(13,23,42,.04)" stroke="rgba(13,23,42,.18)" stroke-width="1.5"></polygon>
+
+                  <!-- actual -->
+                  <polygon id="radarPoly" points="" fill="rgba(47,107,255,.14)" stroke="rgba(47,107,255,.75)" stroke-width="2"></polygon>
+
+                  <!-- puntos -->
+                  <g id="radarDots"></g>
+
+                  <!-- centro -->
+                  <circle cx="180" cy="120" r="2.5" fill="rgba(13,23,42,.35)"></circle>
+                </svg>
+              </div>
+
+              <div class="radarMeta">
+                <div class="radarScore">
+                  <b id="radarScore">+4</b>
+                  <small>Δ NPS vs baseline (0)</small>
+                </div>
+
+                <div class="radarList" id="radarList">
+                  <div class="radarRow"><span>Espera</span><span class="v" id="rv0">+0</span></div>
+                  <div class="radarRow"><span>Info</span><span class="v" id="rv1">+0</span></div>
+                  <div class="radarRow"><span>Resol.</span><span class="v" id="rv2">+0</span></div>
+                  <div class="radarRow"><span>Empatía</span><span class="v" id="rv3">+0</span></div>
+                  <div class="radarRow"><span>Proceso</span><span class="v" id="rv4">+0</span></div>
+                  <div class="radarRow"><span>Producto</span><span class="v" id="rv5">+0</span></div>
+                </div>
+
+                <div class="radarHint">
+                  Escala: −12 a +12 (0 = baseline). El polígono se mueve para mostrar desviaciones.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sparkline -->
+        <div class="spark">
+          <div class="sparkHead">
+            <span>Tendencia (8 semanas)</span>
+            <span style="opacity:.85" id="sparkHint">uplift sostenido</span>
+          </div>
+
+          <svg width="100%" height="72" viewBox="0 0 380 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="trend">
+            <path id="sparkGhost" class="ghost"
+              d="M6 56 C40 40, 60 52, 95 36 C135 16, 156 28, 190 22 C225 15, 250 30, 280 20 C315 8, 335 16, 372 10"
+              stroke="rgba(47,107,255,.35)"/>
+            <path id="sparkMain" class="main"
+              d="M6 56 C40 40, 60 52, 95 36 C135 16, 156 28, 190 22 C225 15, 250 30, 280 20 C315 8, 335 16, 372 10"
+              stroke="url(#g1)"/>
+            <circle id="sparkDot" class="pulseDot" cx="372" cy="10" r="5.5" fill="rgba(0,194,255,.9)"/>
+            <defs>
+              <linearGradient id="g1" x1="6" y1="56" x2="372" y2="10" gradientUnits="userSpaceOnUse">
+                <stop stop-color="rgba(47,107,255,.95)"/>
+                <stop offset="1" stop-color="rgba(0,194,255,.75)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <div style="margin-top:8px; font-size:12px; color:var(--muted); font-weight:750">
+            *Ejemplo visual tipo comité: “qué pasa + qué mover primero”, sin ruido.
+          </div>
+        </div>
+
       </div>
     </div>
+  </section>
 
-    <div id="diferencia" class="section">
-      <h2>Plataforma al servicio de las decisiones</h2>
-      <p>
-        Muchas empresas ya miden NPS/CSAT, pero siguen sin claridad para decidir.
-        CXDIP está pensado para que comité entienda rápido qué hacer.
-      </p>
-
-      <div class="grid2">
-        <div class="listCard">
-          <h3>Lo que evitamos</h3>
-          <ul class="bullets">
-            <li>Licencias complejas que requieren “súper usuarios”.</li>
-            <li>Dashboards densos que nadie abre en comité.</li>
-            <li>Informes que describen el dato, pero no priorizan acciones.</li>
-          </ul>
-        </div>
-
-        <div class="listCard">
-          <h3>Lo que hacemos distinto</h3>
-          <ul class="bullets">
-            <li>Diseñamos la medición contigo, en el lenguaje de tu negocio.</li>
-            <li>Panel único, limpio y pensado para comités de dirección.</li>
-            <li>Acompañamiento para traducir drivers en decisiones.</li>
-          </ul>
+  <!-- PRODUCTS -->
+  <section id="productos">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <h2>4 formas de partir (con resultados visibles rápido)</h2>
+          <p>Ofertas empaquetadas para activar valor, priorizar focos y escalar hacia un sistema gestionable.</p>
         </div>
       </div>
-    </div>
 
-    <div id="productos" class="section">
-      <h2>Portafolio inicial (para empezar rápido)</h2>
-      <p>
-        4 productos de entrada para activar valor desde la primera semana:
-        Quick wins, estudios relacionales y programas de fidelización orientados a ROI.
-      </p>
-
-      <div class="cards">
-        <div class="card">
-          <h3>Hallazgos & Análisis</h3>
-          <div class="sub">Transforma hallazgos operativos en proyectos rentables.</div>
+      <div class="grid4">
+        <div class="cardW">
+          <div class="pTop">
+            <b>Hallazgos & Análisis</b>
+            <span class="pill">Quick wins</span>
+          </div>
+          <div class="desc">Transforma hallazgos operativos en proyectos rentables con enfoque económico.</div>
           <div class="price">USD 1.500 – 2.100</div>
           <div class="metaRow">
-            <div class="tag">1–3 semanas</div>
-            <div class="tag">Onboarding + análisis</div>
-            <div class="tag">Presentación online/presencial</div>
+            <span class="meta">1–3 semanas</span>
+            <span class="meta">Análisis + priorización</span>
+            <span class="meta">Presentación ejecutiva</span>
           </div>
         </div>
 
-        <div class="card">
-          <h3>Estudio relacional Básico</h3>
-          <div class="sub">Insights económicos antes de gestionar experiencia.</div>
+        <div class="cardW">
+          <div class="pTop">
+            <b>Estudio relacional Básico</b>
+            <span class="pill">Starter</span>
+          </div>
+          <div class="desc">Primera vista accionable para entender drivers y mover decisión en comité.</div>
           <div class="price">USD 2.100 – 2.900</div>
           <div class="metaRow">
-            <div class="tag">4–6 semanas</div>
-            <div class="tag">100–300 respuestas</div>
-            <div class="tag">Informe profesional</div>
+            <span class="meta">4–6 semanas</span>
+            <span class="meta">100–300 respuestas</span>
+            <span class="meta">Informe profesional</span>
           </div>
         </div>
 
-        <div class="card">
-          <h3>Estudio relacional 360°</h3>
-          <div class="sub">Diagnóstico + data operativa + percepción real.</div>
+        <div class="cardW">
+          <div class="pTop">
+            <b>Estudio relacional 360°</b>
+            <span class="pill">Full impacto</span>
+          </div>
+          <div class="desc">Diagnóstico completo + lectura ejecutiva + metodología CXDIP y data operativa.</div>
           <div class="price">USD 3.900 – 4.900</div>
           <div class="metaRow">
-            <div class="tag">4–6 semanas</div>
-            <div class="tag">hasta 500 respuestas</div>
-            <div class="tag">Metodología CXDIP</div>
+            <span class="meta">4–6 semanas</span>
+            <span class="meta">Hasta 500 respuestas</span>
+            <span class="meta">Presentación comité</span>
           </div>
         </div>
 
-        <div class="card">
-          <h3>Programas de Fidelización</h3>
-          <div class="sub">Gestiona lealtad y transfórmala en ingresos (ROI).</div>
+        <div class="cardW">
+          <div class="pTop">
+            <b>Programas de Fidelización</b>
+            <span class="pill">ROI</span>
+          </div>
+          <div class="desc">Diseño + optimización de fidelización con foco en retorno y ejecución.</div>
           <div class="price">A convenir</div>
           <div class="metaRow">
-            <div class="tag">4–12 semanas</div>
-            <div class="tag">Sin límite de horas</div>
-            <div class="tag">Modelo ROI del programa</div>
+            <span class="meta">4–12 semanas</span>
+            <span class="meta">Sin límite horas</span>
+            <span class="meta">Modelo ROI</span>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <div id="metodo" class="section">
-      <h2>Cómo trabajamos (simple y gestionable)</h2>
-      <p>Un ecosistema claro: Estatus & diseño → Análisis → Acompañamiento.</p>
-
-      <div class="steps">
-        <div class="step">
-          <div class="n">01</div>
-          <h4>Estatus & Diseño</h4>
-          <p>Cuestionario + modelo de datos + segmentos y variables clave + maquetado con tu marca.</p>
-        </div>
-        <div class="step">
-          <div class="n">02</div>
-          <h4>Análisis</h4>
-          <p>Vistas claras por drivers, preparado para comité y lectura ejecutiva real.</p>
-        </div>
-        <div class="step">
-          <div class="n">03</div>
-          <h4>Acompañamiento</h4>
-          <p>Priorización de focos + recomendaciones accionables + trazabilidad de ejecución.</p>
+  <!-- METHOD -->
+  <section id="metodo">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <h2>Método CXDIP (simple y gestionable)</h2>
+          <p>Medición → análisis → acción. Diseñado para operar, no solo para mirar.</p>
         </div>
       </div>
 
-      <div class="section" style="margin-top:14px;">
-        <div class="listCard">
-          <h3>Próximos pasos (20–30 min)</h3>
-          <ul class="bullets">
-            <li>Definimos casos de uso</li>
-            <li>Revisamos la data</li>
-            <li>Armamos las vistas</li>
-            <li>Cerramos alcance y plazos</li>
+      <div class="grid3">
+        <div class="step">
+          <div class="num">01</div>
+          <h3>Estatus & Diseño</h3>
+          <ul>
+            <li>Diagnóstico + objetivos</li>
+            <li>Diseño de medición y estructura</li>
+            <li>Segmentos y variables clave</li>
+            <li>Maquetado con tu marca</li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <div class="num">02</div>
+          <h3>Análisis</h3>
+          <ul>
+            <li>Drivers + lectura ejecutiva</li>
+            <li>Insights accionables</li>
+            <li>Vistas claras por canal / local</li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <div class="num">03</div>
+          <h3>Acompañamiento</h3>
+          <ul>
+            <li>Priorización de focos</li>
+            <li>Recomendaciones concretas</li>
+            <li>Seguimiento de ejecución</li>
           </ul>
         </div>
       </div>
     </div>
+  </section>
 
-    <div id="equipo" class="section">
-      <h2>Equipo directivo</h2>
-      <p>Autoridad en CX y Analytics: credenciales, ejecución y foco en resultado.</p>
+  <!-- TEAM -->
+  <section id="equipo">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <h2>Equipo directivo</h2>
+          <p>Partner operativo, con foco en claridad ejecutiva y decisión.</p>
+        </div>
+      </div>
 
-      <div class="contacts">
+      <div class="team">
         <div class="person">
-          <div>
-            <h4>Ariel Salazar V.</h4>
-            <div class="role">Director Estratégico</div>
-            <div class="small">Filosofía: “Simplificar, priorizar y accionar”.</div>
+          <div class="avatar">
+            <img src="images/ariel.jpg" alt="Ariel Salazar">
           </div>
-          <div class="btns">
-            <a class="ghost" href="https://www.linkedin.com/in/ariel-salazar-valenzuela/" target="_blank" rel="noopener">LinkedIn</a>
-            <a class="cta" href="mailto:ariel.salazar@cxdip.com?subject=CXDIP%20Demo%2020%20min&body=Hola%20Ariel,%20me%20interesa%20agendar%20una%20demo%20de%2020%20min.%0A%0AEmpresa:%0ACargo:%0AObjetivo:%0ADisponibilidad:" target="_blank" rel="noopener">Agendar</a>
+          <div class="who" style="flex:1;">
+            <h3>Ariel Salazar</h3>
+            <p>Estrategia CX · Analítica · Storytelling ejecutivo</p>
+            <div class="actions">
+              <a class="ghost" href="https://www.linkedin.com/in/ariel-salazar-valenzuela/" target="_blank" rel="noopener">LinkedIn</a>
+              <a class="cta" href="mailto:ariel.salazar@cxdip.com?subject=Demo%20CXDIP%20(20%20min)&body=Hola%20Ariel,%20quiero%20agendar%20una%20demo%20de%2020%20min.%0A%0AEmpresa:%0ACargo:%0AObjetivo:" target="_blank" rel="noopener">Agendar</a>
+            </div>
           </div>
         </div>
 
         <div class="person">
-          <div>
-            <h4>John Baeza M.</h4>
-            <div class="role">Director Analytics</div>
-            <div class="small">Filosofía: “Medir para mejorar”.</div>
+          <div class="avatar">
+            <img src="images/john.jpg" alt="John Baeza">
           </div>
-          <div class="btns">
-            <a class="ghost" href="https://www.linkedin.com/in/john-baeza-02093539/" target="_blank" rel="noopener">LinkedIn</a>
-            <a class="cta" href="mailto:john.baeza@cxdip.com?subject=CXDIP%20Demo%2020%20min&body=Hola%20John,%20me%20interesa%20agendar%20una%20demo%20de%2020%20min.%0A%0AEmpresa:%0ACargo:%0AObjetivo:%0ADisponibilidad:" target="_blank" rel="noopener">Agendar</a>
+          <div class="who" style="flex:1;">
+            <h3>John Baeza</h3>
+            <p>Gestión CX · Operación · Acompañamiento para decisión</p>
+            <div class="actions">
+              <a class="ghost" href="https://www.linkedin.com/in/john-baeza-02093539/" target="_blank" rel="noopener">LinkedIn</a>
+              <a class="cta" href="mailto:john.baeza@cxdip.com?subject=Demo%20CXDIP%20(20%20min)&body=Hola%20John,%20quiero%20agendar%20una%20demo%20de%2020%20min.%0A%0AEmpresa:%0ACargo:%0AObjetivo:" target="_blank" rel="noopener">Agendar</a>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
+  </section>
 
-    <div id="demo" class="section">
-      <h2>Agenda tu demo</h2>
-      <p>
-        20 minutos. Sin compromiso. Con tus preguntas sobre la mesa.
-      </p>
+  <!-- FINAL CTA + FORM -->
+  <section id="agenda">
+    <div class="wrap">
+      <div class="final">
+        <div class="finalGrid">
+          <div>
+            <h2>Agenda una demo (20 min) y sal con 2 decisiones claras</h2>
+            <p>
+              Te mostramos cómo se vería el panel para tu caso y te recomendamos
+              el mejor punto de partida según tu industria y data.
+            </p>
+            <p style="margin-top:10px; color:rgba(234,240,255,.70); font-weight:700; font-size:13px">
+              Alternativa directa: <a href="mailto:equipocxdip@cxdip.com" style="text-decoration:underline; text-underline-offset:3px">equipocxdip@cxdip.com</a>
+            </p>
+          </div>
 
-      <div class="panel">
-        <p style="margin:0 0 12px; color:var(--muted)">
-          Opción rápida: escríbenos con tu objetivo y te respondemos hoy.
-        </p>
-        <div class="heroActions">
-          <a class="cta" href="mailto:EquipocxDIP@cxdip.com?subject=Demo%20CXDIP%20(20%20min)&body=Hola%20equipo%20CXDIP,%20quisiera%20agendar%20una%20demo%20de%2020%20min.%0A%0AEmpresa:%0AIndustria:%0AObjetivo:%0A%E2%80%9CProblema%20que%20quiero%20resolver%E2%80%9D:%0ADisponibilidad:" target="_blank" rel="noopener">
-            Enviar solicitud
-          </a>
-          <a class="ghost" href="https://www.cxdip.com/" target="_blank" rel="noopener">Ver sitio</a>
+          <form class="form" onsubmit="return sendMail(event)">
+            <div class="row">
+              <div class="field">
+                <label>Nombre</label>
+                <input id="f_name" placeholder="Tu nombre" required />
+              </div>
+              <div class="field">
+                <label>Empresa</label>
+                <input id="f_company" placeholder="Nombre empresa" required />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label>Cargo</label>
+                <input id="f_role" placeholder="Gerencia / Liderazgo" />
+              </div>
+              <div class="field">
+                <label>Correo</label>
+                <input id="f_email" type="email" placeholder="tu@empresa.com" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Qué quieres resolver</label>
+              <textarea id="f_goal" placeholder="Ej: priorizar drivers, entender locales críticos, elevar CSAT, etc." required></textarea>
+            </div>
+
+            <div class="submitRow">
+              <a class="ghost" href="#top">Volver arriba</a>
+              <button class="cta" type="submit">Enviar solicitud</button>
+            </div>
+
+            <div class="hint2">
+              *Este formulario abre tu correo con el mensaje listo (sin integraciones).
+              Si quieres, lo conecto a Calendly/Formspree en 2 minutos.
+            </div>
+          </form>
         </div>
-
-        <p class="small" style="margin-top:12px">
-          Tip: si usan Calendly, aquí se puede embeder en 2 minutos (me lo pides y te dejo el bloque listo).
-        </p>
       </div>
-    </div>
 
-    <footer>
-      <div>© <span id="y"></span> CXDIP · Paneles para CX, sucursales y ventas</div>
-      <div style="color:var(--muted)">Boutique CX · Loyalty 360° · Ops & Sales</div>
-    </footer>
-  </div>
-
-  <div class="stickyCTA">
-    <div class="stickyInner">
-      <span><b>CXDIP</b> · ¿Lo vemos en 20 min?</span>
-      <a class="cta" href="#demo">Agenda demo</a>
+      <footer>
+        <div class="foot">
+          <div><b style="color:var(--ink)">CXDIP</b> · Boutique CX · Analítica accionable</div>
+          <div>© <span id="y"></span> · Chile / Paraguay</div>
+        </div>
+      </footer>
     </div>
-  </div>
+  </section>
 
   <script>
+    // Año footer
     document.getElementById("y").textContent = new Date().getFullYear();
+
+    const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // ============================
+    // LIVE DASHBOARD SIMULATION
+    // ============================
+
+    // KPIs
+    const elCSAT  = document.getElementById("k_csat");
+    const elRojos = document.getElementById("k_rojos");
+    const elVentas= document.getElementById("k_ventas");
+    const elPlan  = document.getElementById("k_plan");
+
+    // Bars
+    const bars = [
+      { el: document.getElementById("b1"), base: 72, jitter: 10, min: 35, max: 92, col: "var(--c1)" },
+      { el: document.getElementById("b2"), base: 56, jitter: 10, min: 30, max: 85, col: "var(--c2)" },
+      { el: document.getElementById("b3"), base: 44, jitter: 10, min: 18, max: 78, col: "var(--c3)" },
+      { el: document.getElementById("b4"), base: 61, jitter: 10, min: 25, max: 90, col: "var(--c4)" },
+      { el: document.getElementById("b5"), base: 38, jitter: 10, min: 16, max: 70, col: "var(--c5)" },
+      { el: document.getElementById("b6"), base: 49, jitter: 10, min: 20, max: 80, col: "var(--c6)" },
+    ];
+
+    // Sparkline
+    const sparkMain = document.getElementById("sparkMain");
+    const sparkGhost = document.getElementById("sparkGhost");
+    const sparkDot = document.getElementById("sparkDot");
+    const sparkHint = document.getElementById("sparkHint");
+
+    // Radar elements
+    const radarSvg = document.getElementById("radarSvg");
+    const radarGrid = document.getElementById("radarGrid");
+    const radarPoly = document.getElementById("radarPoly");
+    const radarBase = document.getElementById("radarBase");
+    const radarDots = document.getElementById("radarDots");
+    const radarScore = document.getElementById("radarScore");
+    const radarValueEls = [
+      document.getElementById("rv0"),
+      document.getElementById("rv1"),
+      document.getElementById("rv2"),
+      document.getElementById("rv3"),
+      document.getElementById("rv4"),
+      document.getElementById("rv5"),
+    ];
+
+    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+    function rnd(min, max){ return Math.random() * (max - min) + min; }
+    function rndInt(min, max){ return Math.round(rnd(min, max)); }
+    function fmtSigned(n){
+      const s = Math.round(n);
+      return (s >= 0 ? "+" : "") + s;
+    }
+
+    // ----------------------------
+    // Bars update
+    // ----------------------------
+    function updateBars(){
+      bars.forEach(b => {
+        const v = clamp(b.base + rndInt(-b.jitter, b.jitter), b.min, b.max);
+        b.el.style.setProperty("--h", v + "%");
+        b.el.style.setProperty("--col", b.col);
+      });
+    }
+
+    // ----------------------------
+    // KPIs update
+    // ----------------------------
+    function updateKPIs(){
+      const csat = clamp(parseInt(elCSAT.textContent,10) + rndInt(-2,2), 48, 61);
+      elCSAT.textContent = csat;
+
+      const rojos = clamp(parseInt(elRojos.textContent,10) + rndInt(-1,1), 4, 11);
+      elRojos.textContent = rojos;
+
+      const ventas = clamp(parseInt(elVentas.textContent,10) + rndInt(-1,1), 85, 98);
+      elVentas.textContent = ventas;
+
+      elPlan.textContent = "ON";
+    }
+
+    // ----------------------------
+    // Sparkline update
+    // ----------------------------
+    function updateSpark(){
+      const yEnd = clamp(rndInt(8, 18), 8, 18);
+      const yPrev = clamp(yEnd + rndInt(2, 10), 10, 28);
+
+      const path =
+        `M6 56 C40 40, 60 52, 95 36 ` +
+        `C135 16, 156 28, 190 22 ` +
+        `C225 15, 250 30, 280 20 ` +
+        `C315 ${yPrev}, 335 16, 372 ${yEnd}`;
+
+      sparkMain.setAttribute("d", path);
+      sparkGhost.setAttribute("d", path);
+      sparkDot.setAttribute("cy", yEnd);
+
+      const hints = ["uplift sostenido", "estabilizando", "mejora incremental", "recuperación", "tendencia positiva"];
+      sparkHint.textContent = hints[rndInt(0, hints.length-1)];
+    }
+
+    // ============================
+    // RADAR (Araña) — Δ NPS
+    // ============================
+    const radarCfg = {
+      cx: 180,
+      cy: 120,
+      R: 98,
+      maxDev: 12,
+      labels: ["Espera","Info","Resol.","Empatía","Proceso","Producto"],
+      rings: [0.20, 0.35, 0.50, 0.65, 0.80, 0.95],
+    };
+
+    // current/target (valores en rango [-maxDev, +maxDev])
+    let radarCurrent = [  3, -2,  5,  1, -4,  2 ];
+    let radarTarget  = [  3, -2,  5,  1, -4,  2 ];
+
+    function polar(cx, cy, r, ang){
+      return { x: cx + r * Math.cos(ang), y: cy + r * Math.sin(ang) };
+    }
+    function makePointsFromNorm(normArr){
+      const n = normArr.length;
+      const pts = [];
+      for(let i=0;i<n;i++){
+        const ang = (-Math.PI/2) + (i * 2*Math.PI / n);
+        const p = polar(radarCfg.cx, radarCfg.cy, radarCfg.R * normArr[i], ang);
+        pts.push(`${p.x.toFixed(2)},${p.y.toFixed(2)}`);
+      }
+      return pts.join(" ");
+    }
+    function valuesToNorm(values){
+      // mapeo: -maxDev -> 0, 0 -> 0.5, +maxDev -> 1
+      const md = radarCfg.maxDev;
+      return values.map(v => clamp((v + md) / (2*md), 0.02, 0.98));
+    }
+
+    function svgEl(tag, attrs){
+      const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+      Object.entries(attrs || {}).forEach(([k,v]) => el.setAttribute(k, v));
+      return el;
+    }
+
+    function buildRadarGrid(){
+      radarGrid.innerHTML = "";
+      radarDots.innerHTML = "";
+
+      const n = radarCfg.labels.length;
+
+      // rings
+      radarCfg.rings.forEach((rNorm, idx) => {
+        const normArr = new Array(n).fill(rNorm);
+        const poly = svgEl("polygon", {
+          points: makePointsFromNorm(normArr),
+          fill: "none",
+          stroke: (Math.abs(rNorm - 0.50) < 0.001) ? "rgba(13,23,42,.22)" : "rgba(13,23,42,.10)",
+          "stroke-width": (Math.abs(rNorm - 0.50) < 0.001) ? "1.6" : "1",
+          "stroke-dasharray": (Math.abs(rNorm - 0.50) < 0.001) ? "4 4" : "0",
+        });
+        radarGrid.appendChild(poly);
+      });
+
+      // axes + labels
+      for(let i=0;i<n;i++){
+        const ang = (-Math.PI/2) + (i * 2*Math.PI / n);
+        const p1 = polar(radarCfg.cx, radarCfg.cy, radarCfg.R * 0.02, ang);
+        const p2 = polar(radarCfg.cx, radarCfg.cy, radarCfg.R * 0.98, ang);
+
+        radarGrid.appendChild(svgEl("line", {
+          x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y,
+          stroke: "rgba(13,23,42,.10)",
+          "stroke-width": "1"
+        }));
+
+        // label position a bit outside
+        const pl = polar(radarCfg.cx, radarCfg.cy, radarCfg.R * 1.08, ang);
+        const anchor = (Math.cos(ang) > 0.25) ? "start" : (Math.cos(ang) < -0.25 ? "end" : "middle");
+        const dy = (Math.sin(ang) > 0.35) ? "10" : (Math.sin(ang) < -0.35 ? "-6" : "4");
+
+        radarGrid.appendChild(svgEl("text", {
+          x: pl.x, y: pl.y,
+          "text-anchor": anchor,
+          "font-size": "11",
+          "font-weight": "800",
+          fill: "rgba(99,112,138,.95)"
+        })).textContent = radarCfg.labels[i];
+
+        // dot placeholders (real positions in render)
+        radarDots.appendChild(svgEl("circle", { cx: radarCfg.cx, cy: radarCfg.cy, r:"3.2", fill:"rgba(47,107,255,.65)" }));
+      }
+
+      // baseline polygon (0 => norm 0.5)
+      const baseNorm = new Array(n).fill(0.50);
+      radarBase.setAttribute("points", makePointsFromNorm(baseNorm));
+    }
+
+    function renderRadar(values){
+      const norm = valuesToNorm(values);
+      radarPoly.setAttribute("points", makePointsFromNorm(norm));
+
+      // dots
+      const n = values.length;
+      const circles = radarDots.querySelectorAll("circle");
+      for(let i=0;i<n;i++){
+        const ang = (-Math.PI/2) + (i * 2*Math.PI / n);
+        const p = polar(radarCfg.cx, radarCfg.cy, radarCfg.R * norm[i], ang);
+        circles[i].setAttribute("cx", p.x);
+        circles[i].setAttribute("cy", p.y);
+      }
+
+      // list values
+      values.forEach((v, i) => radarValueEls[i].textContent = fmtSigned(v));
+
+      // score: promedio (Δ NPS “proxy”)
+      const avg = values.reduce((a,b)=>a+b,0) / values.length;
+      radarScore.textContent = fmtSigned(avg);
+    }
+
+    function newRadarTarget(){
+      // cambios suaves (simula “desviaciones”)
+      radarTarget = radarCurrent.map(v => clamp(v + rndInt(-3,3), -radarCfg.maxDev, radarCfg.maxDev));
+
+      // si quieres que “resolución” pese más, puedes forzar un poco:
+      // radarTarget[2] = clamp(radarTarget[2] + rndInt(0,2), -radarCfg.maxDev, radarCfg.maxDev);
+    }
+
+    function animateRadarToTarget(durationMs=700){
+      const start = performance.now();
+      const from = radarCurrent.slice();
+      const to = radarTarget.slice();
+
+      function step(now){
+        const t = clamp((now - start) / durationMs, 0, 1);
+        // easing suave
+        const e = 1 - Math.pow(1 - t, 3);
+
+        const cur = from.map((v,i)=> v + (to[i]-v)*e);
+        renderRadar(cur);
+
+        if(t < 1){
+          requestAnimationFrame(step);
+        }else{
+          radarCurrent = to.slice();
+          renderRadar(radarCurrent);
+        }
+      }
+      requestAnimationFrame(step);
+    }
+
+    // ============================
+    // Tick loop
+    // ============================
+    function tick(){
+      updateKPIs();
+      updateBars();
+      updateSpark();
+
+      // Radar update
+      newRadarTarget();
+      if(prefersReduced){
+        radarCurrent = radarTarget.slice();
+        renderRadar(radarCurrent);
+      }else{
+        animateRadarToTarget(760);
+      }
+    }
+
+    // Init
+    buildRadarGrid();
+    renderRadar(radarCurrent);
+    tick();
+
+    if(!prefersReduced){
+      setInterval(tick, 1700);
+    }
+
+    // ============================
+    // FORM -> mailto (sin backend)
+    // ============================
+    function sendMail(e){
+      e.preventDefault();
+
+      const name = document.getElementById("f_name").value.trim();
+      const company = document.getElementById("f_company").value.trim();
+      const role = document.getElementById("f_role").value.trim();
+      const email = document.getElementById("f_email").value.trim();
+      const goal = document.getElementById("f_goal").value.trim();
+
+      const subject = "Demo CXDIP (20 min) — Solicitud";
+      const body =
+`Hola equipo CXDIP,
+
+Quisiera agendar una demo de 20 min.
+
+Nombre: ${name}
+Empresa: ${company}
+Cargo: ${role}
+Correo: ${email}
+
+Objetivo:
+${goal}
+
+Disponibilidad:
+- (indicar 2 horarios posibles)
+
+Saludos.`;
+
+      window.location.href = `mailto:equipocxdip@cxdip.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      return false;
+    }
+    window.sendMail = sendMail;
   </script>
+
 </body>
 </html>
