@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CXDIP — Boutique de Experiencias</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:   #0A0906;
+    --black2:  #131109;
+    --black3:  #1A1710;
+    --gold:    #C9A35A;
+    --gold-lt: #E2C88A;
+    --gold-dk: #8C6F35;
+    --cream:   #F5EFE0;
+    --muted:   #9A9080;
+    --border:  rgba(201,163,90,0.18);
+    --border2: rgba(201,163,90,0.08);
+    --font-serif: Georgia, 'Cambria', 'Book Antiqua', Palatino, serif;
+    --font-sans:  'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 3rem;
+    border-bottom: 1px solid var(--border2);
+    background: rgba(10,9,6,0.88);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links {
+    display: flex; align-items: center; gap: 2.2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    transition: color 0.25s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.55rem 1.4rem;
+    font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.25s, color 0.25s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--black); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 3rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 40%, rgba(201,163,90,0.07) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 40% at 20% 70%, rgba(201,163,90,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.6rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 2.5rem; height: 1px;
+    background: var(--gold);
+  }
+  .hero-headline {
+    font-family: var(--font-serif);
+    font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+    line-height: 1.12;
+    font-weight: 400;
+    max-width: 800px;
+    color: var(--cream);
+    margin-bottom: 1.8rem;
+  }
+  .hero-headline em {
+    font-style: italic; color: var(--gold-lt);
+  }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--muted); max-width: 520px;
+    margin-bottom: 3rem; line-height: 1.8;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 2rem; }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    padding: 0.85rem 2.2rem;
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    text-decoration: none; font-weight: 600;
+    transition: background 0.25s, opacity 0.25s;
+  }
+  .btn-primary:hover { background: var(--gold-lt); }
+  .btn-ghost {
+    color: var(--muted); font-size: 0.75rem; letter-spacing: 0.15em;
+    text-transform: uppercase; text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.25s;
+  }
+  .btn-ghost::after { content: '→'; }
+  .btn-ghost:hover { color: var(--cream); }
+  .hero-metrics {
+    position: absolute; right: 3rem; bottom: 4rem;
+    display: flex; gap: 3rem;
+  }
+  .hero-metric-item { text-align: right; }
+  .hero-metric-num {
+    font-family: var(--font-serif);
+    font-size: 2.4rem; color: var(--gold); display: block; line-height: 1;
+  }
+  .hero-metric-label {
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); display: block; margin-top: 0.3rem;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dk), transparent);
+    margin: 0 auto;
+  }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 6rem 3rem; }
+  .section-eyebrow {
+    font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-eyebrow::before {
+    content: ''; display: block; width: 1.8rem; height: 1px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 400; line-height: 1.2;
+    color: var(--cream); max-width: 680px;
+  }
+  .section-title em { font-style: italic; color: var(--gold-lt); }
+
+  /* ─── SERVICES GRID ─── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 4rem;
+  }
+  .service-card {
+    background: var(--black2);
+    padding: 2.4rem 2rem;
+    transition: background 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .service-card:hover { background: var(--black3); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-num {
+    font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold-dk);
+    margin-bottom: 1.4rem; display: block;
+  }
+  .service-title {
+    font-family: var(--font-serif);
+    font-size: 1.3rem; font-weight: 400;
+    color: var(--cream); margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+  .service-desc {
+    font-size: 0.88rem; color: var(--muted); line-height: 1.75;
+  }
+  .service-arrow {
+    display: inline-block; margin-top: 1.4rem;
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold-dk); transition: color 0.25s, transform 0.25s;
+  }
+  .service-card:hover .service-arrow { color: var(--gold); transform: translateX(4px); }
+
+  /* ─── HOW WE WORK ─── */
+  .how-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center; margin-top: 4rem;
+  }
+  .how-steps { display: flex; flex-direction: column; gap: 0; }
+  .how-step {
+    display: flex; gap: 1.5rem; padding: 1.8rem 0;
+    border-bottom: 1px solid var(--border2);
+    position: relative;
+  }
+  .how-step-num {
+    font-family: var(--font-serif);
+    font-size: 1.8rem; color: var(--gold-dk);
+    line-height: 1; min-width: 2.5rem; padding-top: 0.2rem;
+  }
+  .how-step-content h3 {
+    font-family: var(--font-serif); font-size: 1.05rem; font-weight: 400;
+    color: var(--cream); margin-bottom: 0.4rem;
+  }
+  .how-step-content p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+  .how-visual {
+    background: var(--black2);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    position: relative;
+  }
+  .panel-mockup { font-size: 0.82rem; }
+  .panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border2);
+    margin-bottom: 1.2rem;
+  }
+  .panel-logo { font-family: var(--font-serif); font-size: 0.9rem; color: var(--gold); letter-spacing: 0.1em; }
+  .panel-badge {
+    font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+    background: rgba(201,163,90,0.12); color: var(--gold);
+    padding: 0.25rem 0.7rem; border: 1px solid rgba(201,163,90,0.3);
+  }
+  .panel-kpi-row { display: flex; gap: 1rem; margin-bottom: 1.2rem; }
+  .panel-kpi {
+    flex: 1; background: var(--black3); padding: 0.8rem;
+    border-left: 2px solid var(--gold-dk);
+  }
+  .panel-kpi-val { font-family: var(--font-serif); font-size: 1.5rem; color: var(--gold-lt); display: block; line-height: 1.1; }
+  .panel-kpi-label { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-top: 0.2rem; }
+  .panel-bar-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.5rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .panel-bar-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
+  .panel-bar-name { font-size: 0.72rem; color: var(--muted); width: 5.5rem; }
+  .panel-bar-track { flex: 1; height: 4px; background: rgba(201,163,90,0.1); }
+  .panel-bar-fill { height: 100%; background: var(--gold-dk); }
+  .panel-bar-fill.hi { background: var(--gold); }
+  .panel-bar-val { font-size: 0.72rem; color: var(--gold); min-width: 2rem; text-align: right; }
+
+  /* ─── TEAM ─── */
+  .team-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2rem; margin-top: 4rem;
+  }
+  .team-card {
+    background: var(--black2);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    display: flex; flex-direction: column; gap: 1.5rem;
+    transition: border-color 0.3s;
+  }
+  .team-card:hover { border-color: var(--gold-dk); }
+  .team-card-top { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .team-avatar {
+    width: 64px; height: 64px;
+    border: 1px solid var(--border);
+    overflow: hidden; flex-shrink: 0;
+  }
+  .team-avatar img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); }
+  .team-name {
+    font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400;
+    color: var(--cream);
+  }
+  .team-role {
+    font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gold); margin-top: 0.2rem; display: block;
+  }
+  .team-bio { font-size: 0.88rem; color: var(--muted); line-height: 1.75; }
+  .team-philosophy {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 1rem; color: var(--gold-lt);
+    padding-left: 1rem; border-left: 2px solid var(--gold-dk);
+    line-height: 1.6;
+  }
+  .team-links { display: flex; gap: 1.2rem; }
+  .team-link {
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.1rem;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .team-link:hover { color: var(--gold); border-color: var(--gold-dk); }
+
+  /* ─── WHY ─── */
+  .why-section { background: var(--black2); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-top: 3.5rem; align-items: start; }
+  .why-col h3 {
+    font-family: var(--font-serif); font-size: 1rem; font-weight: 400;
+    color: var(--muted); margin-bottom: 1.4rem;
+    font-style: italic; letter-spacing: 0.04em;
+  }
+  .why-list { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
+  .why-list li {
+    font-size: 0.9rem; color: var(--muted);
+    padding-left: 1.4rem; position: relative; line-height: 1.65;
+  }
+  .why-list li::before { content: '×'; position: absolute; left: 0; color: #5A3A2A; font-size: 0.85rem; }
+  .why-list.pro li::before { content: '—'; color: var(--gold-dk); }
+  .why-quote {
+    margin-top: 3rem; padding: 2rem;
+    border: 1px solid var(--border);
+    background: var(--black);
+  }
+  .why-quote p {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 1.05rem; color: var(--cream); line-height: 1.7;
+    margin-bottom: 0.8rem;
+  }
+  .why-quote-attr { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    text-align: center; padding: 7rem 3rem;
+    position: relative; overflow: hidden;
+  }
+  .cta-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,163,90,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section .section-eyebrow { justify-content: center; }
+  .cta-section .section-title { margin: 0 auto 1.5rem; text-align: center; max-width: 600px; }
+  .cta-sub { font-size: 0.95rem; color: var(--muted); max-width: 440px; margin: 0 auto 2.8rem; }
+  .cta-actions { display: flex; align-items: center; justify-content: center; gap: 2rem; }
+  .cta-email { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.04em; }
+  .cta-email a { color: var(--gold-lt); text-decoration: none; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border2);
+    padding: 2.5rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.75rem; color: var(--muted);
+  }
+  .footer-logo { font-family: var(--font-serif); font-size: 1rem; color: var(--gold); letter-spacing: 0.1em; }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.68rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ─── ANIMATIONS ─── */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">CX<span>DIP</span></a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#como">Metodología</a></li>
+    <li><a href="#por-que">Por qué elegirnos</a></li>
+    <li><a href="#demo" class="nav-cta">Agenda una demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <p class="hero-eyebrow reveal">Boutique de Experiencia del Cliente</p>
+  <h1 class="hero-headline reveal">
+    Convertimos la voz<br>de tus clientes en<br><em>decisiones que rentabilizan.</em>
+  </h1>
+  <p class="hero-sub reveal">
+    Sistemas CX gestionables, paneles ejecutivos y acompañamiento real.
+    Diseñados para banca, retail y servicios masivos que exigen más que un software.
+  </p>
+  <div class="hero-actions reveal">
+    <a href="#demo" class="btn-primary">Agenda una demo — 20 min</a>
+    <a href="#servicios" class="btn-ghost">Ver soluciones</a>
+  </div>
+  <div class="hero-metrics reveal">
+    <div class="hero-metric-item">
+      <span class="hero-metric-num">3.600+</span>
+      <span class="hero-metric-label">Respuestas anuales</span>
+    </div>
+    <div class="hero-metric-item">
+      <span class="hero-metric-num">30s</span>
+      <span class="hero-metric-label">Para decidir</span>
+    </div>
+    <div class="hero-metric-item">
+      <span class="hero-metric-num">10</span>
+      <span class="hero-metric-label">Años de experiencia</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="servicios">
+  <p class="section-eyebrow reveal">Ecosistema CX</p>
+  <h2 class="section-title reveal">Variedad en soluciones,<br><em>un solo ecosistema.</em></h2>
+  <div class="services-grid reveal">
+
+    <div class="service-card">
+      <span class="service-num">01</span>
+      <h3 class="service-title">DIP Loyalty</h3>
+      <p class="service-desc">Estudios relacionales con foco en retención. Identifica detractores, pasivos y promotores para gestionar la fuga antes de que ocurra.</p>
+      <span class="service-arrow">Detalle →</span>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">02</span>
+      <h3 class="service-title">Loyalty 360°</h3>
+      <p class="service-desc">Vista gerencial completa: NPS global, churn por país y canal, clientes en riesgo alto y seguimiento por ejecutivo. Todo en un panel.</p>
+      <span class="service-arrow">Detalle →</span>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">03</span>
+      <h3 class="service-title">Panel XM: OPs & Sales</h3>
+      <p class="service-desc">Gestión XM 360°. Valoriza el riesgo a tiempo, gestiona productividad de fuerza de venta y cierra el loop a todo nivel.</p>
+      <span class="service-arrow">Detalle →</span>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">04</span>
+      <h3 class="service-title">Estudios Relacionales</h3>
+      <p class="service-desc">Customer Journey Map, momentos de verdad y brechas de servicio. Entendemos el recorrido completo del cliente en tu industria.</p>
+      <span class="service-arrow">Detalle →</span>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">05</span>
+      <h3 class="service-title">Segmentos & Clusters</h3>
+      <p class="service-desc">Clusterización estratégica: leales core, en riesgo, alto potencial y dormidos a reactivar. Insights accionables para cada segmento.</p>
+      <span class="service-arrow">Detalle →</span>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">06</span>
+      <h3 class="service-title">Capacitaciones</h3>
+      <p class="service-desc">Programas modulares para frontline, líderes y comité ejecutivo. Toda la organización alineada al rol que cumple en la experiencia.</p>
+      <span class="service-arrow">Detalle →</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW WE WORK -->
+<section id="como" style="background: var(--black2); border-top: 1px solid var(--border2);">
+  <p class="section-eyebrow reveal">Metodología</p>
+  <h2 class="section-title reveal">Un sistema paquetizado<br><em>listo para comité.</em></h2>
+  <div class="how-grid reveal">
+    <div class="how-steps">
+      <div class="how-step">
+        <span class="how-step-num">01</span>
+        <div class="how-step-content">
+          <h3>Estatus & Diseño</h3>
+          <p>Cuestionario optimizado, escala clara y maquetado con tu marca. Definición de segmentos y variables clave del negocio.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <span class="how-step-num">02</span>
+        <div class="how-step-content">
+          <h3>Panel Web & Mobile</h3>
+          <p>Desde 3.600 respuestas anuales. Vistas simples y gestionables a través de drivers clave, accesibles desde cualquier dispositivo.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <span class="how-step-num">03</span>
+        <div class="how-step-content">
+          <h3>Informes Ejecutivos</h3>
+          <p>Acompañamiento durante todo el proceso. Construimos juntos la mejor experiencia y traducimos el NPS en 2–3 decisiones clave por período.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="how-visual">
+      <div class="panel-mockup">
+        <div class="panel-header">
+          <span class="panel-logo">CXDIP · Loyalty 360°</span>
+          <span class="panel-badge">Ejemplo de vista</span>
+        </div>
+        <div class="panel-kpi-row">
+          <div class="panel-kpi">
+            <span class="panel-kpi-val">+54</span>
+            <span class="panel-kpi-label">CSat Total</span>
+          </div>
+          <div class="panel-kpi">
+            <span class="panel-kpi-val">7</span>
+            <span class="panel-kpi-label">Locales en rojo</span>
+          </div>
+          <div class="panel-kpi">
+            <span class="panel-kpi-val">92%</span>
+            <span class="panel-kpi-label">Meta Ventas</span>
+          </div>
+        </div>
+        <p class="panel-bar-label">Ranking sucursales</p>
+        <div class="panel-bar-row">
+          <span class="panel-bar-name">Ñuñoa Centro</span>
+          <div class="panel-bar-track"><div class="panel-bar-fill hi" style="width:88%"></div></div>
+          <span class="panel-bar-val">88</span>
+        </div>
+        <div class="panel-bar-row">
+          <span class="panel-bar-name">Providencia</span>
+          <div class="panel-bar-track"><div class="panel-bar-fill hi" style="width:74%"></div></div>
+          <span class="panel-bar-val">74</span>
+        </div>
+        <div class="panel-bar-row">
+          <span class="panel-bar-name">Las Condes</span>
+          <div class="panel-bar-track"><div class="panel-bar-fill" style="width:61%"></div></div>
+          <span class="panel-bar-val">61</span>
+        </div>
+        <div class="panel-bar-row">
+          <span class="panel-bar-name">Maipú</span>
+          <div class="panel-bar-track"><div class="panel-bar-fill" style="width:47%"></div></div>
+          <span class="panel-bar-val">47</span>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.68rem; color: var(--gold-dk); letter-spacing: 0.08em; text-transform: uppercase;">Foco: Sucursales críticas · Plan 30 días</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="equipo">
+  <p class="section-eyebrow reveal">Equipo Directivo</p>
+  <h2 class="section-title reveal">Autoridad en experiencia<br><em>y analítica.</em></h2>
+  <div class="team-grid reveal">
+
+    <div class="team-card">
+      <div class="team-card-top">
+        <div class="team-avatar">
+          <img src="https://www.cxdip.com/Images/director_ariel.png" alt="Ariel Salazar V." onerror="this.style.display='none'">
+        </div>
+        <div>
+          <h3 class="team-name">Ariel Salazar V.</h3>
+          <span class="team-role">Director Estratégico</span>
+        </div>
+      </div>
+      <p class="team-bio">Ingeniero civil industrial, consultor y escritor. Con 10 años de experiencia en Banca, Retail, Última milla y Farmacias. Ha movilizado el NPS en más de 6 puntos en una compañía con 440 locales a nivel nacional.</p>
+      <p class="team-philosophy">"Simplificar, priorizar y accionar."</p>
+      <div class="team-links">
+        <a href="https://www.linkedin.com/in/ariel-salazar-valenzuela/" class="team-link" target="_blank">LinkedIn</a>
+        <a href="#demo" class="team-link">Agendar reunión</a>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-card-top">
+        <div class="team-avatar">
+          <img src="https://www.cxdip.com/Images/director_john.png" alt="John Baeza M." onerror="this.style.display='none'">
+        </div>
+        <div>
+          <h3 class="team-name">John Baeza M.</h3>
+          <span class="team-role">Director Analytics</span>
+        </div>
+      </div>
+      <p class="team-bio">Ingeniero control de gestión y consultor, con más de 25 años de experiencia en Banca & Retail en Chile. Ha liderado equipos con estándares que gestionaron una red de 5.000+ colaboradores y 80 sucursales.</p>
+      <p class="team-philosophy">"Medir para mejorar."</p>
+      <div class="team-links">
+        <a href="https://www.linkedin.com/in/john-baeza-02093539/" class="team-link" target="_blank">LinkedIn</a>
+        <a href="#demo" class="team-link">Agendar reunión</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why-section" id="por-que">
+  <p class="section-eyebrow reveal">Por qué elegirnos</p>
+  <h2 class="section-title reveal">Plataforma al servicio<br><em>de las decisiones.</em></h2>
+  <div class="why-grid reveal">
+    <div class="why-col">
+      <h3>Lo que evitamos</h3>
+      <ul class="why-list">
+        <li>Licencias complejas que requieren "súper usuarios" para operar.</li>
+        <li>Dashboards que nadie abre en comité porque son densos o poco claros.</li>
+        <li>Informes que describen el dato, pero no priorizan acciones.</li>
+      </ul>
+    </div>
+    <div class="why-col">
+      <h3>Lo que hacemos distinto</h3>
+      <ul class="why-list pro">
+        <li>Diseñamos la medición contigo, en el lenguaje de tu negocio.</li>
+        <li>Panel único, limpio y pensado para comités de dirección.</li>
+        <li>Acompañamiento para traducir NPS y drivers en 2–3 decisiones clave por período.</li>
+      </ul>
+      <div class="why-quote">
+        <p>"No vendemos software y luego desaparecemos. CXDIP Loyalty combina medición, panel y lectura ejecutiva en un solo servicio."</p>
+        <span class="why-quote-attr">CXDIP · Socio, no solo herramienta</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="demo">
+  <div class="cta-bg"></div>
+  <p class="section-eyebrow reveal">Siguiente paso</p>
+  <h2 class="section-title reveal">¿Te imaginas ver todo<br><em>en un solo panel?</em></h2>
+  <p class="cta-sub reveal">Agenda una demo de 20 minutos y revisamos la vista que necesitas. Sin compromiso. Con tus preguntas sobre la mesa.</p>
+  <div class="cta-actions reveal">
+    <a href="mailto:ariel.salazar@cxdip.com" class="btn-primary">Agenda una demo</a>
+  </div>
+  <p class="cta-email" style="margin-top: 1.5rem;">O escríbeme directamente a <a href="mailto:ariel.salazar@cxdip.com">ariel.salazar@cxdip.com</a></p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">CXDIP</span>
+  <div class="footer-links">
+    <a href="#inicio">Inicio</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#equipo">Equipo</a>
+    <a href="#como">Metodología</a>
+    <a href="#por-que">Por qué elegirnos</a>
+  </div>
+  <span>© 2025 CXDIP · Paneles para CX, sucursales y ventas</span>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
