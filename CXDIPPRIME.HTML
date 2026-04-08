@@ -3,587 +3,274 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CXDIP — Boutique de Experiencias</title>
+<title>CXDIP — Consultora CX Boutique | Paneles NPS, Loyalty y Gestión de Experiencia Chile</title>
+<meta name="description" content="Convertimos la voz de tus clientes en decisiones que rentabilizan. Paneles NPS, Loyalty 360° y acompañamiento ejecutivo para banca, retail y servicios en Chile.">
+<meta name="keywords" content="consultora CX Chile, panel NPS, loyalty management, customer experience banca, retail CX, CXDIP">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --black:   #0A0906;
-    --black2:  #131109;
-    --black3:  #1A1710;
-    --gold:    #C9A35A;
-    --gold-lt: #E2C88A;
-    --gold-dk: #8C6F35;
-    --cream:   #F5EFE0;
-    --muted:   #9A9080;
-    --border:  rgba(201,163,90,0.18);
-    --border2: rgba(201,163,90,0.08);
-    --font-serif: Georgia, 'Cambria', 'Book Antiqua', Palatino, serif;
-    --font-sans:  'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --black:   #0A0906; --black2: #131109; --black3: #1A1710;
+    --gold: #C9A35A; --gold-lt: #E2C88A; --gold-dk: #8C6F35;
+    --cream: #F5EFE0; --muted: #9A9080;
+    --border: rgba(201,163,90,0.18); --border2: rgba(201,163,90,0.08);
+    --green: #2E7D52; --green-lt: #4AE68A;
+    --font-serif: Georgia,'Cambria','Book Antiqua',Palatino,serif;
+    --font-sans: 'Helvetica Neue',Helvetica,Arial,sans-serif;
     --px: 1.25rem;
   }
+  @media(min-width:768px){ :root{ --px:2.5rem; } }
+  @media(min-width:1100px){ :root{ --px:3rem; } }
+  html { scroll-behavior:smooth; }
+  body { background:var(--black); color:var(--cream); font-family:var(--font-sans); font-size:16px; line-height:1.7; overflow-x:hidden; }
 
-  @media (min-width: 768px)  { :root { --px: 2.5rem; } }
-  @media (min-width: 1100px) { :root { --px: 3rem; } }
-
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--black);
-    color: var(--cream);
-    font-family: var(--font-sans);
-    font-size: 16px;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* ══════════════════════════════════
-     NAV
-  ══════════════════════════════════ */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.1rem var(--px);
-    border-bottom: 1px solid var(--border2);
-    background: rgba(10,9,6,0.92);
-    backdrop-filter: blur(14px);
-  }
-  .nav-logo {
-    font-family: var(--font-serif);
-    font-size: 1.4rem; letter-spacing: 0.12em;
-    color: var(--cream); text-decoration: none;
-    z-index: 201;
-  }
-  .nav-logo span { color: var(--gold); }
-
-  /* Hamburger */
-  .nav-burger {
-    display: flex; flex-direction: column; justify-content: center;
-    gap: 5px; width: 28px; height: 28px;
-    background: none; border: none; cursor: pointer; z-index: 201;
-    padding: 0;
-  }
-  .nav-burger span {
-    display: block; height: 1.5px; width: 100%;
-    background: var(--cream); border-radius: 2px;
-    transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
-    transform-origin: center;
-  }
-  .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-  .nav-burger.open span:nth-child(2) { opacity: 0; width: 0; }
-  .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-  /* Mobile menu overlay */
-  .nav-mobile {
-    position: fixed; inset: 0; z-index: 190;
-    background: rgba(10,9,6,0.97);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 2rem;
-    transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
-  }
-  .nav-mobile.open { transform: translateX(0); }
-  .nav-mobile a {
-    font-size: 1.3rem; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none; transition: color 0.25s;
-    font-family: var(--font-serif); font-style: italic;
-  }
-  .nav-mobile a:hover { color: var(--gold); }
-  .nav-mobile .nav-cta-m {
-    margin-top: 1rem;
-    border: 1px solid var(--gold); color: var(--gold);
-    padding: 0.7rem 2rem; font-size: 0.8rem;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    font-style: normal; font-family: var(--font-sans);
+  /* ── NAV ── */
+  nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; align-items:center; justify-content:space-between; padding:1.1rem var(--px); border-bottom:1px solid var(--border2); background:rgba(10,9,6,0.92); backdrop-filter:blur(14px); }
+  .nav-logo { font-family:var(--font-serif); font-size:1.4rem; letter-spacing:0.12em; color:var(--cream); text-decoration:none; z-index:201; }
+  .nav-logo span { color:var(--gold); }
+  .nav-burger { display:flex; flex-direction:column; justify-content:center; gap:5px; width:28px; height:28px; background:none; border:none; cursor:pointer; z-index:201; padding:0; }
+  .nav-burger span { display:block; height:1.5px; width:100%; background:var(--cream); border-radius:2px; transition:transform .3s ease,opacity .3s ease,width .3s ease; transform-origin:center; }
+  .nav-burger.open span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2){ opacity:0; width:0; }
+  .nav-burger.open span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
+  .nav-mobile { position:fixed; inset:0; z-index:190; background:rgba(10,9,6,0.97); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; transform:translateX(100%); transition:transform .4s cubic-bezier(.4,0,.2,1); }
+  .nav-mobile.open { transform:translateX(0); }
+  .nav-mobile a { font-size:1.3rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .25s; font-family:var(--font-serif); font-style:italic; }
+  .nav-mobile a:hover { color:var(--gold); }
+  .nav-mobile .nav-cta-m { margin-top:1rem; border:1px solid var(--gold); color:var(--gold); padding:.7rem 2rem; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; font-style:normal; font-family:var(--font-sans); }
+  .nav-links { display:none; }
+  @media(min-width:900px){
+    .nav-links { display:flex; align-items:center; gap:2rem; list-style:none; }
+    .nav-links a { font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .25s; }
+    .nav-links a:hover { color:var(--gold); }
+    .nav-cta { background:transparent; border:1px solid var(--gold); color:var(--gold); padding:.5rem 1.2rem; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; cursor:pointer; text-decoration:none; transition:background .25s,color .25s; }
+    .nav-cta:hover { background:var(--gold); color:var(--black); }
+    .nav-burger { display:none; }
+    .nav-mobile { display:none !important; }
   }
 
-  /* Desktop links — ocultos en mobile */
-  .nav-links { display: none; }
-  @media (min-width: 900px) {
-    .nav-links {
-      display: flex; align-items: center; gap: 2rem; list-style: none;
-    }
-    .nav-links a {
-      font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--muted); text-decoration: none; transition: color 0.25s;
-    }
-    .nav-links a:hover { color: var(--gold); }
-    .nav-cta {
-      background: transparent; border: 1px solid var(--gold);
-      color: var(--gold); padding: 0.5rem 1.2rem;
-      font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
-      cursor: pointer; text-decoration: none;
-      transition: background 0.25s, color 0.25s;
-    }
-    .nav-cta:hover { background: var(--gold); color: var(--black); }
-    .nav-burger { display: none; }
-    .nav-mobile { display: none !important; }
-  }
+  /* ── HERO ── */
+  .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:7rem var(--px) 4rem; position:relative; overflow:hidden; }
+  .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 70% 50% at 85% 30%,rgba(201,163,90,.07) 0%,transparent 65%),radial-gradient(ellipse 50% 40% at 15% 75%,rgba(201,163,90,.04) 0%,transparent 60%); pointer-events:none; }
+  .hero-particle { position:absolute; border-radius:50%; background:var(--gold); opacity:.06; animation:particleDrift linear infinite; pointer-events:none; }
+  @keyframes particleDrift { 0%{transform:translateY(0) translateX(0);opacity:0} 10%{opacity:.06} 90%{opacity:.06} 100%{transform:translateY(-120px) translateX(20px);opacity:0} }
+  .hero-eyebrow { font-size:.65rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin-bottom:1.4rem; display:flex; align-items:center; gap:.8rem; }
+  .hero-eyebrow::before { content:''; display:block; width:2rem; height:1px; background:var(--gold); animation:lineGrow 1s ease forwards; transform-origin:left; transform:scaleX(0); }
+  @keyframes lineGrow { to{transform:scaleX(1)} }
+  .hero-headline { font-family:var(--font-serif); font-size:clamp(2.2rem,7vw,5.2rem); line-height:1.1; font-weight:400; color:var(--cream); margin-bottom:1.4rem; max-width:820px; }
+  .hero-headline em { font-style:italic; color:var(--gold-lt); }
+  .hero-sub { font-size:clamp(.92rem,2vw,1.05rem); color:var(--muted); max-width:500px; margin-bottom:2.5rem; line-height:1.8; }
+  .hero-actions { display:flex; align-items:center; gap:1.4rem; flex-wrap:wrap; }
+  .btn-primary { background:var(--gold); color:var(--black); padding:.9rem 1.8rem; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; font-weight:700; transition:background .25s,transform .2s; position:relative; overflow:hidden; white-space:nowrap; cursor:pointer; border:none; }
+  .btn-primary::after { content:''; position:absolute; top:0; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent); animation:btnShimmer 3.5s ease infinite; }
+  @keyframes btnShimmer { 0%,60%{left:-100%} 100%{left:160%} }
+  .btn-primary:hover { background:var(--gold-lt); transform:translateY(-1px); }
+  .btn-ghost { color:var(--muted); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; display:flex; align-items:center; gap:.4rem; transition:color .25s; }
+  .btn-ghost::after { content:'→'; transition:transform .25s; }
+  .btn-ghost:hover { color:var(--cream); }
+  .btn-ghost:hover::after { transform:translateX(4px); }
+  .hero-metrics { display:flex; flex-wrap:wrap; gap:1.5rem 2.5rem; margin-top:3rem; }
+  @media(min-width:900px){ .hero-metrics { position:absolute; right:var(--px); bottom:4rem; flex-direction:row; gap:2.5rem; margin-top:0; } .hero-metric-item{text-align:right;} }
+  .hero-metric-num { font-family:var(--font-serif); font-size:clamp(1.8rem,5vw,2.4rem); color:var(--gold); display:block; line-height:1; }
+  .hero-metric-label { font-size:.65rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); display:block; margin-top:.25rem; }
 
-  /* ══════════════════════════════════
-     HERO
-  ══════════════════════════════════ */
-  .hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 7rem var(--px) 4rem;
-    position: relative; overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 70% 50% at 85% 30%, rgba(201,163,90,0.07) 0%, transparent 65%),
-      radial-gradient(ellipse 50% 40% at 15% 75%, rgba(201,163,90,0.04) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .hero-particle {
-    position: absolute; border-radius: 50%;
-    background: var(--gold); opacity: 0.06;
-    animation: particleDrift linear infinite;
-    pointer-events: none;
-  }
-  @keyframes particleDrift {
-    0%   { transform: translateY(0) translateX(0); opacity: 0; }
-    10%  { opacity: 0.06; }
-    90%  { opacity: 0.06; }
-    100% { transform: translateY(-120px) translateX(20px); opacity: 0; }
-  }
-  .hero-eyebrow {
-    font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 1.4rem;
-    display: flex; align-items: center; gap: 0.8rem;
-  }
-  .hero-eyebrow::before {
-    content: ''; display: block; width: 2rem; height: 1px;
-    background: var(--gold); animation: lineGrow 1s ease forwards;
-    transform-origin: left; transform: scaleX(0);
-  }
-  @keyframes lineGrow { to { transform: scaleX(1); } }
-  .hero-headline {
-    font-family: var(--font-serif);
-    font-size: clamp(2.2rem, 7vw, 5.2rem);
-    line-height: 1.1; font-weight: 400;
-    color: var(--cream); margin-bottom: 1.4rem;
-    max-width: 820px;
-  }
-  .hero-headline em { font-style: italic; color: var(--gold-lt); }
-  .hero-sub {
-    font-size: clamp(0.92rem, 2vw, 1.05rem);
-    color: var(--muted); max-width: 500px;
-    margin-bottom: 2.5rem; line-height: 1.8;
-  }
-  .hero-actions {
-    display: flex; align-items: center;
-    gap: 1.4rem; flex-wrap: wrap;
-  }
-  .btn-primary {
-    background: var(--gold); color: var(--black);
-    padding: 0.9rem 1.8rem;
-    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
-    text-decoration: none; font-weight: 700;
-    transition: background 0.25s, transform 0.2s;
-    position: relative; overflow: hidden;
-    white-space: nowrap;
-  }
-  .btn-primary::after {
-    content: '';
-    position: absolute; top: 0; left: -100%;
-    width: 60%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-    animation: btnShimmer 3.5s ease infinite;
-  }
-  @keyframes btnShimmer { 0%,60% { left: -100%; } 100% { left: 160%; } }
-  .btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
-  .btn-ghost {
-    color: var(--muted); font-size: 0.72rem; letter-spacing: 0.14em;
-    text-transform: uppercase; text-decoration: none;
-    display: flex; align-items: center; gap: 0.4rem; transition: color 0.25s;
-  }
-  .btn-ghost::after { content: '→'; transition: transform 0.25s; }
-  .btn-ghost:hover { color: var(--cream); }
-  .btn-ghost:hover::after { transform: translateX(4px); }
+  /* ── INDUSTRY STRIP ── */
+  .industry-strip { background:var(--black2); border-top:1px solid var(--border2); border-bottom:1px solid var(--border2); padding:1.4rem var(--px); overflow:hidden; }
+  .industry-inner { display:flex; align-items:center; gap:0; white-space:nowrap; animation:stripScroll 22s linear infinite; width:max-content; }
+  @media(min-width:768px){ .industry-inner { animation:none; flex-wrap:wrap; width:auto; gap:0; justify-content:center; } }
+  @keyframes stripScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+  .ind-item { display:inline-flex; align-items:center; gap:.7rem; padding:.3rem 1.8rem; border-right:1px solid var(--border2); flex-shrink:0; }
+  .ind-dot { width:5px; height:5px; border-radius:50%; background:var(--gold-dk); flex-shrink:0; }
+  .ind-label { font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
 
-  /* Métricas — inline en mobile, absoluto en desktop */
-  .hero-metrics {
-    display: flex; flex-wrap: wrap;
-    gap: 1.5rem 2.5rem;
-    margin-top: 3rem;
-  }
-  @media (min-width: 900px) {
-    .hero-metrics {
-      position: absolute; right: var(--px); bottom: 4rem;
-      flex-direction: row; gap: 2.5rem; margin-top: 0;
-    }
-    .hero-metric-item { text-align: right; }
-  }
-  .hero-metric-num {
-    font-family: var(--font-serif);
-    font-size: clamp(1.8rem, 5vw, 2.4rem);
-    color: var(--gold); display: block; line-height: 1;
-  }
-  .hero-metric-label {
-    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--muted); display: block; margin-top: 0.25rem;
-  }
+  /* ── DIVIDER ANIMADO ── */
+  .divider-wrap { width:100%; height:1px; background:rgba(201,163,90,.06); position:relative; overflow:hidden; }
+  .divider-line { position:absolute; top:0; left:0; width:0%; height:100%; background:linear-gradient(90deg,transparent,var(--gold),var(--gold-dk),transparent); transition:width 1.6s cubic-bezier(.4,0,.2,1); }
+  .divider-line.drawn { width:100%; }
 
-  /* ══════════════════════════════════
-     DIVIDER ANIMADO
-  ══════════════════════════════════ */
-  .divider-wrap {
-    width: 100%; height: 1px;
-    background: rgba(201,163,90,0.06);
-    position: relative; overflow: hidden;
-  }
-  .divider-line {
-    position: absolute; top: 0; left: 0;
-    width: 0%; height: 100%;
-    background: linear-gradient(90deg, transparent, var(--gold), var(--gold-dk), transparent);
-    transition: width 1.6s cubic-bezier(0.4,0,0.2,1);
-  }
-  .divider-line.drawn { width: 100%; }
+  /* ── SECCIONES ── */
+  section { padding:4rem var(--px); }
+  @media(min-width:768px){ section { padding:6rem var(--px); } }
+  .section-eyebrow { font-size:.65rem; letter-spacing:.26em; text-transform:uppercase; color:var(--gold); margin-bottom:.9rem; display:flex; align-items:center; gap:.7rem; }
+  .section-eyebrow::before { content:''; display:block; width:1.5rem; height:1px; background:var(--gold); }
+  .section-title { font-family:var(--font-serif); font-size:clamp(1.7rem,4vw,3rem); font-weight:400; line-height:1.2; color:var(--cream); }
+  .section-title em { font-style:italic; color:var(--gold-lt); }
 
-  /* ══════════════════════════════════
-     SECCIONES BASE
-  ══════════════════════════════════ */
-  section { padding: 4rem var(--px); }
-  @media (min-width: 768px) { section { padding: 6rem var(--px); } }
+  /* ── SERVICES ── */
+  .services-grid { display:grid; grid-template-columns:1fr; gap:1px; background:var(--border); border:1px solid var(--border); margin-top:2.5rem; }
+  @media(min-width:600px){ .services-grid { grid-template-columns:1fr 1fr; } }
+  @media(min-width:1000px){ .services-grid { grid-template-columns:repeat(3,1fr); } }
+  .service-card { background:var(--black2); padding:2rem 1.6rem; transition:background .3s; position:relative; overflow:hidden; }
+  .service-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform .4s ease; }
+  .service-card:hover { background:var(--black3); }
+  .service-card:hover::before { transform:scaleX(1); }
+  .service-num { font-size:.62rem; letter-spacing:.2em; color:var(--gold-dk); margin-bottom:1.2rem; display:block; }
+  .service-title { font-family:var(--font-serif); font-size:1.2rem; font-weight:400; color:var(--cream); margin-bottom:.7rem; line-height:1.3; }
+  .service-desc { font-size:.86rem; color:var(--muted); line-height:1.75; }
+  .service-arrow { display:inline-block; margin-top:1.2rem; font-size:.68rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold-dk); transition:color .25s,transform .25s; }
+  .service-card:hover .service-arrow { color:var(--gold); transform:translateX(4px); }
 
-  .section-eyebrow {
-    font-size: 0.65rem; letter-spacing: 0.26em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 0.9rem;
-    display: flex; align-items: center; gap: 0.7rem;
-  }
-  .section-eyebrow::before {
-    content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold);
-  }
-  .section-title {
-    font-family: var(--font-serif);
-    font-size: clamp(1.7rem, 4vw, 3rem);
-    font-weight: 400; line-height: 1.2;
-    color: var(--cream);
-  }
-  .section-title em { font-style: italic; color: var(--gold-lt); }
+  /* ── HOW / PANEL ── */
+  .how-grid { display:grid; grid-template-columns:1fr; gap:3rem; margin-top:3rem; }
+  @media(min-width:900px){ .how-grid { grid-template-columns:1fr 1fr; gap:4rem; align-items:start; } }
+  .how-step { display:flex; gap:1.2rem; padding:1.5rem 0; border-bottom:1px solid var(--border2); }
+  .how-step-num { font-family:var(--font-serif); font-size:1.6rem; color:var(--gold-dk); line-height:1; min-width:2.2rem; padding-top:.2rem; }
+  .how-step-content h3 { font-family:var(--font-serif); font-size:1rem; font-weight:400; color:var(--cream); margin-bottom:.35rem; }
+  .how-step-content p { font-size:.86rem; color:var(--muted); line-height:1.7; }
+  .how-visual { background:var(--black2); border:1px solid var(--border); padding:1.6rem; }
+  .panel-cursor { display:inline-block; width:6px; height:13px; background:var(--gold); margin-left:4px; vertical-align:middle; animation:blink 1.1s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .panel-mockup { font-size:.8rem; }
+  .panel-header { display:flex; align-items:center; justify-content:space-between; padding-bottom:.9rem; border-bottom:1px solid var(--border2); margin-bottom:1rem; flex-wrap:wrap; gap:.5rem; }
+  .panel-logo { font-family:var(--font-serif); font-size:.85rem; color:var(--gold); letter-spacing:.08em; }
+  .panel-badge { font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; background:rgba(201,163,90,.12); color:var(--gold); padding:.22rem .6rem; border:1px solid rgba(201,163,90,.3); display:flex; align-items:center; gap:5px; }
+  .live-dot { width:6px; height:6px; border-radius:50%; background:#4AE68A; animation:livePulse 2s ease infinite; display:inline-block; flex-shrink:0; }
+  @keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+  .panel-kpi-row { display:flex; gap:.7rem; margin-bottom:1rem; }
+  .panel-kpi { flex:1; background:var(--black3); padding:.7rem .6rem; border-left:2px solid var(--gold-dk); min-width:0; }
+  .panel-kpi-val { font-family:var(--font-serif); font-size:1.3rem; color:var(--gold-lt); display:block; line-height:1.1; }
+  .panel-kpi-label { font-size:.56rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); display:block; margin-top:.15rem; white-space:nowrap; }
+  .panel-bar-label { font-size:.65rem; color:var(--muted); margin-bottom:.45rem; letter-spacing:.06em; text-transform:uppercase; }
+  .panel-bar-row { display:flex; align-items:center; gap:.6rem; margin-bottom:.45rem; }
+  .panel-bar-name { font-size:.68rem; color:var(--muted); width:5rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .panel-bar-track { flex:1; height:4px; background:rgba(201,163,90,.1); }
+  .panel-bar-fill { height:100%; width:0%; background:var(--gold-dk); transition:width 1.2s cubic-bezier(.4,0,.2,1); }
+  .panel-bar-fill.hi { background:var(--gold); }
+  .panel-bar-val { font-size:.68rem; color:var(--gold); min-width:1.8rem; text-align:right; opacity:0; transition:opacity .4s ease 1s; }
+  .panel-bar-val.visible { opacity:1; }
+  .panel-footer-note { margin-top:.9rem; font-size:.62rem; color:var(--gold-dk); letter-spacing:.07em; text-transform:uppercase; }
 
-  /* ══════════════════════════════════
-     SERVICES GRID
-  ══════════════════════════════════ */
-  .services-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1px; background: var(--border);
-    border: 1px solid var(--border); margin-top: 2.5rem;
-  }
-  @media (min-width: 600px) {
-    .services-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (min-width: 1000px) {
-    .services-grid { grid-template-columns: repeat(3, 1fr); }
-  }
-  .service-card {
-    background: var(--black2); padding: 2rem 1.6rem;
-    transition: background 0.3s;
-    position: relative; overflow: hidden;
-  }
-  .service-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: var(--gold);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 0.4s ease;
-  }
-  .service-card:hover { background: var(--black3); }
-  .service-card:hover::before { transform: scaleX(1); }
-  .service-num {
-    font-size: 0.62rem; letter-spacing: 0.2em; color: var(--gold-dk);
-    margin-bottom: 1.2rem; display: block;
-  }
-  .service-title {
-    font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400;
-    color: var(--cream); margin-bottom: 0.7rem; line-height: 1.3;
-  }
-  .service-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.75; }
-  .service-arrow {
-    display: inline-block; margin-top: 1.2rem;
-    font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--gold-dk); transition: color 0.25s, transform 0.25s;
-  }
-  .service-card:hover .service-arrow { color: var(--gold); transform: translateX(4px); }
+  /* ── TEAM ── */
+  .team-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; margin-top:2.5rem; }
+  @media(min-width:768px){ .team-grid { grid-template-columns:1fr 1fr; gap:2rem; } }
+  .team-card { background:var(--black2); border:1px solid var(--border); padding:2rem; display:flex; flex-direction:column; gap:1.3rem; transition:border-color .3s; }
+  .team-card:hover { border-color:var(--gold-dk); }
+  .team-card-top { display:flex; gap:1rem; align-items:flex-start; }
+  .team-avatar { width:64px; height:64px; border:1px solid var(--border); overflow:hidden; flex-shrink:0; }
+  .team-avatar img { width:100%; height:100%; object-fit:cover; filter:grayscale(15%); }
+  .team-name { font-family:var(--font-serif); font-size:1.15rem; font-weight:400; color:var(--cream); }
+  .team-role { font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin-top:.2rem; display:block; }
+  .team-bio { font-size:.86rem; color:var(--muted); line-height:1.75; }
+  .team-stats { display:flex; flex-wrap:wrap; gap:.6rem; }
+  .team-stat { background:var(--black3); border:1px solid var(--border2); padding:.4rem .8rem; font-size:.72rem; color:var(--gold-lt); border-left:2px solid var(--gold-dk); }
+  .team-philosophy { font-family:var(--font-serif); font-style:italic; font-size:.95rem; color:var(--gold-lt); padding-left:1rem; border-left:2px solid var(--gold-dk); line-height:1.6; }
+  .team-links { display:flex; gap:1.2rem; }
+  .team-link { font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; border-bottom:1px solid var(--border); padding-bottom:.1rem; transition:color .2s,border-color .2s; }
+  .team-link:hover { color:var(--gold); border-color:var(--gold-dk); }
 
-  /* ══════════════════════════════════
-     HOW WE WORK
-  ══════════════════════════════════ */
-  .how-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem; margin-top: 3rem;
-  }
-  @media (min-width: 900px) {
-    .how-grid { grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-  }
-  .how-step {
-    display: flex; gap: 1.2rem; padding: 1.5rem 0;
-    border-bottom: 1px solid var(--border2);
-  }
-  .how-step-num {
-    font-family: var(--font-serif); font-size: 1.6rem; color: var(--gold-dk);
-    line-height: 1; min-width: 2.2rem; padding-top: 0.2rem;
-  }
-  .how-step-content h3 {
-    font-family: var(--font-serif); font-size: 1rem; font-weight: 400;
-    color: var(--cream); margin-bottom: 0.35rem;
-  }
-  .how-step-content p { font-size: 0.86rem; color: var(--muted); line-height: 1.7; }
+  /* ── WHY ── */
+  .why-section { background:var(--black2); border-top:1px solid var(--border2); border-bottom:1px solid var(--border2); }
+  .why-grid { display:grid; grid-template-columns:1fr; gap:3rem; margin-top:3rem; }
+  @media(min-width:768px){ .why-grid { grid-template-columns:1fr 1fr; gap:4rem; } }
+  .why-col h3 { font-family:var(--font-serif); font-size:1rem; font-weight:400; color:var(--muted); margin-bottom:1.2rem; font-style:italic; }
+  .why-list { list-style:none; display:flex; flex-direction:column; gap:.9rem; }
+  .why-list li { font-size:.88rem; color:var(--muted); padding-left:1.3rem; position:relative; line-height:1.65; }
+  .why-list li::before { content:'×'; position:absolute; left:0; color:#5A3A2A; font-size:.85rem; }
+  .why-list.pro li::before { content:'—'; color:var(--gold-dk); }
+  .why-quote { margin-top:2.5rem; padding:1.6rem; border:1px solid var(--border); background:var(--black); }
+  .why-quote p { font-family:var(--font-serif); font-style:italic; font-size:1rem; color:var(--cream); line-height:1.7; margin-bottom:.8rem; }
+  .why-quote-attr { font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); }
 
-  /* Panel mockup */
-  .how-visual {
-    background: var(--black2); border: 1px solid var(--border);
-    padding: 1.6rem; position: relative;
-  }
-  .panel-cursor {
-    display: inline-block; width: 6px; height: 13px;
-    background: var(--gold); margin-left: 4px; vertical-align: middle;
-    animation: blink 1.1s step-end infinite;
-  }
-  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
-  .panel-mockup { font-size: 0.8rem; }
-  .panel-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding-bottom: 0.9rem; border-bottom: 1px solid var(--border2); margin-bottom: 1rem;
-    flex-wrap: wrap; gap: 0.5rem;
-  }
-  .panel-logo { font-family: var(--font-serif); font-size: 0.85rem; color: var(--gold); letter-spacing: 0.08em; }
-  .panel-badge {
-    font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
-    background: rgba(201,163,90,0.12); color: var(--gold);
-    padding: 0.22rem 0.6rem; border: 1px solid rgba(201,163,90,0.3);
-    display: flex; align-items: center; gap: 5px;
-  }
-  .live-dot {
-    width: 6px; height: 6px; border-radius: 50%; background: #4AE68A;
-    animation: livePulse 2s ease infinite; display: inline-block; flex-shrink: 0;
-  }
-  @keyframes livePulse {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: 0.4; transform: scale(0.7); }
-  }
-  .panel-kpi-row { display: flex; gap: 0.7rem; margin-bottom: 1rem; }
-  .panel-kpi {
-    flex: 1; background: var(--black3); padding: 0.7rem 0.6rem;
-    border-left: 2px solid var(--gold-dk); min-width: 0;
-  }
-  .panel-kpi-val {
-    font-family: var(--font-serif); font-size: 1.3rem;
-    color: var(--gold-lt); display: block; line-height: 1.1;
-  }
-  .panel-kpi-label {
-    font-size: 0.56rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); display: block; margin-top: 0.15rem; white-space: nowrap;
-  }
-  .panel-bar-label {
-    font-size: 0.65rem; color: var(--muted); margin-bottom: 0.45rem;
-    letter-spacing: 0.06em; text-transform: uppercase;
-  }
-  .panel-bar-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.45rem; }
-  .panel-bar-name { font-size: 0.68rem; color: var(--muted); width: 5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .panel-bar-track { flex: 1; height: 4px; background: rgba(201,163,90,0.1); }
-  .panel-bar-fill {
-    height: 100%; width: 0%;
-    background: var(--gold-dk);
-    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
-  }
-  .panel-bar-fill.hi { background: var(--gold); }
-  .panel-bar-val {
-    font-size: 0.68rem; color: var(--gold);
-    min-width: 1.8rem; text-align: right;
-    opacity: 0; transition: opacity 0.4s ease 1s;
-  }
-  .panel-bar-val.visible { opacity: 1; }
-  .panel-footer-note {
-    margin-top: 0.9rem; font-size: 0.62rem; color: var(--gold-dk);
-    letter-spacing: 0.07em; text-transform: uppercase;
-  }
+  /* ── FAQ ── */
+  .faq-section { background:var(--black); }
+  .faq-grid { display:flex; flex-direction:column; gap:0; margin-top:3rem; border:1px solid var(--border2); }
+  .faq-item { border-bottom:1px solid var(--border2); overflow:hidden; }
+  .faq-item:last-child { border-bottom:none; }
+  .faq-q { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.4rem 1.6rem; cursor:pointer; background:var(--black2); transition:background .25s; }
+  .faq-q:hover { background:var(--black3); }
+  .faq-q-text { font-family:var(--font-serif); font-size:.98rem; font-weight:400; color:var(--cream); line-height:1.4; }
+  .faq-icon { width:20px; height:20px; flex-shrink:0; border:1px solid var(--gold-dk); border-radius:50%; display:flex; align-items:center; justify-content:center; transition:transform .3s,background .25s; }
+  .faq-icon::after { content:'+'; font-size:.85rem; color:var(--gold); line-height:1; }
+  .faq-item.open .faq-icon { transform:rotate(45deg); background:rgba(201,163,90,.12); }
+  .faq-a { max-height:0; overflow:hidden; transition:max-height .4s ease,padding .3s ease; padding:0 1.6rem; background:var(--black); }
+  .faq-item.open .faq-a { max-height:200px; padding:1.2rem 1.6rem; }
+  .faq-a p { font-size:.88rem; color:var(--muted); line-height:1.75; }
 
-  /* ══════════════════════════════════
-     TEAM
-  ══════════════════════════════════ */
-  .team-grid {
-    display: grid; grid-template-columns: 1fr;
-    gap: 1.5rem; margin-top: 2.5rem;
-  }
-  @media (min-width: 768px) {
-    .team-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-  }
-  .team-card {
-    background: var(--black2); border: 1px solid var(--border);
-    padding: 2rem; display: flex; flex-direction: column; gap: 1.3rem;
-    transition: border-color 0.3s;
-  }
-  .team-card:hover { border-color: var(--gold-dk); }
-  .team-card-top { display: flex; gap: 1rem; align-items: flex-start; }
-  .team-avatar {
-    width: 60px; height: 60px; border: 1px solid var(--border);
-    overflow: hidden; flex-shrink: 0;
-  }
-  .team-avatar img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); }
-  .team-name {
-    font-family: var(--font-serif); font-size: 1.15rem; font-weight: 400; color: var(--cream);
-  }
-  .team-role {
-    font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--gold); margin-top: 0.2rem; display: block;
-  }
-  .team-bio { font-size: 0.86rem; color: var(--muted); line-height: 1.75; }
-  .team-philosophy {
-    font-family: var(--font-serif); font-style: italic;
-    font-size: 0.95rem; color: var(--gold-lt);
-    padding-left: 1rem; border-left: 2px solid var(--gold-dk); line-height: 1.6;
-  }
-  .team-links { display: flex; gap: 1.2rem; }
-  .team-link {
-    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none;
-    border-bottom: 1px solid var(--border); padding-bottom: 0.1rem;
-    transition: color 0.2s, border-color 0.2s;
-  }
-  .team-link:hover { color: var(--gold); border-color: var(--gold-dk); }
+  /* ── CTA SECTION ── */
+  .cta-section { text-align:center; padding:5rem var(--px); position:relative; overflow:hidden; }
+  @media(min-width:768px){ .cta-section { padding:7rem var(--px); } }
+  .cta-bg { position:absolute; inset:0; background:radial-gradient(ellipse 80% 70% at 50% 50%,rgba(201,163,90,.06) 0%,transparent 70%); pointer-events:none; }
+  .cta-section .section-eyebrow { justify-content:center; }
+  .cta-section .section-title { margin:0 auto 1rem; text-align:center; }
+  .cta-sub { font-size:.95rem; color:var(--muted); max-width:420px; margin:0 auto 1.2rem; }
+  .cta-trust { display:flex; align-items:center; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin-bottom:2.5rem; }
+  .cta-trust-item { font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:.4rem; }
+  .cta-trust-item::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--gold-dk); flex-shrink:0; }
+  .cta-actions { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:1rem; }
 
-  /* ══════════════════════════════════
-     WHY
-  ══════════════════════════════════ */
-  .why-section {
-    background: var(--black2);
-    border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2);
-  }
-  .why-grid {
-    display: grid; grid-template-columns: 1fr;
-    gap: 3rem; margin-top: 3rem;
-  }
-  @media (min-width: 768px) {
-    .why-grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
-  }
-  .why-col h3 {
-    font-family: var(--font-serif); font-size: 1rem; font-weight: 400;
-    color: var(--muted); margin-bottom: 1.2rem; font-style: italic;
-  }
-  .why-list { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
-  .why-list li {
-    font-size: 0.88rem; color: var(--muted);
-    padding-left: 1.3rem; position: relative; line-height: 1.65;
-  }
-  .why-list li::before { content: '×'; position: absolute; left: 0; color: #5A3A2A; font-size: 0.85rem; }
-  .why-list.pro li::before { content: '—'; color: var(--gold-dk); }
-  .why-quote {
-    margin-top: 2.5rem; padding: 1.6rem;
-    border: 1px solid var(--border); background: var(--black);
-  }
-  .why-quote p {
-    font-family: var(--font-serif); font-style: italic;
-    font-size: 1rem; color: var(--cream); line-height: 1.7; margin-bottom: 0.8rem;
-  }
-  .why-quote-attr { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+  /* CTA Form card */
+  .cta-form-card { background:var(--black2); border:1px solid var(--border); padding:2rem; max-width:480px; margin:2.5rem auto 0; text-align:left; }
+  .cta-form-title { font-family:var(--font-serif); font-size:1.05rem; color:var(--cream); margin-bottom:1.2rem; }
+  .cta-form-grid { display:grid; grid-template-columns:1fr; gap:.8rem; margin-bottom:1rem; }
+  @media(min-width:500px){ .cta-form-grid { grid-template-columns:1fr 1fr; } }
+  .cta-field { display:flex; flex-direction:column; gap:.3rem; }
+  .cta-field label { font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-dk); }
+  .cta-field input, .cta-field select { background:var(--black3); border:1px solid var(--border); color:var(--cream); padding:.65rem .8rem; font-size:.86rem; font-family:var(--font-sans); outline:none; transition:border-color .25s; -webkit-appearance:none; appearance:none; border-radius:0; }
+  .cta-field input::placeholder { color:var(--muted); }
+  .cta-field input:focus, .cta-field select:focus { border-color:var(--gold-dk); }
+  .cta-field select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238C6F35'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right .8rem center; cursor:pointer; }
+  .cta-field select option { background:#131109; color:#F5EFE0; }
+  .cta-field-full { grid-column:1/-1; }
+  .btn-cta-send { width:100%; background:var(--gold); color:var(--black); padding:.95rem; font-size:.75rem; letter-spacing:.16em; text-transform:uppercase; font-weight:700; border:none; cursor:pointer; transition:background .25s,transform .2s; position:relative; overflow:hidden; margin-top:.4rem; }
+  .btn-cta-send::after { content:''; position:absolute; top:0; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent); animation:btnShimmer 3.5s ease infinite; }
+  .btn-cta-send:hover { background:var(--gold-lt); transform:translateY(-1px); }
+  .cta-gmail-fallback { margin-top:.9rem; text-align:center; font-size:.72rem; color:var(--muted); display:none; }
+  .cta-gmail-fallback a { color:var(--gold-lt); text-decoration:none; border-bottom:1px solid rgba(201,163,90,.3); padding-bottom:.1rem; }
+  .cta-privacy { font-size:.65rem; color:var(--muted); text-align:center; margin-top:.8rem; }
+  .cta-direct { margin-top:1rem; font-size:.78rem; color:var(--muted); text-align:center; }
+  .cta-direct a { color:var(--gold-lt); text-decoration:none; }
 
-  /* ══════════════════════════════════
-     CTA
-  ══════════════════════════════════ */
-  .cta-section {
-    text-align: center; padding: 5rem var(--px);
-    position: relative; overflow: hidden;
-  }
-  @media (min-width: 768px) { .cta-section { padding: 7rem var(--px); } }
-  .cta-bg {
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(201,163,90,0.06) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .cta-section .section-eyebrow { justify-content: center; }
-  .cta-section .section-title { margin: 0 auto 1.4rem; text-align: center; }
-  .cta-sub { font-size: 0.95rem; color: var(--muted); max-width: 420px; margin: 0 auto 2.5rem; }
-  .cta-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1.5rem; }
-  .cta-email { font-size: 0.8rem; color: var(--muted); margin-top: 1.4rem; }
-  .cta-email a { color: var(--gold-lt); text-decoration: none; }
+  /* ── FOOTER ── */
+  footer { border-top:1px solid var(--border2); padding:2rem var(--px); display:flex; flex-direction:column; align-items:center; gap:1.2rem; font-size:.72rem; color:var(--muted); text-align:center; }
+  @media(min-width:768px){ footer { flex-direction:row; justify-content:space-between; text-align:left; } }
+  .footer-logo { font-family:var(--font-serif); font-size:1rem; color:var(--gold); letter-spacing:.1em; }
+  .footer-links { display:flex; flex-wrap:wrap; justify-content:center; gap:1.2rem 2rem; }
+  .footer-links a { color:var(--muted); text-decoration:none; letter-spacing:.08em; text-transform:uppercase; font-size:.65rem; transition:color .2s; }
+  .footer-links a:hover { color:var(--gold); }
 
-  /* ══════════════════════════════════
-     FOOTER
-  ══════════════════════════════════ */
-  footer {
-    border-top: 1px solid var(--border2);
-    padding: 2rem var(--px);
-    display: flex; flex-direction: column;
-    align-items: center; gap: 1.2rem;
-    font-size: 0.72rem; color: var(--muted); text-align: center;
-  }
-  @media (min-width: 768px) {
-    footer { flex-direction: row; justify-content: space-between; text-align: left; }
-  }
-  .footer-logo { font-family: var(--font-serif); font-size: 1rem; color: var(--gold); letter-spacing: 0.1em; }
-  .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem 2rem; }
-  .footer-links a {
-    color: var(--muted); text-decoration: none;
-    letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.65rem;
-    transition: color 0.2s;
-  }
-  .footer-links a:hover { color: var(--gold); }
-
-  /* ══════════════════════════════════
-     REVEAL
-  ══════════════════════════════════ */
-  .reveal {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  /* ── REVEAL ── */
+  .reveal { opacity:0; transform:translateY(24px); transition:opacity .7s ease,transform .7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- ─── NAV ─── -->
+<!-- NAV -->
 <nav>
   <a href="#inicio" class="nav-logo">CX<span>DIP</span></a>
-
-  <!-- Desktop links -->
   <ul class="nav-links">
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#equipo">Equipo</a></li>
     <li><a href="#como">Metodología</a></li>
-    <li><a href="#por-que">Por qué elegirnos</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="#demo" class="nav-cta">Agenda una demo</a></li>
   </ul>
-
-  <!-- Hamburger -->
   <button class="nav-burger" id="burger" aria-label="Menú">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- Mobile menu -->
 <div class="nav-mobile" id="mobileMenu">
   <a href="#servicios" class="nav-m-link">Servicios</a>
   <a href="#equipo"    class="nav-m-link">Equipo</a>
   <a href="#como"      class="nav-m-link">Metodología</a>
-  <a href="#por-que"   class="nav-m-link">Por qué elegirnos</a>
+  <a href="#faq"       class="nav-m-link">FAQ</a>
   <a href="#demo"      class="nav-cta-m nav-m-link">Agenda una demo</a>
 </div>
 
-<!-- ─── HERO ─── -->
+<!-- HERO -->
 <section class="hero" id="inicio">
   <div class="hero-bg"></div>
   <div class="hero-particle" style="width:4px;height:4px;left:15%;top:70%;animation-duration:18s;animation-delay:0s;"></div>
   <div class="hero-particle" style="width:3px;height:3px;left:30%;top:55%;animation-duration:24s;animation-delay:4s;"></div>
   <div class="hero-particle" style="width:5px;height:5px;left:70%;top:75%;animation-duration:20s;animation-delay:8s;"></div>
   <div class="hero-particle" style="width:3px;height:3px;left:85%;top:60%;animation-duration:22s;animation-delay:2s;"></div>
-
-  <p class="hero-eyebrow reveal">Boutique de Experiencia del Cliente</p>
-  <h1 class="hero-headline reveal">
-    Convertimos la voz<br>de tus clientes en<br><em>decisiones que rentabilizan.</em>
-  </h1>
-  <p class="hero-sub reveal">
-    Sistemas CX gestionables, paneles ejecutivos y acompañamiento real.
-    Diseñados para banca, retail y servicios masivos que exigen más que un software.
-  </p>
+  <p class="hero-eyebrow reveal">Boutique de Experiencia del Cliente · Chile</p>
+  <h1 class="hero-headline reveal">Convertimos la voz<br>de tus clientes en<br><em>decisiones que rentabilizan.</em></h1>
+  <p class="hero-sub reveal">Sistemas CX gestionables, paneles ejecutivos y acompañamiento real. Diseñados para banca, retail y servicios masivos que exigen más que un software.</p>
   <div class="hero-actions reveal">
-    <a href="#demo" class="btn-primary">Agenda una demo — 20 min</a>
+    <a href="#demo" class="btn-primary">Agenda tu demo — 20 min</a>
     <a href="#servicios" class="btn-ghost">Ver soluciones</a>
   </div>
-
   <div class="hero-metrics reveal" id="heroMetrics">
     <div class="hero-metric-item">
       <span class="hero-metric-num" id="cnt-respuestas">0</span>
@@ -591,7 +278,7 @@
     </div>
     <div class="hero-metric-item">
       <span class="hero-metric-num" id="cnt-segundos">0s</span>
-      <span class="hero-metric-label">Para decidir</span>
+      <span class="hero-metric-label">Para decidir en comité</span>
     </div>
     <div class="hero-metric-item">
       <span class="hero-metric-num" id="cnt-anos">0</span>
@@ -600,84 +287,56 @@
   </div>
 </section>
 
-<!-- Línea dorada animada -->
-<div class="divider-wrap" id="mainDivider">
-  <div class="divider-line" id="dividerLine"></div>
+<!-- INDUSTRY STRIP -->
+<div class="industry-strip">
+  <div class="industry-inner" id="stripInner">
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Banca &amp; Finanzas</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Retail &amp; E-commerce</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Telecom &amp; Tecnología</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Servicios Esenciales</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Salud &amp; Farmacias</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Servicios Gubernamentales</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Última Milla</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">FFAA</span></div>
+    <!-- duplicado para loop continuo en mobile -->
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Banca &amp; Finanzas</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Retail &amp; E-commerce</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Telecom &amp; Tecnología</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Servicios Esenciales</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Salud &amp; Farmacias</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Servicios Gubernamentales</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">Última Milla</span></div>
+    <div class="ind-item"><span class="ind-dot"></span><span class="ind-label">FFAA</span></div>
+  </div>
 </div>
 
-<!-- ─── SERVICES ─── -->
+<!-- DIVIDER ANIMADO -->
+<div class="divider-wrap" id="mainDivider"><div class="divider-line" id="dividerLine"></div></div>
+
+<!-- SERVICES -->
 <section id="servicios">
   <p class="section-eyebrow reveal">Ecosistema CX</p>
   <h2 class="section-title reveal">Variedad en soluciones,<br><em>un solo ecosistema.</em></h2>
   <div class="services-grid reveal">
-    <div class="service-card">
-      <span class="service-num">01</span>
-      <h3 class="service-title">DIP Loyalty</h3>
-      <p class="service-desc">Estudios relacionales con foco en retención. Identifica detractores, pasivos y promotores para gestionar la fuga antes de que ocurra.</p>
-      <span class="service-arrow">Detalle →</span>
-    </div>
-    <div class="service-card">
-      <span class="service-num">02</span>
-      <h3 class="service-title">Loyalty 360°</h3>
-      <p class="service-desc">Vista gerencial completa: NPS global, churn por país y canal, clientes en riesgo alto y seguimiento por ejecutivo. Todo en un panel.</p>
-      <span class="service-arrow">Detalle →</span>
-    </div>
-    <div class="service-card">
-      <span class="service-num">03</span>
-      <h3 class="service-title">Panel XM: OPs & Sales</h3>
-      <p class="service-desc">Gestión XM 360°. Valoriza el riesgo a tiempo, gestiona productividad de fuerza de venta y cierra el loop a todo nivel.</p>
-      <span class="service-arrow">Detalle →</span>
-    </div>
-    <div class="service-card">
-      <span class="service-num">04</span>
-      <h3 class="service-title">Estudios Relacionales</h3>
-      <p class="service-desc">Customer Journey Map, momentos de verdad y brechas de servicio. Entendemos el recorrido completo del cliente en tu industria.</p>
-      <span class="service-arrow">Detalle →</span>
-    </div>
-    <div class="service-card">
-      <span class="service-num">05</span>
-      <h3 class="service-title">Segmentos & Clusters</h3>
-      <p class="service-desc">Clusterización estratégica: leales core, en riesgo, alto potencial y dormidos a reactivar. Insights accionables para cada segmento.</p>
-      <span class="service-arrow">Detalle →</span>
-    </div>
-    <div class="service-card">
-      <span class="service-num">06</span>
-      <h3 class="service-title">Capacitaciones</h3>
-      <p class="service-desc">Programas modulares para frontline, líderes y comité ejecutivo. Toda la organización alineada al rol que cumple en la experiencia.</p>
-      <span class="service-arrow">Detalle →</span>
-    </div>
+    <div class="service-card"><span class="service-num">01</span><h3 class="service-title">DIP Loyalty</h3><p class="service-desc">Estudios relacionales con foco en retención. Identifica detractores, pasivos y promotores para gestionar la fuga antes de que ocurra.</p><span class="service-arrow">Detalle →</span></div>
+    <div class="service-card"><span class="service-num">02</span><h3 class="service-title">Loyalty 360°</h3><p class="service-desc">Vista gerencial completa: NPS global 68, churn 3,2% por país y canal, clientes en riesgo alto y seguimiento por ejecutivo. Todo en un panel.</p><span class="service-arrow">Detalle →</span></div>
+    <div class="service-card"><span class="service-num">03</span><h3 class="service-title">Panel XM: OPs &amp; Sales</h3><p class="service-desc">Gestión XM 360°. Valoriza el riesgo a tiempo, gestiona productividad de fuerza de venta y cierra el loop a todo nivel.</p><span class="service-arrow">Detalle →</span></div>
+    <div class="service-card"><span class="service-num">04</span><h3 class="service-title">Estudios Relacionales</h3><p class="service-desc">Customer Journey Map, momentos de verdad y brechas de servicio. Entendemos el recorrido completo del cliente en tu industria.</p><span class="service-arrow">Detalle →</span></div>
+    <div class="service-card"><span class="service-num">05</span><h3 class="service-title">Segmentos &amp; Clusters</h3><p class="service-desc">Clusterización estratégica: leales core, en riesgo, alto potencial y dormidos a reactivar. Insights accionables para cada segmento.</p><span class="service-arrow">Detalle →</span></div>
+    <div class="service-card"><span class="service-num">06</span><h3 class="service-title">Capacitaciones</h3><p class="service-desc">Programas modulares para frontline, líderes y comité ejecutivo. Toda la organización alineada al rol que cumple en la experiencia.</p><span class="service-arrow">Detalle →</span></div>
   </div>
 </section>
 
-<!-- ─── HOW ─── -->
+<!-- HOW -->
 <section id="como" style="background:var(--black2);border-top:1px solid var(--border2);">
   <p class="section-eyebrow reveal">Metodología</p>
   <h2 class="section-title reveal">Un sistema paquetizado<br><em>listo para comité.</em></h2>
   <div class="how-grid reveal">
     <div class="how-steps">
-      <div class="how-step">
-        <span class="how-step-num">01</span>
-        <div class="how-step-content">
-          <h3>Estatus & Diseño</h3>
-          <p>Cuestionario optimizado, escala clara y maquetado con tu marca. Definición de segmentos y variables clave del negocio.</p>
-        </div>
-      </div>
-      <div class="how-step">
-        <span class="how-step-num">02</span>
-        <div class="how-step-content">
-          <h3>Panel Web & Mobile</h3>
-          <p>Desde 3.600 respuestas anuales. Vistas simples y gestionables a través de drivers clave, accesibles desde cualquier dispositivo.</p>
-        </div>
-      </div>
-      <div class="how-step">
-        <span class="how-step-num">03</span>
-        <div class="how-step-content">
-          <h3>Informes Ejecutivos</h3>
-          <p>Acompañamiento durante todo el proceso. Construimos juntos la mejor experiencia y traducimos el NPS en 2–3 decisiones clave por período.</p>
-        </div>
-      </div>
+      <div class="how-step"><span class="how-step-num">01</span><div class="how-step-content"><h3>Estatus &amp; Diseño</h3><p>Cuestionario optimizado, escala clara y maquetado con tu marca. Definición de segmentos y variables clave del negocio.</p></div></div>
+      <div class="how-step"><span class="how-step-num">02</span><div class="how-step-content"><h3>Panel Web &amp; Mobile</h3><p>Desde 3.600 respuestas anuales. Vistas simples y gestionables a través de drivers clave, accesibles desde cualquier dispositivo.</p></div></div>
+      <div class="how-step"><span class="how-step-num">03</span><div class="how-step-content"><h3>Informes Ejecutivos</h3><p>Acompañamiento durante todo el proceso. Construimos juntos la mejor experiencia y traducimos el NPS en 2–3 decisiones clave por período.</p></div></div>
     </div>
-
     <div class="how-visual" id="panelMockup">
       <div class="panel-mockup">
         <div class="panel-header">
@@ -685,89 +344,70 @@
           <span class="panel-badge"><span class="live-dot"></span> En vivo</span>
         </div>
         <div class="panel-kpi-row">
-          <div class="panel-kpi">
-            <span class="panel-kpi-val" id="kpi-csat">—</span>
-            <span class="panel-kpi-label">CSat Total</span>
-          </div>
-          <div class="panel-kpi">
-            <span class="panel-kpi-val" id="kpi-locales">—</span>
-            <span class="panel-kpi-label">Locales en rojo</span>
-          </div>
-          <div class="panel-kpi">
-            <span class="panel-kpi-val" id="kpi-meta">—</span>
-            <span class="panel-kpi-label">Meta Ventas</span>
-          </div>
+          <div class="panel-kpi"><span class="panel-kpi-val" id="kpi-csat">—</span><span class="panel-kpi-label">CSat Total</span></div>
+          <div class="panel-kpi"><span class="panel-kpi-val" id="kpi-locales">—</span><span class="panel-kpi-label">Locales en rojo</span></div>
+          <div class="panel-kpi"><span class="panel-kpi-val" id="kpi-meta">—</span><span class="panel-kpi-label">Meta Ventas</span></div>
         </div>
         <p class="panel-bar-label">Ranking sucursales</p>
-        <div class="panel-bar-row">
-          <span class="panel-bar-name">Ñuñoa</span>
-          <div class="panel-bar-track"><div class="panel-bar-fill hi" id="bar1" data-width="88"></div></div>
-          <span class="panel-bar-val" id="bval1">88</span>
-        </div>
-        <div class="panel-bar-row">
-          <span class="panel-bar-name">Providencia</span>
-          <div class="panel-bar-track"><div class="panel-bar-fill hi" id="bar2" data-width="74"></div></div>
-          <span class="panel-bar-val" id="bval2">74</span>
-        </div>
-        <div class="panel-bar-row">
-          <span class="panel-bar-name">Las Condes</span>
-          <div class="panel-bar-track"><div class="panel-bar-fill" id="bar3" data-width="61"></div></div>
-          <span class="panel-bar-val" id="bval3">61</span>
-        </div>
-        <div class="panel-bar-row">
-          <span class="panel-bar-name">Maipú</span>
-          <div class="panel-bar-track"><div class="panel-bar-fill" id="bar4" data-width="47"></div></div>
-          <span class="panel-bar-val" id="bval4">47</span>
-        </div>
+        <div class="panel-bar-row"><span class="panel-bar-name">Ñuñoa</span><div class="panel-bar-track"><div class="panel-bar-fill hi" id="bar1" data-width="88"></div></div><span class="panel-bar-val" id="bval1">88</span></div>
+        <div class="panel-bar-row"><span class="panel-bar-name">Providencia</span><div class="panel-bar-track"><div class="panel-bar-fill hi" id="bar2" data-width="74"></div></div><span class="panel-bar-val" id="bval2">74</span></div>
+        <div class="panel-bar-row"><span class="panel-bar-name">Las Condes</span><div class="panel-bar-track"><div class="panel-bar-fill" id="bar3" data-width="61"></div></div><span class="panel-bar-val" id="bval3">61</span></div>
+        <div class="panel-bar-row"><span class="panel-bar-name">Maipú</span><div class="panel-bar-track"><div class="panel-bar-fill" id="bar4" data-width="47"></div></div><span class="panel-bar-val" id="bval4">47</span></div>
         <p class="panel-footer-note">Foco: sucursales críticas · Plan 30 días <span class="panel-cursor"></span></p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── TEAM ─── -->
+<!-- TEAM -->
 <section id="equipo">
   <p class="section-eyebrow reveal">Equipo Directivo</p>
   <h2 class="section-title reveal">Autoridad en experiencia<br><em>y analítica.</em></h2>
   <div class="team-grid reveal">
+
     <div class="team-card">
       <div class="team-card-top">
-        <div class="team-avatar">
-          <img src="https://www.cxdip.com/Images/director_ariel.png" alt="Ariel Salazar V." onerror="this.style.display='none'">
-        </div>
-        <div>
-          <h3 class="team-name">Ariel Salazar V.</h3>
-          <span class="team-role">Director Estratégico</span>
-        </div>
+        <div class="team-avatar"><img src="https://www.cxdip.com/Images/director_ariel.png" alt="Ariel Salazar V." onerror="this.style.display='none'"></div>
+        <div><h3 class="team-name">Ariel Salazar V.</h3><span class="team-role">Director Estratégico</span></div>
       </div>
-      <p class="team-bio">Ingeniero civil industrial, consultor y escritor. 10 años de experiencia en Banca, Retail, Última milla y Farmacias. Ha movilizado el NPS en más de 6 puntos en una compañía con 440 locales a nivel nacional.</p>
+      <p class="team-bio">Ingeniero civil industrial, consultor y escritor. 10 años liderando áreas CX en Banca, Retail, Última milla y Farmacias a nivel nacional.</p>
+      <div class="team-stats">
+        <span class="team-stat">+6 pts NPS en 12 meses</span>
+        <span class="team-stat">440 locales gestionados</span>
+        <span class="team-stat">10.000+ colaboradores</span>
+        <span class="team-stat">Service level +26%</span>
+        <span class="team-stat">Ventas online +200%</span>
+      </div>
       <p class="team-philosophy">"Simplificar, priorizar y accionar."</p>
       <div class="team-links">
         <a href="https://www.linkedin.com/in/ariel-salazar-valenzuela/" class="team-link" target="_blank">LinkedIn</a>
         <a href="#demo" class="team-link">Agendar reunión</a>
       </div>
     </div>
+
     <div class="team-card">
       <div class="team-card-top">
-        <div class="team-avatar">
-          <img src="https://www.cxdip.com/Images/director_john.png" alt="John Baeza M." onerror="this.style.display='none'">
-        </div>
-        <div>
-          <h3 class="team-name">John Baeza M.</h3>
-          <span class="team-role">Director Analytics</span>
-        </div>
+        <div class="team-avatar"><img src="https://www.cxdip.com/Images/director_john.png" alt="John Baeza M." onerror="this.style.display='none'"></div>
+        <div><h3 class="team-name">John Baeza M.</h3><span class="team-role">Director Analytics</span></div>
       </div>
-      <p class="team-bio">Ingeniero control de gestión y consultor, con más de 25 años de experiencia en Banca & Retail en Chile. Ha liderado equipos con estándares que gestionaron una red de 5.000+ colaboradores y 80 sucursales.</p>
+      <p class="team-bio">Ingeniero control de gestión y consultor, con más de 25 años en Banca & Retail en Chile. Especialista en modelos de control y gestión multicanal.</p>
+      <div class="team-stats">
+        <span class="team-stat">25+ años experiencia</span>
+        <span class="team-stat">80 sucursales</span>
+        <span class="team-stat">5.000+ colaboradores</span>
+        <span class="team-stat">Gestión web · fono · físico</span>
+      </div>
       <p class="team-philosophy">"Medir para mejorar."</p>
       <div class="team-links">
         <a href="https://www.linkedin.com/in/john-baeza-02093539/" class="team-link" target="_blank">LinkedIn</a>
         <a href="#demo" class="team-link">Agendar reunión</a>
       </div>
     </div>
+
   </div>
 </section>
 
-<!-- ─── WHY ─── -->
+<!-- WHY -->
 <section class="why-section" id="por-que">
   <p class="section-eyebrow reveal">Por qué elegirnos</p>
   <h2 class="section-title reveal">Plataforma al servicio<br><em>de las decisiones.</em></h2>
@@ -795,19 +435,98 @@
   </div>
 </section>
 
-<!-- ─── CTA ─── -->
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <p class="section-eyebrow reveal">Preguntas frecuentes</p>
+  <h2 class="section-title reveal">Todo lo que necesitas<br><em>saber antes de la demo.</em></h2>
+  <div class="faq-grid reveal">
+    <div class="faq-item">
+      <div class="faq-q"><span class="faq-q-text">¿Cuánto tiempo toma implementar el sistema?</span><span class="faq-icon"></span></div>
+      <div class="faq-a"><p>El setup inicial toma entre 2 y 4 semanas, dependiendo del volumen de sucursales y la complejidad del cuestionario. El panel queda operativo antes del primer mes y los primeros datos llegan en las primeras 2 semanas post-lanzamiento.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="faq-q-text">¿Necesito equipo técnico interno para operar el panel?</span><span class="faq-icon"></span></div>
+      <div class="faq-a"><p>No. El panel está diseñado para ser operado directamente por el área de CX o gerencia, sin dependencia de TI. Si hay integraciones con sistemas internos que se requieran, las gestionamos nosotros en el setup.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="faq-q-text">¿Para qué tamaño de empresa es CXDIP?</span><span class="faq-icon"></span></div>
+      <div class="faq-a"><p>Trabajamos con empresas que tienen redes de 5 o más puntos de atención — sucursales, tiendas, canales digitales — y que necesitan gestionar la experiencia de forma sistémica y comparable entre unidades. El mínimo de muestra recomendado es 3.600 respuestas anuales.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="faq-q-text">¿Qué pasa con mis datos y la confidencialidad?</span><span class="faq-icon"></span></div>
+      <div class="faq-a"><p>Toda la información de clientes y resultados es confidencial y propiedad exclusiva de tu empresa. Trabajamos bajo acuerdo de confidencialidad (NDA) desde el primer día y los datos nunca se comparten con terceros ni se usan para benchmarking sin autorización explícita.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="faq-q-text">¿Cuánto cuesta y cómo se estructura el servicio?</span><span class="faq-icon"></span></div>
+      <div class="faq-a"><p>El servicio se estructura en UF con contrato mínimo de 3 meses. El precio depende del número de sucursales, volumen de encuestas y módulos contratados. Lo revisamos en la demo con tus números específicos — sin compromiso.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA DEMO -->
 <section class="cta-section" id="demo">
   <div class="cta-bg"></div>
   <p class="section-eyebrow reveal">Siguiente paso</p>
   <h2 class="section-title reveal">¿Te imaginas ver todo<br><em>en un solo panel?</em></h2>
-  <p class="cta-sub reveal">Agenda una demo de 20 minutos y revisamos la vista que necesitas. Sin compromiso. Con tus preguntas sobre la mesa.</p>
-  <div class="cta-actions reveal">
-    <a href="mailto:ariel.salazar@cxdip.com" class="btn-primary">Agenda una demo</a>
+  <p class="cta-sub reveal">20 minutos. Sin compromiso. Con tus preguntas sobre la mesa.</p>
+  <div class="cta-trust reveal">
+    <span class="cta-trust-item">Sin licencias complejas</span>
+    <span class="cta-trust-item">Setup en menos de 4 semanas</span>
+    <span class="cta-trust-item">Contrato desde 3 meses</span>
   </div>
-  <p class="cta-email">O escríbeme a <a href="mailto:ariel.salazar@cxdip.com">ariel.salazar@cxdip.com</a></p>
+
+  <!-- FORMULARIO CON CAMPOS PRE-RELLENADOS -->
+  <div class="cta-form-card reveal">
+    <p class="cta-form-title">Cuéntanos sobre tu empresa</p>
+    <div class="cta-form-grid">
+      <div class="cta-field">
+        <label for="f-nombre">Nombre</label>
+        <input type="text" id="f-nombre" placeholder="Tu nombre">
+      </div>
+      <div class="cta-field">
+        <label for="f-empresa">Empresa</label>
+        <input type="text" id="f-empresa" placeholder="Nombre empresa">
+      </div>
+      <div class="cta-field">
+        <label for="f-industria">Industria</label>
+        <select id="f-industria">
+          <option value="">Selecciona...</option>
+          <option>Banca &amp; Finanzas</option>
+          <option>Retail &amp; E-commerce</option>
+          <option>Telecom &amp; Tecnología</option>
+          <option>Salud &amp; Farmacias</option>
+          <option>Servicios Esenciales</option>
+          <option>Servicios Gubernamentales</option>
+          <option>FFAA</option>
+          <option>Otra</option>
+        </select>
+      </div>
+      <div class="cta-field">
+        <label for="f-sucursales">N° de sucursales</label>
+        <select id="f-sucursales">
+          <option value="">Selecciona...</option>
+          <option>5 – 15</option>
+          <option>16 – 50</option>
+          <option>51 – 150</option>
+          <option>150+</option>
+        </select>
+      </div>
+      <div class="cta-field cta-field-full">
+        <label for="f-email">Correo corporativo</label>
+        <input type="email" id="f-email" placeholder="nombre@empresa.com">
+      </div>
+    </div>
+    <button class="btn-cta-send" id="btnEnviar">Solicitar demo — 20 min →</button>
+    <div class="cta-gmail-fallback" id="gmailFallback">
+      ¿No se abrió tu correo? <a id="gmailLink" href="#">Abrir en Gmail Web →</a>
+    </div>
+    <p class="cta-privacy">Tu información es confidencial. No spam, nunca.</p>
+  </div>
+
+  <p class="cta-direct">O escríbeme directo a <a href="mailto:ariel.salazar@cxdip.com">ariel.salazar@cxdip.com</a></p>
 </section>
 
-<!-- ─── FOOTER ─── -->
+<!-- FOOTER -->
 <footer>
   <span class="footer-logo">CXDIP</span>
   <div class="footer-links">
@@ -815,90 +534,130 @@
     <a href="#servicios">Servicios</a>
     <a href="#equipo">Equipo</a>
     <a href="#como">Metodología</a>
+    <a href="#faq">FAQ</a>
     <a href="#por-que">Por qué elegirnos</a>
   </div>
-  <span>© 2025 CXDIP</span>
+  <span>© 2025 CXDIP · Paneles CX para Chile</span>
 </footer>
 
 <script>
-/* ─── HAMBURGER ─── */
-const burger     = document.getElementById('burger');
+/* ── HAMBURGER ── */
+const burger = document.getElementById('burger');
 const mobileMenu = document.getElementById('mobileMenu');
 burger.addEventListener('click', () => {
   burger.classList.toggle('open');
   mobileMenu.classList.toggle('open');
   document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
 });
-document.querySelectorAll('.nav-m-link').forEach(link => {
-  link.addEventListener('click', () => {
-    burger.classList.remove('open');
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
-  });
-});
+document.querySelectorAll('.nav-m-link').forEach(l => l.addEventListener('click', () => {
+  burger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}));
 
-/* ─── EASE ─── */
-function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+/* ── REVEAL ── */
+const revObs = new IntersectionObserver((entries) => {
+  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*90); });
+}, {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
-/* ─── CONTADOR ─── */
-function animateCounter(el, target, suffix, duration) {
-  if (!el) return;
-  const start = performance.now();
-  (function step(now) {
-    const p = Math.min((now - start) / duration, 1);
-    el.textContent = Math.round(easeOut(p) * target).toLocaleString('es-CL') + suffix;
-    if (p < 1) requestAnimationFrame(step);
+/* ── EASING ── */
+function easeOut(t){ return 1-Math.pow(1-t,3); }
+function animateCounter(el,target,suffix,duration){
+  if(!el) return;
+  const start=performance.now();
+  (function step(now){
+    const p=Math.min((now-start)/duration,1);
+    el.textContent=Math.round(easeOut(p)*target).toLocaleString('es-CL')+suffix;
+    if(p<1) requestAnimationFrame(step);
   })(start);
 }
 
-/* ─── REVEAL ─── */
-const revObs = new IntersectionObserver((entries) => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 90);
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
-
-/* ─── CONTADORES HERO ─── */
-let heroPlayed = false;
-new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting && !heroPlayed) {
-    heroPlayed = true;
-    setTimeout(() => {
-      animateCounter(document.getElementById('cnt-respuestas'), 3600, '+', 1800);
-      setTimeout(() => animateCounter(document.getElementById('cnt-segundos'), 30, 's', 1200), 200);
-      setTimeout(() => animateCounter(document.getElementById('cnt-anos'), 10, '', 1400), 400);
-    }, 500);
+/* ── CONTADORES HERO ── */
+let heroPlayed=false;
+new IntersectionObserver((entries)=>{
+  if(entries[0].isIntersecting && !heroPlayed){
+    heroPlayed=true;
+    setTimeout(()=>{
+      animateCounter(document.getElementById('cnt-respuestas'),3600,'+',1800);
+      setTimeout(()=>animateCounter(document.getElementById('cnt-segundos'),30,'s',1200),200);
+      setTimeout(()=>animateCounter(document.getElementById('cnt-anos'),10,'',1400),400);
+    },500);
   }
-}, { threshold: 0.4 }).observe(document.getElementById('heroMetrics'));
+},{threshold:0.4}).observe(document.getElementById('heroMetrics'));
 
-/* ─── LÍNEA DORADA ─── */
-let divPlayed = false;
-new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting && !divPlayed) {
-    divPlayed = true;
-    document.getElementById('dividerLine').classList.add('drawn');
-  }
-}, { threshold: 0.5 }).observe(document.getElementById('mainDivider'));
+/* ── LÍNEA DORADA ── */
+let divPlayed=false;
+new IntersectionObserver((entries)=>{
+  if(entries[0].isIntersecting && !divPlayed){ divPlayed=true; document.getElementById('dividerLine').classList.add('drawn'); }
+},{threshold:0.5}).observe(document.getElementById('mainDivider'));
 
-/* ─── PANEL EN VIVO ─── */
-let panelPlayed = false;
-new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting && !panelPlayed) {
-    panelPlayed = true;
-    setTimeout(() => { document.getElementById('kpi-csat').textContent    = '+54'; }, 400);
-    setTimeout(() => { document.getElementById('kpi-locales').textContent = '7';   }, 700);
-    setTimeout(() => { document.getElementById('kpi-meta').textContent    = '92%'; }, 1000);
-    ['bar1','bar2','bar3','bar4'].forEach((id, i) => {
-      setTimeout(() => {
-        const bar = document.getElementById(id);
-        const val = document.getElementById('bval' + (i+1));
-        bar.style.width = bar.dataset.width + '%';
-        setTimeout(() => val.classList.add('visible'), 900);
-      }, 1200 + i * 280);
+/* ── PANEL EN VIVO ── */
+let panelPlayed=false;
+new IntersectionObserver((entries)=>{
+  if(entries[0].isIntersecting && !panelPlayed){
+    panelPlayed=true;
+    setTimeout(()=>{ document.getElementById('kpi-csat').textContent='+54'; },400);
+    setTimeout(()=>{ document.getElementById('kpi-locales').textContent='7'; },700);
+    setTimeout(()=>{ document.getElementById('kpi-meta').textContent='92%'; },1000);
+    ['bar1','bar2','bar3','bar4'].forEach((id,i)=>{
+      setTimeout(()=>{
+        const bar=document.getElementById(id);
+        const val=document.getElementById('bval'+(i+1));
+        bar.style.width=bar.dataset.width+'%';
+        setTimeout(()=>val.classList.add('visible'),900);
+      },1200+i*280);
     });
   }
-}, { threshold: 0.3 }).observe(document.getElementById('panelMockup'));
+},{threshold:0.3}).observe(document.getElementById('panelMockup'));
+
+/* ── FAQ ACCORDION ── */
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!isOpen) item.classList.add('open');
+  });
+});
+
+/* ── CTA CON MAILTO PRE-RELLENADO + GMAIL FALLBACK ── */
+document.getElementById('btnEnviar').addEventListener('click', function(){
+  const nombre   = document.getElementById('f-nombre').value.trim()   || '(sin nombre)';
+  const empresa  = document.getElementById('f-empresa').value.trim()  || '(sin empresa)';
+  const industria= document.getElementById('f-industria').value       || 'No especificada';
+  const sucursales=document.getElementById('f-sucursales').value      || 'No especificado';
+  const emailCorp= document.getElementById('f-email').value.trim()    || '(sin correo)';
+
+  const to      = 'ariel.salazar@cxdip.com';
+  const subject = encodeURIComponent('Solicitud de Demo CXDIP — ' + empresa);
+  const body    = encodeURIComponent(
+    'Hola Ariel,\n\n' +
+    'Me gustaría agendar una demo de 20 minutos.\n\n' +
+    'Mis datos:\n' +
+    '• Nombre: '        + nombre    + '\n' +
+    '• Empresa: '       + empresa   + '\n' +
+    '• Industria: '     + industria + '\n' +
+    '• Sucursales: '    + sucursales+ '\n' +
+    '• Correo: '        + emailCorp + '\n\n' +
+    'Quedo atento a su confirmación.\n\n' +
+    'Saludos,'
+  );
+
+  const mailtoLink = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
+  const gmailLink  = 'https://mail.google.com/mail/?view=cm&to=' + encodeURIComponent(to) +
+                     '&su=' + subject + '&body=' + body;
+
+  /* Abre el cliente de correo nativo */
+  window.location.href = mailtoLink;
+
+  /* Muestra fallback Gmail tras 1.5s si el correo no se abrió */
+  setTimeout(()=>{
+    const fb = document.getElementById('gmailFallback');
+    document.getElementById('gmailLink').href = gmailLink;
+    fb.style.display = 'block';
+  }, 1500);
+});
 </script>
 </body>
 </html>
