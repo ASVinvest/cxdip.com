@@ -2,27 +2,31 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>CXDIP — Boutique de experiencias</title>
+  <title>CXDIP — Boutique de Experiencias | exper360 group</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #ffffff;
-      --bg-alt: #f3f4f6;
-      --text-main: #0f172a;
-      --text-muted: #6b7280;
+      /* Paleta Corporativa Oscura exper360 group */
+      --bg: #0b0f17;
+      --bg-alt: #111827;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --border: #e5e7eb;
+      --accent-blue: #38bdf8;
+      --border: rgba(255, 255, 255, 0.1);
+      --border-accent: rgba(56, 189, 248, 0.3);
       --radius-xl: 20px;
       --radius-lg: 16px;
       --radius-md: 12px;
-      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.4);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: var(--bg);
       color: var(--text-main);
       line-height: 1.5;
@@ -47,9 +51,9 @@
       position: sticky;
       top: 0;
       z-index: 20;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(11, 15, 23, 0.85);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(229, 231, 235, 0.9);
+      border-bottom: 1px solid var(--border);
     }
 
     .header-inner {
@@ -70,47 +74,22 @@
       font-weight: 800;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--primary);
+      color: var(--text-main);
     }
 
+    .logo span { color: var(--accent-blue); }
+
     .logo-sub {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       text-transform: uppercase;
       letter-spacing: 0.16em;
       color: var(--text-muted);
+      font-weight: 600;
     }
 
-    /* botón hamburguesa */
-    .menu-toggle {
-      display: none;
-      border: none;
-      background: transparent;
-      width: 32px;
-      height: 32px;
-      padding: 0;
-      margin-left: auto;
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .menu-toggle span {
-      display: block;
-      width: 18px;
-      height: 2px;
-      border-radius: 999px;
-      background: #111827;
-      transition: transform 0.18s ease, opacity 0.18s ease, background 0.18s ease;
-    }
-
-    .menu-toggle span + span { margin-top: 5px; }
-
-    body.nav-open .menu-toggle span:nth-child(1) {
-      transform: translateY(3px) rotate(45deg);
-    }
-
-    body.nav-open .menu-toggle span:nth-child(2) {
-      transform: translateY(-3px) rotate(-45deg);
+    .logo-group {
+      color: var(--accent-blue);
+      font-weight: 700;
     }
 
     /* NAV principal */
@@ -128,55 +107,55 @@
     .btn-primary {
       border: none;
       border-radius: 999px;
-      padding: 0.5rem 1.1rem;
+      padding: 0.5rem 1.2rem;
       font-size: 0.85rem;
       font-weight: 700;
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--accent-blue));
       color: #fff;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.25rem;
-      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
-      transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
+      gap: 0.35rem;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+      transition: all 0.2s ease;
       white-space: nowrap;
-      text-shadow: 0 1px 1px rgba(0,0,0,0.18);
     }
 
     a.btn-primary, a.btn-primary:visited { color: #fff !important; }
 
     .btn-primary:hover {
-      background: var(--primary-hover);
       transform: translateY(-1px);
-      box-shadow: 0 16px 32px rgba(37, 99, 235, 0.3);
-    }
-
-    .btn-primary:focus-visible {
-      outline: 3px solid rgba(37, 99, 235, 0.35);
-      outline-offset: 3px;
+      box-shadow: 0 12px 28px rgba(56, 189, 248, 0.45);
+      filter: brightness(1.1);
     }
 
     .btn-secondary {
       border-radius: 999px;
-      border: 1px solid var(--border);
-      padding: 0.5rem 1.1rem;
+      border: 1px solid var(--border-accent);
+      padding: 0.5rem 1.2rem;
       font-size: 0.85rem;
-      font-weight: 500;
-      background: #ffffff;
+      font-weight: 600;
+      background: rgba(30, 41, 59, 0.6);
       color: var(--text-main);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.35rem;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
     }
 
-    .btn-secondary span { font-size: 1rem; }
+    .btn-secondary:hover {
+      background: var(--bg-card);
+      border-color: var(--accent-blue);
+      color: #fff;
+    }
 
     /* HERO */
     .hero {
-      background: var(--bg);
-      padding: 3.4rem 0 3.2rem;
+      background: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.15) 0%, var(--bg) 70%);
+      padding: 4rem 0 3.5rem;
       border-bottom: 1px solid var(--border);
     }
 
@@ -187,42 +166,46 @@
       align-items: center;
     }
 
-    .hero-kicker-row {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      margin-bottom: 0.7rem;
-    }
-
-    .hero-title {
-      font-size: clamp(2.2rem, 3.4vw, 2.7rem);
-      line-height: 1.08;
-      font-weight: 800;
+    .hero-kicker {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 0.25rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-accent);
       margin-bottom: 0.8rem;
     }
 
-    .hero-title span { color: var(--primary); }
+    .hero-title {
+      font-size: clamp(2.2rem, 3.4vw, 2.8rem);
+      line-height: 1.1;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+    }
 
-    .hero-subtitle {
-      font-size: 0.98rem;
-      color: var(--text-muted);
-      max-width: 30rem;
-      margin-bottom: 1.3rem;
+    .hero-title span {
+      background: linear-gradient(135deg, #ffffff 0%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.45rem;
-      margin-bottom: 1.6rem;
+      gap: 0.5rem;
+      margin-bottom: 1.8rem;
     }
 
     .hero-tag {
       font-size: 0.78rem;
-      padding: 0.22rem 0.7rem;
+      padding: 0.25rem 0.75rem;
       border-radius: 999px;
       border: 1px solid var(--border);
-      background: var(--bg-alt);
+      background: rgba(255, 255, 255, 0.03);
       color: var(--text-muted);
     }
 
@@ -231,71 +214,62 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 0.8rem;
-      margin-bottom: 0.7rem;
+      margin-bottom: 0.8rem;
     }
 
     .hero-note { font-size: 0.82rem; color: var(--text-muted); }
 
-    /* HERO PANEL (DISPOSITIVO) */
+    /* HERO DEVICE (MOCKUP) */
     .hero-right { display: flex; justify-content: flex-end; }
 
     .hero-device {
       position: relative;
       width: 100%;
       max-width: 460px;
-      padding: 1.05rem 1.1rem;
+      padding: 1.1rem;
       border-radius: 24px;
-      background: radial-gradient(circle at top left, #e0f2fe 0, #eff6ff 45%, #ffffff 100%);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      border: 1px solid var(--border-accent);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
       overflow: hidden;
     }
 
-    .hero-device::before {
-      content: "";
-      position: absolute;
-      inset: -18px;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.25), transparent 60%);
-      opacity: 0.9;
-      filter: blur(8px);
-      z-index: -1;
-      animation: pulseGlow 5s ease-in-out infinite;
-    }
-
     .hero-device-top {
+      position: relative;
+      z-index: 1;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.7rem;
-      color: var(--text-main);
+      margin-bottom: 0.8rem;
     }
 
     .hero-device-logo {
       font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.18em;
-      color: #1f2937;
+      color: var(--text-main);
+      font-weight: 700;
     }
 
     .hero-device-pill {
       font-size: 0.72rem;
-      padding: 0.18rem 0.65rem;
+      padding: 0.2rem 0.65rem;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--text-muted);
+      border: 1px solid var(--border-accent);
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
     }
 
     .hero-device-screen {
+      position: relative;
+      z-index: 1;
       border-radius: 18px;
-      background: #ffffff;
-      border: 1px solid rgba(209, 213, 219, 0.9);
-      padding: 0.9rem;
+      background: #090d14;
+      border: 1px solid var(--border);
+      padding: 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.7rem;
-      color: var(--text-main);
+      gap: 0.8rem;
     }
 
     .device-metrics-row {
@@ -305,106 +279,91 @@
     }
 
     .device-metric {
-      border-radius: 0.9rem;
-      padding: 0.45rem 0.55rem;
-      background: linear-gradient(135deg, #eff6ff, #dbeafe);
-      border: 1px solid #bfdbfe;
+      border-radius: 0.8rem;
+      padding: 0.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
     }
 
     .device-metric-label {
-      font-size: 0.7rem;
-      color: #6b7280;
-      margin-bottom: 0.12rem;
+      font-size: 0.65rem;
+      color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
     }
 
     .device-metric-value {
-      font-size: 0.98rem;
-      font-weight: 600;
-      color: #111827;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent-blue);
     }
 
     .device-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      grid-template-columns: 1.3fr 1fr;
       gap: 0.7rem;
-      align-items: stretch;
     }
 
     .device-chart, .device-table {
-      border-radius: 0.9rem;
-      border: 1px solid rgba(209, 213, 219, 0.9);
-      background: linear-gradient(135deg, #f9fafb, #eff6ff);
+      border-radius: 0.8rem;
+      border: 1px solid var(--border);
+      background: rgba(30, 41, 59, 0.5);
       padding: 0.6rem;
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
+      gap: 0.4rem;
     }
 
-    .device-block-label { font-size: 0.72rem; color: #6b7280; }
+    .device-block-label { font-size: 0.7rem; color: var(--text-muted); }
 
     .chart-placeholder {
       position: relative;
       flex: 1;
-      border-radius: 0.8rem;
-      border: 1px solid rgba(147, 197, 253, 0.9);
-      background: radial-gradient(circle at top, #eff6ff, #dbeafe);
+      border-radius: 0.6rem;
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid var(--border-accent);
+      min-height: 50px;
       overflow: hidden;
     }
 
     .chart-placeholder::before {
       content: "";
       position: absolute;
-      inset: 18% 8%;
+      inset: 20% 10%;
       border-radius: 999px;
-      background: linear-gradient(90deg, #22c55e, #2563eb);
-      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.45);
-      animation: barSlide 3.2s ease-in-out infinite;
+      background: linear-gradient(90deg, var(--primary), var(--accent-blue));
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+      animation: barSlide 3s ease-in-out infinite;
     }
 
-    .rows-placeholder { display: flex; flex-direction: column; gap: 0.3rem; }
+    .rows-placeholder { display: flex; flex-direction: column; gap: 0.35rem; }
 
     .row-line {
       height: 6px;
       border-radius: 999px;
-      background: linear-gradient(90deg, rgba(148, 163, 184, 0.22), rgba(15, 23, 42, 0.7), rgba(148, 163, 184, 0.22));
-      background-size: 200% 100%;
-      animation: shimmerBars 3s ease-in-out infinite;
+      background: rgba(148, 163, 184, 0.2);
     }
 
-    .row-line:nth-child(2) { width: 75%; }
+    .row-line:nth-child(2) { width: 75%; background: var(--border-accent); }
     .row-line:nth-child(3) { width: 55%; }
 
     .device-foot {
       display: flex;
       justify-content: space-between;
-      font-size: 0.72rem;
-      color: #6b7280;
-    }
-
-    @keyframes pulseGlow {
-      0%   { opacity: 0.7; transform: scale(0.98); }
-      50%  { opacity: 0.25; transform: scale(1.03); }
-      100% { opacity: 0.7; transform: scale(0.98); }
+      font-size: 0.7rem;
+      color: var(--text-muted);
     }
 
     @keyframes barSlide {
-      0%   { transform: translateX(-8%); }
-      50%  { transform: translateX(8%); }
-      100% { transform: translateX(-8%); }
-    }
-
-    @keyframes shimmerBars {
-      0%   { background-position: -40% 0; }
-      100% { background-position: 140% 0; }
+      0%, 100% { transform: translateX(-5%); }
+      50% { transform: translateX(5%); }
     }
 
     /* TRUST STRIP */
     .trust-strip {
       background: var(--bg-alt);
       border-bottom: 1px solid var(--border);
-      padding: 1.2rem 0;
+      padding: 1.4rem 0;
     }
 
     .trust-inner {
@@ -416,43 +375,45 @@
     .trust-inner strong { color: var(--text-main); }
 
     .trust-tags {
-      margin-top: 0.7rem;
+      margin-top: 0.8rem;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.45rem;
+      gap: 0.5rem;
     }
 
     .tag-pill {
-      font-size: 0.75rem;
-      padding: 0.25rem 0.65rem;
+      font-size: 0.78rem;
+      padding: 0.3rem 0.8rem;
       border-radius: 999px;
       border: 1px solid var(--border);
-      background: #ffffff;
+      background: var(--bg-card);
       color: var(--text-muted);
     }
 
     /* SECTIONS */
-    section { padding: 3rem 0; }
+    section { padding: 3.5rem 0; }
 
-    .section-heading { text-align: center; margin-bottom: 2rem; }
+    .section-heading { text-align: center; margin-bottom: 2.5rem; }
 
     .section-title {
-      font-size: 1.35rem;
-      font-weight: 700;
+      font-size: 1.5rem;
+      font-weight: 800;
       margin-bottom: 0.4rem;
     }
 
-    .section-title--primary { color: var(--primary); }
+    .section-title--primary {
+      color: var(--accent-blue);
+    }
 
     .section-subtitle {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
-      max-width: 30rem;
+      max-width: 32rem;
       margin: 0 auto;
     }
 
-    /* PANEL GALLERY */
+    /* PANEL GALLERY (SERVICIOS "VENDEDORES") */
     .panel-gallery {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -462,1539 +423,566 @@
     .panel-card {
       border-radius: var(--radius-lg);
       border: 1px solid var(--border);
-      background: #ffffff;
-      padding: 1rem 1rem 1.1rem;
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.03);
-      display: flex;
-      flex-direction: column;
-      gap: 0.7rem;
-    }
-
-    .panel-title { font-size: 0.98rem; font-weight: 600; }
-
-    .panel-mockup {
-      position: relative;
-      border-radius: 0.9rem;
-      border: 1px solid var(--border);
-      background: #eff6ff;
-      height: 140px;
-      padding: 0.7rem;
+      background: var(--bg-card);
+      padding: 1.4rem;
+      box-shadow: var(--shadow-soft);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      overflow: hidden;
+      gap: 1rem;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .panel-caption { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem; }
-
-    .panel-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.25rem;
-      font-size: 0.76rem;
-      color: var(--text-muted);
+    .panel-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-blue);
+      box-shadow: 0 12px 30px rgba(56, 189, 248, 0.15);
     }
 
-    /* PANEL 1: NPS */
-    .panel-mockup--nps {
-      background: radial-gradient(circle at top, #eff6ff, #e0f2fe);
+    .panel-header {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       gap: 0.3rem;
     }
 
-    .nps-chart {
+    .panel-badge {
+      align-self: flex-start;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-blue);
+      border: 1px solid var(--border-accent);
+    }
+
+    .panel-title { font-size: 1.1rem; font-weight: 800; color: #fff; line-height: 1.25; }
+
+    .panel-widget {
       position: relative;
-      flex: 1;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-accent);
+      background: #090d14;
+      padding: 1rem;
+      min-height: 155px;
       display: flex;
-      align-items: flex-end;
-      padding: 0.2rem 0.3rem 0.45rem 0.65rem;
-    }
-
-    .nps-axis-x, .nps-axis-y { position: absolute; background: rgba(148, 163, 184, 0.7); }
-    .nps-axis-x { height: 1px; left: 0.4rem; right: 0.1rem; bottom: 0.25rem; }
-    .nps-axis-y { width: 1px; top: 0.15rem; bottom: 0.25rem; left: 0.4rem; }
-
-    .nps-bars {
-      flex: 1;
-      display: flex;
-      align-items: flex-end;
+      flex-direction: column;
       justify-content: space-between;
-      gap: 0.22rem;
-      margin-left: 0.35rem;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
     }
 
-    .nps-bar {
-      width: 16%;
-      height: 72px;
-      border-radius: 999px 999px 0 0;
-      overflow: hidden;
-      border: 1px solid rgba(148, 163, 184, 0.55);
-      background: #e5e7eb;
+    .panel-caption { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+
+    /* WIDGET 1: NPS / CSAT */
+    .widget-nps-score {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    .widget-nps-num {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+      line-height: 1;
+    }
+    .widget-nps-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .widget-nps-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 48px;
+      margin-top: 0.5rem;
+    }
+    .widget-bar-col {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px 4px 0 0;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      transform-origin: bottom;
-      animation: npsWave 3.2s ease-in-out infinite;
-    }
-
-    .nps-bar:nth-child(1) { animation-delay: -0.2s; }
-    .nps-bar:nth-child(2) { animation-delay: -0.7s; }
-    .nps-bar:nth-child(3) { animation-delay: -1.2s; }
-    .nps-bar:nth-child(4) { animation-delay: -1.7s; }
-    .nps-bar:nth-child(5) { animation-delay: -2.1s; }
-
-    .nps-bar-seg { width: 100%; }
-    .nps-bar-seg--det { background: #ef4444; height: 35%; }
-    .nps-bar-seg--pas { background: #facc15; height: 25%; }
-    .nps-bar-seg--pro { background: #22c55e; height: 40%; }
-
-    .nps-legend {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-top: 0.15rem;
-      flex-wrap: wrap;
-    }
-
-    .nps-dot { width: 7px; height: 7px; border-radius: 999px; display: inline-block; }
-    .nps-dot--det { background: #ef4444; }
-    .nps-dot--pas { background: #facc15; }
-    .nps-dot--pro { background: #22c55e; }
-
-    @keyframes npsWave {
-      0%   { transform: scaleY(0.7); }
-      50%  { transform: scaleY(1.1); }
-      100% { transform: scaleY(0.85); }
-    }
-
-    /* PANEL 2b: drill */
-    .panel-mockup--drill {
-      background: radial-gradient(circle at 20% 0%, #dbeafe, #eff6ff 40%, #e5e7eb 100%);
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .drill-stack {
-      position: relative;
-      flex: 1;
-      border-radius: 0.8rem;
-      background: #ffffff;
-      border: 1px solid rgba(148, 163, 184, 0.6);
       overflow: hidden;
-      padding: 0.45rem 0.55rem;
-      min-height: 96px;
+      height: 100%;
     }
+    .widget-bar-fill { width: 100%; border-radius: 4px 4px 0 0; }
+    .widget-bar-fill.det { height: 25%; background: #f43f5e; }
+    .widget-bar-fill.pas { height: 40%; background: #f59e0b; }
+    .widget-bar-fill.pro { height: 85%; background: var(--accent-blue); box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
 
-    .drill-card {
-      position: absolute;
-      inset: 0.5rem 0.55rem;
-      border-radius: 0.75rem;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: linear-gradient(135deg, #eff6ff, #ffffff);
-      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
-      padding: 0.5rem 0.6rem;
+    /* WIDGET 2: DRILL-DOWN */
+    .widget-tree-item {
       display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      opacity: 0;
-      transform: translateY(10px) scale(0.98);
-      animation: drillLoop 9s ease-in-out infinite;
-    }
-
-    .drill-card--manager { animation-delay: 0s; }
-    .drill-card--branch  { animation-delay: 3s; }
-    .drill-card--exec    { animation-delay: 6s; }
-
-    .drill-header {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      font-size: 0.74rem;
-      color: #4b5563;
+      justify-content: space-between;
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.75rem;
+      margin-bottom: 0.35rem;
     }
-
-    .drill-tag {
-      padding: 0.12rem 0.5rem;
+    .widget-tree-item.active {
+      background: rgba(37, 99, 235, 0.2);
+      border-color: var(--accent-blue);
+    }
+    .widget-tree-dot {
+      width: 8px;
+      height: 8px;
       border-radius: 999px;
-      border: 1px solid rgba(37, 99, 235, 0.3);
-      background: rgba(37, 99, 235, 0.06);
-      font-size: 0.7rem;
-      color: #1d4ed8;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
+      background: var(--accent-blue);
+      box-shadow: 0 0 8px var(--accent-blue);
     }
 
-    .drill-metric-main { font-weight: 600; font-size: 0.78rem; color: #111827; }
-
-    .drill-body { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.1rem; }
-
-    .drill-row {
+    /* WIDGET 3: JOURNEYS */
+    .widget-journey-flow {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 0.3rem;
-      font-size: 0.7rem;
-      color: #4b5563;
+      margin-top: 0.5rem;
     }
-
-    .drill-row-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    .drill-bar {
-      flex: 0 0 52%;
-      height: 5px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #22c55e, #2563eb);
-      opacity: 0.9;
-    }
-
-    .drill-bar--risk { background: linear-gradient(90deg, #ef4444, #f97316); }
-
-    @keyframes drillLoop {
-      0%, 20% { opacity: 1; transform: translateY(0) scale(1); }
-      26%, 100% { opacity: 0; transform: translateY(-8px) scale(0.98); }
-    }
-
-    /* PANEL 3: OPS */
-    .panel-mockup--ops { background: radial-gradient(circle at top, #e0f2fe, #eff6ff); }
-
-    .report-scroll {
+    .widget-step-box {
       flex: 1;
-      border-radius: 0.75rem;
-      border: 1px solid rgba(209, 213, 219, 0.85);
-      background: #f9fafb;
-      overflow: hidden;
-      position: relative;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.4rem;
+      text-align: center;
     }
-
-    .report-lines {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      padding: 0.5rem 0.6rem;
-      animation: reportSlide 6.5s ease-in-out infinite;
+    .widget-step-box.highlight {
+      border-color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.1);
     }
-
-    .report-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.7rem;
-      color: #4b5563;
-    }
-
-    .report-line span:first-child {
-      max-width: 60%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .report-bar {
-      flex: 0 0 48%;
-      height: 6px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #22c55e, #2563eb);
-      opacity: 0.9;
-    }
-
-    .report-line:nth-child(2) .report-bar { background: linear-gradient(90deg, #f97316, #22c55e); width: 65%; }
-    .report-line:nth-child(3) .report-bar { background: linear-gradient(90deg, #ef4444, #f97316); width: 52%; }
-    .report-line:nth-child(4) .report-bar { background: linear-gradient(90deg, #22c55e, #22c55e); width: 82%; }
-
-    @keyframes reportSlide {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-18%); }
-      100% { transform: translateY(0); }
-    }
-
-    .panel-details { margin-top: 0.35rem; font-size: 0.72rem; }
-
-    .panel-details summary {
-      list-style: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0.15rem 0.55rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.9);
-      background: #ffffff;
-      color: #2563eb;
-      font-weight: 500;
-    }
-
-    .panel-details summary::after { content: "▾"; font-size: 0.6rem; }
-    .panel-details[open] summary::after { content: "▴"; }
-
-    .panel-details-body {
-      margin-top: 0.35rem;
-      padding: 0.4rem 0.55rem;
-      border-radius: 0.6rem;
-      background: #f3f4f6;
-      border: 1px dashed rgba(148, 163, 184, 0.9);
-      display: grid;
-      grid-template-columns: 1.4fr 0.8fr 0.8fr;
-      gap: 0.15rem 0.35rem;
-    }
-
-    .panel-details-body span { font-size: 0.68rem; color: #4b5563; }
-    .panel-details-body span:nth-child(-n+3) { font-weight: 600; color: #111827; }
-
-    /* PANEL 4: Journey */
-    .panel-mockup--journey {
-      background: radial-gradient(circle at top, #eff6ff, #e0f2fe);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .journey-header {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #6b7280;
-      margin-bottom: 0.3rem;
-    }
-
-    .journey-track {
-      position: relative;
-      flex: 1;
-      border-radius: 999px;
-      background: #ffffff;
-      border: 1px dashed rgba(148, 163, 184, 0.7);
-      padding: 0.4rem 0.55rem;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    .journey-line {
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      height: 2px;
-      background: linear-gradient(90deg, #22c55e, #2563eb);
-      opacity: 0.5;
-    }
-
-    .journey-steps {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      font-size: 0.7rem;
-      color: #4b5563;
-    }
-
-    .journey-step {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.15rem;
-    }
-
-    .journey-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 999px;
-      border: 2px solid rgba(37, 99, 235, 0.7);
-      background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(191, 219, 254, 0.8);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .journey-dot::after {
-      content: "";
-      position: absolute;
-      inset: 2px;
-      border-radius: inherit;
-      background: radial-gradient(circle, #22c55e, #2563eb);
-      opacity: 0;
-      transform: scale(0.3);
-      animation: journeyPulse 6s ease-in-out infinite;
-    }
-
-    .journey-step--1 .journey-dot::after { animation-delay: 0s; }
-    .journey-step--2 .journey-dot::after { animation-delay: 2s; }
-    .journey-step--3 .journey-dot::after { animation-delay: 4s; }
-
-    .journey-label {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 999px;
-      padding: 0.12rem 0.4rem;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      white-space: nowrap;
-    }
-
-    @keyframes journeyPulse {
-      0%, 20% { opacity: 1; transform: scale(1); }
-      26%, 100% { opacity: 0; transform: scale(0.3); }
-    }
-
-    /* PANEL 5: Clusters */
-    .panel-mockup--clusters {
-      background: radial-gradient(circle at 0% 0%, #e0f2fe, #eff6ff 45%, #f9fafb 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .clusters-area {
-      position: relative;
-      flex: 1;
-      border-radius: 0.8rem;
-      background: #ffffff;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      padding: 0.4rem 0.5rem;
-      overflow: hidden;
-    }
-
-    .cluster-node {
-      position: absolute;
-      border-radius: 999px;
-      padding: 0.12rem 0.55rem;
-      font-size: 0.7rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      color: #0f172a;
-      background: #eff6ff;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
-      transform-origin: center;
-      animation: clusterFloat 5.5s ease-in-out infinite;
-    }
-
-    .cluster-node--core {
-      top: 38%; left: 38%;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: #ffffff; border: none; animation-delay: 0s;
-    }
-
-    .cluster-node--risk {
-      top: 16%; left: 8%;
-      background: linear-gradient(135deg, #ef4444, #f97316);
-      color: #ffffff; border: none; animation-delay: -1.2s;
-    }
-
-    .cluster-node--growth {
-      top: 66%; left: 12%;
-      background: linear-gradient(135deg, #2563eb, #22c55e);
-      color: #ffffff; border: none; animation-delay: -2.4s;
-    }
-
-    .cluster-node--value {
-      top: 20%; right: 4%;
-      background: linear-gradient(135deg, #0ea5e9, #6366f1);
-      color: #ffffff; border: none; animation-delay: -3.1s;
-    }
-
-    .cluster-node--sleep { bottom: 8%; right: 10%; background: #fef9c3; animation-delay: -4s; }
-
-    @keyframes clusterFloat {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-4px) scale(1.02); }
-    }
-
-    /* PANEL 6: Training */
-    .panel-mockup--training {
-      background: radial-gradient(circle at top, #eef2ff, #eff6ff);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .training-header {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #6b7280;
-      margin-bottom: 0.3rem;
-    }
-
-    .training-timeline {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      padding-top: 0.1rem;
-    }
-
-    .training-step {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      column-gap: 0.45rem;
-      align-items: center;
-      font-size: 0.75rem;
-      color: #4b5563;
-    }
-
-    .training-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 999px;
-      border: 2px solid rgba(37, 99, 235, 0.7);
-      background: #ffffff;
-      position: relative;
-      box-shadow: 0 0 0 3px rgba(191, 219, 254, 0.8);
-      overflow: hidden;
-    }
-
-    .training-dot::after {
-      content: "";
-      position: absolute;
-      inset: 2px;
-      border-radius: inherit;
-      background: radial-gradient(circle, #22c55e, #2563eb);
-      transform: scale(0.3);
-      opacity: 0;
-      animation: trainingPing 5s ease-in-out infinite;
-    }
-
-    .training-step--1 .training-dot::after { animation-delay: 0s; }
-    .training-step--2 .training-dot::after { animation-delay: 1.2s; }
-    .training-step--3 .training-dot::after { animation-delay: 2.4s; }
-
-    .training-label { display: flex; flex-direction: column; gap: 0.05rem; }
-    .training-label-title { font-weight: 600; font-size: 0.78rem; color: #111827; }
-    .training-label-sub { font-size: 0.68rem; color: #6b7280; }
-
-    .training-bar-wrap { grid-column: 2 / 3; margin-top: 0.15rem; }
-
-    .training-bar {
-      width: 100%;
-      height: 5px;
-      border-radius: 999px;
-      background: rgba(209, 213, 219, 0.8);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .training-bar-fill {
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #22c55e, #2563eb);
-      transform-origin: left;
-      transform: scaleX(0.1);
-      animation: trainingProgress 5s ease-in-out infinite;
-    }
-
-    .training-step--1 .training-bar-fill { animation-delay: 0s; }
-    .training-step--2 .training-bar-fill { animation-delay: 1.2s; }
-    .training-step--3 .training-bar-fill { animation-delay: 2.4s; }
-
-    @keyframes trainingPing {
-      0%, 15% { opacity: 1; transform: scale(1); }
-      25%, 100% { opacity: 0; transform: scale(0.3); }
-    }
-
-    @keyframes trainingProgress {
-      0% { transform: scaleX(0.1); }
-      50% { transform: scaleX(1); }
-      100% { transform: scaleX(0.1); }
-    }
+    .widget-step-title { font-size: 0.68rem; font-weight: 700; color: #fff; }
+    .widget-step-sub { font-size: 0.6rem; color: var(--accent-blue); margin-top: 0.1rem; }
 
     /* STEPS */
-    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.3rem; }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.3rem;
+    }
 
     .step-card {
       border-radius: var(--radius-md);
       border: 1px solid var(--border);
-      background: #ffffff;
-      padding: 1.1rem;
-      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.03);
+      background: var(--bg-card);
+      padding: 1.2rem;
     }
 
     .step-number {
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.16em;
-      color: var(--text-muted);
-      margin-bottom: 0.25rem;
+      color: var(--accent-blue);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
     }
 
-    .step-title { font-size: 0.96rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .step-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; color: #fff; }
+    .step-text { font-size: 0.88rem; color: var(--text-muted); }
 
-    .step-text { font-size: 0.86rem; color: var(--text-muted); }
-
-    /* WHY */
-    .why { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 1.6rem; align-items: flex-start; }
-
-    .why-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; }
-    .why-subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.7rem; max-width: 34rem; }
-    .why-kicker { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); margin-bottom: 0.2rem; }
-    .why-subheading { font-size: 0.82rem; font-weight: 600; margin-top: 0.4rem; margin-bottom: 0.2rem; color: var(--text-main); }
-
-    .why-bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      font-size: 0.86rem;
-      color: var(--text-muted);
-    }
-
-    .why-bullets li::before { content: "•"; color: var(--primary); margin-right: 0.35rem; font-weight: 700; }
-
-    .why-card {
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      background: #f9fafb;
-      padding: 1rem 1.1rem;
-      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
-    }
-
-    .why-card-kicker { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--text-muted); margin-bottom: 0.25rem; }
-    .why-card-title { font-size: 0.96rem; font-weight: 600; margin-bottom: 0.3rem; }
-    .why-card-text { font-size: 0.86rem; color: var(--text-muted); }
-
-    /* TEAM (EQUIPO DIRECTIVO) */
-    .team-section { padding-top: 2.6rem; }
-    .team-subline { margin-top: 0.2rem; }
-
+    /* TEAM (EQUIPO DIRECTIVO CON FOTOS ORIGINALES) */
     .team-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.6rem;
-      align-items: stretch;
+      gap: 1.8rem;
     }
 
     .team-card {
       border-radius: var(--radius-xl);
       border: 1px solid var(--border);
-      background: #ffffff;
-      padding: 1.2rem 1.2rem 1.05rem;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+      background: var(--bg-card);
+      padding: 1.6rem;
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
-      overflow: hidden;
+      gap: 1rem;
+      box-shadow: var(--shadow-soft);
     }
 
     .team-photo-wrap {
-      width: min(260px, 100%);
+      width: min(160px, 100%);
+      height: 160px;
       margin: 0 auto;
-      border-radius: 18px;
+      border-radius: 50%;
       overflow: hidden;
-      border: 1px solid rgba(229, 231, 235, 0.95);
-      background: linear-gradient(135deg, #eff6ff, #ffffff);
-      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+      border: 2px solid var(--accent-blue);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
     }
 
     .team-photo-wrap img {
       width: 100%;
-      height: auto;
-      display: block;
+      height: 100%;
+      object-fit: cover;
     }
 
-    .team-name-block {
-      text-align: center;
-      margin-top: 0.1rem;
-    }
-
-    .team-name {
-      font-size: 1.02rem;
-      font-weight: 800;
-      letter-spacing: 0.01em;
-      line-height: 1.2;
-    }
-
-    .team-role {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: rgba(107, 114, 128, 0.95);
-      font-weight: 700;
-      margin-top: 0.15rem;
-    }
+    .team-name-block { text-align: center; }
+    .team-name { font-size: 1.2rem; font-weight: 800; color: #fff; }
+    .team-role { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-blue); font-weight: 700; margin-top: 0.2rem; }
 
     .team-bubble {
-      border-radius: 20px;
-      background: #f3f4f6;
-      border: 1px solid rgba(229, 231, 235, 0.95);
-      padding: 0.85rem 0.9rem;
-      color: #374151;
-      font-size: 0.86rem;
+      border-radius: var(--radius-md);
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
     }
 
-    .team-bubble strong {
-      display: inline-block;
-      font-size: 0.84rem;
-      letter-spacing: 0.02em;
-      color: #111827;
-      text-transform: uppercase;
-      margin-bottom: 0.45rem;
-    }
-
-    .team-bubble p { margin-top: 0.5rem; color: #4b5563; }
+    .team-bubble strong { color: var(--text-main); font-size: 0.82rem; text-transform: uppercase; display: block; margin-bottom: 0.4rem; letter-spacing: 0.05em; }
 
     .team-quote {
-      border-radius: 14px;
-      border: 1px solid rgba(229, 231, 235, 0.95);
-      background: #ffffff;
-      padding: 0.7rem 0.85rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      font-size: 0.86rem;
-      color: #111827;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-accent);
+      background: rgba(37, 99, 235, 0.1);
+      padding: 0.8rem 1rem;
+      text-align: center;
+      font-size: 0.88rem;
+      color: #fff;
       font-weight: 700;
-    }
-
-    .team-quote span {
-      font-weight: 700;
-      color: #111827;
     }
 
     .team-actions {
       display: flex;
-      gap: 0.7rem;
-      justify-content: center;
-      align-items: center;
-      margin-top: 0.1rem;
-      flex-wrap: wrap;
-    }
-
-    .team-actions a.btn-secondary,
-    .team-actions a.btn-primary {
-      min-width: 148px;
+      gap: 0.8rem;
       justify-content: center;
     }
 
     /* CTA & FOOTER */
     .cta-final {
-      background: var(--bg-alt);
-      padding: 3rem 0 2.4rem;
+      background: radial-gradient(circle at 50% 100%, rgba(37, 99, 235, 0.2) 0%, var(--bg-alt) 80%);
+      padding: 3.5rem 0 2.8rem;
       text-align: center;
       border-top: 1px solid var(--border);
-      margin-top: 1.5rem;
     }
 
-    .cta-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.6rem; }
-    .cta-text { font-size: 0.95rem; color: var(--text-muted); max-width: 28rem; margin: 0 auto 1.4rem; }
-
-    .cta-email { margin-top: 0.9rem; font-size: 0.85rem; color: var(--text-muted); }
-    .cta-email strong { color: var(--text-main); }
+    .cta-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; color: #fff; }
+    .cta-subtitle { font-size: 0.95rem; color: var(--text-muted); max-width: 32rem; margin: 0 auto 1.5rem; }
 
     footer {
+      background: var(--bg);
       border-top: 1px solid var(--border);
-      padding: 1.3rem 0;
+      padding: 1.8rem 0;
       font-size: 0.8rem;
       color: var(--text-muted);
-      background: #ffffff;
     }
 
     .footer-inner {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
       justify-content: space-between;
-      gap: 0.7rem;
-    }
-
-    .footer-nav { display: flex; flex-wrap: wrap; gap: 0.8rem; }
-    .footer-right { display: flex; gap: 0.9rem; align-items: center; flex-wrap: wrap; }
-
-    .footer-right a {
-      color: var(--text-muted);
-      text-decoration: none;
-      border-bottom: 1px dashed rgba(107, 114, 128, 0.35);
-    }
-    .footer-right a:hover { color: var(--text-main); border-bottom-color: rgba(15, 23, 42, 0.4); }
-
-    /* TOAST fallback */
-    .mail-toast {
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      background: rgba(15, 23, 42, 0.92);
-      color: #fff;
-      padding: 0.7rem 0.9rem;
-      border-radius: 999px;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.28);
-      display: none;
       align-items: center;
-      gap: 0.8rem;
-      z-index: 50;
-      max-width: calc(100vw - 24px);
-    }
-
-    .mail-toast a {
-      color: #fff;
-      text-decoration: underline;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .mail-toast button {
-      border: none;
-      background: transparent;
-      color: rgba(255,255,255,0.85);
-      cursor: pointer;
-      font-weight: 700;
-      padding: 0.1rem 0.35rem;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
 
     /* RESPONSIVE */
-    @media (max-width: 960px) {
-      .header-inner { padding: 0.7rem 0; position: relative; }
-      .menu-toggle { display: inline-flex; }
-
-      .main-nav {
-        position: absolute;
-        top: 100%;
-        left: 1.5rem;
-        right: 1.5rem;
-      }
-
-      .main-nav ul {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.9rem;
-        padding: 0.85rem 1rem 1rem;
-        margin-top: 0.4rem;
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--border);
-        background: #ffffff;
-        box-shadow: var(--shadow-soft);
-        opacity: 0;
-        pointer-events: none;
-        transform: translateY(-6px);
-        transition: opacity 0.18s ease, transform 0.18s ease;
-      }
-
-      body.nav-open .main-nav ul {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateY(0);
-      }
-
-      .hero-inner { grid-template-columns: minmax(0, 1fr); }
-      .hero-right { justify-content: flex-start; margin-top: 1.5rem; }
-
-      .panel-gallery, .steps, .why, .team-grid { grid-template-columns: minmax(0, 1fr); }
-
-      main[id], section[id] { scroll-margin-top: 110px; }
-    }
-
-    @media (max-width: 640px) {
-      .hero { padding-top: 2.4rem; }
-      .header-inner { padding: 0.7rem 0; }
-      .team-actions a.btn-secondary, .team-actions a.btn-primary { min-width: 140px; }
+    @media (max-width: 900px) {
+      .hero-inner, .team-grid { grid-template-columns: 1fr; }
+      .panel-gallery, .steps { grid-template-columns: 1fr; }
+      .hero-right { justify-content: center; }
     }
   </style>
 </head>
-
 <body>
+
   <!-- HEADER -->
   <header>
     <div class="container header-inner">
       <div class="logo-block">
-        <div class="logo">CXDIP</div>
-        <div class="logo-sub">Somos tu partner Boutique de experiencias</div>
+        <a href="#" class="logo">CX<span>DIP</span></a>
+        <span class="logo-sub">Parte de <span class="logo-group">exper360 group</span></span>
       </div>
-
-      <button class="menu-toggle" type="button" aria-label="Abrir menú principal">
-        <span></span>
-        <span></span>
-      </button>
 
       <nav class="main-nav">
         <ul>
-          <li><a href="#inicio">Inicio</a></li>
-          <li><a href="#paneles">Servicios</a></li>
-          <li><a href="#equipo">Equipo</a></li>
-          <li><a href="#como">¿Cómo trabajamos?</a></li>
-          <li><a href="#por-que">¿Por qué elegirnos?</a></li>
-          <li>
-            <!-- Demo = Ariel por defecto -->
-            <a class="btn-primary js-demo" data-to="ariel.salazar@cxdip.com" data-subject="Solicitud de demo CXDIP" href="#" role="button">Agenda una demo</a>
-          </li>
+          <li><a href="#experiencia">Experiencia</a></li>
+          <li><a href="#metodologia">Metodología</a></li>
+          <li><a href="#equipo">Equipo Directivo</a></li>
         </ul>
       </nav>
+
+      <a href="mailto:hola@exper360.cl?subject=Consulta%20CXDIP" class="btn-primary">
+        Solicitar Demo
+      </a>
     </div>
   </header>
 
   <!-- HERO -->
-  <main id="inicio">
-    <section class="hero">
-      <div class="container hero-inner">
-        <div>
-          <div class="hero-kicker-row"></div>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <span class="hero-kicker">Boutique de Experiencias | exper360 group</span>
+        <h1 class="hero-title">Estrategia, gobierno y <span>diseño de CX</span> de alto impacto</h1>
 
-          <h1 class="hero-title">
-            <span>CXDIP</span> Desarrollamos sistemas CX gestionables a tu medida
-          </h1>
-
-          <p class="hero-subtitle">
-            Vistas eficientes, <strong>profundas</strong> de alto impacto. Donde conviertes la voz de clientes en sistemas gestionables y rentabilizables.
-          </p>
-
-          <div class="hero-tags">
-            <span class="hero-tag">Diseño CX &amp; Loyalty</span>
-            <span class="hero-tag">Desde 3.600 respuestas anuales</span>
-            <span class="hero-tag">Rentabilizamos toda gestión CX</span>
-            <span class="hero-tag">Paneles Web &amp; Mobile listos para comité</span>
-          </div>
-
-          <div class="hero-cta-row">
-            <a class="btn-primary js-demo" data-to="ariel.salazar@cxdip.com" data-subject="Solicitud de demo CXDIP" href="#" role="button">Agenda una demo</a>
-          </div>
-
-          <div class="hero-note">
-            20 minutos. Sin compromiso. Con tus preguntas sobre la mesa.
-          </div>
+        <div class="hero-tags">
+          <span class="hero-tag">Medición NPS / CSAT</span>
+          <span class="hero-tag">Journey Mapping</span>
+          <span class="hero-tag">Gobierno de Experiencia</span>
+          <span class="hero-tag">Cultura CX</span>
         </div>
 
-        <div class="hero-right">
-          <div class="hero-device">
-            <div class="hero-device-top">
-              <div class="hero-device-logo">CXDIP · Loyalty 360°</div>
-              <div class="hero-device-pill">Ejemplo de vista</div>
+        <div class="hero-cta-row">
+          <a href="mailto:hola@exper360.cl?subject=Reunion%20Estrategica" class="btn-primary">
+            Agendar Sesión Estratégica
+          </a>
+          <a href="#experiencia" class="btn-secondary">
+            Ver Soluciones
+          </a>
+        </div>
+        <p class="hero-note">Diseñado con los estándares de rigor de exper360 group.</p>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-device">
+          <div class="hero-device-top">
+            <span class="hero-device-logo">CXDIP ANALYTICS</span>
+            <span class="hero-device-pill">exper360 core</span>
+          </div>
+          <div class="hero-device-screen">
+            <div class="device-metrics-row">
+              <div class="device-metric">
+                <div class="device-metric-label">NPS Global</div>
+                <div class="device-metric-value">+68 pts</div>
+              </div>
+              <div class="device-metric">
+                <div class="device-metric-label">CSAT Ops</div>
+                <div class="device-metric-value">94.2%</div>
+              </div>
+              <div class="device-metric">
+                <div class="device-metric-label">Retención</div>
+                <div class="device-metric-value">+18.5%</div>
+              </div>
             </div>
-            <div class="hero-device-screen">
-              <div class="device-metrics-row">
-                <div class="device-metric">
-                  <div class="device-metric-label">CSat total</div>
-                  <div class="device-metric-value">+54</div>
-                </div>
-                <div class="device-metric">
-                  <div class="device-metric-label">Locales en rojo</div>
-                  <div class="device-metric-value">7</div>
-                </div>
-                <div class="device-metric">
-                  <div class="device-metric-label">Meta ventas</div>
-                  <div class="device-metric-value">92%</div>
-                </div>
-              </div>
 
-              <div class="device-layout">
-                <div class="device-chart">
-                  <div class="device-block-label">Evolución CX por canal</div>
-                  <div class="chart-placeholder"></div>
-                </div>
-                <div class="device-table">
-                  <div class="device-block-label">Ranking sucursales</div>
-                  <div class="rows-placeholder">
-                    <div class="row-line"></div>
-                    <div class="row-line"></div>
-                    <div class="row-line"></div>
-                  </div>
+            <div class="device-layout">
+              <div class="device-chart">
+                <span class="device-block-label">Impacto Operativo</span>
+                <div class="chart-placeholder"></div>
+              </div>
+              <div class="device-table">
+                <span class="device-block-label">Indicadores Clave</span>
+                <div class="rows-placeholder">
+                  <div class="row-line"></div>
+                  <div class="row-line"></div>
+                  <div class="row-line"></div>
                 </div>
               </div>
+            </div>
 
-              <div class="device-foot">
-                <span>Foco inmediato: sucursales críticas</span>
-                <span>Siguiente paso: plan 30 días</span>
-              </div>
+            <div class="device-foot">
+              <span>Frontera Operativa: Óptima</span>
+              <span>Monitoreo Activo</span>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- TRUST STRIP -->
-    <section class="trust-strip">
-      <div class="container trust-inner">
-        <div>
-          Diseñado para compañías de <strong>servicios y retails</strong> que quieren llevar la gestión real del CX al siguiente nivel.
+  <!-- TRUST STRIP -->
+  <div class="trust-strip">
+    <div class="container trust-inner">
+      <span>Respaldados por la experiencia multisectorial de <strong>exper360 group</strong></span>
+      <div class="trust-tags">
+        <span class="tag-pill">Banca & Servicios Financieros</span>
+        <span class="tag-pill">Telecomunicaciones</span>
+        <span class="tag-pill">Retail & E-Commerce</span>
+        <span class="tag-pill">Salud & Seguros</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN EXPERIENCIA / WIDGETS VENDEDORES -->
+  <section id="experiencia">
+    <div class="container">
+      <div class="section-heading">
+        <h2 class="section-title">Soluciones Específicas de <span class="section-title--primary">CX & Governance</span></h2>
+        <p class="section-subtitle">Capacidades analíticas y metodológicas diseñadas para estructurar decisiones de cara al cliente.</p>
+      </div>
+
+      <div class="panel-gallery">
+        <!-- Widget Vendedor 1 -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <span class="panel-badge">Escucha Activa</span>
+            <h3 class="panel-title">Medición Estratégica NPS / CSAT</h3>
+          </div>
+          <div class="panel-widget">
+            <div class="widget-nps-score">
+              <span class="widget-nps-num">+72</span>
+              <span class="widget-nps-tag">▲ High Performance</span>
+            </div>
+            <div class="widget-nps-bars">
+              <div class="widget-bar-col"><div class="widget-bar-fill det"></div></div>
+              <div class="widget-bar-col"><div class="widget-bar-fill pas"></div></div>
+              <div class="widget-bar-col"><div class="widget-bar-fill pro"></div></div>
+              <div class="widget-bar-col"><div class="widget-bar-fill pro"></div></div>
+            </div>
+          </div>
+          <p class="panel-caption">Captura de voz del cliente en tiempo real integrada a canales digitales y presenciales con dashboards accionables.</p>
         </div>
-        <div class="trust-tags">
-          <span class="tag-pill">Banca &amp; Finanzas</span>
-          <span class="tag-pill">Telecom &amp; Tecnología</span>
-          <span class="tag-pill">Retail &amp; E-commerce</span>
-          <span class="tag-pill">Servicios esenciales</span>
-          <span class="tag-pill">Servicios gubernamentales</span>
-          <span class="tag-pill">FFAA</span>
+
+        <!-- Widget Vendedor 2 -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <span class="panel-badge">Trazabilidad Total</span>
+            <h3 class="panel-title">Drill-Down Organizacional</h3>
+          </div>
+          <div class="panel-widget">
+            <div class="widget-tree-item active">
+              <span>Gerencia General</span>
+              <span style="color:var(--accent-blue); font-weight:700;">98.4%</span>
+            </div>
+            <div class="widget-tree-item">
+              <span style="padding-left:0.5rem;">└ Zonal Oriente</span>
+              <span style="color:var(--text-muted);">92.1%</span>
+            </div>
+            <div class="widget-tree-item">
+              <span style="padding-left:1rem;">└ Sucursal Central</span>
+              <div class="widget-tree-dot"></div>
+            </div>
+          </div>
+          <p class="panel-caption">Desglose multinivel desde los indicadores consolidados hasta el desempeño individual por sucursal o ejecutivo.</p>
+        </div>
+
+        <!-- Widget Vendedor 3 -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <span class="panel-badge">Rediseño End-to-End</span>
+            <h3 class="panel-title">Diseño de Journeys & Blueprints</h3>
+          </div>
+          <div class="panel-widget">
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Optimizador de Flujo</div>
+            <div class="widget-journey-flow">
+              <div class="widget-step-box">
+                <div class="widget-step-title">Onboarding</div>
+                <div class="widget-step-sub">Fast Track</div>
+              </div>
+              <span style="color:var(--accent-blue); font-weight:800;">➔</span>
+              <div class="widget-step-box highlight">
+                <div class="widget-step-title">Uso Activo</div>
+                <div class="widget-step-sub">+3.2x ROI</div>
+              </div>
+            </div>
+          </div>
+          <p class="panel-caption">Mapeo detallado de brechas operativas y momentos de verdad para eliminar fricciones en el ciclo de vida del usuario.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PANEL GALLERY -->
-    <section id="paneles">
-      <div class="container">
-        <div class="section-heading">
-          <h2 class="section-title">Variedad en soluciones, que se ajustan a tus necesidades</h2>
-          <p class="section-subtitle">
-            En un solo ecosistema: Completo, eficiente y personalizado.
-          </p>
+  <!-- METODOLOGÍA -->
+  <section id="metodologia" style="background: var(--bg-alt);">
+    <div class="container">
+      <div class="section-heading">
+        <h2 class="section-title">El Modelo de Trabajo CXDIP</h2>
+        <p class="section-subtitle">Un enfoque estructurado orientado a la transformación cultural y de resultados corporativos.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-number">Fase 01</div>
+          <h3 class="step-title">Diagnóstico y Madurez</h3>
+          <p class="step-text">Evaluación del estado del arte en CX, identificación de brechas de datos y gobierno operativo.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">Fase 02</div>
+          <h3 class="step-title">Rediseño & Gobierno</h3>
+          <p class="step-text">Definición de modelos de interacción, KPIs corporativos y rituales de seguimiento semanal/mensual.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">Fase 03</div>
+          <h3 class="step-title">Adopción y Cultura</h3>
+          <p class="step-text">Programas de habilitación de equipos para asegurar la sostenibilidad del cambio en toda la organización.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPO DIRECTIVO CON FOTOS ORIGINALES (p1.jpg y p2.jpg) -->
+  <section id="equipo">
+    <div class="container">
+      <div class="section-heading">
+        <h2 class="section-title">Equipo Directivo</h2>
+        <p class="section-subtitle">Expertos a cargo del liderazgo de CXDIP y exper360 group.</p>
+      </div>
+
+      <div class="team-grid">
+        <!-- Socio 1 -->
+        <div class="team-card">
+          <div class="team-photo-wrap">
+            <img src="p1.jpg" alt="Socio Director - CXDIP" />
+          </div>
+          <div class="team-name-block">
+            <h3 class="team-name">Liderazgo Consultivo</h3>
+            <span class="team-role">Socio Director - CXDIP / exper360 group</span>
+          </div>
+          <div class="team-bubble">
+            <strong>Expertise Clave:</strong>
+            <p>Especialista en estrategia de clientes, diseño de modelos de atención corporativa e integración de gobierno CX en grandes organizaciones.</p>
+          </div>
+          <div class="team-quote">
+            "Convertimos la experiencia de clientes en un motor directo de eficiencia y crecimiento económico."
+          </div>
+          <div class="team-actions">
+            <a href="mailto:contacto@exper360.cl" class="btn-primary">Contactar</a>
+          </div>
         </div>
 
-        <div class="panel-gallery">
-          <!-- PANEL 1: NPS -->
-          <div class="panel-card">
-            <h3 class="panel-title">DIP Loyalty</h3>
-            <div class="panel-mockup panel-mockup--nps">
-              <div class="nps-chart">
-                <div class="nps-axis-x"></div>
-                <div class="nps-axis-y"></div>
-                <div class="nps-bars">
-                  <div class="nps-bar">
-                    <div class="nps-bar-seg nps-bar-seg--det"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
-                  </div>
-                  <div class="nps-bar">
-                    <div class="nps-bar-seg nps-bar-seg--det"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
-                  </div>
-                  <div class="nps-bar">
-                    <div class="nps-bar-seg nps-bar-seg--det"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
-                  </div>
-                  <div class="nps-bar">
-                    <div class="nps-bar-seg nps-bar-seg--det"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
-                  </div>
-                  <div class="nps-bar">
-                    <div class="nps-bar-seg nps-bar-seg--det"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pas"></div>
-                    <div class="nps-bar-seg nps-bar-seg--pro"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="nps-legend">
-                <span><span class="nps-dot nps-dot--det"></span> Detractores</span>
-                <span><span class="nps-dot nps-dot--pas"></span> Pasivos</span>
-                <span><span class="nps-dot nps-dot--pro"></span> Promotores</span>
-              </div>
-            </div>
-
-            <div class="panel-tags">
-              <span>Estudios relacionales - </span>
-              <span>Probabilidad de fuga - </span>
-              <span>Gestión de retención</span>
-            </div>
+        <!-- Socio 2 -->
+        <div class="team-card">
+          <div class="team-photo-wrap">
+            <img src="p2.jpg" alt="Socio Operaciones & Analytics" />
           </div>
-
-          <!-- PANEL 2 -->
-          <div class="panel-card">
-            <h3 class="panel-title">DIP Loyalty 360°</h3>
-            <div class="panel-mockup panel-mockup--drill">
-              <div class="drill-stack">
-                <div class="drill-card drill-card--manager">
-                  <div class="drill-header">
-                    <span class="drill-tag">Gerencial</span>
-                    <span class="drill-metric-main">NPS global 68 · Churn 3,2%</span>
-                  </div>
-                  <div class="drill-body">
-                    <div class="drill-row">
-                      <span class="drill-row-label">Resumen por país / canal</span>
-                      <span class="drill-bar"></span>
-                    </div>
-                    <div class="drill-row">
-                      <span class="drill-row-label">Clientes en riesgo alto</span>
-                      <span class="drill-bar drill-bar--risk"></span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="drill-card drill-card--branch">
-                  <div class="drill-header">
-                    <span class="drill-tag">Sucursales</span>
-                    <span class="drill-metric-main">Sucursal Ñuñoa · Loyalty 74</span>
-                  </div>
-                  <div class="drill-body">
-                    <div class="drill-row">
-                      <span class="drill-row-label">Drivers clave del NPS</span>
-                      <span class="drill-bar"></span>
-                    </div>
-                    <div class="drill-row">
-                      <span class="drill-row-label">Fuga probable 30 días</span>
-                      <span class="drill-bar drill-bar--risk"></span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="drill-card drill-card--exec">
-                  <div class="drill-header">
-                    <span class="drill-tag">Ejecutivos</span>
-                    <span class="drill-metric-main">Ejecutivo A · Cartera 230 clientes</span>
-                  </div>
-                  <div class="drill-body">
-                    <div class="drill-row">
-                      <span class="drill-row-label">Clientes con alertas abiertas</span>
-                      <span class="drill-bar drill-bar--risk"></span>
-                    </div>
-                    <div class="drill-row">
-                      <span class="drill-row-label">Seguimientos completados</span>
-                      <span class="drill-bar"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="panel-tags">
-              <span>Vista gerencial - </span>
-              <span>Detalle de indicadores por sucursales - </span>
-              <span>Detalles a nivel de ejecutivos</span>
-            </div>
+          <div class="team-name-block">
+            <h3 class="team-name">Dirección de Operaciones & Analytics</h3>
+            <span class="team-role">Socio - exper360 group</span>
           </div>
-
-          <!-- PANEL 3 -->
-          <div class="panel-card">
-            <h3 class="panel-title">Panel XM: OPs &amp; Sales</h3>
-            <div class="panel-mockup panel-mockup--ops">
-              <div class="report-scroll">
-                <div class="report-lines">
-                  <div class="report-line">
-                    <span>Conversión total red</span>
-                    <span class="report-bar"></span>
-                  </div>
-                  <div class="report-line">
-                    <span>Ventas día vs meta</span>
-                    <span class="report-bar"></span>
-                  </div>
-                  <div class="report-line">
-                    <span>Loyalty sucursales en riesgo</span>
-                    <span class="report-bar"></span>
-                  </div>
-                  <div class="report-line">
-                    <span>Productividad fuerza de venta</span>
-                    <span class="report-bar"></span>
-                  </div>
-                </div>
-              </div>
-
-              <details class="panel-details">
-                <summary>Ver detalle por locales</summary>
-                <div class="panel-details-body">
-                  <span>Local</span><span>Ventas</span><span>NPS</span>
-                  <span>Asunción Centro</span><span>134</span><span>+72</span>
-                  <span>San Lorenzo</span><span>98</span><span>+58</span>
-                  <span>Lambaré</span><span>76</span><span>+64</span>
-                </div>
-              </details>
-            </div>
-
-            <div class="panel-tags">
-              <span>Gestión XM 360° - </span>
-              <span>Valoriza el riesgo a tiempo - </span>
-              <span>Gestiona la productividad - </span>
-              <span>Close the loop a todo nivel </span>
-            </div>
+          <div class="team-bubble">
+            <strong>Expertise Clave:</strong>
+            <p>Líder en arquitecturas de medición, analítica de datos aplicada a la retención y transformación digital del Journey corporativo.</p>
           </div>
-
-          <!-- PANEL 4 -->
-          <div class="panel-card">
-            <h3 class="panel-title">Estudios &amp; Relacionales 360°</h3>
-            <div class="panel-mockup panel-mockup--journey">
-              <div class="journey-header">Journey map relacional</div>
-              <div class="journey-track">
-                <div class="journey-line"></div>
-                <div class="journey-steps">
-                  <div class="journey-step journey-step--1">
-                    <div class="journey-dot"></div>
-                    <div class="journey-label">Descubrimiento</div>
-                  </div>
-                  <div class="journey-step journey-step--2">
-                    <div class="journey-dot"></div>
-                    <div class="journey-label">Uso / servicio</div>
-                  </div>
-                  <div class="journey-step journey-step--3">
-                    <div class="journey-dot"></div>
-                    <div class="journey-label">Post venta</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="panel-tags">
-              <span>Customer Journey</span>
-              <span>/ Momentos de verdad</span>
-              <span>/ Brechas de servicio</span>
-            </div>
+          <div class="team-quote">
+            "Garantizamos que cada métrica de experiencia tenga una correlación directa con la operación."
           </div>
-
-          <!-- PANEL 5 -->
-          <div class="panel-card">
-            <h3 class="panel-title">Diseño de segmentos &amp; Clusters</h3>
-            <div class="panel-mockup panel-mockup--clusters">
-              <div class="clusters-area">
-                <div class="cluster-node cluster-node--core">Core leales</div>
-                <div class="cluster-node cluster-node--risk">En riesgo</div>
-                <div class="cluster-node cluster-node--growth">Alto potencial</div>
-                <div class="cluster-node cluster-node--value">Valor estratégico</div>
-                <div class="cluster-node cluster-node--sleep">Dormidos a reactivar</div>
-              </div>
-            </div>
-            <div class="panel-tags">
-              <span>Clusterizamos - </span>
-              <span>Analizamos en profundidad - </span>
-              <span>Entregamos insights de valor</span>
-            </div>
-          </div>
-
-          <!-- PANEL 6 -->
-          <div class="panel-card">
-            <h3 class="panel-title">Capacitaciones áreas claves</h3>
-            <div class="panel-mockup panel-mockup--training">
-              <div class="training-header">Programas de formación CX</div>
-
-              <div class="training-timeline">
-                <div class="training-step training-step--1">
-                  <div class="training-dot"></div>
-                  <div class="training-label">
-                    <span class="training-label-title">Frontline &amp; sucursales</span>
-                    <span class="training-label-sub">Taller práctico orientado a casos reales.</span>
-                  </div>
-                  <div class="training-bar-wrap">
-                    <div class="training-bar"><div class="training-bar-fill"></div></div>
-                  </div>
-                </div>
-
-                <div class="training-step training-step--2">
-                  <div class="training-dot"></div>
-                  <div class="training-label">
-                    <span class="training-label-title">Líderes &amp; jefaturas</span>
-                    <span class="training-label-sub">Uso del panel para gestionar KPIs.</span>
-                  </div>
-                  <div class="training-bar-wrap">
-                    <div class="training-bar"><div class="training-bar-fill"></div></div>
-                  </div>
-                </div>
-
-                <div class="training-step training-step--3">
-                  <div class="training-dot"></div>
-                  <div class="training-label">
-                    <span class="training-label-title">Comité ejecutivo</span>
-                    <span class="training-label-sub">Lectura ejecutiva y toma de decisiones.</span>
-                  </div>
-                  <div class="training-bar-wrap">
-                    <div class="training-bar"><div class="training-bar-fill"></div></div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="panel-caption">
-                Capacitaciones modulares para que cada área entienda su rol en la experiencia y use el sistema con propiedad.
-              </div>
-            </div>
-
-            <div class="panel-tags">
-              <span>Toda la organización es clave</span>
-              <span> - </span>
-              <span>Todas las áreas son relevantes</span>
-            </div>
+          <div class="team-actions">
+            <a href="mailto:contacto@exper360.cl" class="btn-primary">Contactar</a>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- EQUIPO DIRECTIVO -->
-    <section id="equipo" class="team-section" style="background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-      <div class="container">
-        <div class="section-heading">
-          <h2 class="section-title section-title--primary">Equipo directivo</h2>
-          <p class="section-subtitle team-subline">
-            Autoridad en experiencia y analítica: credenciales, ejecución y proyectos con impacto.
-          </p>
-        </div>
-
-        <div class="team-grid">
-          <!-- ARIEL -->
-          <article class="team-card">
-            <div class="team-photo-wrap">
-              <!-- CAMBIA AQUÍ la URL cuando lo subas al repo -->
-              <!-- Ej: https://raw.githubusercontent.com/tuuser/tu-repo/main/assets/director_ariel.png -->
-              <img src="Images/director_ariel.png" alt="Ariel Salazar V." />
-            </div>
-
-            <div class="team-name-block">
-              <div class="team-name">Ariel Salazar V.</div>
-              <div class="team-role">Director Estratégico</div>
-            </div>
-
-            <div class="team-bubble">
-              <strong>Experiencia:</strong>
-              <div>Ingeniero civil industrial, Consultor &amp; escritor. Con 10 años de experiencia en Banca, Retail, Última milla, Farmacias.</div>
-              <p>
-                Ha liderado áreas de experiencia de clientes, logrando movilizar el NPS en más de 6 puntos en solo un año, en una compañía con más de 10.000 colaboradores y 440 locales a lo largo de Chile. También ha liderado áreas claves en retail, logrando planificar eventos Cyber a nivel nacional mejorando el service level en 26%, disminuyendo los tiempos de espera en tiendas físicas en más de 75% y aumentando las ventas online en la banca retail en más de un 200%.
-              </p>
-            </div>
-
-            <div class="team-quote">
-              <span>Filosofía de trabajo:</span> “Simplificar, priorizar y accionar”
-            </div>
-
-            <div class="team-actions">
-              <a class="btn-secondary" href="https://www.linkedin.com/in/ariel-salazar-valenzuela/" target="_blank" rel="noopener">LinkedIn</a>
-              <a class="btn-primary js-demo" data-to="ariel.salazar@cxdip.com" data-subject="Solicitud de reunión con Ariel" href="#" role="button">Agendar con Ariel</a>
-            </div>
-          </article>
-
-          <!-- JOHN -->
-          <article class="team-card">
-            <div class="team-photo-wrap">
-              <!-- CAMBIA AQUÍ la URL cuando lo subas al repo -->
-              <img src="Images/director_john.png" alt="John Baeza M." />
-            </div>
-
-            <div class="team-name-block">
-              <div class="team-name">John Baeza M.</div>
-              <div class="team-role">Director Analytics</div>
-            </div>
-
-            <div class="team-bubble">
-              <strong>Experiencia:</strong>
-              <div>Ingeniero control de gestión &amp; consultor, con más de 25 años de experiencia en Banca &amp; retail en Chile.</div>
-              <p>
-                Ha liderado y desarrollado equipos en banca retail, con foco en desarrollo de modelos de control y gestión tanto de tiendas retail, como bancos en todos sus canales (web, fono, físicos). Logrando establecer estándares eficientes que permitieron gestionar una red de más de 5 mil colaboradores, 80 sucursales a lo largo de Chile y desarrollo y gestión de canales web.
-              </p>
-            </div>
-
-            <div class="team-quote">
-              <span>Filosofía de trabajo:</span> “Medir para mejorar”
-            </div>
-
-            <div class="team-actions">
-              <a class="btn-secondary" href="https://www.linkedin.com/in/john-baeza-02093539/" target="_blank" rel="noopener">LinkedIn</a>
-              <a class="btn-primary js-demo" data-to="john.baeza@cxdip.com" data-subject="Solicitud de reunión con John" href="#" role="button">Agendar con John</a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- CÓMO FUNCIONA -->
-    <section id="como" style="background: var(--bg-alt);">
-      <div class="container">
-        <div class="section-heading">
-          <h2 class="section-title section-title--primary">Un sistema paquetizado de lealtad</h2>
-          <p class="section-subtitle">
-            Todo lo que necesitas para medir, entender y gestionar la experiencia.
-          </p>
-        </div>
-
-        <div class="steps">
-          <div class="step-card">
-            <div class="step-number">01 · Estatus &amp; Diseño</div>
-            <h3 class="step-title">Cuestionario &amp; modelo de datos</h3>
-            <p class="step-text">
-              Encuestas optimizadas, escalas claras y maquetados con tu marca.
-              Definición de segmentos, cabales y variables claves.
-            </p>
-          </div>
-
-          <div class="step-card">
-            <div class="step-number">02 · Plataforma</div>
-            <h3 class="step-title">Panel Web &amp; Mobile</h3>
-            <p class="step-text">
-              Desde 3.600 respuestas anuales.
-              Vistas simples y gestionables a través de Drivers claves.
-            </p>
-          </div>
-
-          <div class="step-card">
-            <div class="step-number">03 · Acompañamiento</div>
-            <h3 class="step-title">Informes ejecutivos</h3>
-            <p class="step-text">
-              Te acompañamos durante todo el proceso y construimos en conjunto la mejor experiencia.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHY -->
-    <section id="por-que" style="border-top: 1px solid var(--border);">
-      <div class="container">
-        <div class="why">
-          <div>
-            <div class="why-kicker">POR QUÉ ELEGIRNOS</div>
-            <h2 class="why-title">Plataforma al servicio de las decisiones</h2>
-            <p class="why-subtitle">
-              Muchas empresas ya miden NPS, pero siguen sin claridad para decidir.
-              CXDIP Loyalty está pensado para que en menos de 30 segundos se entienda qué pasa y qué hacer.
-            </p>
-
-            <div>
-              <div class="why-subheading">Lo que evitamos:</div>
-              <ul class="why-bullets">
-                <li>Licencias complejas que requieren “súper usuarios” para operar.</li>
-                <li>Dashboards que nadie abre en comité porque son densos o poco claros.</li>
-                <li>Informes que describen el dato, pero no priorizan acciones.</li>
-              </ul>
-            </div>
-
-            <div>
-              <div class="why-subheading">Lo que hacemos distinto:</div>
-              <ul class="why-bullets">
-                <li>Diseñamos la medición contigo, en el lenguaje de tu negocio.</li>
-                <li>Panel único, limpio y pensado para comités de dirección.</li>
-                <li>Acompañamiento para traducir NPS y drivers en 2–3 decisiones clave por periodo.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div>
-            <div class="why-card">
-              <div class="why-card-kicker">BOUTIQUE CX</div>
-              <h3 class="why-card-title">Socio, no solo herramienta</h3>
-              <p class="why-card-text">
-                No vendemos software y luego desaparecemos. CXDIP Loyalty combina medición,
-                panel y lectura ejecutiva en un solo servicio, pensado para banca, retail,
-                salud, medios de pago y servicios masivos.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA FINAL -->
-    <section class="cta-final">
-      <div class="container">
-        <h2 class="cta-title">¿Te imaginas ver todo esto en un solo panel?</h2>
-        <p class="cta-text">
-          Agenda una demo de 20 minutos y podemos revisar la vista que necesitas.
-        </p>
-
-        <a class="btn-primary js-demo" data-to="ariel.salazar@cxdip.com" data-subject="Solicitud de demo CXDIP" href="#" role="button">Agenda una demo</a>
-
-        <div class="cta-email">
-          O escríbeme a <strong>ariel.salazar@cxdip.com</strong>
-        </div>
-      </div>
-    </section>
-  </main>
+  <!-- CTA FINAL --> 
+  <section class="cta-final">
+    <div class="container">
+      <h2 class="cta-title">Lleve la experiencia de sus clientes al siguiente nivel</h2>
+      <p class="cta-subtitle">Agende una conversación directa con nuestros socios para estructurar su modelo de CX.</p>
+      <a href="mailto:hola@exper360.cl?subject=Contacto%20Desde%20Landing%20CXDIP" class="btn-primary">
+        Iniciar Conversación
+      </a>
+    </div>
+  </section>
 
   <!-- FOOTER -->
   <footer>
     <div class="container footer-inner">
-      <div>© 2025 CXDIP · Paneles para CX, sucursales y ventas</div>
-      <div class="footer-nav">
-        <a href="#inicio">Inicio</a>
-        <a href="#paneles">Servicios</a>
-        <a href="#equipo">Equipo</a>
-        <a href="#como">¿Cómo trabajamos?</a>
-        <a href="#por-que">¿Por qué elegirnos?</a>
+      <div>
+        <strong>CXDIP</strong> — Boutique de Experiencias. Parte de <strong>exper360 group</strong>.
       </div>
-      <div class="footer-right">
-        <a href="https://www.linkedin.com/in/ariel-salazar-valenzuela/" target="_blank" rel="noopener">LinkedIn Ariel</a>
-        <a href="https://www.linkedin.com/in/john-baeza-02093539/" target="_blank" rel="noopener">LinkedIn John</a>
+      <div>
+        © 2026 exper360 group. Todos los derechos reservados. | <a href="https://exper360.cl/" style="color:var(--accent-blue);">exper360.cl</a>
       </div>
     </div>
   </footer>
 
-  <!-- Toast fallback (para escritorio sin handler de correo) -->
-  <div id="mailToast" class="mail-toast" role="status" aria-live="polite">
-    <span>¿No se abrió tu correo?</span>
-    <a id="gmailFallback" href="#" target="_blank" rel="noopener">Abrir en Gmail Web</a>
-    <button type="button" id="toastClose" aria-label="Cerrar">✕</button>
-  </div>
-
-  <script>
-    (function () {
-      // --- Menú mobile ---
-      const toggle = document.querySelector('.menu-toggle');
-      const body = document.body;
-      const navLinks = document.querySelectorAll('.main-nav a[href^="#"]');
-
-      if (toggle) {
-        toggle.addEventListener('click', function () {
-          body.classList.toggle('nav-open');
-        });
-
-        navLinks.forEach(function (link) {
-          link.addEventListener('click', function () {
-            body.classList.remove('nav-open');
-          });
-        });
-      }
-
-      // --- Config email + contenido ---
-      const DEFAULT_TO = 'ariel.salazar@cxdip.com';
-      const DEFAULT_SUBJECT = 'Solicitud de demo CXDIP';
-      const DEFAULT_BODY =
-`Hola,
-
-Quiero agendar una reunión para explorar las alternativas.
-Dejo mis datos de contacto:
-
-- Nombre:
-- Empresa:
-- País:
-- Teléfono:
-- Mejor día y horario:
-
-Gracias.`;
-
-      function buildMailto(to, subject, bodyText) {
-        const email = to || DEFAULT_TO;
-        const s = subject || DEFAULT_SUBJECT;
-        const b = bodyText || DEFAULT_BODY;
-
-        return 'mailto:' + email
-          + '?subject=' + encodeURIComponent(s)
-          + '&body=' + encodeURIComponent(b);
-      }
-
-      function buildGmailUrl(to, subject, bodyText) {
-        const email = to || DEFAULT_TO;
-        const s = subject || DEFAULT_SUBJECT;
-        const b = bodyText || DEFAULT_BODY;
-
-        return 'https://mail.google.com/mail/?view=cm&fs=1'
-          + '&to=' + encodeURIComponent(email)
-          + '&su=' + encodeURIComponent(s)
-          + '&body=' + encodeURIComponent(b);
-      }
-
-      // --- Toast fallback dinámico ---
-      const toast = document.getElementById('mailToast');
-      const gmailFallback = document.getElementById('gmailFallback');
-      const toastClose = document.getElementById('toastClose');
-      let toastTimer = null;
-
-      function showToast() {
-        if (!toast) return;
-        toast.style.display = 'flex';
-        if (toastTimer) clearTimeout(toastTimer);
-        toastTimer = setTimeout(hideToast, 9000);
-      }
-
-      function hideToast() {
-        if (!toast) return;
-        toast.style.display = 'none';
-        if (toastTimer) clearTimeout(toastTimer);
-        toastTimer = null;
-      }
-
-      if (toastClose) toastClose.addEventListener('click', hideToast);
-
-      // --- Set href de CTAs según data-to / data-subject ---
-      const demoButtons = document.querySelectorAll('.js-demo');
-      demoButtons.forEach(function (el) {
-        const toOverride = el.getAttribute('data-to') || DEFAULT_TO;
-        const subjectOverride = el.getAttribute('data-subject') || DEFAULT_SUBJECT;
-
-        // mailto correcto para cada botón
-        el.setAttribute('href', buildMailto(toOverride, subjectOverride, DEFAULT_BODY));
-
-        // al click: actualiza fallback Gmail para ese destinatario/subject
-        el.addEventListener('click', function () {
-          if (gmailFallback) {
-            gmailFallback.href = buildGmailUrl(toOverride, subjectOverride, DEFAULT_BODY);
-          }
-          setTimeout(showToast, 180);
-        });
-      });
-    })();
-  </script>
 </body>
 </html>
